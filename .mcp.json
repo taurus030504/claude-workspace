@@ -17,8 +17,11 @@
     },
     "serena": {
       "type": "stdio",
-      "command": "serena",
+      "command": "uvx",
       "args": [
+        "--from",
+        "serena-agent",
+        "serena",
         "start-mcp-server",
         "--context=claude-code",
         "--project-from-cwd"
