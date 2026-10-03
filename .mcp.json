@@ -14,6 +14,16 @@
         "@upstash/context7-mcp"
       ],
       "env": {}
+    },
+    "serena": {
+      "type": "stdio",
+      "command": "serena",
+      "args": [
+        "start-mcp-server",
+        "--context=claude-code",
+        "--project-from-cwd"
+      ],
+      "env": {}
     }
   }
 }
