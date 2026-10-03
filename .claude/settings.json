@@ -1,0 +1,12 @@
+{
+  "extraKnownMarketplaces": {
+    "ponytail": { "source": { "source": "github", "repo": "DietrichGebert/ponytail" } },
+    "humanizer": { "source": { "source": "github", "repo": "blader/humanizer" } },
+    "claude-plugins-official": { "source": { "source": "github", "repo": "anthropics/claude-plugins-official" } }
+  },
+  "enabledPlugins": {
+    "ponytail@ponytail": true,
+    "humanizer@humanizer": true,
+    "claude-code-setup@claude-plugins-official": true
+  }
+}
