@@ -124,6 +124,9 @@
   .wiki-table{border-collapse:collapse;margin:0 0 15px;width:100%}
   .wiki-table th,.wiki-table td{border:1px solid var(--line);padding:6px 12px;vertical-align:middle}
   .wiki-table th{background:var(--ibox);color:#fff;font-weight:700;text-align:center}
+  .wiki-table th{white-space:nowrap}
+  .wiki-table td{word-break:keep-all}
+  .nw{white-space:nowrap}
   .wiki-table td:first-child{text-align:center;white-space:nowrap;width:1%}
   .wiki-table.wide td{text-align:center}
   .wiki-table.wide td:first-child{width:auto}
@@ -203,6 +206,8 @@
   .floating button:hover{background:#f2f2f2}
   .wiki-notice{display:flex;gap:10px;align-items:flex-start;border:1px solid #e8d48b;border-left:5px solid #e0a800;background:#fffbea;padding:9px 12px;margin:0 0 15px;font-size:14px;line-height:1.55}
   .wiki-notice .ico{flex-shrink:0;width:20px;height:20px;border-radius:50%;background:#e0a800;color:#fff;font-weight:800;font-size:13px;display:grid;place-items:center;margin-top:1px}
+  .wiki-detail{display:flex;gap:8px;align-items:center;margin:0 0 15px;font-size:15px}
+  .wiki-detail .ico{flex-shrink:0;width:20px;height:20px;border-radius:50%;background:#16a085;color:#fff;font-size:12px;font-weight:800;display:grid;place-items:center}
   .wiki-quote .q-by{border-top:1px solid #ccc;margin-top:10px;padding-top:8px;font-size:14px}
   .toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(20px);background:#333;color:#fff;padding:10px 16px;border-radius:4px;font-size:14px;opacity:0;pointer-events:none;transition:.2s;z-index:80}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -261,6 +266,12 @@
     '''굵게'''              → 굵은 글씨
     ((각주 내용))           → 각주 [1] (마우스를 올리면 내용이 보임)
     {{외부:@계정}}          → 초록색 외부 링크 모양 (클릭해도 이동하지 않음)
+    {{기사:a1|기사 제목}}   → 문영일보 기사 링크 (새 탭, 주소는 site.newsBase)
+    {{배지:미니 1집}} {{앨범:반경}} → 정보상자용 작은 배지
+    ~~취소선~~  [br] 줄바꿈
+  문단 블록: {"p":…} {"list":[…]} {"table":{head,rows}} {"quote":…,"by":…}
+            {"notice":…}(노란 안내 상자) {"detail":"문서이름"}(자세한 내용은 ○○ 문서를 참고하십시오.)
+  "locked": [...] 에 넣은 이름은 파란 링크로 보이지만 열면 '열람 권한이 없습니다' 화면이 나온다.
 -->
 <script type="application/json" id="wiki-data">
 {
@@ -1235,18 +1246,10 @@
           "title": "대표이사",
           "blocks": [
             {
+              "detail": "남궁현"
+            },
+            {
               "p": "[[남궁현]]은 보컬 트레이너 출신으로, 여러 기획사에서 보컬 디렉터와 음반 기획을 맡다가 2019년 리버노트 엔터테인먼트를 세웠다. 대표가 된 뒤에도 소속 가수의 녹음 현장에 직접 들어가 보컬 디렉팅을 보는 경우가 많다."
-            },
-            {
-              "quote": "노래를 잘하는 사람은 많아요. 오래 부를 수 있는 사람을 만드는 게 회사가 할 일이라고 생각합니다.",
-              "by": "남궁현, 음악 전문 매체 인터뷰 中"
-            },
-            {
-              "list": [
-                "회사 이름의 '리버노트'는 '강처럼 오래 흐르는 음악'이라는 뜻으로 직접 지었다고 한다.",
-                "공식 석상에 잘 나서지 않아 공개된 사진이 거의 없다. 소속 가수 콘서트의 엔딩 영상에 뒷모습이 잠깐 잡힌 것이 팬들 사이에서 화제가 되기도 했다.",
-                "연습생 월말 평가 때 점수표 대신 손으로 쓴 메모를 한 장씩 돌려주는 것으로 알려져 있다."
-              ]
             }
           ]
         },
@@ -1407,10 +1410,188 @@
         }
       ],
       "source": "수업용 가상 학교 설정입니다."
+    },
+    "남궁현": {
+      "updated": "2026-08-21 15:33",
+      "color": [
+        "#394a59",
+        "#65798a"
+      ],
+      "categories": [
+        "대한민국의 기업인",
+        "연예 기획사 대표",
+        "보컬 트레이너",
+        "1978년 출생",
+        "리버노트 엔터테인먼트"
+      ],
+      "notices": [],
+      "infobox": {
+        "title": "남궁현",
+        "subtitle": "Namgung Hyeon",
+        "image": "",
+        "rows": [
+          [
+            "출생",
+            "1978년 (48세)"
+          ],
+          [
+            "직업",
+            "기업인, 보컬 트레이너"
+          ],
+          [
+            "소속",
+            "[[리버노트 엔터테인먼트]] (대표이사)"
+          ],
+          [
+            "학력",
+            "실용음악과 보컬 전공((출신 학교는 공개하지 않았다. 인터뷰에서 '지방에서 올라와 학원과 공연장을 오가며 배웠다'고만 밝혔다.))"
+          ],
+          [
+            "경력",
+            "보컬 트레이너 (2002~2010)[br]음반 기획사 보컬 디렉터 (2010~2018)[br]리버노트 엔터테인먼트 대표이사 (2019~ )"
+          ],
+          [
+            "관련 인물",
+            "[[서지운]]"
+          ]
+        ]
+      },
+      "lead": "'''남궁현'''은 대한민국의 기업인이자 보컬 트레이너이다. [[리버노트 엔터테인먼트]]의 설립자이자 대표이사이다.",
+      "banners": [
+        "리버노트 엔터테인먼트"
+      ],
+      "sections": [
+        {
+          "title": "개요",
+          "blocks": [
+            {
+              "p": "보컬 트레이너로 출발해 여러 음반 기획사에서 보컬 디렉터와 음반 기획을 맡았고, 2019년 리버노트 엔터테인먼트를 세웠다. 대표가 된 뒤에도 소속 가수의 녹음에 직접 들어가 보컬 디렉팅을 보는 일이 많아 업계에서는 '녹음실에 사는 대표'로 불린다."
+            },
+            {
+              "p": "공식 석상에 거의 나서지 않고 인터뷰도 드문 편이라, 대중에게는 이름보다 소속 가수들의 앨범 크레디트로 더 많이 알려져 있다."
+            }
+          ]
+        },
+        {
+          "title": "생애",
+          "blocks": [],
+          "children": [
+            {
+              "title": "트레이너 시절",
+              "blocks": [
+                {
+                  "p": "2002년부터 보컬 학원과 개인 레슨에서 트레이너로 일했다. 고음보다 호흡과 발성 기초를 오래 붙잡는 수업 방식으로 알려졌고, 이때 가르친 수강생 중 몇몇은 이후 가수나 보컬 트레이너가 됐다."
+                },
+                {
+                  "p": "2010년 한 음반 기획사의 보컬 디렉터로 들어가 신인 가수들의 녹음과 무대 준비를 맡았다. 이후 몇 곳의 기획사를 거치며 음반 기획 업무까지 넓혔다."
+                }
+              ]
+            },
+            {
+              "title": "리버노트 설립",
+              "blocks": [
+                {
+                  "p": "2019년 프로듀서 [[서지운]]과 함께 리버노트 엔터테인먼트를 세웠다. 같은 해 첫 연습생 공개 오디션을 열었고, 이듬해 1호 아티스트 [[한소율]]을 데뷔시켰다."
+                },
+                {
+                  "p": "이후 한 해에 한 팀 정도를 천천히 데뷔시키는 방식을 이어 왔다. 2022년 마포구 사옥으로 옮기면서 지하에 녹음실을 두 개 만들었는데, 녹음실 설계에 가장 많이 관여한 사람이 본인이었다고 한다."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "트레이닝 방식",
+          "blocks": [
+            {
+              "quote": "노래를 잘하는 사람은 많아요. 오래 부를 수 있는 사람을 만드는 게 회사가 할 일이라고 생각합니다.",
+              "by": "남궁현, 음악 전문 매체 인터뷰 中"
+            },
+            {
+              "list": [
+                "연습생에게 데뷔 날짜를 미리 약속하지 않는다. '준비가 됐을 때 낸다'는 방침이라 연습 기간이 긴 편이다.",
+                "월말 평가에서 점수표 대신 손으로 쓴 메모를 한 장씩 돌려준다. 메모에는 잘한 점 하나와 고칠 점 하나만 적는다고 한다.",
+                "녹음 때는 한 곡을 하루에 끝내지 않고 며칠에 나눠 부르게 하는 편이다. 목 상태가 가장 좋은 시간대를 찾는 것이 먼저라는 이유다."
+              ]
+            }
+          ]
+        },
+        {
+          "title": "참여 작품",
+          "blocks": [
+            {
+              "p": "대표이사 취임 후에도 소속 가수 앨범에 보컬 디렉터로 이름을 올리고 있다."
+            },
+            {
+              "table": {
+                "head": [
+                  "연도",
+                  "아티스트",
+                  "작품",
+                  "역할"
+                ],
+                "rows": [
+                  [
+                    "2020",
+                    "[[한소율]]",
+                    "《여름의 끝》",
+                    "보컬 디렉팅, 음반 기획"
+                  ],
+                  [
+                    "2022",
+                    "[[노트포]]",
+                    "데뷔 앨범",
+                    "보컬 디렉팅"
+                  ],
+                  [
+                    "2023",
+                    "[[이은호]]",
+                    "《파란선》",
+                    "보컬 디렉팅"
+                  ],
+                  [
+                    "2025",
+                    "[[이은호]]",
+                    "《두 번째 창》",
+                    "보컬 디렉팅"
+                  ],
+                  [
+                    "2025",
+                    "[[김서진]]",
+                    "《초점》",
+                    "보컬 디렉팅, 음반 기획"
+                  ]
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "title": "평가",
+          "blocks": [
+            {
+              "p": "소속 가수들의 라이브가 안정적이라는 평가를 받을 때마다 트레이닝 방식이 함께 언급된다. 반면 데뷔까지 시간이 오래 걸리고 활동 간격이 길어, 팬들 사이에서는 '회사가 너무 느리다'는 불만도 꾸준히 나온다."
+            }
+          ]
+        },
+        {
+          "title": "여담",
+          "blocks": [
+            {
+              "list": [
+                "회사 이름의 '리버노트'는 '강처럼 오래 흐르는 음악'이라는 뜻으로 직접 지었다고 한다.",
+                "공식 석상에 잘 나서지 않아 공개된 사진이 거의 없다. 소속 가수 콘서트의 엔딩 영상에 뒷모습이 잠깐 잡힌 것이 팬들 사이에서 화제가 되기도 했다.",
+                "보컬 트레이너 시절 습관이 남아 있어, 회의 중에도 상대의 목소리가 쉬어 있으면 따뜻한 물부터 권한다고 한다.",
+                "사생활은 거의 알려져 있지 않다. 본인 SNS 계정도 없다."
+              ]
+            }
+          ]
+        }
+      ],
+      "source": "수업용 가상 인물 설정입니다."
     }
   },
   "locked": [
-    "남궁현",
     "한소율",
     "도하린",
     "온새",
@@ -1526,6 +1707,8 @@
     s = s.replace(/\[\[(.+?)(?:\|(.+?))?\]\]/g, (_, n, l) => link(n.trim(), l && l.trim()));
     s = s.replace(/'''(.+?)'''/g, '<b>$1</b>');
     s = s.replace(/~~(.+?)~~/g, '<del>$1</del>');
+    s = s.replace(/\[br\]/g, '<br>');
+    s = s.replace(/《([^《》]{1,24})》/g, '<span class="nw">《$1》</span>');
     s = s.replace(/\{\{외부:(.+?)\}\}/g, '<a class="ext" href="#" data-ext>$1</a>');
     s = s.replace(/\{\{기사:([\w-]+)\|(.+?)\}\}/g, (_, id, t) => `<a class="ext" href="${esc(SITE.newsBase || '')}#article-${id}" target="_blank" rel="noopener">${t}</a>`);
     s = s.replace(/\{\{배지:(.+?)\}\}/g, '<span class="bdg-o">$1</span>');
@@ -1664,6 +1847,7 @@
   function block(b, fns) {
     if (b.p) return `<p>${markup(b.p, fns)}</p>`;
     if (b.list) return `<ul class="wiki-list">${b.list.map(x => `<li>${markup(x, fns)}</li>`).join('')}</ul>`;
+    if (b.detail) return `<div class="wiki-detail"><span class="ico">≡</span><div>자세한 내용은 ${link(b.detail)} 문서를 참고하십시오.</div></div>`;
     if (b.notice) return `<div class="wiki-notice"><span class="ico">!</span><div>${markup(b.notice, fns)}</div></div>`;
     if (b.quote) return `<blockquote class="wiki-quote" style="margin-left:0">${markup(b.quote, fns)}${b.by ? `<div class="q-by">${markup(b.by, fns)}</div>` : ''}</blockquote>`;
     if (b.table) return `<div class="wiki-table-wrap"><table class="wiki-table${(b.table.head || b.table.rows[0] || []).length > 2 ? ' wide' : ''}">
