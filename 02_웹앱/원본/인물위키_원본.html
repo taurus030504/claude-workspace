@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>인물 위키 화면 - 이은호 / 김서진</title>
+  <style>
+    :root{--bg:#f4f5f7;--panel:#fff;--line:#d8dadd;--text:#202124;--muted:#6b7280;--accent:#4f6b5d;--accent-soft:#edf3ef;--link:#3567a8;--shadow:0 1px 2px rgba(0,0,0,.06)}
+    *{box-sizing:border-box} body{margin:0;font-family:Arial,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:var(--text);background:var(--bg)}
+    .topbar{height:54px;background:#2f3437;color:#fff;display:flex;align-items:center;gap:18px;padding:0 22px;position:sticky;top:0;z-index:10;box-shadow:0 1px 4px rgba(0,0,0,.18)}
+    .brand{font-weight:800;letter-spacing:-.02em;font-size:18px;white-space:nowrap}.brand small{font-weight:500;opacity:.72;margin-left:6px;font-size:11px}
+    .search{margin-left:auto;width:min(420px,48vw);display:flex;background:#fff;border-radius:4px;overflow:hidden}.search input{flex:1;border:0;padding:9px 11px;font-size:13px;outline:none}.search button{border:0;background:#e8eaed;padding:0 13px;color:#444;font-weight:700}
+    .layout{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:220px minmax(0,1fr);gap:18px;padding:18px}
+    .sidebar{position:sticky;top:72px;align-self:start;background:var(--panel);border:1px solid var(--line);border-radius:5px;box-shadow:var(--shadow);overflow:hidden}
+    .side-title{padding:12px 14px;font-size:12px;color:var(--muted);border-bottom:1px solid var(--line);background:#fafafa}
+    .person-button{display:block;width:100%;text-align:left;padding:12px 14px;border:0;border-bottom:1px solid #eceef0;background:#fff;cursor:pointer;font-size:14px}.person-button:hover{background:#f7f8f9}.person-button.active{background:var(--accent-soft);color:#23483a;font-weight:800;border-left:4px solid var(--accent);padding-left:10px}
+    .side-menu{padding:10px 14px 14px;font-size:12px;line-height:1.9;color:#555}.side-menu a{color:#555;text-decoration:none;display:block}.side-menu a:hover{color:var(--link)}
+    .article{background:var(--panel);border:1px solid var(--line);border-radius:5px;box-shadow:var(--shadow);padding:24px 28px 36px;min-height:860px}
+    .breadcrumb{font-size:12px;color:var(--muted);margin-bottom:8px}.title-row{display:flex;gap:12px;align-items:flex-end;border-bottom:2px solid #454b50;padding-bottom:10px;margin-bottom:10px}
+    h1{margin:0;font-size:32px;letter-spacing:-.04em;line-height:1.15}.rev{margin-left:auto;font-size:11px;color:var(--muted);white-space:nowrap}
+    .notice{border:1px solid #cdd6d0;background:#f7faf8;padding:10px 12px;font-size:12px;color:#46514a;margin:12px 0 18px;line-height:1.55}.lead{font-size:14px;line-height:1.8;margin:0 0 16px}
+    .wiki-grid{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:24px;align-items:start}.toc{border:1px solid var(--line);background:#fbfbfc;padding:12px 14px;margin:16px 0 20px;width:min(430px,100%);font-size:13px;line-height:1.9}.toc-title{font-weight:800;margin-bottom:4px}.toc a{color:var(--link);text-decoration:none}
+    section{scroll-margin-top:72px}h2{font-size:22px;margin:28px 0 12px;padding-bottom:6px;border-bottom:1px solid #aeb3b7;letter-spacing:-.03em}p{font-size:14px;line-height:1.8;margin:8px 0 12px}
+    .timeline{border-left:3px solid #d5d9dc;padding-left:14px;margin:10px 0 4px}.timeline-row{display:grid;grid-template-columns:74px 1fr;gap:10px;margin:10px 0;font-size:13px;line-height:1.6}.year{font-weight:800;color:#39434a}
+    .infobox{border:1px solid #bfc5c9;background:#fff;font-size:13px}.ibox-head{background:#3d4f46;color:#fff;text-align:center;padding:12px 10px;font-size:20px;font-weight:800;letter-spacing:-.03em}
+    .silhouette-wrap{height:190px;background:radial-gradient(circle at 50% 38%,#d7dadd 0 34px,transparent 35px),radial-gradient(ellipse at 50% 102%,#d7dadd 0 88px,transparent 89px),linear-gradient(#f7f7f8,#f1f2f3);border-bottom:1px solid #d5d7da;position:relative}
+    .silhouette-label{position:absolute;left:8px;right:8px;bottom:8px;background:rgba(255,255,255,.88);color:#70757a;text-align:center;font-size:11px;padding:4px;border:1px solid #e0e2e5}
+    .ibox-table{display:grid;grid-template-columns:92px 1fr}.ibox-table div{padding:8px 9px;border-bottom:1px solid #e2e4e7;line-height:1.45}.ibox-table .k{background:#f3f4f5;font-weight:700;text-align:center;color:#4a5055}.ibox-table .v{background:#fff}
+    .tag{display:inline-block;border:1px solid #d2d7d4;border-radius:999px;padding:2px 7px;margin:2px 2px 2px 0;background:#f7faf8;font-size:11px}.linklike{color:var(--link);text-decoration:none}.foot{margin-top:34px;padding-top:12px;border-top:1px solid var(--line);color:var(--muted);font-size:11px;line-height:1.6}.page{display:none}.page.active{display:block}
+    @media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{position:static}.wiki-grid{grid-template-columns:1fr}.infobox{order:-1;max-width:430px}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">열린위키 <small>가상 위키 화면</small></div>
+    <div class="search"><input id="searchInput" aria-label="검색" placeholder="문서 검색" /><button type="button" onclick="fakeSearch()">검색</button></div>
+  </header>
+  <main class="layout">
+    <aside class="sidebar">
+      <div class="side-title">인물 문서</div>
+      <button class="person-button active" data-target="eunho">이은호</button>
+      <button class="person-button" data-target="seojin">김서진</button>
+      <div class="side-menu"><a href="#overview">1. 개요</a><a href="#career">2. 활동</a><a href="#relation">3. 인연</a><a href="#etc">4. 여담</a></div>
+    </aside>
+    <article class="article">
+      <div id="eunho" class="page active">
+        <div class="breadcrumb">분류: 가상 인물 · 가수 · 오디션 프로그램 출신</div>
+        <div class="title-row"><h1>이은호</h1><div class="rev">최근 수정: 2026-02-01</div></div>
+        <div class="notice">이 문서는 수업용 가상 인물 정보를 바탕으로 구성한 위키형 화면입니다. 실제 인물·기획사·방송과 관련이 없습니다.</div>
+        <div class="wiki-grid">
+          <div>
+            <p class="lead"><b>이은호</b>는 2023년 보컬 오디션 프로그램 출연 이후 데뷔한 가수이다. 김서진과 같은 예술고 출신이며, 같은 소속사에서 연습생 생활을 했다.</p>
+            <div class="toc"><div class="toc-title">목차</div><div><a href="#eunho-overview">1. 개요</a></div><div><a href="#eunho-career">2. 활동</a></div><div><a href="#eunho-relation">3. 김서진과의 인연</a></div><div><a href="#eunho-etc">4. 여담</a></div></div>
+            <section id="eunho-overview"><h2>1. 개요</h2><p>같은 소속사에서 연습생 생활을 하던 김서진과 2023년 같은 보컬 오디션 프로그램에 출연했다. 프로그램 출연 이후 먼저 데뷔해 활동을 이어가고 있다.</p></section>
+            <section id="eunho-career"><h2>2. 활동</h2><div class="timeline"><div class="timeline-row"><div class="year">2022</div><div>예술고 졸업.</div></div><div class="timeline-row"><div class="year">2023</div><div>보컬 오디션 프로그램 출연. 이후 가수로 데뷔.</div></div><div class="timeline-row"><div class="year">2024~25</div><div>가수 활동 및 행사 참여.</div></div><div class="timeline-row"><div class="year">2026</div><div>가수 활동 지속.</div></div></div></section>
+            <section id="eunho-relation"><h2>3. 김서진과의 인연</h2><p>김서진과 같은 예술고를 졸업했으며, 같은 소속사에서 연습생 생활을 했다. 두 사람은 2023년 같은 보컬 오디션 프로그램에 참가했다.</p><p>연습생 시절부터 오랜 기간 알고 지낸 사이로 알려져 있다.</p></section>
+            <section id="eunho-etc"><h2>4. 여담</h2><p>공식 SNS 계정은 <span class="linklike">@e_euno_official</span>이다.</p></section>
+          </div>
+          <aside class="infobox"><div class="ibox-head">이은호</div><div class="silhouette-wrap"><div class="silhouette-label">수업용 실루엣 이미지</div></div><div class="ibox-table"><div class="k">이름</div><div class="v">이은호</div><div class="k">나이</div><div class="v">23세</div><div class="k">직업</div><div class="v">가수</div><div class="k">데뷔</div><div class="v">2023년</div><div class="k">학력</div><div class="v">예술고 졸업</div><div class="k">경력</div><div class="v">보컬 오디션 프로그램 출연</div><div class="k">SNS</div><div class="v">@e_euno_official</div><div class="k">관련 인물</div><div class="v"><span class="tag">김서진</span><span class="tag">정수현</span></div></div></aside>
+        </div>
+        <div class="foot">내용은 프로젝트에서 확정된 가상 설정만 사용했습니다. 미확정 기획사명·생년월일·팬덤명 등은 넣지 않았습니다.</div>
+      </div>
+      <div id="seojin" class="page">
+        <div class="breadcrumb">분류: 가상 인물 · 가수 · 오디션 프로그램 출신</div>
+        <div class="title-row"><h1>김서진</h1><div class="rev">최근 수정: 2026-02-01</div></div>
+        <div class="notice">이 문서는 수업용 가상 인물 정보를 바탕으로 구성한 위키형 화면입니다. 실제 인물·기획사·방송과 관련이 없습니다.</div>
+        <div class="wiki-grid">
+          <div>
+            <p class="lead"><b>김서진</b>은 2025년 말 데뷔한 신인 가수이다. 연습생 시절부터 SNS에서 주목받았으며, 이은호와 같은 예술고와 소속사에서 활동 기반을 쌓았다.</p>
+            <div class="toc"><div class="toc-title">목차</div><div><a href="#seojin-overview">1. 개요</a></div><div><a href="#seojin-career">2. 활동</a></div><div><a href="#seojin-relation">3. 이은호와의 인연</a></div><div><a href="#seojin-etc">4. 여담</a></div></div>
+            <section id="seojin-overview"><h2>1. 개요</h2><p>데뷔 전 연습생 시절부터 SNS에서 인지도를 얻었다. 2023년 이은호와 함께 보컬 오디션 프로그램에 출연했으며, 2025년 말 가수로 데뷔했다.</p></section>
+            <section id="seojin-career"><h2>2. 활동</h2><div class="timeline"><div class="timeline-row"><div class="year">2022</div><div>예술고 졸업.</div></div><div class="timeline-row"><div class="year">2023</div><div>보컬 오디션 프로그램 출연. 이후 연습생 생활 지속.</div></div><div class="timeline-row"><div class="year">2024~25</div><div>연습생 신분으로 활동하며 SNS에서 인지도를 얻음.</div></div><div class="timeline-row"><div class="year">2025 말</div><div>가수로 데뷔.</div></div></div></section>
+            <section id="seojin-relation"><h2>3. 이은호와의 인연</h2><p>이은호와 같은 예술고를 졸업했으며 같은 소속사에서 연습생 생활을 했다. 2023년 같은 보컬 오디션 프로그램에 참가했다.</p><p>두 사람은 연습생 시절부터 알고 지낸 오랜 동료로 알려져 있다.</p></section>
+            <section id="seojin-etc"><h2>4. 여담</h2><p>공식 SNS 계정은 <span class="linklike">@seojin_official</span>이다.</p></section>
+          </div>
+          <aside class="infobox"><div class="ibox-head">김서진</div><div class="silhouette-wrap"><div class="silhouette-label">수업용 실루엣 이미지</div></div><div class="ibox-table"><div class="k">이름</div><div class="v">김서진</div><div class="k">나이</div><div class="v">23세</div><div class="k">직업</div><div class="v">가수</div><div class="k">데뷔</div><div class="v">2025년 말</div><div class="k">학력</div><div class="v">예술고 졸업</div><div class="k">경력</div><div class="v">보컬 오디션 프로그램 출연</div><div class="k">SNS</div><div class="v">@seojin_official</div><div class="k">관련 인물</div><div class="v"><span class="tag">이은호</span><span class="tag">정수현</span></div></div></aside>
+        </div>
+        <div class="foot">내용은 프로젝트에서 확정된 가상 설정만 사용했습니다. 미확정 기획사명·생년월일·팬덤명 등은 넣지 않았습니다.</div>
+      </div>
+    </article>
+  </main>
+  <script>
+    const buttons=document.querySelectorAll('.person-button');const pages=document.querySelectorAll('.page');
+    function showPerson(id){pages.forEach(p=>p.classList.toggle('active',p.id===id));buttons.forEach(b=>b.classList.toggle('active',b.dataset.target===id));history.replaceState(null,'','#'+id);window.scrollTo({top:0,behavior:'instant'})}
+    buttons.forEach(btn=>btn.addEventListener('click',()=>showPerson(btn.dataset.target)));
+    function fakeSearch(){const q=document.getElementById('searchInput').value.trim();if(!q)return;if(q.includes('은호'))showPerson('eunho');else if(q.includes('서진'))showPerson('seojin');else alert('수업용 화면에는 이은호·김서진 문서만 구현되어 있습니다.')}
+    document.getElementById('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter')fakeSearch()});const hash=location.hash.replace('#','');if(hash==='seojin'||hash==='eunho')showPerson(hash);
+  </script>
+</body>
+</html>

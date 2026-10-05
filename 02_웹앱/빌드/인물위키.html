@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="light" />
+<title>열린위키</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+<style>
+  :root{
+    --top-a:#0e9f92; --top-b:#2cb27c;
+    --bg:#f5f5f5; --card:#fff; --line:#ccc; --line-soft:#ddd;
+    --text:#212529; --muted:#666; --link:#0275d8; --link-missing:#ff0000; --link-ext:#008000;
+    --quote-bar:#71bc6d;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:"Pretendard","Pretendard JP",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;
+    font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:var(--link);text-decoration:none}
+  a:hover{text-decoration:underline}
+  a.missing{color:var(--link-missing)}
+  a.ext{color:var(--link-ext)}
+  a.ext::before{content:"";display:inline-block;width:13px;height:11px;margin-right:2px;vertical-align:-1px;border-radius:2px;
+    background:#1a9a1a url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1'/%3E%3Cpath d='M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1'/%3E%3C/svg%3E") center/9px no-repeat}
+  svg.i{width:1em;height:1em;vertical-align:-.125em;fill:currentColor}
+
+  /* ── 상단 바 ── */
+  .top{position:sticky;top:0;z-index:50;height:56px;background:linear-gradient(90deg,var(--top-a),var(--top-b));color:#fff}
+  .top-in{height:100%;display:flex;align-items:center;gap:6px;padding:0 36px}
+  .logo{display:flex;align-items:center;gap:7px;color:#fff;font-weight:800;font-size:20px;letter-spacing:-.04em;margin-right:18px;white-space:nowrap}
+  .logo:hover{text-decoration:none}
+  .logo svg{width:30px;height:30px}
+  .nav-item{position:relative;display:flex;align-items:center;gap:8px;color:#fff;font-size:16px;padding:8px 14px;border-radius:4px;cursor:pointer;white-space:nowrap;background:none;border:0;font-family:inherit}
+  .nav-item:hover{background:rgba(255,255,255,.14);text-decoration:none}
+  .nav-item svg.i{font-size:17px}
+  .caret{width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid #fff;margin-left:4px}
+  .dropdown{display:none;position:absolute;top:44px;left:0;background:#fff;border:1px solid var(--line);border-radius:4px;box-shadow:0 4px 12px rgba(0,0,0,.15);min-width:170px;padding:6px 0;z-index:60}
+  .dropdown.open{display:block}
+  .dropdown a{display:flex;gap:10px;align-items:center;color:var(--text);padding:8px 16px;font-size:14px}
+  .dropdown a:hover{background:#f2f2f2;text-decoration:none}
+  .top-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+  .sq-btn{width:40px;height:40px;border:0;border-radius:3px;background:#fff;color:#333;display:grid;place-items:center;cursor:pointer}
+  .search{position:relative;display:flex;align-items:center;width:272px;height:40px;background:#fff;border-radius:3px}
+  .search input{flex:1;min-width:0;height:100%;border:0;outline:0;padding:0 8px 0 12px;font:inherit;font-size:14px;background:transparent;color:var(--text)}
+  .search button{border:0;background:none;width:32px;height:40px;color:#333;cursor:pointer;display:grid;place-items:center}
+  .suggest{display:none;position:absolute;top:42px;left:0;right:0;background:#fff;border:1px solid var(--line);border-radius:3px;box-shadow:0 4px 12px rgba(0,0,0,.15);z-index:60}
+  .suggest.open{display:block}
+  .suggest a{display:block;color:var(--text);padding:8px 12px;font-size:14px}
+  .suggest a.on,.suggest a:hover{background:#f0f0f0;text-decoration:none}
+  .user-btn{background:none;border:0;color:#fff;width:40px;height:40px;cursor:pointer;display:grid;place-items:center;font-size:22px}
+
+  /* ── 본문 레이아웃 ── */
+  .wrap{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:16px;padding:16px 36px 0;max-width:1520px;margin:0 auto}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:5px}
+  .article{padding:24px 24px 0;min-width:0}
+  .head{display:flex;align-items:flex-start;gap:16px}
+  .head h1{margin:0;font-size:36px;font-weight:600;line-height:1.25;letter-spacing:-.02em;word-break:keep-all}
+  .head h1 small{font-size:.6em;font-weight:400;color:var(--muted);margin-left:6px}
+  .actions{margin-left:auto;display:flex;gap:8px;flex-shrink:0;padding-top:4px}
+  .btn-group{position:relative;display:flex;border:1px solid var(--line);border-radius:4px;background:#fff}
+  .btn-group a,.btn-group button{display:flex;align-items:center;gap:6px;height:36px;padding:0 12px;border:0;background:none;color:#333;font:inherit;font-size:14px;cursor:pointer;border-left:1px solid var(--line)}
+  .btn-group > :first-child{border-left:0}
+  .btn-group a:hover,.btn-group button:hover{background:#f2f2f2;text-decoration:none}
+  .btn-group .on{background:#d9f2e6}
+  .btn-group .lock{font-size:11px;color:#888}
+  .star-count{position:absolute;top:-10px;left:-10px;font-size:10px;line-height:1;padding:3px 5px;border:1px solid var(--line);border-radius:9px;background:#fff;color:#555}
+  .updated{margin:4px 0 0;font-size:14px;color:#555}
+  .ad-space{height:110px}
+  .cat-bar{border:1px solid var(--line);border-radius:4px;padding:4px 8px;font-size:14px;margin-bottom:14px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+  .cat-bar a:not(:last-child)::after{content:"";display:inline-block;width:1px;height:11px;background:#bbb;margin:0 6px;vertical-align:-1px}
+  .notice{display:flex;align-items:flex-start;gap:8px;margin:10px 0;font-size:15px}
+  .notice .ico{flex-shrink:0;width:20px;height:20px;border-radius:50%;background:#16a085;color:#fff;display:grid;place-items:center;font-size:12px;margin-top:1px}
+  .notice.warn .ico{background:#666;border-radius:4px}
+
+  .wiki{font-size:15px;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere;padding-bottom:28px}
+  .wiki p{margin:0 0 15px}
+  .wiki b{font-weight:700}
+  .infobox{float:right;width:500px;max-width:100%;margin:6px 0 16px 20px;border:2px solid var(--ibox);background:#fff;font-size:14.5px}
+  .ibox-title{background:linear-gradient(90deg,var(--ibox),var(--ibox2));color:#fff;text-align:center;padding:9px 10px 8px;line-height:1.3}
+  .ibox-title b{display:block;font-size:20px;font-weight:700}
+  .ibox-title span{font-size:14px;font-weight:600;opacity:.92}
+  .ibox-img{position:relative;aspect-ratio:4/3.4;background:linear-gradient(#f4f5f6,#e9ebed)}
+  .ibox-img svg{position:absolute;inset:0;width:100%;height:100%}
+  .ibox-img figcaption{position:absolute;left:0;right:0;bottom:0;padding:5px;text-align:center;font-size:11px;color:#777;background:rgba(255,255,255,.75)}
+  .infobox table{width:100%;border-collapse:collapse}
+  .infobox th{width:108px;background:var(--ibox);color:#fff;font-weight:700;text-align:center;padding:8px 6px;border-top:1px solid rgba(255,255,255,.25)}
+  .infobox td{padding:6px 10px;border-top:1px solid var(--line-soft);line-height:1.55}
+
+  .toc{display:inline-block;min-width:200px;max-width:100%;border:1px solid var(--line);padding:12px 16px 14px;margin:6px 0 20px}
+  .toc-head{display:flex;align-items:center;justify-content:space-between;gap:30px;font-size:18px;cursor:pointer;user-select:none}
+  .toc-head svg{color:#666;transition:transform .15s}
+  .toc.closed .toc-head svg{transform:rotate(-90deg)}
+  .toc.closed .toc-list{display:none}
+  .toc-list{margin-top:10px;line-height:1.55}
+  .toc-list div{padding-left:6px}
+  .toc-list .lv2{padding-left:26px}
+
+  .sec-h{clear:both;display:flex;align-items:center;gap:6px;margin:30px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--line);cursor:pointer;scroll-margin-top:70px}
+  .sec-h h2{margin:0;font-size:27px;font-weight:700;letter-spacing:-.02em;line-height:1.3}
+  .sec-h h2 .num{color:var(--link)}
+  .sec-h .fold{color:#555;font-size:15px;width:22px;display:grid;place-items:center;transition:transform .15s}
+  .sec-h.closed .fold{transform:rotate(-90deg)}
+  .sec-h .edit{margin-left:auto;align-self:flex-start;font-size:12px;font-weight:700}
+  .sec-body.closed{display:none}
+  .wiki-quote{display:table;margin:0 0 15px;background:#eee;border:2px dashed #ccc;border-left:5px solid var(--quote-bar);padding:14px 18px}
+  .wiki-table{border-collapse:collapse;margin:0 0 15px;max-width:100%}
+  .wiki-table th,.wiki-table td{border:1px solid var(--line);padding:6px 12px;vertical-align:middle}
+  .wiki-table th{background:var(--ibox);color:#fff;font-weight:700}
+  .wiki-table td:first-child{text-align:center;font-weight:700;white-space:nowrap;background:#f7f7f7}
+
+  .navbox{clear:both;margin:28px 0 6px;border:2px solid var(--ibox);font-size:14px}
+  .navbox-title{background:linear-gradient(90deg,var(--ibox),var(--ibox2));color:#fff;text-align:center;font-weight:700;padding:6px}
+  .navbox-body{padding:8px 12px;text-align:center}
+  .navbox-body .sep{color:#999;margin:0 8px}
+
+  sup.fn a{font-size:.75em}
+  .fn-list{clear:both;border-top:1px solid var(--line);margin-top:24px;padding-top:12px;font-size:14px}
+  .fn-list div{margin:6px 0}
+  .fn-pop{position:absolute;z-index:70;max-width:360px;background:#fff;border:1px solid #bbb;border-radius:4px;box-shadow:0 3px 10px rgba(0,0,0,.18);padding:8px 10px;font-size:13.5px;line-height:1.5;display:none}
+  .source-box{clear:both;display:flex;gap:8px;align-items:flex-start;border:1px solid var(--line);border-top:5px solid #888;padding:8px 10px;margin:22px 0 4px;font-size:14px;line-height:1.55}
+  .source-box .ico{flex-shrink:0;width:20px;height:20px;border:2px solid #222;border-radius:50%;display:grid;place-items:center;font-size:10px;font-weight:800}
+  .alert{border:1px solid #f5c2c7;background:#f8d7da;color:#842029;padding:12px 16px;border-radius:4px;margin:10px 0 18px}
+  .list-table{width:100%;border-collapse:collapse;font-size:14px;margin-bottom:24px}
+  .list-table th,.list-table td{border-bottom:1px solid var(--line-soft);padding:8px 6px;text-align:left}
+  .list-table th{border-bottom:2px solid var(--line)}
+  .result{margin:0 0 18px}
+  .result a{font-size:17px}
+  .result p{margin:3px 0 0;color:#555;font-size:14px}
+
+  .license{border-top:1px solid var(--line);margin:0 -24px;padding:22px 24px 20px;text-align:right;font-size:14px;color:#333;line-height:1.6}
+  .license .badge{display:inline-block;border:2px solid #222;border-radius:3px;font-size:11px;font-weight:800;padding:2px 6px;margin-bottom:6px;letter-spacing:.04em}
+  .license p{margin:0 0 12px}
+
+  /* ── 우측 사이드바 ── */
+  .side{display:flex;flex-direction:column;gap:16px;align-self:start;position:sticky;top:72px}
+  .side .card{padding:16px 20px}
+  .side-h{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:700;margin-bottom:10px}
+  .side-h svg.i{color:#999}
+  .side-h .more{margin-left:auto;color:#333}
+  .trend{font-size:15px}
+  .trend div{display:flex;gap:14px;padding:3px 0 3px 6px}
+  .trend span{color:#333;width:10px}
+  .recent{font-size:15px;border-top:5px solid #e3e3e3;margin:-16px -20px 0;padding:16px 20px}
+  .recent div{display:flex;justify-content:space-between;gap:10px;padding:3px 0}
+  .recent div a{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .recent time{font-size:12px;color:#333;white-space:nowrap}
+
+  .site-foot{margin-top:16px;border-top:1px solid var(--line);padding:16px 36px 22px;font-size:13px;color:#333;line-height:1.7}
+  .site-foot a{margin:0 6px}
+  .floating{position:fixed;right:40px;bottom:36px;display:flex;flex-direction:column;gap:12px;z-index:40}
+  .floating .grp{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:5px;box-shadow:0 2px 6px rgba(0,0,0,.12);overflow:hidden}
+  .floating button{width:40px;height:40px;border:0;background:#fff;color:#333;cursor:pointer;display:grid;place-items:center;font-size:18px}
+  .floating .grp button+button{border-top:1px solid var(--line-soft)}
+  .floating button:hover{background:#f2f2f2}
+  .toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(20px);background:#333;color:#fff;padding:10px 16px;border-radius:4px;font-size:14px;opacity:0;pointer-events:none;transition:.2s;z-index:80}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  @media (max-width:1100px){
+    .wrap{grid-template-columns:1fr;padding:12px 16px 0}
+    .side{display:none}
+    .top-in{padding:0 16px}
+    .site-foot{padding:16px}
+  }
+  @media (max-width:860px){
+    .nav-item .lbl{display:none}
+    .search{width:auto;flex:1;min-width:0}
+    .top-right{flex:1;min-width:0;justify-content:flex-end}
+    .logo{margin-right:4px}
+    .logo span{display:none}
+    .infobox{float:none;width:100%;margin:6px 0 16px}
+    .ad-space{height:24px}
+  }
+  @media (max-width:560px){
+    .article{padding:16px 14px 0}
+    .license{margin:0 -14px;padding:18px 14px}
+    .head{flex-direction:column;gap:10px}
+    .actions{margin-left:0}
+    .head h1{font-size:28px}
+    .sec-h h2{font-size:22px}
+    .floating{right:12px;bottom:16px}
+    .nav-item{padding:8px}
+    .sq-btn.rand{display:none}
+  }
+</style>
+</head>
+<body>
+
+<!--
+  ▣ 문서 내용은 아래 JSON 블록만 고치면 됩니다.
+  문안 표기법
+    [[문서이름]]            → 문서 링크 (없는 문서는 빨간 링크)
+    [[문서이름|보이는 글]]  → 글자만 바꾼 링크
+    '''굵게'''              → 굵은 글씨
+    ((각주 내용))           → 각주 [1] (마우스를 올리면 내용이 보임)
+    {{외부:@계정}}          → 초록색 외부 링크 모양 (클릭해도 이동하지 않음)
+-->
+<script type="application/json" id="wiki-data">
+{
+  "site": {
+    "name": "열린위키",
+    "home": "이은호",
+    "trending": ["이은호", "김서진"],
+    "license": [
+      "이 화면은 수업용으로 만든 가상 위키입니다. 실제 인물·기획사·방송·웹사이트와 관련이 없습니다.",
+      "열린위키는 백과사전이 아니며 검증되지 않았거나, 편향적이거나, 잘못된 서술이 있을 수 있습니다.<br>열린위키는 위키위키입니다. 여러분이 직접 문서를 고칠 수 있으며, 다른 사람의 의견을 원할 경우 직접 토론을 발제할 수 있습니다."
+    ]
+  },
+  "aliases": { "eunho": "이은호", "seojin": "김서진" },
+  "docs": {
+    "이은호": {
+      "updated": "2026-02-01",
+      "color": ["#3d4f46", "#5d7a6b"],
+      "categories": ["가상 인물", "가수", "오디션 프로그램 출신"],
+      "notices": ["이 문서는 수업용 가상 인물 정보를 바탕으로 구성한 위키형 화면입니다. 실제 인물·기획사·방송과 관련이 없습니다."],
+      "infobox": {
+        "title": "이은호",
+        "image": "수업용 실루엣 이미지",
+        "rows": [
+          ["이름", "이은호"],
+          ["나이", "23세"],
+          ["직업", "가수"],
+          ["데뷔", "2023년"],
+          ["학력", "예술고 졸업"],
+          ["경력", "보컬 오디션 프로그램 출연"],
+          ["SNS", "{{외부:@e_euno_official}}"],
+          ["관련 인물", "[[김서진]], [[정수현]]"]
+        ]
+      },
+      "lead": "'''이은호'''는 2023년 보컬 오디션 프로그램 출연 이후 데뷔한 가수이다. [[김서진]]과 같은 예술고 출신이며, 같은 소속사에서 연습생 생활을 했다.",
+      "sections": [
+        { "title": "개요", "blocks": [
+          { "p": "같은 소속사에서 연습생 생활을 하던 [[김서진]]과 2023년 같은 보컬 오디션 프로그램에 출연했다. 프로그램 출연 이후 먼저 데뷔해 활동을 이어가고 있다." }
+        ]},
+        { "title": "활동", "blocks": [
+          { "table": { "head": ["연도", "내용"], "rows": [
+            ["2022", "예술고 졸업."],
+            ["2023", "보컬 오디션 프로그램 출연. 이후 가수로 데뷔."],
+            ["2024~25", "가수 활동 및 행사 참여."],
+            ["2026", "가수 활동 지속."]
+          ]}}
+        ]},
+        { "title": "김서진과의 인연", "blocks": [
+          { "p": "[[김서진]]과 같은 예술고를 졸업했으며, 같은 소속사에서 연습생 생활을 했다. 두 사람은 2023년 같은 보컬 오디션 프로그램에 참가했다." },
+          { "p": "연습생 시절부터 오랜 기간 알고 지낸 사이로 알려져 있다." }
+        ]},
+        { "title": "여담", "blocks": [
+          { "p": "공식 SNS 계정은 {{외부:@e_euno_official}}이다." }
+        ]}
+      ],
+      "source": "내용은 프로젝트에서 확정된 가상 설정만 사용했습니다. 미확정 기획사명·생년월일·팬덤명 등은 넣지 않았습니다."
+    },
+    "김서진": {
+      "updated": "2026-02-01",
+      "color": ["#3f4f6b", "#61789b"],
+      "categories": ["가상 인물", "가수", "오디션 프로그램 출신"],
+      "notices": ["이 문서는 수업용 가상 인물 정보를 바탕으로 구성한 위키형 화면입니다. 실제 인물·기획사·방송과 관련이 없습니다."],
+      "infobox": {
+        "title": "김서진",
+        "image": "수업용 실루엣 이미지",
+        "rows": [
+          ["이름", "김서진"],
+          ["나이", "23세"],
+          ["직업", "가수"],
+          ["데뷔", "2025년 말"],
+          ["학력", "예술고 졸업"],
+          ["경력", "보컬 오디션 프로그램 출연"],
+          ["SNS", "{{외부:@seojin_official}}"],
+          ["관련 인물", "[[이은호]], [[정수현]]"]
+        ]
+      },
+      "lead": "'''김서진'''은 2025년 말 데뷔한 신인 가수이다. 연습생 시절부터 SNS에서 주목받았으며, [[이은호]]와 같은 예술고와 소속사에서 활동 기반을 쌓았다.",
+      "sections": [
+        { "title": "개요", "blocks": [
+          { "p": "데뷔 전 연습생 시절부터 SNS에서 인지도를 얻었다. 2023년 [[이은호]]와 함께 보컬 오디션 프로그램에 출연했으며, 2025년 말 가수로 데뷔했다." }
+        ]},
+        { "title": "활동", "blocks": [
+          { "table": { "head": ["연도", "내용"], "rows": [
+            ["2022", "예술고 졸업."],
+            ["2023", "보컬 오디션 프로그램 출연. 이후 연습생 생활 지속."],
+            ["2024~25", "연습생 신분으로 활동하며 SNS에서 인지도를 얻음."],
+            ["2025 말", "가수로 데뷔."]
+          ]}}
+        ]},
+        { "title": "이은호와의 인연", "blocks": [
+          { "p": "[[이은호]]와 같은 예술고를 졸업했으며 같은 소속사에서 연습생 생활을 했다. 2023년 같은 보컬 오디션 프로그램에 참가했다." },
+          { "p": "두 사람은 연습생 시절부터 알고 지낸 오랜 동료로 알려져 있다." }
+        ]},
+        { "title": "여담", "blocks": [
+          { "p": "공식 SNS 계정은 {{외부:@seojin_official}}이다." }
+        ]}
+      ],
+      "source": "내용은 프로젝트에서 확정된 가상 설정만 사용했습니다. 미확정 기획사명·생년월일·팬덤명 등은 넣지 않았습니다."
+    }
+  }
+}
+</script>
+
+<header class="top">
+  <div class="top-in">
+    <a class="logo" href="#" data-home>
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 4c-5 4-7 8-7 12a7 7 0 0 0 14 0c0-4-2-8-7-12z" fill="#fff" opacity=".95"/><path d="M16 11v17" stroke="var(--top-a)" stroke-width="2" stroke-linecap="round"/><path d="M16 18l-3.5-3M16 22l3.5-3.5" stroke="var(--top-a)" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <span id="siteName"></span>
+    </a>
+    <a class="nav-item" href="#/recent"><svg class="i" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10h-10z"/><path d="M14 0v10h10A10 10 0 0 0 14 0z" opacity=".7"/></svg><span class="lbl">최근 변경</span></a>
+    <button class="nav-item" type="button" data-unsupported="최근 토론"><svg class="i" viewBox="0 0 24 24"><path d="M3 4h12a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H8l-4 3v-3H3a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="M19 8h2a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-1v3l-4-3h-5a2 2 0 0 1-2-2v-1h6a3 3 0 0 0 3-3z" opacity=".8"/></svg><span class="lbl">최근 토론</span></button>
+    <div style="position:relative">
+      <button class="nav-item" type="button" id="specialBtn"><svg class="i" viewBox="0 0 24 24"><path d="M9 3h6a2 2 0 0 1 2 2v2h4a1 1 0 0 1 1 1v4H2V8a1 1 0 0 1 1-1h4V5a2 2 0 0 1 2-2zm0 2v2h6V5zM2 14h8v2h4v-2h8v6a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/></svg><span class="lbl">특수 기능</span><span class="caret"></span></button>
+      <div class="dropdown" id="specialMenu">
+        <a href="#/all">모든 문서</a>
+        <a href="#/recent">최근 변경</a>
+        <a href="#" data-random>임의 문서로</a>
+      </div>
+    </div>
+    <div class="top-right">
+      <button class="sq-btn rand" type="button" title="임의 문서로" data-random><svg class="i" viewBox="0 0 24 24"><path d="M17 3l4 4-4 4V8h-2.2l-8 9H2v-2h3.9l8-9H17zM2 7h4.8l2.4 2.7-1.3 1.5L5.9 9H2zm15 6l4 4-4 4v-3h-3.8l-2.4-2.7 1.3-1.5 1.9 2.2H17z"/></svg></button>
+      <form class="search" id="searchForm" autocomplete="off">
+        <input id="q" placeholder="여기에서 검색" aria-label="문서 검색" />
+        <button type="submit" title="검색" data-mode="search"><svg class="i" viewBox="0 0 24 24"><path d="M10 3a7 7 0 0 1 5.6 11.2l5 5-1.4 1.4-5-5A7 7 0 1 1 10 3zm0 2a5 5 0 1 0 0 10 5 5 0 0 0 0-10z"/></svg></button>
+        <button type="button" title="바로 가기" id="goBtn"><svg class="i" viewBox="0 0 24 24"><path d="M13 5l7 7-7 7-1.4-1.4 4.6-4.6H4v-2h12.2l-4.6-4.6z"/></svg></button>
+        <div class="suggest" id="suggest"></div>
+      </form>
+      <button class="user-btn" type="button" title="로그인" data-unsupported="로그인"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="7.5" r="4.5"/><path d="M3 21a9 7 0 0 1 18 0z"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <main class="card article" id="article"></main>
+  <aside class="side">
+    <div class="card">
+      <div class="side-h"><svg class="i" viewBox="0 0 24 24"><path d="M3 20h18v2H3zM5 10h3v8H5zm5-6h3v14h-3zm5 9h3v5h-3z"/></svg><span style="font-size:16px">실시간 검색어</span></div>
+      <div class="trend" id="trend"></div>
+    </div>
+    <div class="card">
+      <div class="recent">
+        <div class="side-h" style="padding:0"><svg class="i" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 1-9.4 6.6l1.9.7A8 8 0 1 0 12 4zm-1 4h2v6l4 2.3-1 1.7-5-3z"/></svg>최근 변경<a class="more" href="#/recent">›</a></div>
+        <div style="display:block" id="recentList"></div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<footer class="site-foot" id="siteFoot"></footer>
+
+<div class="floating">
+  <div class="grp"><button type="button" title="목차" id="tocBtn"><svg class="i" viewBox="0 0 24 24"><path d="M3 5h2v2H3zm4 0h14v2H7zM3 11h2v2H3zm4 0h14v2H7zM3 17h2v2H3zm4 0h14v2H7z"/></svg></button></div>
+  <div class="grp">
+    <button type="button" title="맨 위로" id="upBtn"><svg class="i" viewBox="0 0 24 24"><path d="M11 20V7.8l-5.6 5.6L4 12l8-8 8 8-1.4 1.4L13 7.8V20z"/></svg></button>
+    <button type="button" title="맨 아래로" id="downBtn"><svg class="i" viewBox="0 0 24 24"><path d="M13 4v12.2l5.6-5.6L20 12l-8 8-8-8 1.4-1.4 5.6 5.6V4z"/></svg></button>
+  </div>
+</div>
+<div class="fn-pop" id="fnPop"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+(() => {
+  const DATA = JSON.parse(document.getElementById('wiki-data').textContent);
+  const SITE = DATA.site, DOCS = DATA.docs;
+  const $ = s => document.querySelector(s);
+  const article = $('#article');
+  const ICON = {
+    chev: '<svg class="i" viewBox="0 0 24 24"><path d="M7.4 8.6L12 13.2l4.6-4.6L18 10l-6 6-6-6z"/></svg>',
+    star: '<svg class="i" style="fill:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"/></svg>',
+    edit: '<svg class="i" viewBox="0 0 24 24"><path d="M4 5h9v2H6v11h11v-7h2v9H4zm14.3-2.7l3.4 3.4L12.4 15H9v-3.4z"/></svg>',
+    lock: '<svg class="i lock" viewBox="0 0 24 24"><path d="M7 10V7a5 5 0 0 1 10 0v3h2v12H5V10zm2 0h6V7a3 3 0 0 0-6 0z"/></svg>',
+    talk: '<svg class="i" viewBox="0 0 24 24"><path d="M3 4h12a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H8l-4 3v-3H3a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="M19 8h2a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-1v3l-4-3h-5a2 2 0 0 1-2-2v-1h6a3 3 0 0 0 3-3z" opacity=".8"/></svg>',
+    hist: '<svg class="i" viewBox="0 0 24 24"><path d="M5 2h12a2 2 0 0 1 2 2v14H7a1 1 0 0 0 0 2h12v2H7a3 3 0 0 1-3-3V3a1 1 0 0 1 1-1zm3 4v2h8V6z"/></svg>',
+    more: '<svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>',
+    info: '<svg class="i" viewBox="0 0 24 24"><path d="M11 10h2v8h-2zm0-4h2v2h-2z"/></svg>'
+  };
+
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const resolve = name => DOCS[name] ? name : (DATA.aliases && DATA.aliases[name]) || name;
+  const href = name => '#/w/' + encodeURIComponent(name);
+  const link = (name, label) => `<a class="${DOCS[name] ? '' : 'missing'}" href="${href(name)}" title="${esc(name)}">${esc(label || name)}</a>`;
+
+  /* 문안 표기법 → HTML. fns는 문서마다 새 배열 */
+  function markup(text, fns) {
+    let s = esc(text);
+    s = s.replace(/\(\((.+?)\)\)/g, (_, body) => {
+      fns.push(body);
+      const n = fns.length;
+      return `<sup class="fn"><a href="#fn-${n}" id="rfn-${n}" data-fn="${n}">[${n}]</a></sup>`;
+    });
+    s = s.replace(/\[\[(.+?)(?:\|(.+?))?\]\]/g, (_, n, l) => link(n.trim(), l && l.trim()));
+    s = s.replace(/'''(.+?)'''/g, '<b>$1</b>');
+    s = s.replace(/\{\{외부:(.+?)\}\}/g, '<a class="ext" href="#" data-ext>$1</a>');
+    return s;
+  }
+
+  function setColors(doc) {
+    const [a, b] = (doc && doc.color) || ['#3d4f46', '#5d7a6b'];
+    article.style.setProperty('--ibox', a);
+    article.style.setProperty('--ibox2', b || a);
+  }
+
+  function header(title, opts = {}) {
+    const name = opts.doc;
+    const btns = name ? `
+      <div class="actions">
+        <div class="btn-group">
+          <button type="button" title="별찜" data-unsupported="별찜">${ICON.star}</button>
+          <a href="#/edit/${encodeURIComponent(name)}" class="${opts.mode === 'edit' ? 'on' : ''}">${ICON.edit}편집${ICON.lock}</a>
+          <a href="#/discuss/${encodeURIComponent(name)}" class="${opts.mode === 'discuss' ? 'on' : ''}">${ICON.talk}토론</a>
+          <a href="#/history/${encodeURIComponent(name)}" class="${opts.mode === 'history' ? 'on' : ''}">${ICON.hist}역사</a>
+        </div>
+        <div class="btn-group"><button type="button" title="더보기" data-unsupported="더보기">${ICON.more}</button></div>
+      </div>` : '';
+    return `<div class="head"><div><h1>${esc(title)}${opts.small ? `<small>(${esc(opts.small)})</small>` : ''}</h1>
+      ${opts.updated ? `<p class="updated">최근 수정 시각: ${esc(opts.updated)}</p>` : ''}</div>${btns}</div>`;
+  }
+
+  function license() {
+    return `<div class="license"><div class="badge">CLASS · WIKI</div>${SITE.license.map(t => `<p>${t}</p>`).join('')}</div>`;
+  }
+
+  function silhouette() {
+    return `<svg viewBox="0 0 400 340" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+      <circle cx="200" cy="130" r="62" fill="#cfd3d7"/>
+      <path d="M70 340c8-80 62-122 130-122s122 42 130 122z" fill="#cfd3d7"/></svg>`;
+  }
+
+  function renderDoc(name) {
+    const doc = DOCS[name];
+    const fns = [];
+    setColors(doc);
+    const ib = doc.infobox;
+    const infobox = ib ? `
+      <div class="infobox">
+        <div class="ibox-title"><b>${esc(ib.title)}</b>${ib.subtitle ? `<span>${esc(ib.subtitle)}</span>` : ''}</div>
+        <figure class="ibox-img" style="margin:0">${silhouette()}<figcaption>${esc(ib.image || '')}</figcaption></figure>
+        <table>${ib.rows.map(([k, v]) => `<tr><th>${esc(k)}</th><td>${markup(v, fns)}</td></tr>`).join('')}</table>
+      </div>` : '';
+    const lead = doc.lead ? `<p>${markup(doc.lead, fns)}</p>` : '';
+    const toc = `<div class="toc" id="toc"><div class="toc-head">목차${ICON.chev}</div><div class="toc-list">
+      ${doc.sections.map((s, i) => `<div><a href="#s-${i + 1}" data-jump>${i + 1}.</a> ${esc(s.title)}</div>`).join('')}</div></div>`;
+    const sections = doc.sections.map((s, i) => `
+      <div class="sec-h" id="s-${i + 1}" data-sec="${i + 1}">
+        <span class="fold">${ICON.chev}</span>
+        <h2><span class="num">${i + 1}.</span> ${esc(s.title)}</h2>
+        <a class="edit" href="#/edit/${encodeURIComponent(name)}">[편집]</a>
+      </div>
+      <div class="sec-body" data-body="${i + 1}">${s.blocks.map(b => block(b, fns)).join('')}</div>`).join('');
+
+    const related = new Set([name]);
+    (ib ? ib.rows : []).forEach(([, v]) => v.replace(/\[\[(.+?)(?:\|.+?)?\]\]/g, (_, n) => related.add(n.trim())));
+    const navbox = related.size > 1 ? `<div class="navbox"><div class="navbox-title">관련 인물</div>
+      <div class="navbox-body">${[...related].map(n => n === name ? `<b>${esc(n)}</b>` : link(n)).join('<span class="sep">·</span>')}</div></div>` : '';
+
+    const fnList = fns.length ? `<div class="fn-list">${fns.map((f, i) =>
+      `<div id="fn-${i + 1}"><a href="#rfn-${i + 1}" data-jump>[${i + 1}]</a> ${f}</div>`).join('')}</div>` : '';
+    const source = doc.source ? `<div class="source-box"><span class="ico">i</span><div>${markup(doc.source, [])}</div></div>` : '';
+
+    article.innerHTML = `
+      ${header(name, { doc: name, updated: doc.updated })}
+      <div class="ad-space"></div>
+      <div class="cat-bar">분류: ${doc.categories.map(c => `<a href="#/search/${encodeURIComponent(c)}">${esc(c)}</a>`).join('')}</div>
+      ${(doc.notices || []).map(n => `<div class="notice"><span class="ico">${ICON.info}</span><div>${markup(n, fns)}</div></div>`).join('')}
+      <div class="wiki">${lead}${infobox}${toc}${sections}${navbox}${fnList}${source}</div>
+      ${license()}`;
+    article.dataset.fns = JSON.stringify(fns);
+    document.title = `${name} - ${SITE.name}`;
+  }
+
+  function block(b, fns) {
+    if (b.p) return `<p>${markup(b.p, fns)}</p>`;
+    if (b.quote) return `<blockquote class="wiki-quote" style="margin-left:0">${markup(b.quote, fns)}</blockquote>`;
+    if (b.table) return `<table class="wiki-table">
+      ${b.table.head ? `<tr>${b.table.head.map(h => `<th>${esc(h)}</th>`).join('')}</tr>` : ''}
+      ${b.table.rows.map(r => `<tr>${r.map(c => `<td>${markup(c, fns)}</td>`).join('')}</tr>`).join('')}</table>`;
+    return '';
+  }
+
+  function renderSimple(title, body, opts = {}) {
+    setColors(opts.doc && DOCS[opts.doc]);
+    article.innerHTML = `${header(title, opts)}<div style="height:24px"></div><div class="wiki">${body}</div>${license()}`;
+    document.title = `${title} - ${SITE.name}`;
+  }
+
+  function renderMissing(name) {
+    renderSimple(name, `<p>해당 문서를 찾을 수 없습니다.</p>
+      <p><a href="#" data-unsupported="새 문서 만들기">[새 문서 만들기]</a></p>
+      <p style="color:#666;font-size:14px">이 위키에 있는 문서: ${Object.keys(DOCS).map(n => link(n)).join(', ')}</p>`);
+  }
+
+  function renderSearch(q) {
+    const hits = Object.entries(DOCS).filter(([n, d]) => n.includes(q) || JSON.stringify(d).includes(q));
+    const plain = s => s.replace(/\[\[(.+?)(?:\|(.+?))?\]\]/g, (_, n, l) => l || n).replace(/'''|\(\(.+?\)\)|\{\{외부:|\}\}/g, '');
+    const body = `<p>${DOCS[q] ? `${link(q)} 문서로 바로 가기` : `'${esc(q)}' 문서는 아직 없습니다. ${link(q, '문서 확인')}`}</p>
+      <p style="color:#555">'${esc(q)}'에 대한 검색 결과 ${hits.length}건</p>
+      ${hits.map(([n, d]) => `<div class="result">${link(n)}<p>${esc(plain(d.lead || '')).slice(0, 120)}</p></div>`).join('')}`;
+    renderSimple('검색', body);
+  }
+
+  function renderRecent() {
+    const rows = Object.entries(DOCS).sort((a, b) => (b[1].updated || '').localeCompare(a[1].updated || ''));
+    renderSimple('최근 변경내역', `<table class="list-table"><tr><th>항목</th><th>시간</th></tr>
+      ${rows.map(([n, d]) => `<tr><td>${link(n)}</td><td>${esc(d.updated || '')}</td></tr>`).join('')}</table>`);
+  }
+
+  function renderAll() {
+    renderSimple('모든 문서', `<ul>${Object.keys(DOCS).sort().map(n => `<li>${link(n)}</li>`).join('')}</ul>`);
+  }
+
+  function renderLocked(mode, name) {
+    const label = { edit: '편집', discuss: '토론', history: '역사' }[mode];
+    const msg = mode === 'edit'
+      ? '편집 권한이 부족합니다. 수업용 화면에서는 문서를 고칠 수 없습니다.'
+      : `${label} 기능은 수업용 화면에서 지원하지 않습니다.`;
+    renderSimple(name, `<div class="alert"><b>[오류!]</b> ${msg}</div><p>${link(name, '← 문서로 돌아가기')}</p>`,
+      { doc: name, small: label, mode });
+  }
+
+  /* ── 라우팅: #/w/문서, #/search/검색어, #/recent, #/all, #/edit|discuss|history/문서 (옛 주소 #eunho 도 지원) ── */
+  function route() {
+    closeMenus();
+    const h = decodeURIComponent(location.hash.slice(1));
+    let m;
+    if (!h || h === '/') return go(SITE.home, true);
+    if ((m = h.match(/^\/w\/(.+)$/))) {
+      const name = resolve(m[1]);
+      DOCS[name] ? renderDoc(name) : renderMissing(m[1]);
+    } else if ((m = h.match(/^\/search\/(.+)$/))) renderSearch(m[1]);
+    else if (h === '/recent') renderRecent();
+    else if (h === '/all') renderAll();
+    else if ((m = h.match(/^\/(edit|discuss|history)\/(.+)$/))) renderLocked(m[1], resolve(m[2]));
+    else if (DATA.aliases && DATA.aliases[h]) return go(DATA.aliases[h], true);
+    else if (h.startsWith('s-') || h.startsWith('fn-') || h.startsWith('rfn-')) return;
+    else renderMissing(h);
+    window.scrollTo(0, 0);
+  }
+  function go(name, replace) {
+    const url = href(name);
+    replace ? history.replaceState(null, '', url) : (location.hash = url.slice(1));
+    if (replace) route();
+  }
+
+  /* ── 사이드바·푸터 ── */
+  $('#siteName').textContent = SITE.name;
+  $('#trend').innerHTML = (SITE.trending || []).map((n, i) => `<div><span>${i + 1}</span>${link(n)}</div>`).join('');
+  $('#recentList').innerHTML = Object.entries(DOCS)
+    .sort((a, b) => (b[1].updated || '').localeCompare(a[1].updated || ''))
+    .map(([n, d]) => `<div>${link(n)}<time>${esc(d.updated || '')}</time></div>`).join('');
+  $('#siteFoot').innerHTML = `${esc(SITE.name)} · 수업용 가상 위키 화면 <a href="#/all">모든 문서</a><a href="#/recent">최근 변경</a><br>
+    <span style="color:#777">실제 서비스와 관련이 없으며 외부로 연결되지 않습니다.</span>`;
+
+  /* ── 상호작용 ── */
+  const toastEl = $('#toast'); let toastT;
+  function toast(msg) { toastEl.textContent = msg; toastEl.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => toastEl.classList.remove('show'), 1800); }
+  function closeMenus() { $('#specialMenu').classList.remove('open'); $('#suggest').classList.remove('open'); }
+
+  document.addEventListener('click', e => {
+    const t = e.target.closest('a,button,.sec-h,.toc-head');
+    if (!t) { closeMenus(); return; }
+    if (t.id === 'specialBtn') { e.stopPropagation(); $('#specialMenu').classList.toggle('open'); return; }
+    if (t.matches('[data-home]')) { e.preventDefault(); go(SITE.home); return; }
+    if (t.matches('[data-random]')) { e.preventDefault(); const k = Object.keys(DOCS); go(k[Math.floor(Math.random() * k.length)]); return; }
+    if (t.matches('[data-unsupported]')) { e.preventDefault(); toast(`'${t.dataset.unsupported}' 기능은 수업용 화면에서 지원하지 않습니다.`); return; }
+    if (t.matches('[data-ext]')) { e.preventDefault(); toast('외부 링크는 수업용 화면에서 열리지 않습니다.'); return; }
+    if (t.matches('[data-jump]') || t.matches('[data-fn]')) {
+      e.preventDefault();
+      const el = document.getElementById(t.getAttribute('href').slice(1));
+      if (el) { openSection(el); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+      return;
+    }
+    if (t.classList.contains('toc-head')) { t.parentElement.classList.toggle('closed'); return; }
+    if (t.classList.contains('sec-h')) {
+      t.classList.toggle('closed');
+      article.querySelector(`[data-body="${t.dataset.sec}"]`).classList.toggle('closed');
+    }
+  });
+  function openSection(el) {
+    const body = el.closest('.sec-body');
+    if (body && body.classList.contains('closed')) {
+      body.classList.remove('closed');
+      article.querySelector(`[data-sec="${body.dataset.body}"]`).classList.remove('closed');
+    }
+  }
+
+  /* 각주 미리보기 */
+  const pop = $('#fnPop');
+  document.addEventListener('mouseover', e => {
+    const a = e.target.closest('[data-fn]');
+    if (!a) { pop.style.display = 'none'; return; }
+    const fns = JSON.parse(article.dataset.fns || '[]');
+    pop.innerHTML = `<b>[${a.dataset.fn}]</b> ${fns[a.dataset.fn - 1] || ''}`;
+    const r = a.getBoundingClientRect();
+    pop.style.display = 'block';
+    pop.style.left = Math.min(r.left + scrollX, innerWidth - pop.offsetWidth - 12) + 'px';
+    pop.style.top = (r.bottom + scrollY + 6) + 'px';
+  });
+
+  /* 검색 + 자동완성 */
+  const q = $('#q'), sug = $('#suggest');
+  let sel = -1;
+  function suggest() {
+    const v = q.value.trim(); sel = -1;
+    const items = v ? Object.keys(DOCS).filter(n => n.includes(v)) : [];
+    sug.innerHTML = items.map(n => `<a href="${href(n)}">${esc(n)}</a>`).join('');
+    sug.classList.toggle('open', items.length > 0);
+  }
+  q.addEventListener('input', suggest);
+  q.addEventListener('focus', suggest);
+  q.addEventListener('keydown', e => {
+    const items = [...sug.querySelectorAll('a')];
+    if (!items.length) return;
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      sel = (sel + (e.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length;
+      items.forEach((a, i) => a.classList.toggle('on', i === sel));
+    }
+  });
+  function submit(direct) {
+    const v = q.value.trim(); if (!v) return;
+    const picked = sug.querySelectorAll('a')[sel];
+    q.value = ''; q.blur(); closeMenus();
+    if (picked) { location.hash = picked.getAttribute('href').slice(1); return; }
+    const name = resolve(v);
+    if (DOCS[name] || direct) go(name);
+    else location.hash = '/search/' + encodeURIComponent(v);
+  }
+  $('#searchForm').addEventListener('submit', e => { e.preventDefault(); submit(false); });
+  $('#goBtn').addEventListener('click', () => submit(true));
+  sug.addEventListener('click', () => { q.value = ''; closeMenus(); });
+
+  /* 플로팅 버튼 */
+  $('#tocBtn').addEventListener('click', () => { const t = $('#toc'); t ? t.scrollIntoView({ behavior: 'smooth', block: 'start' }) : toast('목차가 없는 화면입니다.'); });
+  $('#upBtn').addEventListener('click', () => scrollTo({ top: 0, behavior: 'smooth' }));
+  $('#downBtn').addEventListener('click', () => scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
+
+  window.addEventListener('hashchange', route);
+  route();
+})();
+</script>
+</body>
+</html>
