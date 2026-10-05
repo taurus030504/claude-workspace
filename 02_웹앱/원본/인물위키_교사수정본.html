@@ -71,12 +71,8 @@
   .star-count{position:absolute;top:-10px;left:-10px;font-size:10px;line-height:1;padding:3px 5px;border:1px solid var(--line);border-radius:9px;background:#fff;color:#555}
   .updated{margin:4px 0 0;font-size:14px;color:#555}
   .ad-space{height:110px}
-  .cat-bar{display:flex;align-items:flex-start;gap:4px;border:1px solid var(--line);border-radius:4px;padding:4px 8px;font-size:14px;margin-bottom:14px}
-  .cat-items{flex:1;min-width:0;overflow:hidden;white-space:nowrap;-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent);mask-image:linear-gradient(90deg,#000 85%,transparent)}
-  .cat-bar.open .cat-items,.cat-bar.fit .cat-items{white-space:normal;-webkit-mask-image:none;mask-image:none}
-  .cat-more{flex-shrink:0;border:1px solid var(--line);background:#fff;border-radius:3px;font:inherit;font-size:11px;line-height:1.5;padding:1px 5px;margin-top:1px;cursor:pointer;color:#333}
-  .cat-bar.fit .cat-more{display:none}
-  .cat-items a:not(:last-child)::after{content:"";display:inline-block;width:1px;height:11px;background:#bbb;margin:0 6px;vertical-align:-1px}
+  .cat-bar{border:1px solid var(--line);border-radius:4px;padding:4px 8px;font-size:14px;margin-bottom:14px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+  .cat-bar a:not(:last-child)::after{content:"";display:inline-block;width:1px;height:11px;background:#bbb;margin:0 6px;vertical-align:-1px}
   .notice{display:flex;align-items:flex-start;gap:8px;margin:10px 0;font-size:15px}
   .notice .ico{flex-shrink:0;width:20px;height:20px;border-radius:50%;background:#16a085;color:#fff;display:grid;place-items:center;font-size:12px;margin-top:1px}
   .notice.warn .ico{background:#666;border-radius:4px}
@@ -90,10 +86,6 @@
   .ibox-title span{font-size:14px;font-weight:600;opacity:.92}
   .ibox-img{position:relative;aspect-ratio:4/3.4;background:linear-gradient(#f4f5f6,#e9ebed)}
   .ibox-img svg{position:absolute;inset:0;width:100%;height:100%}
-  .ibox-img.logo,.ibox-img.building{aspect-ratio:16/8;background:#fff}
-  .ibox-img .logo-ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:14px;color:var(--ibox)}
-  .ibox-img .logo-ph b{width:74px;height:74px;border:4px solid currentColor;border-radius:12px;display:grid;place-items:center;font-size:30px;letter-spacing:-.02em}
-  .ibox-img .logo-ph span{font-weight:800;font-size:20px;line-height:1.2;text-align:left}
   .ibox-img figcaption{position:absolute;left:0;right:0;bottom:0;padding:5px;text-align:center;font-size:11px;color:#777;background:rgba(255,255,255,.75)}
   .infobox table{width:100%;border-collapse:collapse}
   .infobox th{width:108px;background:var(--ibox);color:#fff;font-weight:700;text-align:center;padding:8px 6px;border-top:1px solid rgba(255,255,255,.25)}
@@ -118,39 +110,10 @@
   .sec-h .edit{margin-left:auto;align-self:flex-start;font-size:12px;font-weight:700}
   .sec-body.closed{display:none}
   .wiki-quote{display:table;margin:0 0 15px;background:#eee;border:2px dashed #ccc;border-left:5px solid var(--quote-bar);padding:14px 18px}
-  .wiki-table{border-collapse:collapse;margin:0 0 15px;width:100%}
+  .wiki-table{border-collapse:collapse;margin:0 0 15px;max-width:100%}
   .wiki-table th,.wiki-table td{border:1px solid var(--line);padding:6px 12px;vertical-align:middle}
-  .wiki-table th{background:var(--ibox);color:#fff;font-weight:700;text-align:center}
-  .wiki-table td:first-child{text-align:center;white-space:nowrap;width:1%}
-  .wiki-table.wide td{text-align:center}
-  .wiki-table.wide td:first-child{width:auto}
-  .wiki-table-wrap{overflow-x:auto;margin:0 0 15px}
-  .wiki-table-wrap .wiki-table{margin:0}
-  .bdg-o{display:inline-block;border:1px solid #333;border-radius:3px;font-size:11px;line-height:1.3;padding:0 4px;margin:0 2px;vertical-align:1px}
-  .bdg-d{display:inline-block;background:#444;color:#fff;border-radius:3px;font-size:12px;line-height:1.35;padding:0 5px;vertical-align:1px}
-  .wiki del{color:#888}
-
-  /* ── 상단 틀(아티스트·기획사 배너) ── */
-  .banner{max-width:700px;margin:0 auto 16px;border-radius:7px;color:#fff;background:linear-gradient(90deg,var(--b1),var(--b2));padding:14px 18px 8px;text-align:center;font-size:15px}
-  .banner-head{display:flex;align-items:center;justify-content:center;gap:12px;padding:2px 0 12px;margin:0 18px;border-bottom:1px solid rgba(255,255,255,.8)}
-  .banner-head .wordmark{font-family:"Noto Serif KR","Nanum Myeongjo",serif;font-size:30px;font-weight:600;letter-spacing:.06em;line-height:1.2}
-  .banner-head .mark{width:44px;height:44px;border:2px solid #fff;border-radius:6px;display:grid;place-items:center;font-weight:800;font-size:17px;letter-spacing:-.02em}
-  .banner-head .sep{width:1px;align-self:stretch;background:rgba(255,255,255,.85)}
-  .banner-head .names{text-align:left;line-height:1.3}
-  .banner-head .names b{display:block;font-size:19px}
-  .banner-head .names span{font-size:13px;opacity:.95}
-  .banner-tabs{display:flex;justify-content:space-around;flex-wrap:wrap;gap:4px;padding-top:6px}
-  .banner-tabs button{background:none;border:0;color:inherit;font:inherit;font-weight:700;cursor:pointer;padding:4px 10px;border-radius:4px}
-  .banner-tabs button:hover,.banner-tabs button.on{background:rgba(255,255,255,.16)}
-  .banner-panel{display:none;background:#fff;color:var(--text);border-radius:4px;margin:8px 0 6px;padding:12px;font-size:14px}
-  .banner-panel.open{display:block}
-  .banner-panel .grp-title{background:var(--b1);color:#fff;font-weight:700;padding:3px;margin:0 0 10px;border-radius:2px}
-  .album-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:14px 12px;margin-bottom:6px}
-  .album .cover{aspect-ratio:1;border-radius:2px;background:linear-gradient(135deg,var(--b1),var(--b2));display:grid;place-items:center;color:#fff;font-family:"Noto Serif KR",serif;font-weight:600;font-size:15px;padding:10px;margin-bottom:6px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
-  .album{line-height:1.35}
-  .album small{display:block;font-size:12px;color:#555}
-  .album b{display:block}
-  .chip-row{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 18px;margin-bottom:6px}
+  .wiki-table th{background:var(--ibox);color:#fff;font-weight:700}
+  .wiki-table td:first-child{text-align:center;font-weight:700;white-space:nowrap;background:#f7f7f7}
   .wiki-list{margin:0 0 15px;padding-left:1.45em}
   .wiki-list li{margin:5px 0;line-height:1.65}
 
@@ -235,10 +198,6 @@
     .infobox{float:none;width:500px;max-width:100%;margin:6px 0 16px auto}
     .sec-h h2{font-size:24px}
     .sec-h.lv2 h3{font-size:20px}
-    .banner{padding:12px 10px 6px}
-    .banner-head{margin:0 6px}
-    .banner-head .wordmark{font-size:25px}
-    .banner-tabs{font-size:13.5px}
     .floating{right:12px;bottom:16px}
     .floating .grp{opacity:.85}
     .site-foot{margin-top:0;padding:16px 12px}
@@ -269,8 +228,7 @@
     "license": [
       "이 화면은 수업용으로 만든 가상 위키입니다. 인물·기획사·음반·시상식은 모두 가상 설정입니다.",
       "문영위키는 이용자가 내용을 편집하는 위키 형식을 재현한 수업용 화면입니다."
-    ],
-    "showSourceNotes": false
+    ]
   },
   "aliases": {
     "eunho": "이은호",
@@ -292,7 +250,7 @@
       "notices": [],
       "infobox": {
         "title": "이은호",
-        "image": "",
+        "image": "수업용 실루엣 이미지",
         "rows": [
           [
             "이름",
@@ -316,19 +274,15 @@
           ],
           [
             "데뷔",
-            "2023년 {{배지:디지털 싱글}} {{앨범:파란선}}"
+            "2023년 디지털 싱글 '''《파란선》'''"
           ],
           [
             "학력",
-            "[[한문예술고등학교]] 졸업((같은 학교 출신으로 [[김서진]]이 있다.))"
+            "[[한문예술고등학교]] 졸업"
           ],
           [
             "경력",
             "2023년 보컬 오디션 프로그램 출연"
-          ],
-          [
-            "별명",
-            "으노((팬들 사이에서 많이 불리는 이름. 본인도 가끔 서명 옆에 '으노'라고 적는다.))"
           ],
           [
             "SNS",
@@ -338,17 +292,13 @@
             "관련 인물",
             "[[김서진]], [[정수현]]"
           ]
-        ],
-        "subtitle": "Lee Eun-ho"
+        ]
       },
       "lead": "'''이은호'''는 [[리버노트 엔터테인먼트]] 소속 가수이다. 2023년 보컬 오디션 프로그램 출연 뒤 디지털 싱글 '''《파란선》'''으로 데뷔했다. 탄탄한 라이브와 편안한 무대 매너로 알려져 있으며, 데뷔 이후 꾸준히 음원과 방송 활동을 이어가고 있다.",
       "sections": [
         {
           "title": "개요",
           "blocks": [
-            {
-              "p": "대한민국의 가수."
-            },
             {
               "p": "[[한문예술고등학교]] 재학 시절부터 같은 소속사 연습생이었던 [[김서진]]과 함께 보컬 트레이닝을 받았다. 2023년 두 사람이 같은 오디션 프로그램에 참가했고, 이은호는 프로그램 종료 뒤 먼저 정식 데뷔했다."
             },
@@ -562,48 +512,7 @@
           ]
         }
       ],
-      "source": "수업용 가상 프로필. 사건의 핵심 사실·연도·관계는 기획 로그를 따랐고, 음반명·시상식·취향·활동 세부는 화면 현실감을 위한 창작 설정입니다.",
-      "navbox": {
-        "logo": "이은호",
-        "tabs": [
-          {
-            "label": "음반 목록",
-            "albums": [
-              [
-                "디지털 싱글",
-                "파란선",
-                "2023"
-              ],
-              [
-                "미니 1집",
-                "반경",
-                "2024"
-              ],
-              [
-                "디지털 싱글",
-                "낮게, 오래",
-                "2025"
-              ],
-              [
-                "미니 2집",
-                "두 번째 창",
-                "2025"
-              ]
-            ]
-          },
-          {
-            "label": "관련 문서",
-            "links": [
-              "리버노트 엔터테인먼트",
-              "한문예술고등학교"
-            ]
-          }
-        ]
-      },
-      "banners": [
-        "이은호",
-        "리버노트 엔터테인먼트"
-      ]
+      "source": "수업용 가상 프로필. 사건의 핵심 사실·연도·관계는 기획 로그를 따랐고, 음반명·시상식·취향·활동 세부는 화면 현실감을 위한 창작 설정입니다."
     },
     "김서진": {
       "updated": "2026-03-08 21:19",
@@ -620,7 +529,7 @@
       "notices": [],
       "infobox": {
         "title": "김서진",
-        "image": "",
+        "image": "수업용 실루엣 이미지",
         "rows": [
           [
             "이름",
@@ -640,11 +549,11 @@
           ],
           [
             "데뷔",
-            "2025년 12월 {{배지:디지털 싱글}} {{앨범:초점}}"
+            "2025년 12월 디지털 싱글 '''《초점》'''"
           ],
           [
             "학력",
-            "[[한문예술고등학교]] 졸업((같은 학교 출신으로 [[이은호]]가 있다.))"
+            "[[한문예술고등학교]] 졸업"
           ],
           [
             "경력",
@@ -658,17 +567,13 @@
             "관련 인물",
             "[[이은호]], [[정수현]]"
           ]
-        ],
-        "subtitle": "Kim Seo-jin"
+        ]
       },
       "lead": "'''김서진'''은 [[리버노트 엔터테인먼트]] 소속 가수이다. 연습생 시절부터 SNS에 올린 짧은 커버와 연습 기록으로 이름을 알렸고, 2025년 12월 디지털 싱글 '''《초점》'''으로 정식 데뷔했다. 데뷔 전 인지도가 높았던 만큼 신인치고 빠르게 팬층을 넓힌 편이다.",
       "sections": [
         {
           "title": "개요",
           "blocks": [
-            {
-              "p": "대한민국의 가수."
-            },
             {
               "p": "[[한문예술고등학교]] 재학 시절부터 소속사 연습생 생활을 했으며, 2023년 [[이은호]]와 함께 보컬 오디션 프로그램에 참가했다. 당시 바로 데뷔하지는 않았고 이후 연습생 생활을 이어갔다."
             },
@@ -885,38 +790,7 @@
           ]
         }
       ],
-      "source": "수업용 가상 프로필. 사건의 핵심 사실·연도·관계는 기획 로그를 따랐고, 음반명·시상식·취향·활동 세부는 화면 현실감을 위한 창작 설정입니다.",
-      "navbox": {
-        "logo": "김서진",
-        "tabs": [
-          {
-            "label": "음반 목록",
-            "albums": [
-              [
-                "데뷔 디지털 싱글",
-                "초점",
-                "2025"
-              ],
-              [
-                "디지털 싱글",
-                "천천히 말해",
-                "2026"
-              ]
-            ]
-          },
-          {
-            "label": "관련 문서",
-            "links": [
-              "리버노트 엔터테인먼트",
-              "한문예술고등학교"
-            ]
-          }
-        ]
-      },
-      "banners": [
-        "김서진",
-        "리버노트 엔터테인먼트"
-      ]
+      "source": "수업용 가상 프로필. 사건의 핵심 사실·연도·관계는 기획 로그를 따랐고, 음반명·시상식·취향·활동 세부는 화면 현실감을 위한 창작 설정입니다."
     },
     "리버노트 엔터테인먼트": {
       "updated": "2026-03-01 18:20",
@@ -926,13 +800,13 @@
       ],
       "categories": [
         "연예 기획사",
-        "2019년 설립"
+        "가상 기업"
       ],
       "notices": [],
       "infobox": {
         "title": "리버노트 엔터테인먼트",
         "subtitle": "RIVER NOTE ENTERTAINMENT",
-        "image": "",
+        "image": "가상 기획사 로고 영역",
         "rows": [
           [
             "구분",
@@ -954,8 +828,7 @@
             "공식 채널",
             "{{외부:리버노트 공식 채널}}"
           ]
-        ],
-        "imageType": "logo"
+        ]
       },
       "lead": "'''리버노트 엔터테인먼트'''는 가수 매니지먼트와 음반 제작을 중심으로 하는 연예 기획사이다. 소수의 솔로 가수를 장기간 트레이닝하는 방식으로 알려져 있다.",
       "sections": [
@@ -1006,29 +879,7 @@
           ]
         }
       ],
-      "source": "수업용 가상 기획사 설정입니다.",
-      "navbox": {
-        "mark": "RN",
-        "logo": "리버노트 엔터테인먼트",
-        "sub": "RIVER NOTE ENTERTAINMENT",
-        "tabs": [
-          {
-            "label": "소속 아티스트",
-            "groups": [
-              [
-                "SOLO",
-                [
-                  "이은호",
-                  "김서진"
-                ]
-              ]
-            ]
-          }
-        ]
-      },
-      "banners": [
-        "리버노트 엔터테인먼트"
-      ]
+      "source": "수업용 가상 기획사 설정입니다."
     },
     "한문예술고등학교": {
       "updated": "2026-02-20 16:02",
@@ -1037,12 +888,13 @@
         "#8c785b"
       ],
       "categories": [
-        "예술고등학교"
+        "예술고등학교",
+        "가상 학교"
       ],
       "notices": [],
       "infobox": {
         "title": "한문예술고등학교",
-        "image": "",
+        "image": "가상 학교 문서 이미지 영역",
         "rows": [
           [
             "구분",
@@ -1056,16 +908,15 @@
             "관련 인물",
             "[[이은호]], [[김서진]]"
           ]
-        ],
-        "imageType": "building"
+        ]
       },
-      "lead": "'''한문예술고등학교'''는 음악과 공연, 시각예술 계열 교육과정을 운영하는 예술고등학교이다.",
+      "lead": "'''한문예술고등학교'''는 음악과 공연, 시각예술 계열 교육과정을 운영하는 가상 예술고등학교이다.",
       "sections": [
         {
           "title": "개요",
           "blocks": [
             {
-              "p": "실기 수업과 일반 교과를 병행하는 예술계 고등학교로, 연습생이나 공연 활동을 병행하는 학생도 재학하고 있다."
+              "p": "실기 수업과 일반 교과를 병행하는 예술계 고등학교로, 연습생이나 공연 활동을 병행하는 학생도 재학하는 것으로 설정되어 있다."
             }
           ]
         },
@@ -1183,20 +1034,13 @@
   function markup(text, fns) {
     let s = esc(text);
     s = s.replace(/\(\((.+?)\)\)/g, (_, body) => {
-      fns.push(inline(body));
+      fns.push(body);
       const n = fns.length;
       return `<sup class="fn"><a href="#fn-${n}" id="rfn-${n}" data-fn="${n}">[${n}]</a></sup>`;
     });
-    return inline(s);
-  }
-  /* 각주를 뺀 나머지 표기법 (이미 escape된 문자열에 적용) */
-  function inline(s) {
     s = s.replace(/\[\[(.+?)(?:\|(.+?))?\]\]/g, (_, n, l) => link(n.trim(), l && l.trim()));
     s = s.replace(/'''(.+?)'''/g, '<b>$1</b>');
-    s = s.replace(/~~(.+?)~~/g, '<del>$1</del>');
     s = s.replace(/\{\{외부:(.+?)\}\}/g, '<a class="ext" href="#" data-ext>$1</a>');
-    s = s.replace(/\{\{배지:(.+?)\}\}/g, '<span class="bdg-o">$1</span>');
-    s = s.replace(/\{\{앨범:(.+?)\}\}/g, '<span class="bdg-d">$1</span>');
     return s;
   }
 
@@ -1226,18 +1070,6 @@
     return `<div class="license"><div class="badge">CLASS · WIKI</div>${SITE.license.map(t => `<p>${t}</p>`).join('')}</div>`;
   }
 
-  /* 정보상자 그림: 인물은 실루엣, 기획사는 로고 자리, 학교는 건물 그림 */
-  function infoImage(name, ib) {
-    if (ib.imageType === 'logo') {
-      const nb = DOCS[name].navbox || {};
-      return `<div class="logo-ph"><b>${esc(nb.mark || name.slice(0, 2))}</b><span>${esc(name)}${nb.sub ? `<br><small style="font-weight:600;font-size:11px">${esc(nb.sub)}</small>` : ''}</span></div>`;
-    }
-    if (ib.imageType === 'building') return `<svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid meet" aria-hidden="true" style="color:var(--ibox)">
-      <path d="M200 30l120 50H80z" fill="currentColor" opacity=".85"/><rect x="95" y="84" width="210" height="86" fill="currentColor" opacity=".18"/>
-      ${[115, 155, 225, 265].map(x => `<rect x="${x}" y="98" width="20" height="26" fill="currentColor" opacity=".55"/>`).join('')}
-      <rect x="184" y="120" width="32" height="50" fill="currentColor" opacity=".7"/><rect x="80" y="170" width="240" height="8" fill="currentColor" opacity=".85"/></svg>`;
-    return silhouette();
-  }
   function silhouette() {
     return `<svg viewBox="0 0 400 340" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
       <circle cx="200" cy="130" r="62" fill="#cfd3d7"/>
@@ -1252,7 +1084,7 @@
     const infobox = ib ? `
       <div class="infobox">
         <div class="ibox-title"><b>${esc(ib.title)}</b>${ib.subtitle ? `<span>${esc(ib.subtitle)}</span>` : ''}</div>
-        <figure class="ibox-img ${ib.imageType || ''}" style="margin:0">${infoImage(name, ib)}${ib.image ? `<figcaption>${esc(ib.image)}</figcaption>` : ''}</figure>
+        <figure class="ibox-img" style="margin:0">${silhouette()}<figcaption>${esc(ib.image || '')}</figcaption></figure>
         <table>${ib.rows.map(([k, v]) => `<tr><th>${esc(k)}</th><td>${markup(v, fns)}</td></tr>`).join('')}</table>
       </div>` : '';
     const lead = doc.lead ? `<p>${markup(doc.lead, fns)}</p>` : '';
@@ -1275,66 +1107,32 @@
     const sections = doc.sections.map((s, i) => section(s, `${i + 1}`, 1)).join('');
 
     const related = new Set([name]);
-    (ib ? ib.rows : []).filter(([k]) => k === '관련 인물').forEach(([, v]) => v.replace(/\[\[(.+?)(?:\|.+?)?\]\]/g, (_, n) => related.add(n.trim())));
+    (ib ? ib.rows : []).forEach(([, v]) => v.replace(/\[\[(.+?)(?:\|.+?)?\]\]/g, (_, n) => related.add(n.trim())));
     const navbox = related.size > 1 ? `<div class="navbox"><div class="navbox-title">관련 인물</div>
       <div class="navbox-body">${[...related].map(n => n === name ? `<b>${esc(n)}</b>` : link(n)).join('<span class="sep">·</span>')}</div></div>` : '';
 
     const fnList = fns.length ? `<div class="fn-list">${fns.map((f, i) =>
       `<div id="fn-${i + 1}"><a href="#rfn-${i + 1}" data-jump>[${i + 1}]</a> ${f}</div>`).join('')}</div>` : '';
-    const source = doc.source && SITE.showSourceNotes ? `<div class="source-box"><span class="ico">i</span><div>${markup(doc.source, [])}</div></div>` : '';
+    const source = doc.source ? `<div class="source-box"><span class="ico">i</span><div>${markup(doc.source, [])}</div></div>` : '';
 
     article.innerHTML = `
       ${header(name, { doc: name, updated: doc.updated })}
       <div class="ad-space"></div>
-      <div class="cat-bar" id="catBar"><span>분류:</span><div class="cat-items">${doc.categories.map(c => `<a href="#/search/${encodeURIComponent(c)}">${esc(c)}</a>`).join('')}</div><button type="button" class="cat-more">더 보기</button></div>
+      <div class="cat-bar">분류: ${doc.categories.map(c => `<a href="#/search/${encodeURIComponent(c)}">${esc(c)}</a>`).join('')}</div>
       ${(doc.notices || []).map(n => `<div class="notice"><span class="ico">${ICON.info}</span><div>${markup(n, fns)}</div></div>`).join('')}
-      ${(doc.banners || []).map(banner).join('')}
       <div class="wiki">${lead}${infobox}${toc}${sections}${navbox}${fnList}${source}</div>
       ${license()}`;
     article.dataset.fns = JSON.stringify(fns);
-    fitCats();
     document.title = `${name} - ${SITE.name}`;
   }
-
-  /* 상단 틀: 다른 문서(또는 자기 자신)의 navbox 설정을 가져와 그린다 */
-  function banner(name) {
-    const d = DOCS[name], nb = d && d.navbox;
-    if (!nb) return '';
-    const [b1, b2] = d.color || ['#3d4f46', '#5d7a6b'];
-    const head = nb.mark
-      ? `<span class="mark">${esc(nb.mark)}</span><span class="sep"></span><span class="names"><b>${link(name, nb.logo || name).replace('<a ', '<a style="color:#fff" ')}</b>${nb.sub ? `<span>${esc(nb.sub)}</span>` : ''}</span>`
-      : `<span class="wordmark">${link(name, nb.logo || name).replace('<a ', '<a style="color:#fff" ')}</span>`;
-    const panels = (nb.tabs || []).map(t => {
-      let body = '';
-      if (t.albums) body = `<div class="album-grid">${t.albums.map(([kind, title, date]) =>
-        `<div class="album"><div class="cover">${esc(title)}</div><small>${esc(kind)}</small><b>${esc(title)}</b><small>${esc(date || '')}</small></div>`).join('')}</div>`;
-      if (t.groups) body = t.groups.map(([g, names]) =>
-        `<div class="grp-title">${esc(g)}</div><div class="chip-row">${names.map(n => link(n)).join('')}</div>`).join('');
-      if (t.links) body = `<div class="chip-row">${t.links.map(n => link(n)).join('')}</div>`;
-      return body;
-    });
-    return `<div class="banner" style="--b1:${b1};--b2:${b2 || b1}">
-      <div class="banner-head">${head}</div>
-      <div class="banner-tabs">${(nb.tabs || []).map((t, i) => `<button type="button" data-tab="${i}">[ ${esc(t.label)} ]</button>`).join('')}</div>
-      ${panels.map((p, i) => `<div class="banner-panel" data-panel="${i}">${p}</div>`).join('')}
-    </div>`;
-  }
-
-  function fitCats() {
-    const bar = document.getElementById('catBar');
-    if (!bar) return;
-    const items = bar.querySelector('.cat-items');
-    bar.classList.toggle('fit', items.scrollWidth <= items.clientWidth + 1);
-  }
-  window.addEventListener('resize', () => { const bar = document.getElementById('catBar'); if (bar && !bar.classList.contains('open')) { bar.classList.remove('fit'); fitCats(); } });
 
   function block(b, fns) {
     if (b.p) return `<p>${markup(b.p, fns)}</p>`;
     if (b.list) return `<ul class="wiki-list">${b.list.map(x => `<li>${markup(x, fns)}</li>`).join('')}</ul>`;
     if (b.quote) return `<blockquote class="wiki-quote" style="margin-left:0">${markup(b.quote, fns)}</blockquote>`;
-    if (b.table) return `<div class="wiki-table-wrap"><table class="wiki-table${(b.table.head || b.table.rows[0] || []).length > 2 ? ' wide' : ''}">
+    if (b.table) return `<table class="wiki-table">
       ${b.table.head ? `<tr>${b.table.head.map(h => `<th>${esc(h)}</th>`).join('')}</tr>` : ''}
-      ${b.table.rows.map(r => `<tr>${r.map(c => `<td>${markup(c, fns)}</td>`).join('')}</tr>`).join('')}</table></div>`;
+      ${b.table.rows.map(r => `<tr>${r.map(c => `<td>${markup(c, fns)}</td>`).join('')}</tr>`).join('')}</table>`;
     return '';
   }
 
@@ -1442,19 +1240,6 @@
     if (t.id === 'specialBtn') { e.stopPropagation(); $('#specialMenu').classList.toggle('open'); return; }
     if (t.matches('[data-home]')) { e.preventDefault(); go(SITE.home); return; }
     if (t.matches('[data-random]')) { e.preventDefault(); const k = Object.keys(DOCS); go(k[Math.floor(Math.random() * k.length)]); return; }
-    if (t.matches('[data-tab]')) {
-      const box = t.closest('.banner'), i = t.dataset.tab;
-      const panel = box.querySelector(`[data-panel="${i}"]`), willOpen = !panel.classList.contains('open');
-      box.querySelectorAll('.banner-panel').forEach(p => p.classList.remove('open'));
-      box.querySelectorAll('[data-tab]').forEach(b => b.classList.remove('on'));
-      if (willOpen) { panel.classList.add('open'); t.classList.add('on'); }
-      return;
-    }
-    if (t.classList.contains('cat-more')) {
-      const bar = t.closest('.cat-bar'); bar.classList.toggle('open');
-      t.textContent = bar.classList.contains('open') ? '접기' : '더 보기';
-      return;
-    }
     if (t.matches('[data-unsupported]')) { e.preventDefault(); toast(`'${t.dataset.unsupported}' 기능은 수업용 화면에서 지원하지 않습니다.`); return; }
     if (t.matches('[data-ext]')) { e.preventDefault(); toast('외부 링크는 수업용 화면에서 열리지 않습니다.'); return; }
     const h = t.getAttribute('href');
