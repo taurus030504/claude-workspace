@@ -90,10 +90,13 @@
   .ibox-title span{font-size:14px;font-weight:600;opacity:.92}
   .ibox-img{position:relative;aspect-ratio:4/3.4;background:linear-gradient(#f4f5f6,#e9ebed)}
   .ibox-img svg{position:absolute;inset:0;width:100%;height:100%}
-  .ibox-img.logo,.ibox-img.building{aspect-ratio:16/8;background:#fff}
+  .ibox-img.t-logo,.ibox-img.t-building{aspect-ratio:16/8;background:#fff}
   .ibox-img .logo-ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:14px;color:var(--ibox)}
   .ibox-img .logo-ph b{width:74px;height:74px;border:4px solid currentColor;border-radius:12px;display:grid;place-items:center;font-size:30px;letter-spacing:-.02em}
   .ibox-img .logo-ph span{font-weight:800;font-size:20px;line-height:1.2;text-align:left}
+  .ibox-img .logo-ph{padding:0 14px}
+  .ibox-img .logo-ph span{min-width:0;word-break:keep-all}
+  @media (max-width:560px){.ibox-img .logo-ph b{width:56px;height:56px;font-size:22px;border-width:3px;flex-shrink:0}.ibox-img .logo-ph span{font-size:16px}}
   .ibox-img figcaption{position:absolute;left:0;right:0;bottom:0;padding:5px;text-align:center;font-size:11px;color:#777;background:rgba(255,255,255,.75)}
   .infobox table{width:100%;border-collapse:collapse}
   .infobox th{width:108px;background:var(--ibox);color:#fff;font-weight:700;text-align:center;padding:8px 6px;border-top:1px solid rgba(255,255,255,.25)}
@@ -198,6 +201,18 @@
   .floating button{width:40px;height:40px;border:0;background:#fff;color:#333;cursor:pointer;display:grid;place-items:center;font-size:18px}
   .floating .grp button+button{border-top:1px solid var(--line-soft)}
   .floating button:hover{background:#f2f2f2}
+  .lock-overlay{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:16px}
+  .lock-overlay[hidden]{display:none}
+  .lock-box{width:420px;max-width:100%;background:#fff;border-radius:6px;box-shadow:0 10px 30px rgba(0,0,0,.25);overflow:hidden}
+  .lock-head{display:flex;align-items:center;gap:8px;background:#f8d7da;color:#842029;border-bottom:1px solid #f5c2c7;padding:12px 16px;font-size:16px;font-weight:700}
+  .lock-body{padding:16px 16px 6px;font-size:15px;line-height:1.6}
+  .lock-body p{margin:0 0 10px}
+  .lock-body .sub{color:#555;font-size:14px}
+  .lock-list{border:1px solid var(--line);border-radius:4px;padding:8px 10px;font-size:14px;margin-bottom:10px}
+  .lock-list a:not(:last-child)::after{content:"·";color:#999;margin:0 7px}
+  .lock-foot{display:flex;justify-content:flex-end;padding:0 16px 14px}
+  .lock-foot button{border:0;background:var(--top-a);color:#fff;font:inherit;font-size:14px;font-weight:700;padding:8px 22px;border-radius:4px;cursor:pointer}
+  .wiki-quote .q-by{border-top:1px solid #ccc;margin-top:10px;padding-top:8px;font-size:14px}
   .toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(20px);background:#333;color:#fff;padding:10px 16px;border-radius:4px;font-size:14px;opacity:0;pointer-events:none;transition:.2s;z-index:80}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
@@ -270,7 +285,8 @@
       "이 화면은 수업용으로 만든 가상 위키입니다. 인물·기획사·음반·시상식은 모두 가상 설정입니다.",
       "문영위키는 이용자가 내용을 편집하는 위키 형식을 재현한 수업용 화면입니다."
     ],
-    "showSourceNotes": false
+    "showSourceNotes": false,
+    "lockMessage": "이 화면에서는 관련 인물 문서만 열람할 수 있습니다."
   },
   "aliases": {
     "eunho": "이은호",
@@ -926,7 +942,9 @@
       ],
       "categories": [
         "연예 기획사",
-        "2019년 설립"
+        "2019년 설립",
+        "서울특별시 마포구의 기업",
+        "음반 기획사"
       ],
       "notices": [],
       "infobox": {
@@ -943,12 +961,20 @@
             "2019년"
           ],
           [
+            "대표이사",
+            "[[남궁현]]"
+          ],
+          [
+            "본사",
+            "서울특별시 마포구"
+          ],
+          [
             "주요 사업",
             "음악 제작 · 아티스트 매니지먼트"
           ],
           [
             "소속 아티스트",
-            "[[이은호]], [[김서진]]"
+            "[[한소율]], [[이은호]], [[김서진]], [[도하린]], [[온새]], [[윤슬(밴드)|윤슬]], [[노트포]]"
           ],
           [
             "공식 채널",
@@ -964,32 +990,228 @@
           "blocks": [
             {
               "p": "2019년 설립된 중소 규모 기획사. 보컬 중심 솔로 가수와 싱어송라이터 계열 아티스트를 주로 매니지먼트한다."
+            },
+            {
+              "p": "서울특별시 마포구에 사옥을 두고 있으며, 대표이사는 보컬 트레이너 출신의 [[남궁현]]이다. 여러 팀을 한꺼번에 데뷔시키기보다 한 해에 한 팀 정도를 천천히 내놓는 편이라 팬들 사이에서 '느린 회사'라는 별칭으로 불리기도 한다."
+            }
+          ]
+        },
+        {
+          "title": "역사",
+          "blocks": [
+            {
+              "table": {
+                "head": [
+                  "연도",
+                  "내용"
+                ],
+                "rows": [
+                  [
+                    "2019",
+                    "[[남궁현]] 대표가 설립. 첫 연습생 공개 오디션 진행."
+                  ],
+                  [
+                    "2020",
+                    "1호 아티스트 [[한소율]] 데뷔. 작사가 [[박하람]] 합류."
+                  ],
+                  [
+                    "2021",
+                    "싱어송라이터 [[도하린]] 영입, 밴드 [[윤슬(밴드)|윤슬]]과 전속 계약."
+                  ],
+                  [
+                    "2022",
+                    "보컬 그룹 [[노트포]] 데뷔, 싱어송라이터 [[온새]] 데뷔. 마포구 사옥으로 이전."
+                  ],
+                  [
+                    "2023",
+                    "[[이은호]] 데뷔. [[유채온]] 전속 계약 만료."
+                  ],
+                  [
+                    "2024",
+                    "첫 레이블 합동 공연 [[리버노트 라이브 위크]] 개최."
+                  ],
+                  [
+                    "2025",
+                    "[[김서진]] 데뷔(12월)."
+                  ]
+                ]
+              }
             }
           ]
         },
         {
           "title": "소속 아티스트",
+          "blocks": [],
+          "children": [
+            {
+              "title": "솔로 가수",
+              "blocks": [
+                {
+                  "table": {
+                    "head": [
+                      "아티스트",
+                      "데뷔",
+                      "데뷔곡",
+                      "비고"
+                    ],
+                    "rows": [
+                      [
+                        "[[한소율]]",
+                        "2020",
+                        "《여름의 끝》",
+                        "리버노트 1호 아티스트. 발라드"
+                      ],
+                      [
+                        "[[이은호]]",
+                        "2023",
+                        "《파란선》",
+                        "오디션 프로그램 출신"
+                      ],
+                      [
+                        "[[김서진]]",
+                        "2025",
+                        "《초점》",
+                        "오디션 프로그램 출신"
+                      ]
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "title": "싱어송라이터",
+              "blocks": [
+                {
+                  "table": {
+                    "head": [
+                      "아티스트",
+                      "합류",
+                      "대표곡",
+                      "비고"
+                    ],
+                    "rows": [
+                      [
+                        "[[도하린]]",
+                        "2021",
+                        "《느린 우편》",
+                        "어쿠스틱 팝. 이적 후 첫 정규 앨범 발매"
+                      ],
+                      [
+                        "[[온새]]",
+                        "2022",
+                        "《한낮의 정류장》",
+                        "작사·작곡·편곡을 모두 직접 맡는다"
+                      ]
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "title": "밴드·그룹",
+              "blocks": [
+                {
+                  "table": {
+                    "head": [
+                      "팀",
+                      "합류·데뷔",
+                      "구성",
+                      "비고"
+                    ],
+                    "rows": [
+                      [
+                        "[[윤슬(밴드)|윤슬]]",
+                        "2021",
+                        "3인조",
+                        "모던 록 밴드. 인디 레이블에서 이적"
+                      ],
+                      [
+                        "[[노트포]]",
+                        "2022",
+                        "혼성 4인조",
+                        "보컬 그룹. 차은결·류하진·송지오·백시우"
+                      ]
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "title": "프로듀서·작가",
+              "blocks": [
+                {
+                  "table": {
+                    "head": [
+                      "이름",
+                      "합류",
+                      "분야",
+                      "비고"
+                    ],
+                    "rows": [
+                      [
+                        "[[서지운]]",
+                        "2019",
+                        "프로듀서",
+                        "창립 멤버. 소속 가수 앨범 대부분의 총괄 프로듀싱"
+                      ],
+                      [
+                        "[[박하람]]",
+                        "2020",
+                        "작사가",
+                        "발라드·어쿠스틱 계열 작사"
+                      ]
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "title": "출신 아티스트",
+              "blocks": [
+                {
+                  "table": {
+                    "head": [
+                      "아티스트",
+                      "소속 기간",
+                      "비고"
+                    ],
+                    "rows": [
+                      [
+                        "[[유채온]]",
+                        "2020~2023",
+                        "전속 계약 만료 후 독립 활동"
+                      ]
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "대표이사",
           "blocks": [
             {
-              "table": {
-                "head": [
-                  "아티스트",
-                  "데뷔",
-                  "비고"
-                ],
-                "rows": [
-                  [
-                    "[[이은호]]",
-                    "2023",
-                    "솔로 가수"
-                  ],
-                  [
-                    "[[김서진]]",
-                    "2025",
-                    "솔로 가수"
-                  ]
-                ]
-              }
+              "p": "[[남궁현]]은 보컬 트레이너 출신으로, 여러 기획사에서 보컬 디렉터와 음반 기획을 맡다가 2019년 리버노트 엔터테인먼트를 세웠다. 대표가 된 뒤에도 소속 가수의 녹음 현장에 직접 들어가 보컬 디렉팅을 보는 경우가 많다."
+            },
+            {
+              "quote": "노래를 잘하는 사람은 많아요. 오래 부를 수 있는 사람을 만드는 게 회사가 할 일이라고 생각합니다.",
+              "by": "남궁현, 음악 전문 매체 인터뷰 中"
+            },
+            {
+              "list": [
+                "회사 이름의 '리버노트'는 '강처럼 오래 흐르는 음악'이라는 뜻으로 직접 지었다고 한다.",
+                "공식 석상에 잘 나서지 않아 공개된 사진이 거의 없다. 소속 가수 콘서트의 엔딩 영상에 뒷모습이 잠깐 잡힌 것이 팬들 사이에서 화제가 되기도 했다.",
+                "연습생 월말 평가 때 점수표 대신 손으로 쓴 메모를 한 장씩 돌려주는 것으로 알려져 있다."
+              ]
+            }
+          ]
+        },
+        {
+          "title": "사옥",
+          "blocks": [
+            {
+              "p": "2022년 서울특별시 마포구의 4층 건물로 이전했다. 지하에 녹음실 2개와 합주실, 2~3층에 연습실과 사무실이 있고, 1층은 작은 카페로 운영된다. 카페 벽에 소속 가수들의 앨범이 발매 순서대로 걸려 있어 팬들이 자주 찾는다."
             }
           ]
         },
@@ -1000,7 +1222,20 @@
               "list": [
                 "연습생의 학교생활과 외부 일정을 병행시키는 편이라 데뷔 전부터 담당 매니저가 생활 관리까지 맡는 경우가 있다.",
                 "소속 가수의 개인 SNS를 비교적 자유롭게 운영하게 두는 편이다.",
-                "앨범 활동 외에도 라이브 콘텐츠와 소규모 행사 무대를 자주 잡는 편이다."
+                "앨범 활동 외에도 라이브 콘텐츠와 소규모 행사 무대를 자주 잡는 편이다.",
+                "매년 연말 소속 아티스트 전원이 참여하는 레이블 공연 [[리버노트 라이브 위크]]를 연다."
+              ]
+            }
+          ]
+        },
+        {
+          "title": "여담",
+          "blocks": [
+            {
+              "list": [
+                "소속 아티스트들 사이에서는 회사를 줄여 '리노'라고 부른다.",
+                "공식 채널 영상의 썸네일 글씨를 직원들이 손으로 직접 쓰는 것이 특징이다.",
+                "공개 오디션은 1년에 한 번만 열며, 지원 영상은 반주 없이 부른 1분 이내 영상만 받는다."
               ]
             }
           ]
@@ -1018,10 +1253,45 @@
               [
                 "SOLO",
                 [
+                  "한소율",
                   "이은호",
                   "김서진"
                 ]
+              ],
+              [
+                "SINGER-SONGWRITER",
+                [
+                  "도하린",
+                  "온새"
+                ]
+              ],
+              [
+                "BAND · GROUP",
+                [
+                  "윤슬(밴드)|윤슬",
+                  "노트포"
+                ]
+              ],
+              [
+                "PRODUCER · LYRICIST",
+                [
+                  "서지운",
+                  "박하람"
+                ]
               ]
+            ]
+          },
+          {
+            "label": "출신 아티스트",
+            "links": [
+              "유채온"
+            ]
+          },
+          {
+            "label": "관련 문서",
+            "links": [
+              "남궁현",
+              "리버노트 라이브 위크"
             ]
           }
         ]
@@ -1095,7 +1365,24 @@
       ],
       "source": "수업용 가상 학교 설정입니다."
     }
-  }
+  },
+  "locked": [
+    "남궁현",
+    "한소율",
+    "도하린",
+    "온새",
+    "윤슬(밴드)",
+    "윤슬",
+    "노트포",
+    "서지운",
+    "박하람",
+    "유채온",
+    "리버노트 라이브 위크",
+    "차은결",
+    "류하진",
+    "송지오",
+    "백시우"
+  ]
 }
 </script>
 
@@ -1155,6 +1442,17 @@
   </div>
 </div>
 <div class="fn-pop" id="fnPop"></div>
+<div class="lock-overlay" id="lockModal" hidden>
+  <div class="lock-box" role="alertdialog" aria-modal="true" aria-labelledby="lockTitle">
+    <div class="lock-head"><svg class="i" viewBox="0 0 24 24"><path d="M7 10V7a5 5 0 0 1 10 0v3h2v12H5V10zm2 0h6V7a3 3 0 0 0-6 0z"/></svg><span id="lockTitle">[오류!] 읽기 권한이 부족합니다.</span></div>
+    <div class="lock-body">
+      <p><b id="lockName"></b> 문서는 열람할 수 없습니다.</p>
+      <p class="sub" id="lockMsg"></p>
+      <div class="lock-list" id="lockList"></div>
+    </div>
+    <div class="lock-foot"><button type="button" id="lockOk">확인</button></div>
+  </div>
+</div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -1177,7 +1475,9 @@
   const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   const resolve = name => DOCS[name] ? name : (DATA.aliases && DATA.aliases[name]) || name;
   const href = name => '#/w/' + encodeURIComponent(name);
-  const link = (name, label) => `<a class="${DOCS[name] ? '' : 'missing'}" href="${href(name)}" title="${esc(name)}">${esc(label || name)}</a>`;
+  const LOCKED = new Set(DATA.locked || []);
+  const isLocked = name => !DOCS[name] && LOCKED.has(name);
+  const link = (name, label) => `<a class="${DOCS[name] || LOCKED.has(name) ? '' : 'missing'}" href="${href(name)}" title="${esc(name)}">${esc(label || name)}</a>`;
 
   /* 문안 표기법 → HTML. fns는 문서마다 새 배열 */
   function markup(text, fns) {
@@ -1252,7 +1552,7 @@
     const infobox = ib ? `
       <div class="infobox">
         <div class="ibox-title"><b>${esc(ib.title)}</b>${ib.subtitle ? `<span>${esc(ib.subtitle)}</span>` : ''}</div>
-        <figure class="ibox-img ${ib.imageType || ''}" style="margin:0">${infoImage(name, ib)}${ib.image ? `<figcaption>${esc(ib.image)}</figcaption>` : ''}</figure>
+        <figure class="ibox-img ${ib.imageType ? 't-' + ib.imageType : ''}" style="margin:0">${infoImage(name, ib)}${ib.image ? `<figcaption>${esc(ib.image)}</figcaption>` : ''}</figure>
         <table>${ib.rows.map(([k, v]) => `<tr><th>${esc(k)}</th><td>${markup(v, fns)}</td></tr>`).join('')}</table>
       </div>` : '';
     const lead = doc.lead ? `<p>${markup(doc.lead, fns)}</p>` : '';
@@ -1309,7 +1609,7 @@
       if (t.albums) body = `<div class="album-grid">${t.albums.map(([kind, title, date]) =>
         `<div class="album"><div class="cover">${esc(title)}</div><small>${esc(kind)}</small><b>${esc(title)}</b><small>${esc(date || '')}</small></div>`).join('')}</div>`;
       if (t.groups) body = t.groups.map(([g, names]) =>
-        `<div class="grp-title">${esc(g)}</div><div class="chip-row">${names.map(n => link(n)).join('')}</div>`).join('');
+        `<div class="grp-title">${esc(g)}</div><div class="chip-row">${names.map(n => link(...n.split('|'))).join('')}</div>`).join('');
       if (t.links) body = `<div class="chip-row">${t.links.map(n => link(n)).join('')}</div>`;
       return body;
     });
@@ -1331,7 +1631,7 @@
   function block(b, fns) {
     if (b.p) return `<p>${markup(b.p, fns)}</p>`;
     if (b.list) return `<ul class="wiki-list">${b.list.map(x => `<li>${markup(x, fns)}</li>`).join('')}</ul>`;
-    if (b.quote) return `<blockquote class="wiki-quote" style="margin-left:0">${markup(b.quote, fns)}</blockquote>`;
+    if (b.quote) return `<blockquote class="wiki-quote" style="margin-left:0">${markup(b.quote, fns)}${b.by ? `<div class="q-by">${markup(b.by, fns)}</div>` : ''}</blockquote>`;
     if (b.table) return `<div class="wiki-table-wrap"><table class="wiki-table${(b.table.head || b.table.rows[0] || []).length > 2 ? ' wide' : ''}">
       ${b.table.head ? `<tr>${b.table.head.map(h => `<th>${esc(h)}</th>`).join('')}</tr>` : ''}
       ${b.table.rows.map(r => `<tr>${r.map(c => `<td>${markup(c, fns)}</td>`).join('')}</tr>`).join('')}</table></div>`;
@@ -1390,6 +1690,11 @@
     if (!h || h === '/') h = '/w/' + SITE.home;
     else if (DATA.aliases && DATA.aliases[h]) h = '/w/' + DATA.aliases[h];
     else if (/^(s|fn|rfn)-/.test(h)) return;
+    if ((m = h.match(/^\/w\/(.+)$/)) && isLocked(resolve(m[1]))) {
+      showLock(resolve(m[1]));
+      if (current) { setHash(current); return; }   // 보던 문서에 그대로 머문다
+      h = '/w/' + SITE.home;                       // 처음 열 때는 첫 문서를 보여 준다
+    }
     current = h;
     if ((m = h.match(/^\/w\/(.+)$/))) {
       const name = resolve(m[1]);
@@ -1406,6 +1711,8 @@
   const setHash = path => { try { location.hash = path; } catch (e) {} };
   const updateBack = () => { backBtn.disabled = backStack.length === 0; };
   function nav(path) {
+    const lm = path.match(/^\/w\/(.+)$/);
+    if (lm && isLocked(resolve(lm[1]))) { showLock(resolve(lm[1])); return; }
     if (current && path !== current) backStack.push({ h: current, y: window.scrollY });
     route(path);
     setHash(path);
@@ -1421,6 +1728,21 @@
   }
   backBtn.addEventListener('click', back);
   const go = name => nav('/w/' + name);
+
+  /* 열람 제한 경고창 (샌드박스에서는 alert가 막히므로 직접 그린다) */
+  const lockModal = $('#lockModal');
+  function showLock(name) {
+    closeMenus();
+    $('#lockName').textContent = `'${name}'`;
+    $('#lockMsg').textContent = SITE.lockMessage || '이 화면에서는 관련 인물 문서만 열람할 수 있습니다.';
+    $('#lockList').innerHTML = '열람 가능: ' + Object.keys(DOCS).map(n => link(n)).join('');
+    lockModal.hidden = false;
+    $('#lockOk').focus();
+  }
+  const hideLock = () => { lockModal.hidden = true; };
+  $('#lockOk').addEventListener('click', hideLock);
+  lockModal.addEventListener('click', e => { if (e.target === lockModal || e.target.closest('#lockList a')) hideLock(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !lockModal.hidden) hideLock(); });
 
   /* ── 사이드바·푸터 ── */
   $('#siteName').textContent = SITE.name;
@@ -1497,7 +1819,7 @@
   let sel = -1;
   function suggest() {
     const v = q.value.trim(); sel = -1;
-    const items = v ? Object.keys(DOCS).filter(n => n.includes(v)) : [];
+    const items = v ? [...Object.keys(DOCS), ...LOCKED].filter(n => n.includes(v)).slice(0, 8) : [];
     sug.innerHTML = items.map(n => `<a href="${href(n)}">${esc(n)}</a>`).join('');
     sug.classList.toggle('open', items.length > 0);
   }
@@ -1520,7 +1842,7 @@
     q.value = ''; q.blur(); closeMenus();
     if (picked) { nav(decodeURIComponent(picked.getAttribute('href').slice(1))); return; }
     const name = resolve(v);
-    if (DOCS[name] || direct) go(name);
+    if (DOCS[name] || isLocked(name) || direct) go(name);
     else nav('/search/' + v);
   }
   $('#searchBtn').addEventListener('click', () => submit(false));
