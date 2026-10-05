@@ -10,7 +10,6 @@
 <!--
   수업용 가상 뉴스 사이트 "문영일보" — 포털 뉴스 템플릿
   - 화면: 기사 보기(#article-아이디) / 기자 프로필(#reporter-아이디) / 전체기사(#list)
-          댓글 작성자 목록(#users) / 작성자별 댓글(#user-닉네임) / 교사 테스트용 초기화(#reset)
   - 매체·기자·기사 내용은 모두 아래 <script type="application/json" id="site-data"> 한 곳에 있습니다.
     기사를 추가할 때는 "기사" 목록에 같은 모양의 묶음을 하나 더 넣으면 됩니다.
   - 댓글·추천은 지금은 이 브라우저에만 저장됩니다(store 객체). 게임에 합칠 때 실시간 모드 저장소로 교체합니다.
@@ -219,7 +218,6 @@
     opacity: .35;
     pointer-events: none;
   }
-  .photo-img { display: block; max-width: 100%; max-height: 640px; width: auto; height: auto; margin: 0 16px; box-shadow: 0 10px 30px rgba(0,0,0,.45); }
   figcaption { font-size: 13px; color: var(--text-sub); padding: 12px 10px 0; line-height: 1.6; }
 
   /* ---------- SNS 스토리 캡처 (CSS로 재현, 가상 서비스) ---------- */
@@ -418,33 +416,6 @@
   .profile .stats { display: flex; gap: 18px; margin-top: 16px; font-size: 13px; color: var(--text-sub); }
   .profile .stats b { color: var(--brand); font-size: 16px; font-variant-numeric: tabular-nums; margin-left: 4px; }
 
-  /* ---------- 댓글 작성자별 보기 ---------- */
-  .sort .who-link { font-size: 13px; color: var(--text-sub); padding: 4px 8px; margin-right: 6px; border-right: 1px solid #ddd; text-decoration: underline; text-underline-offset: 3px; }
-  .sort .who-link:hover { color: var(--brand); }
-  .citem .c-meta a.nick b:hover, .ulist a.nick b:hover { color: var(--brand); text-decoration: underline; text-underline-offset: 3px; }
-  .u-note { margin: 14px 0 18px; font-size: 14px; color: var(--text-sub); line-height: 1.6; }
-  .ulist { width: 100%; border-collapse: collapse; font-size: 14px; }
-  .ulist th { text-align: left; font-weight: 700; font-size: 12px; color: var(--text-muted); padding: 8px 10px; border-bottom: 2px solid #222; white-space: nowrap; }
-  .ulist td { padding: 11px 10px; border-bottom: 1px solid #eee; font-variant-numeric: tabular-nums; }
-  .ulist td b { color: #111; font-size: 15px; }
-  .ulist td.up { color: var(--brand); }
-  .ulist td.down { color: #2563eb; }
-  .ulist td.t { color: var(--text-muted); font-size: 13px; white-space: nowrap; }
-  .ulist tr.is-me td { background: #fff8fa; }
-  .ulist .me-tag { border: 1px solid #ccc; color: var(--text-muted); font-size: 10px; padding: 0 5px; border-radius: 3px; margin-left: 6px; }
-  .profile.user { margin-bottom: 26px; }
-  .profile .u-avatar { background: #9aa6b4; display: grid; place-items: center; }
-  .profile .u-avatar svg { width: 70%; height: 70%; margin-top: 18%; }
-  .ugroup { margin-top: 26px; }
-  .ugroup h3 { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin: 0; padding-bottom: 10px; border-bottom: 2px solid #222; font-size: 17px; font-weight: 500; line-height: 1.45; letter-spacing: -.03em; word-break: keep-all; }
-  .ugroup h3 .sec { font-size: 12px; color: var(--brand); font-weight: 700; white-space: nowrap; }
-  .ugroup h3 a:hover { text-decoration: underline; }
-  .ugroup h3 small { font-size: 13px; color: var(--text-muted); white-space: nowrap; margin-left: auto; }
-  .citem .c-act .c-num { border: 1px solid #ddd; font-size: 12px; padding: 4px 10px; border-radius: 14px; color: #555; display: inline-flex; align-items: center; gap: 4px; font-variant-numeric: tabular-nums; }
-  .citem .c-act .c-num svg { width: 13px; height: 13px; }
-  .citem .c-act .c-go { margin-left: auto; font-size: 12px; color: var(--text-muted); text-decoration: underline; text-underline-offset: 3px; }
-  .citem .c-act .c-go:hover { color: var(--brand); }
-
   .list-title { display: flex; align-items: baseline; gap: 8px; border-bottom: 2px solid #222; padding-bottom: 12px; margin: 0; font-size: 20px; font-weight: 700; }
   .list-title small { font-size: 14px; color: var(--text-muted); font-weight: 400; }
   .alist { list-style: none; margin: 0; padding: 0; }
@@ -570,7 +541,6 @@
     .profile dl { text-align: left; }
     .profile .stats { justify-content: center; }
     .aitem { grid-template-columns: minmax(0, 1fr) 96px; gap: 14px; }
-    .ulist th:last-child, .ulist td:last-child { display: none; }
     .aitem .ath { width: 96px; height: 68px; }
     .aitem h3 { font-size: 16px; }
     .aitem .sum { display: none; }
@@ -629,31 +599,27 @@
           "연예",
           "핫이슈"
         ],
-        "제목": "이은호·김서진, SNS 스토리에 '비밀 연애' 메시지 캡처 공개…\"나 말고 딴 사람 생겼어?\"",
+        "제목": "\"아 여기 아니네\"…이은호, 김서진에게 보낸 메시지 단톡방에 잘못 올렸나? 열애설 확산",
         "부제": [
-          "\"요새 연락도 없고…놀아줘\" 예고 동창이 올린 메시지 그대로 노출",
-          "\"둘이서 비밀 연애를 한다\"…두 사람 공식 계정도 태그"
+          "예고 동창 SNS 스토리에 메시지 캡처 공개",
+          "\"나 빼고 비밀연애함\"…두 사람 공식 계정도 태그"
         ],
         "문단": [
-          "이은호와 김서진이 열애설에 휩싸였다.",
-          "분위기가 바뀐 것은 3일 밤이다. 이날 두 사람의 예술고 동창이라고 밝힌 이용자 C씨는 자신의 SNS 스토리에 메시지 캡처와 함께 \"둘이서 비밀 연애를 한다\"는 글을 올렸다.",
-          "공개된 메시지에서 이은호는 \"요새 연락도 없고\", \"너무 서운한데ㅔㅔㅔ\", \"놀아줘\"라고 적은 뒤 \"나 말고 딴 사람 생겼어?\"라고 물었다.",
-          "이를 본 동창이 \"뭐야 둘이 사귐?\"이라며 김서진을 태그하자 이은호는 \"아 여기 아니네\"라고 답했다. 투정 섞인 말을 단체 대화방에 잘못 보낸 것 아니냐는 해석이 나오는 대목이다.",
-          "해당 스토리에는 두 사람의 공식 계정이 함께 태그돼 있었다. 이 때문에 C씨가 부주의하게 사생활을 노출한 것 아니냐는 의혹도 나오고 있다.",
-          "캡처는 게시 직후 온라인 커뮤니티와 SNS를 통해 빠르게 퍼졌다. 누리꾼들은 \"딴 사람 생겼냐고 묻는 건 사귀는 사이 아니냐\", \"단톡방에 잘못 보낸 게 맞는 것 같다\" 등의 반응을 보이고 있다.",
-          "한편 두 사람은 예술고 동창으로, 최근 예능 '동창회 가는 길'에 함께 출연해 남다른 '케미'로 화제를 모은 바 있다. 열애설과 관련해 양측 소속사는 아직 별도의 입장을 밝히지 않았다."
+          "분위기가 바뀐 것은 3일 밤이다. SNS에 따르면 두 사람의 예술고 동창이라고 밝힌 한 이용자가 메시지 캡처와 함께 \"나 빼고 비밀연애함ㅡㅡ\"이라는 글을 스토리에 올렸다.",
+          "캡처에서 이은호는 \"요새 연락도 없고\", \"너무 서운한데ㅔㅔㅔ\", \"놀아줘\"라고 적은 뒤 \"나 말고 딴 사람 생겻ㅅ어?\"라고 물었다.",
+          "이를 본 동창이 \"뭐야 둘이 사귐?\"이라며 김서진을 태그하자 이은호는 \"아 여기 아니네\"라고 답했다. 단체 대화방에 잘못 보낸 것 아니냐는 해석이 나오는 대목이다.",
+          "해당 스토리는 두 사람의 공식 계정을 함께 태그한 것으로 알려졌다."
         ],
         "키워드": [
           "이은호",
           "김서진",
-          "비밀연애",
           "열애설",
           "단톡방"
         ]
       },
       "이미지": {
         "종류": "스토리 캡처",
-        "스토리 글": "둘이서 비밀 연애를 한다",
+        "스토리 글": "나 빼고 비밀연애함ㅡㅡ",
         "대화방 인원": 8,
         "대화": [
           {
@@ -662,7 +628,7 @@
               "요새 연락도 없고",
               "너무 서운한데ㅔㅔㅔ",
               "놀아줘",
-              "나 말고 딴 사람 생겼어?"
+              "나 말고 딴 사람 생겻ㅅ어?"
             ]
           },
           {
@@ -682,7 +648,7 @@
           "@이은호",
           "@김서진"
         ],
-        "설명": "두 사람의 예술고 동창이라고 밝힌 이용자 C씨가 SNS 스토리에 올린 메시지 캡처. 사진=SNS 캡처"
+        "설명": "두 사람의 예술고 동창이라고 밝힌 한 이용자가 SNS 스토리에 올린 메시지 캡처. 사진=SNS 캡처"
       },
       "공개 턴": "[교사 입력]",
       "반응": {
@@ -995,7 +961,6 @@
     return t.length > 110 ? t.slice(0, 110) + '…' : t;
   }
   function thumbStyle(a) {
-    if (a['이미지'] && a['이미지']['종류'] === '사진' && a['이미지']['자료']) return 'background:#1b1d29 url(' + JSON.stringify(a['이미지']['자료']) + ') center / cover no-repeat';
     if (a['이미지'] && a['이미지']['종류'] === '스토리 캡처') return 'background:linear-gradient(160deg,#27406b,#9cc3e6)';
     if (a['이미지'] && a['이미지']['종류'] === '방송 캡처') return 'background:linear-gradient(160deg,#f3d9b1,#b98058)';
     return 'background:linear-gradient(160deg,#e5e7eb,#9ca3af)';
@@ -1075,10 +1040,6 @@
 
   // ================= 이미지 렌더러 =================
   var RENDER_IMAGE = {
-    // 교사가 만든 이미지 파일을 그대로 보여줌. "자료"에 data URI(tools/embed_image.py로 넣음) 또는 파일 경로
-    '사진': function (img) {
-      return '<img class="photo-img" src="' + esc(img['자료'] || '') + '" alt="' + esc(img['대체 글'] || img['설명'] || '') + '">';
-    },
     // 예능 방송 화면: 교실 배경 + 두 사람 실루엣 + 노란 자막
     '방송 캡처': function (img) {
       return '' +
@@ -1269,7 +1230,7 @@
           moreBox +
           '<section class="comments" id="comments">' +
             '<div class="c-head"><h4><b data-ccount>0</b> 개의 댓글</h4>' +
-              '<div class="sort"><a class="who-link" href="#users">작성자별 보기</a><button data-sort="new">최신순</button><button data-sort="best">추천순</button></div></div>' +
+              '<div class="sort"><button data-sort="new">최신순</button><button data-sort="best">추천순</button></div></div>' +
             '<form class="cbox" id="cmtForm">' +
               '<div class="c-top" id="cmtTop"></div>' +
               '<textarea id="cmtText" maxlength="400" placeholder="댓글을 입력하세요. 다른 사람을 비방하는 댓글은 삭제될 수 있습니다."></textarea>' +
@@ -1331,7 +1292,7 @@
       var isBest = bestIds.indexOf(cm.id) > -1;
       return '<li class="citem' + (isBest ? ' is-best' : '') + '">' +
         '<div class="c-meta">' + (isBest ? '<span class="best">BEST</span>' : '') +
-          nickHTML(cm) + (cm.mine ? '<span class="me-tag">내 댓글</span>' : '') +
+          '<b>' + esc(cm.nick) + '</b>' + (cm.mine ? '<span class="me-tag">내 댓글</span>' : '') +
           '<span>' + esc(cm.time) + '</span></div>' +
         '<p>' + esc(cm.text) + '</p>' +
         '<div class="c-act">' +
@@ -1341,103 +1302,6 @@
         '</div></li>';
     }).join('') : '<li class="cempty">아직 댓글이 없습니다. 첫 댓글을 남겨 보세요.</li>') +
       (left > 0 ? '<li class="cmore"><button type="button" data-more>댓글 더보기 <b>' + left + '</b></button></li>' : '');
-  }
-
-  // ================= 댓글 작성자(닉네임)별 모아보기 =================
-  // 데이터 댓글 + 이 브라우저에서 단 댓글을 닉네임으로 묶는다. 익명 댓글은 추적하지 않는다.
-  function nickHTML(cm) {
-    if (cm.anon || cm.nick === '익명') return '<b>' + esc(cm.nick) + '</b>';
-    return '<a class="nick" href="#user-' + encodeURIComponent(cm.nick) + '"><b>' + esc(cm.nick) + '</b></a>';
-  }
-  function commentsByNick() {
-    var map = {};
-    ARTICLES.forEach(function (a) {
-      allComments(a).forEach(function (cm) {
-        if (cm.anon || cm.nick === '익명') return;
-        var u = map[cm.nick] || (map[cm.nick] = { nick: cm.nick, items: [], up: 0, down: 0, articles: {}, mine: false, last: 0 });
-        u.items.push({ a: a, cm: cm });
-        u.up += cm.up; u.down += cm.down;
-        u.articles[a['아이디']] = true;
-        if (cm.mine) u.mine = true;
-        if (cm.ts > u.last) u.last = cm.ts;
-      });
-    });
-    return Object.keys(map).map(function (k) {
-      var u = map[k]; u.count = u.items.length; u.articleCount = Object.keys(u.articles).length; return u;
-    });
-  }
-  function userCrumb(extra) { return crumbHTML([{ t: '댓글 작성자', href: extra ? '#users' : null }].concat(extra ? [extra] : [])); }
-
-  function renderUsers() {
-    current = null;
-    document.title = '댓글 작성자 - ' + OUTLET;
-    setNav('');
-    var users = commentsByNick().sort(function (x, y) { return y.count - x.count || y.up - x.up || x.nick.localeCompare(y.nick, 'ko'); });
-    var total = 0; users.forEach(function (u) { total += u.count; });
-    document.getElementById('view').innerHTML = '' +
-      userCrumb(null) +
-      '<div class="layout two" style="padding-top:12px">' +
-        '<div>' +
-          '<h2 class="list-title">댓글 작성자 <small>' + users.length + '명 · 댓글 ' + total + '개</small></h2>' +
-          '<p class="u-note">닉네임을 누르면 그 사람이 어떤 기사에 어떤 댓글을 썼는지 모두 볼 수 있어요. 익명 댓글은 포함되지 않아요.</p>' +
-          '<table class="ulist"><thead><tr><th>닉네임</th><th>댓글</th><th>기사</th><th>추천</th><th>반대</th><th>마지막 댓글</th></tr></thead><tbody>' +
-          users.map(function (u) {
-            return '<tr' + (u.mine ? ' class="is-me"' : '') + '><td>' + nickHTML({ nick: u.nick }) + (u.mine ? '<span class="me-tag">나</span>' : '') + '</td>' +
-              '<td>' + u.count + '</td><td>' + u.articleCount + '</td><td class="up">' + u.up + '</td><td class="down">' + u.down + '</td>' +
-              '<td class="t">' + esc(u.items.slice().sort(function (p, q) { return q.cm.ts - p.cm.ts; })[0].cm.time) + '</td></tr>';
-          }).join('') +
-          '</tbody></table>' +
-        '</div>' +
-        sideHTML() +
-      '</div>';
-  }
-
-  function renderUser(nick) {
-    current = null;
-    document.title = nick + '의 댓글 - ' + OUTLET;
-    setNav('');
-    var u = commentsByNick().filter(function (x) { return x.nick === nick; })[0];
-    var body;
-    if (!u) {
-      body = '<p class="lempty">\'' + esc(nick) + '\' 닉네임으로 쓴 댓글이 없습니다.</p>';
-    } else {
-      // 기사별로 묶어서 최신 기사부터, 기사 안에서는 쓴 순서대로
-      var groups = ARTICLES.map(function (a) {
-        var items = u.items.filter(function (it) { return it.a === a; }).sort(function (p, q) { return p.cm.ts - q.cm.ts; });
-        return items.length ? { a: a, items: items } : null;
-      }).filter(Boolean);
-      body = groups.map(function (g) {
-        var a = g.a, href = '#article-' + a['아이디'];
-        return '<section class="ugroup">' +
-          '<h3><span class="sec">' + esc(a['시각'].slice(0, 10)) + '</span><a href="' + href + '">' + esc(a['본문']['제목']) + '</a><small>댓글 ' + g.items.length + '</small></h3>' +
-          '<ul class="clist">' + g.items.map(function (it) {
-            var cm = it.cm;
-            return '<li class="citem' + (cm.up >= 50 ? ' is-best' : '') + '">' +
-              '<div class="c-meta">' + (cm.up >= 50 ? '<span class="best">BEST</span>' : '') + '<b>' + esc(cm.nick) + '</b>' + (cm.mine ? '<span class="me-tag">내 댓글</span>' : '') + '<span>' + esc(cm.time) + '</span></div>' +
-              '<p>' + esc(cm.text) + '</p>' +
-              '<div class="c-act"><span class="c-num">' + ICON.up + cm.up + '</span><span class="c-num down">' + ICON.down + cm.down + '</span>' +
-              '<a class="c-go" href="' + href + '">기사에서 보기</a></div></li>';
-          }).join('') + '</ul></section>';
-      }).join('');
-    }
-    document.getElementById('view').innerHTML = '' +
-      userCrumb({ t: nick }) +
-      '<div class="layout two">' +
-        '<div>' +
-          '<section class="profile user">' +
-            '<div class="avatar u-avatar">' + ICON.person + '</div>' +
-            '<div>' +
-              '<h1>' + esc(nick) + '<small>' + (u && u.mine ? '나' : '네티즌') + '</small></h1>' +
-              '<div class="stats">' +
-                '<span>댓글<b>' + (u ? u.count : 0) + '</b></span><span>기사<b>' + (u ? u.articleCount : 0) + '</b></span>' +
-                '<span>받은 추천<b>' + (u ? u.up : 0) + '</b></span><span>받은 반대<b>' + (u ? u.down : 0) + '</b></span>' +
-              '</div>' +
-            '</div>' +
-          '</section>' +
-          body +
-        '</div>' +
-        sideHTML() +
-      '</div>';
   }
 
   // ================= 화면: 기자 프로필 =================
@@ -1494,8 +1358,6 @@
     if (h === 'comments' && current) return;            // 같은 기사 안에서 댓글로 이동
     if (h === 'reset') { renderList(); resetAll(); return; }
     if ((m = h.match(/^reporter-(.+)$/)) && reporterById[m[1]]) renderReporter(m[1]);
-    else if (h === 'users') renderUsers();
-    else if ((m = h.match(/^user-(.+)$/))) { var nk; try { nk = decodeURIComponent(m[1]); } catch (err) { nk = m[1]; } renderUser(nk); }
     else if (h === 'list') renderList();
     else if ((m = h.match(/^article-(.+)$/)) && articleById[m[1]]) renderArticle(m[1]);
     else renderArticle(ARTICLES[0]['아이디']);
@@ -1670,8 +1532,7 @@
     gateEl.innerHTML = '' +
       '<form id="gateForm" autocomplete="off">' +
         '<div><div class="g-kicker">학습 게임 시작</div><h2>내 정보를 입력하세요</h2></div>' +
-        '<label for="gateId">학번이름<input id="gateId" maxlength="12" placeholder="예: 1401강기범">' +
-          '<span class="g-hint">학번 네 자리 뒤에 이름을 붙여 써요. 띄어쓰기 없이.</span></label>' +
+        '<label for="gateId">학번 이름<input id="gateId" maxlength="20" placeholder="예: 20315 김민지"></label>' +
         '<label for="gateNick">닉네임<input id="gateNick" maxlength="10" placeholder="2~10자">' +
           '<span class="g-hint">댓글에 보이는 이름이에요. 시작하면 바꿀 수 없어요.</span></label>' +
         '<button type="submit">시작하기</button>' +
@@ -1686,10 +1547,9 @@
     if (e.target.id !== 'gateForm') return;
     e.preventDefault();
     var idEl = document.getElementById('gateId'), nickEl = document.getElementById('gateNick');
-    // 실제 로그인창처럼 "1401강기범" 한 칸. 띄어쓰기는 지우고, 학번 4~5자리 + 이름 2~5자만 받는다
-    var sid = idEl.value.replace(/\s+/g, '');
+    var sid = idEl.value.trim().replace(/\s+/g, ' ');
     var nick = nickEl.value.trim();
-    if (!/^\d{4,5}[가-힣]{2,5}$/.test(sid)) { toast('1401강기범 처럼 학번 뒤에 이름을 붙여 입력해 주세요.'); idEl.focus(); return; }
+    if (!/\d/.test(sid) || !/[가-힣a-zA-Z]/.test(sid)) { toast('학번과 이름을 함께 입력해 주세요.'); idEl.focus(); return; }
     if (nick.length < 2) { toast('닉네임은 2~10자로 입력해 주세요.'); nickEl.focus(); return; }
     if (nick === '익명') { toast('\'익명\'은 닉네임으로 쓸 수 없어요.'); nickEl.focus(); return; }
     openModal({
