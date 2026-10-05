@@ -1,0 +1,666 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>"아 여기 아니네"…이은호, 김서진에게 보낸 메시지 단톡방에 잘못 올렸나? 열애설 확산 - 톡톡데일리</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<!--
+  수업용 가상 기사 페이지
+  - 매체명(톡톡데일리), 기자명, 입력 시각, 사이드바 기사 목록은 모두 가상입니다.
+  - 시나리오 타임라인과 맞춰야 하는 값은 "EDIT" 주석으로 표시했습니다.
+-->
+<style>
+  :root {
+    --brand: #1d4ed8;
+    --brand-dark: #1e3a8a;
+    --accent: #f59e0b;
+    --text: #111;
+    --text-sub: #555;
+    --text-muted: #888;
+    --line: #e2e2e2;
+    --bg: #fff;
+    --bg-soft: #f6f6f6;
+    --body-size: 18px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; }
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 0 16px; }
+
+  /* ---------- 상단 헤더 ---------- */
+  .top {
+    display: grid;
+    grid-template-columns: 250px 1fr 250px;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 0 18px;
+  }
+  .ad {
+    position: relative;
+    height: 90px;
+    border-radius: 2px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    padding: 0 18px;
+    color: #fff;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+  .ad small { display: block; font-weight: 400; font-size: 11px; opacity: .85; }
+  .ad::after {
+    content: "AD";
+    position: absolute; right: 4px; top: 3px;
+    font-size: 9px; font-weight: 500; opacity: .7;
+  }
+  .ad-1 { background: linear-gradient(120deg, #0f766e, #14b8a6); font-size: 20px; }
+  .ad-2 { background: linear-gradient(120deg, #18181b, #3f3f46); font-size: 17px; justify-content: flex-end; text-align: right; }
+  .logo { text-align: center; }
+  .logo .tagline {
+    display: block;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: -.02em;
+    margin-bottom: 2px;
+  }
+  .logo .name {
+    font-size: 54px;
+    font-weight: 900;
+    letter-spacing: -.06em;
+    line-height: 1;
+  }
+  .logo .name b { color: var(--brand); font-weight: 900; }
+
+  .gnb {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    height: 56px;
+  }
+  .gnb .updated { font-size: 14px; color: #222; white-space: nowrap; }
+  .gnb nav { flex: 1; display: flex; justify-content: center; gap: 26px; overflow-x: auto; scrollbar-width: none; }
+  .gnb nav::-webkit-scrollbar { display: none; }
+  .gnb nav a { font-size: 17px; font-weight: 700; white-space: nowrap; }
+  .gnb nav a.on { color: var(--brand); }
+  .gnb .icons { display: flex; gap: 14px; }
+  .gnb .icons svg { width: 22px; height: 22px; display: block; }
+
+  /* ---------- 기사 헤더 ---------- */
+  .crumb {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 14px; color: var(--text-sub);
+    margin: 28px 0 14px;
+  }
+  .crumb .sep { color: #bbb; }
+  .headline {
+    font-size: 40px;
+    font-weight: 500;
+    letter-spacing: -.04em;
+    line-height: 1.35;
+    margin: 0 0 26px;
+    word-break: keep-all;
+  }
+  .meta-row {
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 14px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--line);
+  }
+  .meta { display: flex; gap: 14px; font-size: 13px; color: var(--text-muted); flex-wrap: wrap; }
+  .meta li { list-style: none; display: flex; align-items: center; gap: 4px; }
+  .meta li + li::before { content: ""; width: 1px; height: 11px; background: #ddd; margin-right: 10px; }
+  .meta { padding: 0; margin: 0; }
+  .share { display: flex; gap: 8px; align-items: center; }
+  .share .sns {
+    width: 32px; height: 32px; border-radius: 50%; border: 0;
+    display: grid; place-items: center; color: #fff;
+  }
+  .share .sns svg { width: 15px; height: 15px; }
+  .share .tool {
+    min-width: 36px; height: 32px; padding: 0 6px; white-space: nowrap; border: 1px solid #ddd; background: #fff;
+    display: grid; place-items: center; color: #333;
+  }
+  .share .tool svg { width: 15px; height: 15px; }
+  .share .gap { width: 14px; }
+  .c-fb { background: #3b5998; } .c-x { background: #111; } .c-kt { background: #fee500; color: #3c1e1e !important; }
+  .c-url { background: #12b0a6; } .c-mail { background: #f37321; } .c-more { background: #39b87a; } .c-scrap { background: #1f5c4a; }
+
+  /* ---------- 본문 레이아웃 ---------- */
+  .layout {
+    display: grid;
+    grid-template-columns: 130px minmax(0, 1fr) 300px;
+    gap: 46px;
+    padding: 40px 0 60px;
+  }
+  .side-left { position: relative; }
+  .reporter-card {
+    background: var(--bg-soft);
+    padding: 18px 10px 20px;
+    text-align: center;
+  }
+  .avatar {
+    width: 60px; height: 60px; border-radius: 50%; margin: 0 auto 12px;
+    background: linear-gradient(160deg, #cbd5e1, #94a3b8);
+    display: grid; place-items: center; color: #fff;
+  }
+  .avatar svg { width: 34px; height: 34px; }
+  .reporter-card .rname { font-size: 15px; margin-bottom: 14px; }
+  .reporter-card a { font-size: 13px; color: var(--text-sub); text-decoration: underline; text-underline-offset: 3px; }
+  .sticky-share {
+    position: sticky; top: 16px;
+    background: var(--bg-soft);
+    margin-top: 8px; padding: 18px 0;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+  }
+  .sticky-share button {
+    width: 34px; height: 34px; border-radius: 50%; background: #fff;
+    border: 1.5px solid currentColor; display: grid; place-items: center;
+  }
+  .sticky-share svg { width: 15px; height: 15px; }
+
+  .subtitle {
+    border-left: 3px solid #999;
+    padding-left: 14px;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -.03em;
+    line-height: 1.5;
+    margin: 0 0 30px;
+    word-break: keep-all;
+  }
+  .subtitle span { display: block; }
+
+  figure.photo { margin: 0 0 34px; }
+  .photo-box {
+    position: relative;
+    background: radial-gradient(ellipse at 30% 20%, #3a3f55 0%, #1b1d29 70%);
+    padding: 26px 0;
+    display: flex; justify-content: center;
+    overflow: hidden;
+  }
+  .watermark {
+    position: absolute; right: 18px; bottom: 14px;
+    color: rgba(255,255,255,.35);
+    font-weight: 900; font-size: 26px; letter-spacing: -.06em;
+    line-height: 1; text-align: right;
+    pointer-events: none;
+  }
+  .watermark small { display: block; font-size: 10px; font-weight: 700; letter-spacing: 0; margin-bottom: 3px; }
+  figcaption { font-size: 13px; color: var(--text-sub); padding: 12px 10px 0; line-height: 1.6; }
+
+  /* ---------- SNS 스토리 캡처 (CSS로 재현) ---------- */
+  .story {
+    width: 300px;
+    aspect-ratio: 9 / 16;
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(170deg, #6d5bd0 0%, #c264a8 55%, #f39a6b 100%);
+    color: #fff;
+    box-shadow: 0 10px 30px rgba(0,0,0,.45);
+    display: flex; flex-direction: column;
+    font-family: -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  }
+  .story .bars { display: flex; gap: 3px; padding: 8px 8px 0; }
+  .story .bars i { flex: 1; height: 2px; background: rgba(255,255,255,.45); border-radius: 2px; }
+  .story .bars i.done { background: #fff; }
+  .story .who { display: flex; align-items: center; gap: 7px; padding: 8px 10px; font-size: 12px; font-weight: 600; }
+  .story .who .pic { width: 26px; height: 26px; border-radius: 50%; background: #f3c9a8; }
+  .blur { filter: blur(4px); user-select: none; }
+  .story .caption {
+    align-self: center;
+    margin: 6px 0 10px;
+    font-size: 17px; font-weight: 800;
+    background: #fff; color: #111;
+    padding: 4px 10px; border-radius: 6px;
+    transform: rotate(-3deg);
+    letter-spacing: -.02em;
+  }
+  .kakao {
+    margin: 0 16px;
+    background: #b2c7da;
+    border-radius: 8px;
+    overflow: hidden;
+    color: #111;
+    box-shadow: 0 4px 14px rgba(0,0,0,.25);
+    font-size: 10.5px;
+  }
+  .kakao .bar {
+    background: #a9bfd3; padding: 6px 9px;
+    display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 10.5px;
+  }
+  .kakao .bar .count { font-weight: 400; color: #4b5d6e; }
+  .kakao .bar .back { font-size: 13px; line-height: 1; }
+  .kakao .msgs { padding: 8px 8px 10px; display: flex; flex-direction: column; gap: 4px; }
+  .msg-group { display: flex; gap: 5px; align-items: flex-start; }
+  .msg-group .pf { width: 22px; height: 22px; border-radius: 8px; background: #8fa7bf; flex: none; display: grid; place-items: center; color: #fff; font-size: 9px; font-weight: 700; }
+  .msg-group .col { display: flex; flex-direction: column; gap: 3px; align-items: flex-start; }
+  .msg-group .nm { font-size: 9.5px; color: #3c4b59; margin-bottom: 1px; }
+  .bubble {
+    background: #fff; border-radius: 9px; padding: 4px 8px;
+    line-height: 1.35; max-width: 170px; word-break: break-all;
+  }
+  .me { align-self: flex-end; }
+  .me .bubble { background: #fee500; }
+  .mention { color: #1d5fbf; font-weight: 700; }
+  .story .tags { margin-top: auto; padding: 0 12px 30px; display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+  .story .tags span {
+    background: rgba(255,255,255,.92); color: #c13584;
+    font-weight: 800; font-size: 12px; padding: 4px 9px; border-radius: 6px;
+  }
+  .story .reply {
+    position: absolute; left: 10px; right: 10px; bottom: 8px;
+    border: 1px solid rgba(255,255,255,.7); border-radius: 20px;
+    font-size: 10px; padding: 4px 10px; opacity: .8;
+  }
+
+  /* ---------- 본문 ---------- */
+  .article-body {
+    font-size: var(--body-size);
+    line-height: 1.9;
+    letter-spacing: -.02em;
+    color: #222;
+    word-break: keep-all;
+  }
+  .article-body p { margin: 0 0 1.4em; }
+  .copyright { font-size: 13px; color: var(--text-muted); padding: 22px 0; border-top: 1px solid var(--line); margin-top: 34px; }
+  .vote { display: flex; justify-content: center; gap: 10px; margin: 30px 0 10px; }
+  .vote button {
+    border: 1px solid #ccc; background: #fff; border-radius: 22px;
+    padding: 8px 20px; font-size: 14px; display: flex; gap: 8px; align-items: center;
+  }
+  .vote button.voted { border-color: var(--brand); color: var(--brand); }
+  .keywords { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; padding: 18px 0; border-top: 1px solid var(--line); }
+  .keywords strong { font-size: 13px; margin-right: 6px; }
+  .keywords a { font-size: 13px; padding: 5px 12px; border: 1px solid #ddd; border-radius: 16px; color: #333; }
+  .byline-box {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 18px; background: var(--bg-soft); font-size: 14px;
+  }
+  .byline-box a { color: var(--text-sub); font-size: 13px; text-decoration: underline; text-underline-offset: 3px; }
+
+  .comments { margin-top: 44px; }
+  .comments h4 { font-size: 18px; margin: 0 0 14px; font-weight: 500; }
+  .comments h4 b { color: var(--brand); }
+  .cbox { border: 1px solid #ddd; }
+  .cbox .login { padding: 10px 14px; border-bottom: 1px solid #eee; font-size: 13px; color: var(--text-sub); }
+  .cbox textarea {
+    display: block; width: 100%; border: 0; resize: none; height: 90px; padding: 14px;
+    font: inherit; font-size: 14px; background: #fff;
+  }
+  .cbox .foot { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #eee; padding-left: 14px; font-size: 13px; color: var(--text-muted); }
+  .cbox .foot button { border: 0; background: #333; color: #fff; padding: 12px 24px; font-size: 14px; }
+
+  /* ---------- 오른쪽 사이드 ---------- */
+  .box { border: 1px solid #ddd; padding: 18px 16px; margin-bottom: 26px; }
+  .box h3 { margin: 0 0 6px; font-size: 18px; font-weight: 500; }
+  .box h3 b { color: var(--brand); font-weight: 700; }
+  .rank li {
+    list-style: none; display: grid; grid-template-columns: 26px 1fr 80px; gap: 8px;
+    align-items: start; padding: 12px 0; border-bottom: 1px solid #eee;
+  }
+  .rank li:last-child { border-bottom: 0; }
+  .rank { padding: 0; margin: 0; }
+  .rank .no { font-size: 20px; color: var(--brand); line-height: 1.2; }
+  .rank .t { font-size: 15px; line-height: 1.45; letter-spacing: -.03em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .thumb { width: 80px; height: 54px; border-radius: 2px; }
+  .simple li { list-style: none; padding: 9px 0; border-bottom: 1px dashed #e5e5e5; font-size: 14px; line-height: 1.45; letter-spacing: -.03em; }
+  .simple li:last-child { border-bottom: 0; }
+  .simple { padding: 0; margin: 0; }
+  .ad-side { height: 250px; font-size: 22px; flex-direction: column; align-items: flex-start; justify-content: flex-end; padding: 20px; background: linear-gradient(160deg, #1e293b, #4338ca); margin-bottom: 26px; }
+
+  /* ---------- 푸터 ---------- */
+  footer { background: #f3f3f3; border-top: 1px solid #ddd; padding: 30px 0 40px; font-size: 13px; color: #666; }
+  .fmenu { display: flex; flex-wrap: wrap; gap: 4px 20px; padding-bottom: 18px; border-bottom: 1px solid #ddd; margin-bottom: 18px; }
+  .fmenu a { font-weight: 700; color: #333; }
+  .finfo { display: flex; gap: 30px; align-items: flex-start; }
+  .flogo { font-size: 26px; font-weight: 900; letter-spacing: -.06em; color: #999; white-space: nowrap; }
+  .flogo b { color: #7c93c9; }
+  .finfo ul { padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 4px 14px; line-height: 1.7; }
+  .finfo li { list-style: none; }
+  .notice { margin-top: 16px; font-size: 12px; color: #999; }
+
+  .toast {
+    position: fixed; left: 50%; bottom: 30px; transform: translateX(-50%) translateY(20px);
+    background: rgba(0,0,0,.85); color: #fff; padding: 10px 18px; border-radius: 20px;
+    font-size: 14px; opacity: 0; transition: .25s; pointer-events: none; z-index: 10;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ---------- 반응형 ---------- */
+  @media (max-width: 1100px) {
+    .layout { grid-template-columns: minmax(0, 1fr) 280px; gap: 32px; }
+    .side-left { display: none; }
+  }
+  @media (max-width: 860px) {
+    .top { grid-template-columns: 1fr; padding: 16px 0 12px; }
+    .top .ad { display: none; }
+    .logo .name { font-size: 40px; }
+    .logo .tagline { font-size: 13px; }
+    .gnb { gap: 12px; }
+    .gnb .updated { display: none; }
+    .gnb nav { justify-content: flex-start; gap: 18px; }
+    .gnb nav a { font-size: 15px; }
+    .headline { font-size: 26px; margin-bottom: 18px; }
+    .layout { grid-template-columns: 1fr; padding-top: 28px; }
+    .subtitle { font-size: 17px; }
+    .article-body { font-size: calc(var(--body-size) - 1px); }
+    .share .tool, .share .gap { display: none; }
+    .finfo { flex-direction: column; gap: 12px; }
+  }
+  @media (max-width: 420px) {
+    .story { width: 260px; }
+    .share .sns { width: 28px; height: 28px; }
+  }
+  @media print {
+    .top .ad, .gnb, .share, .side-left, .side-right, .comments, .vote, .toast { display: none !important; }
+    .layout { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <div class="top">
+    <a class="ad ad-1" href="#" aria-label="광고">
+      <span><small>환절기 건강 관리</small>매일 한 포<br>프로바이오틱스</span>
+    </a>
+    <a class="logo" href="#">
+      <span class="tagline">가장 빠른 이슈 · 가장 가까운 뉴스</span>
+      <span class="name">톡톡<b>데일리</b></span>
+    </a>
+    <a class="ad ad-2" href="#" aria-label="광고">
+      <span><small>가을 신제품 출시</small>스마트 워시<br>올인원</span>
+    </a>
+  </div>
+
+  <div class="gnb">
+    <!-- EDIT: 상단 업데이트 시각 -->
+    <span class="updated">UPDATED. 2026-10-05 20:03 (월)</span>
+    <nav aria-label="주 메뉴">
+      <a href="#">전체기사</a>
+      <a href="#">현장</a>
+      <a href="#">정치</a>
+      <a href="#">경제</a>
+      <a href="#" class="on">연예</a>
+      <a href="#">라이프</a>
+      <a href="#">스포츠</a>
+      <a href="#">전국</a>
+      <a href="#">오피니언</a>
+      <a href="#">기획</a>
+    </nav>
+    <div class="icons">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2"><circle cx="10.5" cy="10.5" r="7"/><path d="M16 16l5 5"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3.2"/><path d="M5.5 19c1.6-2.6 3.9-3.8 6.5-3.8s4.9 1.2 6.5 3.8"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="crumb">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="#555"><path d="M12 3l9 8h-3v9h-5v-6h-2v6H6v-9H3z"/></svg>
+    <a href="#">홈</a><span class="sep">›</span><a href="#">연예</a><span class="sep">›</span><a href="#">핫이슈</a>
+  </div>
+
+  <h1 class="headline">"아 여기 아니네"…이은호, 김서진에게 보낸 메시지 단톡방에 잘못 올렸나? 열애설 확산</h1>
+
+  <div class="meta-row">
+    <ul class="meta">
+      <!-- EDIT: 기자명 / 입력 시각 -->
+      <li>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>
+        한지원 기자
+      </li>
+      <li>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        입력 2026.10.04 09:12
+      </li>
+      <li>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2"><path d="M4 5h16v11H8l-4 4z"/></svg>
+        댓글 0
+      </li>
+    </ul>
+    <div class="share">
+      <button class="sns c-fb" aria-label="페이스북 공유" data-share><svg viewBox="0 0 24 24" fill="#fff"><path d="M14 8h3V4h-3c-2.8 0-4.5 1.8-4.5 4.6V11H7v4h2.5v9h4v-9h3l.5-4h-3.5V9c0-.6.4-1 1-1z"/></svg></button>
+      <button class="sns c-x" aria-label="X 공유" data-share><svg viewBox="0 0 24 24" fill="#fff"><path d="M17.5 3h3.3l-7.2 8.3L22 21h-6.6l-5.2-6.8L4.3 21H1l7.7-8.9L.8 3h6.8l4.7 6.2zm-1.2 16h1.8L6.8 4.9H4.9z"/></svg></button>
+      <button class="sns c-kt" aria-label="카카오톡 공유" data-share><svg viewBox="0 0 24 24" fill="#3c1e1e"><path d="M12 3C6.5 3 2 6.6 2 11c0 2.8 1.9 5.3 4.7 6.7L5.8 21l3.9-2.6c.7.1 1.5.2 2.3.2 5.5 0 10-3.6 10-8S17.5 3 12 3z"/></svg></button>
+      <button class="sns c-url" aria-label="URL 복사" data-copy><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1"/></svg></button>
+      <button class="sns c-mail" aria-label="이메일 공유" data-share><svg viewBox="0 0 24 24" fill="#fff"><path d="M3 5h18v14H3zm2 2v.5l7 4.5 7-4.5V7z"/></svg></button>
+      <button class="sns c-more" aria-label="다른 공유" data-share><svg viewBox="0 0 24 24" fill="#fff"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.7l6.8-4M8.6 13.3l6.8 4" stroke="#fff" stroke-width="2"/></svg></button>
+      <button class="sns c-scrap" aria-label="기사 스크랩" data-share><svg viewBox="0 0 24 24" fill="#fff"><path d="M6 3h12v18l-6-4-6 4z"/></svg></button>
+      <span class="gap"></span>
+      <button class="tool" aria-label="인쇄" onclick="window.print()"><svg viewBox="0 0 24 24" fill="#333"><path d="M6 3h12v5H6zM4 9h16a1 1 0 011 1v7h-3v4H6v-4H3v-7a1 1 0 011-1zm4 7v3h8v-3z"/></svg></button>
+      <button class="tool" aria-label="본문 글씨 키우기" data-font="1"><b style="font-size:14px">가+</b></button>
+      <button class="tool" aria-label="본문 글씨 줄이기" data-font="-1"><b style="font-size:12px">가-</b></button>
+    </div>
+  </div>
+
+  <div class="layout">
+    <!-- 왼쪽: 기자 카드 + 공유 -->
+    <aside class="side-left">
+      <div class="reporter-card">
+        <div class="avatar"><svg viewBox="0 0 24 24" fill="#fff"><circle cx="12" cy="8" r="4.5"/><path d="M3 22c1.6-5 5-7.5 9-7.5s7.4 2.5 9 7.5z"/></svg></div>
+        <div class="rname">한지원 기자</div>
+        <a href="#">다른 기사 보기</a>
+      </div>
+      <div class="sticky-share">
+        <button style="color:#3b5998" aria-label="페이스북 공유" data-share><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 8h3V4h-3c-2.8 0-4.5 1.8-4.5 4.6V11H7v4h2.5v9h4v-9h3l.5-4h-3.5V9c0-.6.4-1 1-1z"/></svg></button>
+        <button style="color:#111" aria-label="X 공유" data-share><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 3h3.3l-7.2 8.3L22 21h-6.6l-5.2-6.8L4.3 21H1l7.7-8.9L.8 3h6.8l4.7 6.2zm-1.2 16h1.8L6.8 4.9H4.9z"/></svg></button>
+        <button style="color:#d4b400" aria-label="카카오톡 공유" data-share><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.5 3 2 6.6 2 11c0 2.8 1.9 5.3 4.7 6.7L5.8 21l3.9-2.6c.7.1 1.5.2 2.3.2 5.5 0 10-3.6 10-8S17.5 3 12 3z"/></svg></button>
+        <button style="color:#12b0a6" aria-label="URL 복사" data-copy><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1"/></svg></button>
+        <button style="color:#666" aria-label="이메일 공유" data-share><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5h18v14H3zm2 2v.5l7 4.5 7-4.5V7z"/></svg></button>
+        <button style="color:#666" aria-label="기사 스크랩" data-share><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12v18l-6-4-6 4z"/></svg></button>
+      </div>
+    </aside>
+
+    <!-- 가운데: 기사 본문 -->
+    <article>
+      <h2 class="subtitle">
+        <span>예고 동창 SNS 스토리에 메시지 캡처 공개</span>
+        <span>"나 빼고 비밀연애함"…두 사람 공식 계정도 태그</span>
+      </h2>
+
+      <figure class="photo">
+        <div class="photo-box">
+          <!-- 동창이 올린 SNS 스토리 캡처 재현 -->
+          <div class="story" role="img" aria-label="동창이 SNS 스토리에 올린 단체 대화방 캡처">
+            <div class="bars"><i class="done"></i><i class="done"></i><i></i></div>
+            <div class="who">
+              <span class="pic blur"></span>
+              <span class="blur">example_user_01</span>
+            </div>
+            <div class="caption">나 빼고 비밀연애함ㅡㅡ</div>
+
+            <div class="kakao">
+              <div class="bar">
+                <span class="back">‹</span>
+                <span class="blur">예고 동창방 ♥</span>
+                <span class="count">8</span>
+              </div>
+              <div class="msgs">
+                <div class="msg-group">
+                  <span class="pf">은호</span>
+                  <div class="col">
+                    <span class="nm">이은호</span>
+                    <span class="bubble">요새 연락도 없고</span>
+                    <span class="bubble">너무 서운한데ㅔㅔㅔ</span>
+                    <span class="bubble">놀아줘</span>
+                    <span class="bubble">나 말고 딴 사람 생겻ㅅ어?</span>
+                  </div>
+                </div>
+                <div class="me"><span class="bubble">뭐야 둘이 사귐? <span class="mention">@김서진</span></span></div>
+                <div class="msg-group">
+                  <span class="pf">은호</span>
+                  <div class="col">
+                    <span class="nm">이은호</span>
+                    <span class="bubble">아 여기 아니네</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tags"><span>@이은호</span><span>@김서진</span></div>
+            <div class="reply">메시지 보내기</div>
+          </div>
+          <div class="watermark"><small>가장 빠른 이슈</small>톡톡데일리</div>
+        </div>
+        <figcaption>두 사람의 예술고 동창이라고 밝힌 한 이용자가 SNS 스토리에 올린 메시지 캡처. 사진=SNS 캡처</figcaption>
+      </figure>
+
+      <!-- 기사 본문: 전달받은 원고 그대로 -->
+      <div class="article-body" id="articleBody">
+        <p>[톡톡데일리]</p>
+        <p>분위기가 바뀐 것은 3일 밤이다. SNS에 따르면 두 사람의 예술고 동창이라고 밝힌 한 이용자가 메시지 캡처와 함께 "나 빼고 비밀연애함ㅡㅡ"이라는 글을 스토리에 올렸다.</p>
+        <p>캡처에서 이은호는 "요새 연락도 없고", "너무 서운한데ㅔㅔㅔ", "놀아줘"라고 적은 뒤 "나 말고 딴 사람 생겻ㅅ어?"라고 물었다.</p>
+        <p>이를 본 동창이 "뭐야 둘이 사귐?"이라며 김서진을 태그하자 이은호는 "아 여기 아니네"라고 답했다. 단체 대화방에 잘못 보낸 것 아니냐는 해석이 나오는 대목이다.</p>
+        <p>해당 스토리는 두 사람의 공식 계정을 함께 태그한 것으로 알려졌다.</p>
+      </div>
+
+      <div class="vote">
+        <button data-vote>👍 추천 <b>0</b></button>
+        <button data-vote>👎 반대 <b>0</b></button>
+      </div>
+
+      <div class="copyright">저작권자 © 톡톡데일리 무단전재 및 재배포 금지</div>
+
+      <div class="keywords">
+        <strong>키워드</strong>
+        <a href="#">#이은호</a><a href="#">#김서진</a><a href="#">#열애설</a><a href="#">#단톡방</a>
+      </div>
+
+      <div class="byline-box">
+        <b>한지원 기자</b>
+        <a href="#">다른 기사 보기</a>
+      </div>
+
+      <section class="comments">
+        <h4><b>0</b> 개의 댓글</h4>
+        <div class="cbox">
+          <div class="login">회원로그인 후 댓글을 작성할 수 있습니다.</div>
+          <textarea placeholder="댓글 내용을 입력하세요" maxlength="400" id="cmt"></textarea>
+          <div class="foot"><span><b id="cmtLen">0</b> / 400</span><button type="button" data-toast="로그인이 필요합니다.">등록</button></div>
+        </div>
+      </section>
+    </article>
+
+    <!-- 오른쪽: 사이드바 (가상의 기사 제목) -->
+    <aside class="side-right">
+      <div class="box">
+        <h3><b>많이 본</b> 기사</h3>
+        <ol class="rank">
+          <li><span class="no">1</span><a class="t" href="#">"아 여기 아니네"…이은호, 김서진에게 보낸 메시지 단톡방에 잘못 올렸나?</a><span class="thumb" style="background:linear-gradient(160deg,#6d5bd0,#f39a6b)"></span></li>
+          <li><span class="no">2</span><a class="t" href="#">[주말 나들이] 억새 절정…가을 산책길 다섯 곳</a><span class="thumb" style="background:linear-gradient(160deg,#d6b46a,#8a6d2f)"></span></li>
+          <li><span class="no">3</span><a class="t" href="#">일교차 10도 이상…환절기 감기 주의보</a><span class="thumb" style="background:linear-gradient(160deg,#7dd3fc,#2563eb)"></span></li>
+          <li><span class="no">4</span><a class="t" href="#">[알쏭달쏭 우리말] 설렘, 설레임</a><span class="thumb" style="background:linear-gradient(160deg,#fca5a5,#be123c)"></span></li>
+          <li><span class="no">5</span><a class="t" href="#">[식사합시다] 골목 안 칼국수집</a><span class="thumb" style="background:linear-gradient(160deg,#fde68a,#d97706)"></span></li>
+          <li><span class="no">6</span><a class="t" href="#">청소년 SNS 이용 시간 3년 새 1.4배 늘어</a><span class="thumb" style="background:linear-gradient(160deg,#a7f3d0,#047857)"></span></li>
+        </ol>
+      </div>
+
+      <div class="ad ad-side" aria-label="광고"><small>지금 신청하면 첫 달 무료</small>온라인 클래스<br>가을 특강</div>
+
+      <div class="box">
+        <h3><b>최신</b> 기사</h3>
+        <ul class="simple">
+          <li><a href="#">[기자수첩] 버스 노선 개편, 주민 목소리 먼저</a></li>
+          <li><a href="#">구도심 골목 축제, 주말 이틀간 3만 명 찾아</a></li>
+          <li><a href="#">가을 전어 시세 지난해보다 소폭 하락</a></li>
+          <li><a href="#">도서관 야간 개방 시범 운영…10월 한 달간</a></li>
+          <li><a href="#">[날씨] 내일 전국 맑음…아침 쌀쌀</a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fmenu">
+      <a href="#">언론사 소개</a><a href="#">기사제보</a><a href="#">광고문의</a><a href="#">이용약관</a>
+      <a href="#">개인정보처리방침</a><a href="#">청소년보호정책</a><a href="#">저작권보호정책</a>
+    </div>
+    <div class="finfo">
+      <div class="flogo">톡톡<b>데일리</b></div>
+      <ul>
+        <li>제호 : 톡톡데일리</li>
+        <li>발행·편집인 : 홍길동</li>
+        <li>청소년보호책임자 : 홍길동</li>
+        <li>Copyright © 2026 톡톡데일리. All rights reserved.</li>
+      </ul>
+    </div>
+    <p class="notice">※ 이 페이지는 수업용으로 제작한 가상 기사입니다. 매체·인물·내용은 실제와 관련이 없습니다.</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  var toastEl = document.getElementById('toast');
+  var toastTimer;
+  function toast(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove('show'); }, 1600);
+  }
+
+  document.querySelectorAll('[data-copy]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var url = location.href;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(function () { toast('기사 주소가 복사되었습니다.'); },
+          function () { toast('주소 복사에 실패했습니다.'); });
+      } else {
+        toast('주소 복사에 실패했습니다.');
+      }
+    });
+  });
+
+  document.querySelectorAll('[data-share]').forEach(function (b) {
+    b.addEventListener('click', function () { toast('수업용 페이지에서는 공유 기능이 동작하지 않습니다.'); });
+  });
+
+  document.querySelectorAll('[data-toast]').forEach(function (b) {
+    b.addEventListener('click', function () { toast(b.getAttribute('data-toast')); });
+  });
+
+  // 본문 글씨 크기 조절
+  var size = 18;
+  document.querySelectorAll('[data-font]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      size = Math.min(26, Math.max(14, size + Number(b.getAttribute('data-font')) * 2));
+      document.documentElement.style.setProperty('--body-size', size + 'px');
+    });
+  });
+
+  // 추천/반대 (한 번만)
+  document.querySelectorAll('[data-vote]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (b.classList.contains('voted')) return;
+      var n = b.querySelector('b');
+      n.textContent = Number(n.textContent) + 1;
+      b.classList.add('voted');
+    });
+  });
+
+  var cmt = document.getElementById('cmt');
+  cmt.addEventListener('input', function () {
+    document.getElementById('cmtLen').textContent = cmt.value.length;
+  });
+</script>
+</body>
+</html>
