@@ -201,17 +201,6 @@
   .floating button{width:40px;height:40px;border:0;background:#fff;color:#333;cursor:pointer;display:grid;place-items:center;font-size:18px}
   .floating .grp button+button{border-top:1px solid var(--line-soft)}
   .floating button:hover{background:#f2f2f2}
-  .lock-overlay{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:16px}
-  .lock-overlay[hidden]{display:none}
-  .lock-box{width:420px;max-width:100%;background:#fff;border-radius:6px;box-shadow:0 10px 30px rgba(0,0,0,.25);overflow:hidden}
-  .lock-head{display:flex;align-items:center;gap:8px;background:#f8d7da;color:#842029;border-bottom:1px solid #f5c2c7;padding:12px 16px;font-size:16px;font-weight:700}
-  .lock-body{padding:16px 16px 6px;font-size:15px;line-height:1.6}
-  .lock-body p{margin:0 0 10px}
-  .lock-body .sub{color:#555;font-size:14px}
-  .lock-list{border:1px solid var(--line);border-radius:4px;padding:8px 10px;font-size:14px;margin-bottom:10px}
-  .lock-list a:not(:last-child)::after{content:"·";color:#999;margin:0 7px}
-  .lock-foot{display:flex;justify-content:flex-end;padding:0 16px 14px}
-  .lock-foot button{border:0;background:var(--top-a);color:#fff;font:inherit;font-size:14px;font-weight:700;padding:8px 22px;border-radius:4px;cursor:pointer}
   .wiki-quote .q-by{border-top:1px solid #ccc;margin-top:10px;padding-top:8px;font-size:14px}
   .toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(20px);background:#333;color:#fff;padding:10px 16px;border-radius:4px;font-size:14px;opacity:0;pointer-events:none;transition:.2s;z-index:80}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -286,7 +275,8 @@
       "문영위키는 이용자가 내용을 편집하는 위키 형식을 재현한 수업용 화면입니다."
     ],
     "showSourceNotes": false,
-    "lockMessage": "이 화면에서는 관련 인물 문서만 열람할 수 있습니다."
+    "lockTitle": "해당 문서를 열람할 권한이 없습니다.",
+    "lockMessage": "사건과 관련된 문서만 열람할 수 있습니다."
   },
   "aliases": {
     "eunho": "이은호",
@@ -1442,17 +1432,6 @@
   </div>
 </div>
 <div class="fn-pop" id="fnPop"></div>
-<div class="lock-overlay" id="lockModal" hidden>
-  <div class="lock-box" role="alertdialog" aria-modal="true" aria-labelledby="lockTitle">
-    <div class="lock-head"><svg class="i" viewBox="0 0 24 24"><path d="M7 10V7a5 5 0 0 1 10 0v3h2v12H5V10zm2 0h6V7a3 3 0 0 0-6 0z"/></svg><span id="lockTitle">[오류!] 읽기 권한이 부족합니다.</span></div>
-    <div class="lock-body">
-      <p><b id="lockName"></b> 문서는 열람할 수 없습니다.</p>
-      <p class="sub" id="lockMsg"></p>
-      <div class="lock-list" id="lockList"></div>
-    </div>
-    <div class="lock-foot"><button type="button" id="lockOk">확인</button></div>
-  </div>
-</div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -1650,6 +1629,13 @@
       <p style="color:#666;font-size:14px">이 위키에 있는 문서: ${Object.keys(DOCS).map(n => link(n)).join(', ')}</p>`);
   }
 
+  /* 열람 제한 문서: '찾을 수 없음' 화면과 같은 모양, 문구는 site.lockTitle / site.lockMessage */
+  function renderNoAccess(name) {
+    renderSimple(name, `<p>${esc(SITE.lockTitle || '해당 문서를 열람할 권한이 없습니다.')}</p>
+      <p>${esc(SITE.lockMessage || '사건과 관련된 문서만 열람할 수 있습니다.')}</p>
+      <p style="color:#666;font-size:14px">열람할 수 있는 문서: ${Object.keys(DOCS).map(n => link(n)).join(', ')}</p>`);
+  }
+
   function renderSearch(q) {
     const hits = Object.entries(DOCS).filter(([n, d]) => n.includes(q) || JSON.stringify(d).includes(q));
     const plain = s => s.replace(/\[\[(.+?)(?:\|(.+?))?\]\]/g, (_, n, l) => l || n).replace(/'''|\(\(.+?\)\)|\{\{외부:|\}\}/g, '');
@@ -1690,15 +1676,10 @@
     if (!h || h === '/') h = '/w/' + SITE.home;
     else if (DATA.aliases && DATA.aliases[h]) h = '/w/' + DATA.aliases[h];
     else if (/^(s|fn|rfn)-/.test(h)) return;
-    if ((m = h.match(/^\/w\/(.+)$/)) && isLocked(resolve(m[1]))) {
-      showLock(resolve(m[1]));
-      if (current) { setHash(current); return; }   // 보던 문서에 그대로 머문다
-      h = '/w/' + SITE.home;                       // 처음 열 때는 첫 문서를 보여 준다
-    }
     current = h;
     if ((m = h.match(/^\/w\/(.+)$/))) {
       const name = resolve(m[1]);
-      DOCS[name] ? renderDoc(name) : renderMissing(m[1]);
+      DOCS[name] ? renderDoc(name) : isLocked(name) ? renderNoAccess(name) : renderMissing(m[1]);
     } else if ((m = h.match(/^\/search\/(.+)$/))) renderSearch(m[1]);
     else if (h === '/recent') renderRecent();
     else if (h === '/all') renderAll();
@@ -1711,8 +1692,6 @@
   const setHash = path => { try { location.hash = path; } catch (e) {} };
   const updateBack = () => { backBtn.disabled = backStack.length === 0; };
   function nav(path) {
-    const lm = path.match(/^\/w\/(.+)$/);
-    if (lm && isLocked(resolve(lm[1]))) { showLock(resolve(lm[1])); return; }
     if (current && path !== current) backStack.push({ h: current, y: window.scrollY });
     route(path);
     setHash(path);
@@ -1728,21 +1707,6 @@
   }
   backBtn.addEventListener('click', back);
   const go = name => nav('/w/' + name);
-
-  /* 열람 제한 경고창 (샌드박스에서는 alert가 막히므로 직접 그린다) */
-  const lockModal = $('#lockModal');
-  function showLock(name) {
-    closeMenus();
-    $('#lockName').textContent = `'${name}'`;
-    $('#lockMsg').textContent = SITE.lockMessage || '이 화면에서는 관련 인물 문서만 열람할 수 있습니다.';
-    $('#lockList').innerHTML = '열람 가능: ' + Object.keys(DOCS).map(n => link(n)).join('');
-    lockModal.hidden = false;
-    $('#lockOk').focus();
-  }
-  const hideLock = () => { lockModal.hidden = true; };
-  $('#lockOk').addEventListener('click', hideLock);
-  lockModal.addEventListener('click', e => { if (e.target === lockModal || e.target.closest('#lockList a')) hideLock(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !lockModal.hidden) hideLock(); });
 
   /* ── 사이드바·푸터 ── */
   $('#siteName').textContent = SITE.name;
