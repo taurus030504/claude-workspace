@@ -166,14 +166,13 @@
     padding: 18px 10px 20px;
     text-align: center;
   }
-  /* 기자 프로필 사진 자리: 얼굴 사진 대신 일러스트(게임 규칙) */
   .avatar {
     width: 60px; height: 60px; border-radius: 50%; margin: 0 auto 12px;
-    background: #e3e8ef;
+    background: linear-gradient(160deg, #cbd5e1, #94a3b8);
+    display: grid; place-items: center; color: #fff;
     overflow: hidden;
-    box-shadow: inset 0 0 0 1px rgba(0,0,0,.06);
   }
-  .avatar svg { display: block; width: 100%; height: 100%; }
+  .avatar svg { width: 70%; height: 70%; margin-top: 18%; }
   .reporter-card .rname { font-size: 15px; margin-bottom: 4px; }
   .reporter-card .rdesk { font-size: 12px; color: var(--text-muted); margin-bottom: 14px; }
   .reporter-card .more { font-size: 13px; color: var(--text-sub); text-decoration: underline; text-underline-offset: 3px; }
@@ -337,16 +336,8 @@
   .sort button { border: 0; background: none; font-size: 13px; color: var(--text-muted); padding: 4px 8px; }
   .sort button.on { color: #111; font-weight: 700; }
   .cbox { border: 1px solid #ccc; }
-  .cbox .c-top { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 10px; padding: 8px 14px; border-bottom: 1px solid #eee; font-size: 13px; color: var(--text-sub); min-height: 46px; }
-  .cbox .c-top input[type=text] { border: 1px solid #ddd; padding: 6px 8px; font: inherit; font-size: 13px; width: 150px; max-width: 100%; }
-  .cbox .c-top .setnick { border: 1px solid #333; background: #fff; padding: 5px 12px; font-size: 13px; }
-  .cbox .c-top .setnick:hover { border-color: var(--brand); color: var(--brand); }
-  .cbox .c-top .hint { font-size: 12px; color: var(--text-muted); }
-  .cbox .c-top .nick-fixed b { color: #111; margin-left: 4px; }
-  .cbox .c-top .anon { margin-left: auto; display: flex; align-items: center; gap: 5px; cursor: pointer; user-select: none; }
-  .cbox .c-top .anon input { width: 15px; height: 15px; accent-color: var(--brand); margin: 0; }
-  .cbox .c-top .anon small { color: var(--text-muted); }
-  .cbox .c-top .anon.used { cursor: default; color: var(--text-muted); text-decoration: line-through; }
+  .cbox .c-top { display: flex; align-items: center; gap: 10px; padding: 8px 14px; border-bottom: 1px solid #eee; font-size: 13px; color: var(--text-sub); }
+  .cbox .c-top input { border: 1px solid #ddd; padding: 6px 8px; font: inherit; font-size: 13px; width: 160px; max-width: 100%; }
   .cbox textarea {
     display: block; width: 100%; border: 0; resize: vertical; min-height: 90px; padding: 14px;
     font: inherit; font-size: 14px; background: #fff; color: var(--text);
@@ -359,14 +350,9 @@
   .citem .c-meta { display: flex; gap: 10px; align-items: baseline; font-size: 13px; color: var(--text-muted); }
   .citem .c-meta b { color: #222; font-size: 14px; }
   .citem p { margin: 8px 0 10px; font-size: 15px; line-height: 1.6; white-space: pre-wrap; word-break: break-all; }
-  .citem .c-meta .best { background: var(--brand); color: #fff; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 3px; letter-spacing: .04em; }
-  .citem .c-meta .me-tag { border: 1px solid #ccc; color: var(--text-muted); font-size: 10px; padding: 0 5px; border-radius: 3px; }
-  .citem .c-act { display: flex; gap: 6px; align-items: center; }
-  .citem .c-act button { border: 1px solid #ddd; background: #fff; font-size: 12px; padding: 4px 10px; border-radius: 14px; color: #555; display: inline-flex; align-items: center; gap: 4px; font-variant-numeric: tabular-nums; }
-  .citem .c-act button svg { width: 13px; height: 13px; }
+  .citem .c-act { display: flex; gap: 6px; }
+  .citem .c-act button { border: 1px solid #ddd; background: #fff; font-size: 12px; padding: 4px 10px; border-radius: 14px; color: #555; }
   .citem .c-act button.on { border-color: var(--brand); color: var(--brand); }
-  .citem .c-act button.on.down { border-color: #2563eb; color: #2563eb; }
-  .citem .c-act .del { margin-left: auto; border: 0; color: var(--text-muted); }
   .citem .c-act button.del.arm { background: var(--brand); border-color: var(--brand); color: #fff; }
   .cempty { padding: 28px 0; text-align: center; color: var(--text-muted); font-size: 14px; border-bottom: 1px solid #eee; }
 
@@ -438,27 +424,6 @@
   }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-  /* ---------- 확인 팝업 ---------- */
-  .modal-bg {
-    position: fixed; inset: 0; z-index: 20;
-    background: rgba(0,0,0,.45);
-    display: flex; align-items: center; justify-content: center;
-    padding: 16px;
-  }
-  .modal {
-    background: #fff; width: 380px; max-width: 100%;
-    border-radius: 6px; overflow: hidden;
-    box-shadow: 0 12px 40px rgba(0,0,0,.3);
-  }
-  .modal .m-body { padding: 26px 24px 22px; }
-  .modal h5 { margin: 0 0 10px; font-size: 18px; font-weight: 700; letter-spacing: -.03em; word-break: keep-all; }
-  .modal p { margin: 0; font-size: 14px; line-height: 1.65; color: var(--text-sub); word-break: keep-all; }
-  .modal p b { color: var(--brand); }
-  .modal .m-btns { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid #eee; }
-  .modal .m-btns button { border: 0; background: #fff; padding: 15px; font-size: 15px; }
-  .modal .m-btns .ok { background: #222; color: #fff; font-weight: 700; }
-  .modal .m-btns .ok:hover { background: var(--brand); }
-
   /* ---------- 반응형 ---------- */
   @media (max-width: 1100px) {
     .layout { grid-template-columns: minmax(0, 1fr) 280px; gap: 32px; }
@@ -505,8 +470,7 @@
 <!--
   사이트 데이터
   - "기자": 기자 프로필. 아이디는 영문으로(주소에 쓰임).
-  - "기사": 기사 1건 = 템플릿 6칸(템플릿/게시자/시각/본문/이미지/공개 턴) + 아이디
-           + 반응(처음부터 보이는 추천·반대 수) + 댓글(처음부터 달려 있는 댓글, 선택)
+  - "기사": 기사 1건 = 템플릿 6칸(템플릿/게시자/시각/본문/이미지/공개 턴) + 아이디 + 반응(시작 추천·반대 수, 선택)
     · 이미지가 없는 기사는 "이미지": null
     · 새 기사는 맨 아래 기사 묶음을 복사해 아이디만 바꿔 붙이면 됩니다.
   - "[교사 입력]"으로 된 칸은 화면에 노란 표시로 나타납니다. 시나리오에 맞춰 채워 주세요.
@@ -561,17 +525,7 @@
         "설명": "두 사람의 예술고 동창이라고 밝힌 한 이용자가 SNS 스토리에 올린 메시지 캡처. 사진=SNS 캡처"
       },
       "공개 턴": "[교사 입력]",
-      "반응": { "추천": 186, "반대": 57 },
-      "댓글": [
-        { "닉네임": "빛나는하루", "시각": "2026.10.04 09:24", "내용": "단톡방에 잘못 보낸 거면 진짜 당황했겠다ㅋㅋㅋ '아 여기 아니네'에서 웃음 터짐", "추천": 312, "반대": 18 },
-        { "닉네임": "고양이집사99", "시각": "2026.10.04 09:40", "내용": "캡처 한 장 가지고 열애설까지 가는 건 좀 오버 아닌가요? 친한 친구끼리도 저 정도 말은 함", "추천": 241, "반대": 37 },
-        { "닉네임": "서울사는곰", "시각": "2026.10.04 10:02", "내용": "동창이 공식 계정까지 태그한 건 선 넘었다. 사적인 대화를 왜 공개함?", "추천": 188, "반대": 22 },
-        { "닉네임": "pinkmoon", "시각": "2026.10.04 10:15", "내용": "둘이 예고 동창이었구나 처음 알았네 잘 어울린다", "추천": 96, "반대": 41 },
-        { "닉네임": "새벽세시", "시각": "2026.10.04 10:51", "내용": "근데 '나 말고 딴 사람 생겼어?'는 좀 수상하긴 함ㅋㅋ", "추천": 134, "반대": 26 },
-        { "닉네임": "하리보젤리", "시각": "2026.10.04 11:37", "내용": "공식 입장 나올 때까지 기다려 봅시다", "추천": 73, "반대": 5 },
-        { "닉네임": "오늘도출근", "시각": "2026.10.04 12:20", "내용": "이은호 저런 말투였어? 의외로 귀엽네", "추천": 54, "반대": 29 },
-        { "닉네임": "지나가던사람", "시각": "2026.10.04 13:08", "내용": "열애설이든 아니든 둘이 알아서 할 일", "추천": 61, "반대": 8 }
-      ]
+      "반응": { "추천": 0, "반대": 0 }
     }
   ]
 }
@@ -697,66 +651,21 @@
     up: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 11v9H4v-9zM7 11l4-8c1.7 0 2.5 1 2.2 2.6L12.6 9H19a2 2 0 012 2.3l-1.2 6.9A2 2 0 0117.8 20H7"/></svg>',
     down: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 13V4H4v9zM7 13l4 8c1.7 0 2.5-1 2.2-2.6L12.6 15H19a2 2 0 002-2.3l-1.2-6.9A2 2 0 0017.8 4H7"/></svg>'
   };
-  // 기자 프로필 일러스트(정장 상반신). 얼굴 사진은 쓰지 않는다.
-  var REPORTER_ART = '' +
-    '<svg viewBox="0 0 120 120" aria-hidden="true">' +
-      '<rect width="120" height="120" fill="#e3e8ef"/>' +
-      '<path d="M8 124c3-22 20-34 52-34s49 12 52 34z" fill="#2c3a50"/>' +
-      '<path d="M45 91l15 27 15-27c-4-1-9-1.5-15-1.5s-11 .5-15 1.5z" fill="#f8fafc"/>' +
-      '<path d="M54 91l6 9 6-9" stroke="#dbe2ea" stroke-width="1.6" fill="none" stroke-linejoin="round"/>' +
-      '<path d="M45 91l15 27-8-25zM75 91L60 118l8-25z" fill="#24303f" opacity=".55"/>' +
-      '<path d="M51 70h18v18c0 4-4 7-9 7s-9-3-9-7z" fill="#e2ad88"/>' +
-      '<path d="M51 78c3 3 6 4 9 4s6-1 9-4v-4H51z" fill="#cf9876"/>' +
-      '<ellipse cx="38.5" cy="55" rx="4.2" ry="6.2" fill="#e8b591"/>' +
-      '<ellipse cx="81.5" cy="55" rx="4.2" ry="6.2" fill="#e8b591"/>' +
-      '<path d="M60 26c13.5 0 22 9 22 25v6c0 13-9.5 23-22 23s-22-10-22-23v-6c0-16 8.5-25 22-25z" fill="#f1c4a1"/>' +
-      '<path d="M37 55c-2-20 6-33 23-33 18 0 26 11 24 31-2-7-5-12-9-15-6 4-17 6-30 5-3 3-6 7-8 12z" fill="#2a2220"/>' +
-      '<path d="M48 31c6-3 14-4 21-2-7 0-14 2-19 5z" fill="#4a3c37" opacity=".7"/>' +
-      '<path d="M47.5 49.5c2.5-1.4 5.5-1.4 8 0M64.5 49.5c2.5-1.4 5.5-1.4 8 0" stroke="#2a2220" stroke-width="1.8" fill="none" stroke-linecap="round"/>' +
-      '<ellipse cx="51.5" cy="56" rx="2" ry="2.3" fill="#2a2220"/>' +
-      '<ellipse cx="68.5" cy="56" rx="2" ry="2.3" fill="#2a2220"/>' +
-      '<path d="M60 58.5l-2.2 7.2c1.3.7 3.1.7 4.4 0" stroke="#d29a78" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>' +
-      '<path d="M54.5 70c3.5 2.6 7.5 2.6 11 0" stroke="#b5694f" stroke-width="1.8" fill="none" stroke-linecap="round"/>' +
-      '<ellipse cx="45.5" cy="64" rx="3.5" ry="2" fill="#ec9f8c" opacity=".35"/>' +
-      '<ellipse cx="74.5" cy="64" rx="3.5" ry="2" fill="#ec9f8c" opacity=".35"/>' +
-    '</svg>';
-  function avatar() { return '<div class="avatar">' + REPORTER_ART + '</div>'; }
+  function avatar() { return '<div class="avatar">' + ICON.person + '</div>'; }
 
   // ================= 반응(추천·반대·댓글) =================
   function getVote(id) { return store.get('vote:' + id, ''); }
-  function getMyComments(id) { return store.get('comments:' + id, []); }
-  function getCReact(id) { return store.get('creact:' + id, {}); }   // { 댓글아이디: 'up' | 'down' }
-  function toTs(s) {
-    var m = String(s).match(/(\d{4})\.(\d{2})\.(\d{2})\s+(\d{2}):(\d{2})/);
-    return m ? new Date(+m[1], m[2] - 1, +m[3], +m[4], +m[5]).getTime() : 0;
-  }
-  // 데이터에 들어 있는 댓글 + 이 브라우저에서 단 댓글
-  function allComments(a) {
-    var id = a['아이디'], react = getCReact(id);
-    var seed = (a['댓글'] || []).map(function (c, i) {
-      return { id: 's' + i, nick: c['닉네임'], text: c['내용'], time: c['시각'], ts: toTs(c['시각']), up: c['추천'] || 0, down: c['반대'] || 0, mine: false };
-    });
-    var mine = getMyComments(id).map(function (c) {
-      return { id: c.id, nick: c.anon ? '익명' : c.nick, anon: c.anon, text: c.text, time: c.time, ts: c.ts, up: 0, down: 0, mine: true };
-    });
-    return seed.concat(mine).map(function (c) {
-      c.react = react[c.id] || '';
-      if (c.react === 'up') c.up++;
-      if (c.react === 'down') c.down++;
-      return c;
-    });
-  }
+  function getComments(id) { return store.get('comments:' + id, []); }
+  function getLiked(id) { return store.get('cliked:' + id, []); }
   function counts(a) {
     var id = a['아이디'], base = a['반응'] || {}, v = getVote(id);
     return {
       up: (base['추천'] || 0) + (v === 'up' ? 1 : 0),
       down: (base['반대'] || 0) + (v === 'down' ? 1 : 0),
       vote: v,
-      comments: (a['댓글'] || []).length + getMyComments(id).length
+      comments: getComments(id).length
     };
   }
-  function myNick() { return store.get('nick', ''); }
-  function anonUsed() { return store.get('anonUsed', false); }
 
   // ================= 이미지 렌더러 =================
   var RENDER_IMAGE = {
@@ -931,7 +840,7 @@
             '<div class="c-head"><h4><b data-ccount>0</b> 개의 댓글</h4>' +
               '<div class="sort"><button data-sort="new">최신순</button><button data-sort="best">추천순</button></div></div>' +
             '<form class="cbox" id="cmtForm">' +
-              '<div class="c-top" id="cmtTop"></div>' +
+              '<div class="c-top"><label for="cmtNick">닉네임</label><input id="cmtNick" maxlength="12" placeholder="익명" autocomplete="off"></div>' +
               '<textarea id="cmtText" maxlength="400" placeholder="댓글을 입력하세요. 다른 사람을 비방하는 댓글은 삭제될 수 있습니다."></textarea>' +
               '<div class="foot"><span><b id="cmtLen">0</b> / 400</span><button type="submit">등록</button></div>' +
             '</form>' +
@@ -941,25 +850,8 @@
         sideHTML() +
       '</div>';
 
-    renderCommentTop();
+    document.getElementById('cmtNick').value = store.get('nick', '');
     refreshReactions();
-  }
-
-  // 댓글 입력칸 윗줄: 닉네임(한 번 정하면 고정) + 익명(사이트 전체 1회)
-  function renderCommentTop() {
-    var top = document.getElementById('cmtTop');
-    if (!top) return;
-    var nick = myNick();
-    var left = nick
-      ? '<span class="nick-fixed">닉네임<b>' + esc(nick) + '</b></span>'
-      : '<label for="cmtNickInput">닉네임</label>' +
-        '<input type="text" id="cmtNickInput" maxlength="10" placeholder="2~10자" autocomplete="off">' +
-        '<button type="button" class="setnick" data-setnick>설정</button>' +
-        '<span class="hint">한 번 정하면 바꿀 수 없어요</span>';
-    var right = anonUsed()
-      ? '<span class="anon used" title="익명 댓글은 이미 사용했습니다">익명 사용 완료</span>'
-      : '<label class="anon" for="cmtAnon"><input type="checkbox" id="cmtAnon">익명으로 작성<small>(1회)</small></label>';
-    top.innerHTML = left + right;
   }
 
   function refreshReactions() {
@@ -977,26 +869,21 @@
       btn.classList.toggle('on', btn.getAttribute('data-sort') === sortMode);
     });
 
-    var list = allComments(a);
-    // BEST: 추천이 가장 많은 댓글 1개(추천 50 이상일 때)
-    var bestId = null, bestUp = 49;
-    list.forEach(function (cm) { if (cm.up > bestUp) { bestUp = cm.up; bestId = cm.id; } });
-    if (sortMode === 'best') list.sort(function (x, y) { return (y.up - y.down) - (x.up - x.down) || (y.ts - x.ts); });
+    var list = getComments(current).slice();
+    var liked = getLiked(current);
+    if (sortMode === 'best') list.sort(function (x, y) { return (y.likes || 0) - (x.likes || 0) || (y.ts - x.ts); });
     else list.sort(function (x, y) { return y.ts - x.ts; });
 
     var ul = document.getElementById('cmtList');
     if (!ul) return;
     ul.innerHTML = list.length ? list.map(function (cm) {
-      var id = esc(cm.id);
+      var isLiked = liked.indexOf(cm.id) > -1;
       return '<li class="citem">' +
-        '<div class="c-meta">' + (cm.id === bestId ? '<span class="best">BEST</span>' : '') +
-          '<b>' + esc(cm.nick) + '</b>' + (cm.mine ? '<span class="me-tag">내 댓글</span>' : '') +
-          '<span>' + esc(cm.time) + '</span></div>' +
+        '<div class="c-meta"><b>' + esc(cm.nick) + '</b><span>' + esc(cm.time) + '</span></div>' +
         '<p>' + esc(cm.text) + '</p>' +
         '<div class="c-act">' +
-          '<button data-creact="up" data-cid="' + id + '" class="' + (cm.react === 'up' ? 'on' : '') + '" aria-pressed="' + (cm.react === 'up') + '" aria-label="댓글 추천">' + ICON.up + cm.up + '</button>' +
-          '<button data-creact="down" data-cid="' + id + '" class="down ' + (cm.react === 'down' ? 'on' : '') + '" aria-pressed="' + (cm.react === 'down') + '" aria-label="댓글 반대">' + ICON.down + cm.down + '</button>' +
-          (cm.mine ? '<button class="del" data-cdel="' + id + '">삭제</button>' : '') +
+          '<button data-clike="' + esc(cm.id) + '" class="' + (isLiked ? 'on' : '') + '" aria-pressed="' + isLiked + '">추천 ' + (cm.likes || 0) + '</button>' +
+          (cm.mine ? '<button class="del" data-cdel="' + esc(cm.id) + '">삭제</button>' : '') +
         '</div></li>';
     }).join('') : '<li class="cempty">아직 댓글이 없습니다. 첫 댓글을 남겨 보세요.</li>';
   }
@@ -1111,26 +998,16 @@
       return;
     }
 
-    if (t.hasAttribute('data-setnick')) {
-      var inp = document.getElementById('cmtNickInput');
-      var v = inp.value.trim();
-      if (v.length < 2) { toast('닉네임은 2~10자로 입력해 주세요.'); inp.focus(); return; }
-      if (v === '익명') { toast('\'익명\'은 닉네임으로 쓸 수 없어요.'); inp.focus(); return; }
-      openModal({
-        title: '닉네임을 이렇게 정할까요?',
-        body: '<b>' + esc(v) + '</b><br>한 번 정한 닉네임은 바꿀 수 없고, 모든 기사의 댓글에 이 닉네임이 쓰입니다.',
-        ok: '설정',
-        onOk: function () { store.set('nick', v); renderCommentTop(); toast('닉네임을 설정했습니다.'); }
+    if (t.hasAttribute('data-clike') && current) {
+      var cid = t.getAttribute('data-clike');
+      var list = getComments(current), liked = getLiked(current);
+      var idx = liked.indexOf(cid);
+      list.forEach(function (cm) {
+        if (cm.id === cid) cm.likes = Math.max(0, (cm.likes || 0) + (idx > -1 ? -1 : 1));
       });
-      return;
-    }
-
-    if (t.hasAttribute('data-creact') && current) {
-      var cid = t.getAttribute('data-cid'), ck = t.getAttribute('data-creact');
-      if (cid.charAt(0) === 'c') { toast('내 댓글에는 추천·반대를 할 수 없습니다.'); return; }
-      var react = getCReact(current);
-      if (react[cid] === ck) delete react[cid]; else react[cid] = ck;   // 같은 버튼 다시 누르면 취소
-      store.set('creact:' + current, react);
+      if (idx > -1) liked.splice(idx, 1); else liked.push(cid);
+      store.set('comments:' + current, list);
+      store.set('cliked:' + current, liked);
       refreshReactions();
       return;
     }
@@ -1148,7 +1025,7 @@
       }
       armedDelete = null;
       clearTimeout(armTimer);
-      store.set('comments:' + current, getMyComments(current).filter(function (cm) { return cm.id !== did; }));
+      store.set('comments:' + current, getComments(current).filter(function (cm) { return cm.id !== did; }));
       toast('댓글을 삭제했습니다.');
       refreshReactions();
       return;
@@ -1158,71 +1035,20 @@
   document.addEventListener('submit', function (e) {
     if (e.target.id !== 'cmtForm' || !current) return;
     e.preventDefault();
-    var nickInput = document.getElementById('cmtNickInput');
-    // 닉네임 칸에서 Enter를 누르면 닉네임 설정으로
-    if (nickInput && document.activeElement === nickInput) { document.querySelector('[data-setnick]').click(); return; }
-    var textEl = document.getElementById('cmtText');
+    var nickEl = document.getElementById('cmtNick'), textEl = document.getElementById('cmtText');
     var text = textEl.value.trim();
     if (!text) { toast('댓글 내용을 입력해 주세요.'); textEl.focus(); return; }
-
-    var anonEl = document.getElementById('cmtAnon');
-    if (anonEl && anonEl.checked) {
-      openModal({
-        title: '익명 댓글은 한 번만 쓸 수 있어요',
-        body: '익명 댓글은 <b>모든 기사를 통틀어 1회</b>만 작성할 수 있습니다. 등록한 뒤에는 다시 익명으로 쓸 수 없고, 댓글을 지워도 기회는 돌아오지 않습니다.<br>동의하고 등록할까요?',
-        ok: '동의하고 등록',
-        onOk: function () { store.set('anonUsed', true); postComment(text, true); renderCommentTop(); }
-      });
-      return;
-    }
-    if (!myNick()) { toast('먼저 닉네임을 설정해 주세요.'); if (nickInput) nickInput.focus(); return; }
-    postComment(text, false);
-  });
-
-  function postComment(text, anon) {
-    var list = getMyComments(current);
-    list.push({ id: 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), nick: anon ? '' : myNick(), anon: anon, text: text, time: now(), ts: Date.now() });
+    var nick = nickEl.value.trim() || '익명';
+    store.set('nick', nickEl.value.trim());
+    var list = getComments(current);
+    list.push({ id: 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), nick: nick, text: text, time: now(), ts: Date.now(), likes: 0, mine: true });
     store.set('comments:' + current, list);
-    document.getElementById('cmtText').value = '';
+    textEl.value = '';
     document.getElementById('cmtLen').textContent = '0';
     sortMode = 'new';
-    toast(anon ? '익명 댓글을 등록했습니다.' : '댓글을 등록했습니다.');
+    toast('댓글을 등록했습니다.');
     refreshReactions();
-  }
-
-  // ---------- 확인 팝업 (브라우저 기본 confirm 대신 화면 안에 띄움) ----------
-  var modalBg = null, modalOk = null, lastFocus = null;
-  function openModal(o) {
-    closeModal();
-    lastFocus = document.activeElement;
-    modalBg = document.createElement('div');
-    modalBg.className = 'modal-bg';
-    modalBg.innerHTML = '<div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">' +
-      '<div class="m-body"><h5 id="mTitle">' + esc(o.title) + '</h5><p>' + o.body + '</p></div>' +
-      '<div class="m-btns"><button type="button" data-m="cancel">' + esc(o.cancel || '취소') + '</button>' +
-      '<button type="button" class="ok" data-m="ok">' + esc(o.ok || '확인') + '</button></div></div>';
-    document.body.appendChild(modalBg);
-    modalOk = o.onOk;
-    modalBg.querySelector('[data-m="ok"]').focus();
-  }
-  function closeModal() {
-    if (!modalBg) return;
-    modalBg.remove();
-    modalBg = null; modalOk = null;
-    if (lastFocus && lastFocus.focus) lastFocus.focus();
-  }
-  document.addEventListener('click', function (e) {
-    if (!modalBg) return;
-    var b = e.target.closest('[data-m]');
-    if (b) {
-      var fn = b.getAttribute('data-m') === 'ok' ? modalOk : null;
-      closeModal();
-      if (fn) fn();
-    } else if (e.target === modalBg) {
-      closeModal();
-    }
   });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
 
   document.addEventListener('input', function (e) {
     if (e.target.id === 'cmtText') document.getElementById('cmtLen').textContent = e.target.value.length;
