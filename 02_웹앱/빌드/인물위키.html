@@ -211,7 +211,8 @@
   .floating .grp button+button{border-top:1px solid var(--line-soft)}
   .floating button:hover{background:#f2f2f2}
   .wiki-notice{display:flex;gap:10px;align-items:flex-start;border:1px solid #e8d48b;border-left:5px solid #e0a800;background:#fffbea;padding:9px 12px;margin:0 0 15px;font-size:14px;line-height:1.55}
-  .wiki-notice .ico{flex-shrink:0;width:20px;height:20px;border-radius:50%;background:#e0a800;color:#fff;font-weight:800;font-size:13px;display:grid;place-items:center;margin-top:1px}
+  .wiki-notice .ico{flex-shrink:0;width:20px;height:20px;border-radius:50%;background:#e0a800;display:block;margin-top:1px}
+  .wiki-notice .ico svg{display:block;width:20px;height:20px}
   .wiki-detail{display:flex;gap:8px;align-items:center;margin:0 0 15px;font-size:15px}
   .wiki-detail .ico{flex-shrink:0;width:20px;height:20px;border-radius:50%;background:#16a085;color:#fff;font-size:12px;font-weight:800;display:grid;place-items:center}
   .wiki-quote .q-by{border-top:1px solid #ccc;margin-top:10px;padding-top:8px;font-size:14px}
@@ -339,7 +340,7 @@
           ],
           [
             "데뷔",
-            "2023년 {{배지:디지털 싱글}} {{앨범:파란선}}"
+            "2023년 디지털 싱글 《파란선》"
           ],
           [
             "학력",
@@ -692,7 +693,7 @@
           ],
           [
             "데뷔",
-            "2025년 12월 {{배지:디지털 싱글}} {{앨범:초점}}"
+            "2025년 12월 디지털 싱글 《초점》"
           ],
           [
             "학력",
@@ -1891,7 +1892,7 @@
     if (b.p) return `<p>${markup(b.p, fns)}</p>`;
     if (b.list) return `<ul class="wiki-list">${b.list.map(x => `<li>${markup(x, fns)}</li>`).join('')}</ul>`;
     if (b.detail) return `<div class="wiki-detail"><span class="ico">≡</span><div>자세한 내용은 ${link(b.detail)} 문서를 참고하십시오.</div></div>`;
-    if (b.notice) return `<div class="wiki-notice"><span class="ico">!</span><div>${markup(b.notice, fns)}</div></div>`;
+    if (b.notice) return `<div class="wiki-notice"><span class="ico"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="8.9" y="4.5" width="2.2" height="7" rx="1.1" fill="#fff"/><circle cx="10" cy="14.6" r="1.35" fill="#fff"/></svg></span><div>${markup(b.notice, fns)}</div></div>`;
     if (b.quote) return `<blockquote class="wiki-quote" style="margin-left:0">${markup(b.quote, fns)}${b.by ? `<div class="q-by">${markup(b.by, fns)}</div>` : ''}</blockquote>`;
     if (b.table) return `<div class="wiki-table-wrap"><table class="wiki-table${(b.table.head || b.table.rows[0] || []).length > 2 ? ' wide' : ''}">
       ${b.table.head ? `<tr>${b.table.head.map(h => `<th>${esc(h)}</th>`).join('')}</tr>` : ''}
