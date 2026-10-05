@@ -632,7 +632,7 @@
       "직함": "기자",
       "부서": "연예부",
       "이메일": "jwhan@munyoungilbo.com",
-      "소개": "연예부. 방송·가요·SNS 이슈를 빠르게 전합니다. 제보 환영."
+      "소개": "연예부에서 방송과 가요 쪽을 맡고 있습니다. 제보는 메일로 주세요."
     }
   ],
   "기사": [
@@ -993,7 +993,7 @@
       "이미지": {
         "종류": "포스터",
         "문구": "도화선",
-        "부문구": "YUN TAEO · DIGITAL SINGLE · 10.02 6PM",
+        "부문구": "YUN TAEO  |  DIGITAL SINGLE  |  10.02 6PM",
         "설명": "윤태오 새 디지털 싱글 '도화선' 티저 이미지. 사진=소속사 제공"
       },
       "공개 턴": 1,
@@ -1174,12 +1174,12 @@
       <span class="logo-img" role="img" aria-label="문영일보"></span>
       <ul>
         <li>제호 : <span data-outlet></span></li>
-        <li>발행·편집인 : 홍길동</li>
-        <li>청소년보호책임자 : 홍길동</li>
+        <li>발행인 겸 편집인 : 박정환</li>
+        <li>청소년보호책임자 : 김은정</li>
         <li>Copyright © 2026 <span data-outlet></span>. All rights reserved.</li>
       </ul>
     </div>
-    <p class="notice">※ 이 페이지는 수업용으로 제작한 가상 기사입니다. 매체·인물·내용은 실제와 관련이 없습니다.</p>
+    <p class="notice">※ 이 페이지는 수업용으로 제작한 가상 기사입니다. 매체, 인물, 내용은 실제와 관련이 없습니다.</p>
   </div>
 </footer>
 
@@ -1421,7 +1421,7 @@
     return '' +
       '<aside class="side-right">' +
         '<div class="box"><h3><b>많이 본</b> 연예 기사</h3><ol class="rank">' + rank + '</ol></div>' +
-        '<div class="ad-text" aria-label="광고"><span class="ad-mark">AD</span><b>2027학년도 수시 설명회</b><span>한솔예술학원 · 디자인·영상 전공 상담 접수 중</span><em>자세히 보기 ›</em></div>' +
+        '<div class="ad-text" aria-label="광고"><span class="ad-mark">AD</span><b>2027학년도 수시 설명회</b><span>한솔예술학원 디자인, 영상 전공 상담 접수 중</span><em>자세히 보기 ›</em></div>' +
         '<div class="box"><h3><b>연예</b> 최신</h3><ul class="simple">' +
           "<li>'여름의 끝' 종영 인터뷰…\"결말은 시청자 몫\"</li>" +
           "<li>가수 윤태오 '도화선' 음원 차트 진입</li>" +
@@ -1651,7 +1651,7 @@
       userCrumb(null) +
       '<div class="layout two" style="padding-top:12px">' +
         '<div>' +
-          '<h2 class="list-title">댓글 작성자 <small>' + users.length + '명 · 댓글 ' + total + '개</small></h2>' +
+          '<h2 class="list-title">댓글 작성자 <small>' + users.length + '명, 댓글 ' + total + '개</small></h2>' +
           '<p class="u-note">닉네임을 누르면 그 사람이 어떤 기사에 어떤 댓글을 썼는지 모두 볼 수 있어요. 익명 댓글은 포함되지 않아요.</p>' +
           '<table class="ulist"><thead><tr><th>닉네임</th><th>댓글</th><th>기사</th><th>추천</th><th>반대</th><th>마지막 댓글</th></tr></thead><tbody>' +
           users.map(function (u) {
@@ -1838,7 +1838,7 @@
 
     if (t.hasAttribute('data-creact') && current) {
       var cid = t.getAttribute('data-cid'), ck = t.getAttribute('data-creact');
-      if (cid.charAt(0) === 'c') { toast('내 댓글에는 추천·반대를 할 수 없습니다.'); return; }
+      if (cid.charAt(0) === 'c') { toast('내 댓글에는 추천이나 반대를 할 수 없습니다.'); return; }
       var react = getCReact(current);
       if (react[cid] === ck) delete react[cid]; else react[cid] = ck;   // 같은 버튼 다시 누르면 취소
       store.set('creact:' + current, react);
@@ -1989,7 +1989,7 @@
   function resetAll() {
     openModal({
       title: '이 브라우저의 기록을 지울까요?',
-      body: '학생 정보, 내가 쓴 댓글, 추천·반대 기록이 모두 지워지고 시작 화면으로 돌아갑니다.',
+      body: '학생 정보, 내가 쓴 댓글, 추천과 반대 기록이 모두 지워지고 시작 화면으로 돌아갑니다.',
       ok: '모두 지우기',
       onOk: function () {
         try {
