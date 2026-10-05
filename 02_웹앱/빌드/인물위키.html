@@ -96,6 +96,8 @@
   .ibox-img{position:relative;aspect-ratio:4/3.4;background:linear-gradient(#f4f5f6,#e9ebed)}
   .ibox-img svg{position:absolute;inset:0;width:100%;height:100%}
   .ibox-img.t-logo,.ibox-img.t-building{aspect-ratio:16/8;background:#fff}
+  .ibox-img.t-photo{aspect-ratio:auto;background:#fff}
+  .ibox-img img{display:block;width:100%;height:auto}
   .ibox-img .logo-ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:14px;color:var(--ibox)}
   .ibox-img .logo-ph b{width:74px;height:74px;border:4px solid currentColor;border-radius:12px;display:grid;place-items:center;font-size:30px;letter-spacing:-.02em}
   .ibox-img .logo-ph span{font-weight:800;font-size:20px;line-height:1.2;text-align:left}
@@ -382,10 +384,6 @@
           [
             "SNS",
             "{{외부:@e_euno_official}}"
-          ],
-          [
-            "서명",
-            "{{서명:1}}"
           ],
           [
             "관련 인물",
@@ -782,10 +780,6 @@
           [
             "SNS",
             "{{외부:@seojin_official}}"
-          ],
-          [
-            "서명",
-            "{{서명:2}}"
           ],
           [
             "관련 인물",
@@ -1788,10 +1782,6 @@
             "보컬 트레이너 (2002~2010)[br]음반 기획사 보컬 디렉터 (2010~2015)[br]리버노트 엔터테인먼트 대표이사 (2016~ )"
           ],
           [
-            "서명",
-            "{{서명:3}}"
-          ],
-          [
             "관련 인물",
             "[[서지운]]"
           ]
@@ -2126,6 +2116,7 @@
 
   /* 정보상자 그림: 인물은 실루엣, 기획사는 로고 자리, 학교는 건물 그림 */
   function infoImage(name, ib) {
+    if (ib.imageSrc) return `<img src="${ib.imageSrc}" alt="${esc(ib.image || name)}">`;
     if (ib.imageType === 'logo') {
       const nb = DOCS[name].navbox || {};
       return `<div class="logo-ph"><b>${esc(nb.mark || name.slice(0, 2))}</b><span>${esc(name)}${nb.sub ? `<br><small style="font-weight:600;font-size:11px">${esc(nb.sub)}</small>` : ''}</span></div>`;
