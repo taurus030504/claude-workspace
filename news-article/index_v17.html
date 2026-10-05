@@ -110,15 +110,6 @@
   .gnb nav a.on { color: var(--brand); }
   .gnb .icons { display: flex; gap: 14px; }
   .gnb .icons svg { width: 22px; height: 22px; display: block; }
-  .gnb .icons .icon-btn { border: 0; background: none; padding: 0; display: block; }
-  /* 기록 지우기 창 */
-  .tools { display: grid; gap: 8px; margin-top: 4px; }
-  .tools button { text-align: left; border: 1px solid #ddd; background: #fff; padding: 12px 14px; font-size: 14px; color: #111; border-radius: 4px; display: grid; gap: 3px; }
-  .tools button small { font-size: 12px; color: var(--text-muted); font-weight: 400; }
-  .tools button:hover { border-color: #888; background: var(--bg-soft); }
-  .tools button.danger { border-color: #f1b7c4; }
-  .tools button.danger:hover { border-color: var(--brand); }
-  .tools-now { font-size: 12px; color: var(--text-muted); margin: 0 0 12px !important; }
 
   /* ---------- 공통 머리 ---------- */
   .crumb {
@@ -1284,10 +1275,10 @@
       <a href="#list" data-closed>오피니언</a>
       <a href="#list" data-closed>기획</a>
     </nav>
-    <div class="icons">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" aria-hidden="true"><circle cx="10.5" cy="10.5" r="7"/><path d="M16 16l5 5"/></svg>
-      <button type="button" class="icon-btn" data-tools aria-label="기록 지우기(교사 도구)" title="기록 지우기"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3.2"/><path d="M5.5 19c1.6-2.6 3.9-3.8 6.5-3.8s4.9 1.2 6.5 3.8"/></svg></button>
-      <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    <div class="icons" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2"><circle cx="10.5" cy="10.5" r="7"/><path d="M16 16l5 5"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3.2"/><path d="M5.5 19c1.6-2.6 3.9-3.8 6.5-3.8s4.9 1.2 6.5 3.8"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
     </div>
   </div>
 </header>
@@ -2025,7 +2016,6 @@
 
     var ah = t.getAttribute && t.getAttribute('href'), am = ah && ah.match(/^#article-(.+)$/);
     if (am && articleById[am[1]] && !isCase(articleById[am[1]])) { e.preventDefault(); lockedNotice(); return; }
-    if (t.hasAttribute('data-tools')) { openToolsModal(); return; }
     if (t.hasAttribute('data-closed')) { e.preventDefault(); toast('수업용 페이지에서는 열리지 않는 메뉴입니다.'); return; }
     if (t.hasAttribute('data-toast')) { e.preventDefault(); toast(t.getAttribute('data-toast')); return; }
     if (t.hasAttribute('data-share')) { toast('수업용 페이지에서는 공유 기능이 동작하지 않습니다.'); return; }
@@ -2319,56 +2309,6 @@
         toast(nick + '님, 시작합니다.');
       }
     });
-  });
-
-  // ---------- 기록 지우기 (머리의 사람 아이콘 또는 #reset) ----------
-  // 저장 키 접두사 목록만큼 지운다. 예: ['comments:', 'replies:']
-  function clearKeys(prefixes) {
-    function hit(k) { return prefixes.some(function (p) { return k.indexOf(p) === 0; }); }
-    try {
-      Object.keys(localStorage).forEach(function (k) {
-        if (k.indexOf(NS) === 0 && hit(k.slice(NS.length))) localStorage.removeItem(k);
-      });
-    } catch (err) {}
-    Object.keys(mem).forEach(function (k) { if (hit(k)) delete mem[k]; });
-  }
-  function myTotals() {
-    var cm = 0, rp = 0, rt = 0;
-    ARTICLES.forEach(function (a) { cm += getMyComments(a['아이디']).length; rp += getMyReplies(a['아이디']).length; rt += getReports(a['아이디']).length; });
-    return { comments: cm, replies: rp, reports: rt };
-  }
-  function afterClear(msg) {
-    if (current) { openReplies = {}; shownCount = PAGE; refreshReactions(); renderCommentTop(); }
-    else route();
-    toast(msg);
-  }
-  function openToolsModal() {
-    var t = myTotals(), p = profile();
-    openModal({
-      title: '기록 지우기',
-      single: true, ok: '닫기',
-      body: '<p class="tools-now">' + (p ? '<b>' + esc(p['닉네임']) + '</b> / ' : '') + '내 댓글 ' + t.comments + '개, 답글 ' + t.replies + '개, 신고 ' + t.reports + '건</p>' +
-        '<div class="tools">' +
-          '<button type="button" data-clear="comments">내 댓글과 답글만 지우기<small>닉네임, 추천 기록은 그대로 둡니다. 익명 사용 기회도 그대로입니다.</small></button>' +
-          '<button type="button" data-clear="activity">댓글 관련 기록 모두 지우기<small>댓글, 답글, 댓글 추천·반대, 신고, 익명 사용 여부까지 지웁니다. 닉네임과 기사 추천은 남습니다.</small></button>' +
-          '<button type="button" class="danger" data-clear="all">전부 지우고 시작 화면으로<small>학번이름과 닉네임까지 지웁니다. 처음부터 다시 시작합니다.</small></button>' +
-        '</div>'
-    });
-  }
-  document.addEventListener('click', function (e) {
-    var b = e.target.closest('[data-clear]');
-    if (!b) return;
-    var kind = b.getAttribute('data-clear');
-    closeModal();
-    if (kind === 'comments') {
-      openModal({ title: '내 댓글과 답글을 지울까요?', body: '이 브라우저에서 쓴 댓글과 답글이 모두 지워집니다.', ok: '지우기',
-        onOk: function () { clearKeys(['comments:', 'replies:']); afterClear('내 댓글과 답글을 지웠습니다.'); } });
-    } else if (kind === 'activity') {
-      openModal({ title: '댓글 관련 기록을 모두 지울까요?', body: '댓글, 답글, 댓글 추천과 반대, 신고, 익명 사용 기록이 지워집니다. 닉네임은 그대로입니다.', ok: '지우기',
-        onOk: function () { clearKeys(['comments:', 'replies:', 'creact:', 'reports:', 'anonUsed']); afterClear('댓글 관련 기록을 지웠습니다.'); } });
-    } else if (kind === 'all') {
-      resetAll();
-    }
   });
 
   // 교사 테스트용: 주소 끝에 #reset 을 붙여 열면 이 브라우저 기록을 지우고 처음 화면으로
