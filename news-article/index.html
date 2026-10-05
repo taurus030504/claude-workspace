@@ -118,6 +118,9 @@
   .tools button:hover { border-color: #888; background: var(--bg-soft); }
   .tools button.danger { border-color: #f1b7c4; }
   .tools button.danger:hover { border-color: var(--brand); }
+  .pin-note { margin-bottom: 10px !important; }
+  .pin-in { display: block; width: 100%; font: inherit; font-size: 18px; letter-spacing: .2em; padding: 10px 12px; border: 1.5px solid #ccc; border-radius: 4px; }
+  .pin-in:focus { border-color: var(--brand); outline: none; }
   .tools-now { font-size: 12px; color: var(--text-muted); margin: 0 0 12px !important; }
 
   /* ---------- 공통 머리 ---------- */
@@ -676,6 +679,7 @@
   "매체": {
     "이름": "문영일보",
     "사건 인물": ["이은호", "김서진"],
+    "교사 학번": ["1444"],
     "업데이트": "2026-10-06 14:10 (화)"
   },
   "기자": [
@@ -1996,7 +2000,7 @@
   function route() {
     var h = location.hash.slice(1), m;
     if (h === 'comments' && current) return;            // 같은 기사 안에서 댓글로 이동
-    if (h === 'reset') { renderList(); resetAll(); return; }
+    if (h === 'reset') { renderList(); askTeacher(resetAll); return; }
     if ((m = h.match(/^reporter-(.+)$/)) && reporterById[m[1]]) renderReporter(m[1]);
     else if (h === 'users') renderUsers();
     else if ((m = h.match(/^user-(.+)$/))) { var nk; try { nk = decodeURIComponent(m[1]); } catch (err) { nk = m[1]; } renderUser(nk); }
@@ -2025,7 +2029,7 @@
 
     var ah = t.getAttribute && t.getAttribute('href'), am = ah && ah.match(/^#article-(.+)$/);
     if (am && articleById[am[1]] && !isCase(articleById[am[1]])) { e.preventDefault(); lockedNotice(); return; }
-    if (t.hasAttribute('data-tools')) { openToolsModal(); return; }
+    if (t.hasAttribute('data-tools')) { askTeacher(openToolsModal); return; }
     if (t.hasAttribute('data-closed')) { e.preventDefault(); toast('수업용 페이지에서는 열리지 않는 메뉴입니다.'); return; }
     if (t.hasAttribute('data-toast')) { e.preventDefault(); toast(t.getAttribute('data-toast')); return; }
     if (t.hasAttribute('data-share')) { toast('수업용 페이지에서는 공유 기능이 동작하지 않습니다.'); return; }
@@ -2269,7 +2273,10 @@
       closeModal();
     }
   });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeModal();
+    if (e.key === 'Enter' && modalBg && e.target.classList && e.target.classList.contains('pin-in')) { e.preventDefault(); var ok = modalBg.querySelector('[data-m="ok"]'); if (ok) ok.click(); }
+  });
 
   document.addEventListener('input', function (e) {
     if (e.target.id === 'cmtText') document.getElementById('cmtLen').textContent = e.target.value.length;
@@ -2341,6 +2348,28 @@
     if (current) { openReplies = {}; shownCount = PAGE; refreshReactions(); renderCommentTop(); }
     else route();
     toast(msg);
+  }
+  // 교사 학번(데이터 매체.교사 학번)으로 시작했거나, 창에서 교사 학번을 맞게 넣어야 기록 지우기를 쓸 수 있음
+  var TEACHER_IDS = (DATA['매체']['교사 학번'] || []).map(String);
+  function isTeacher() {
+    var p = profile(); if (!p) return false;
+    var sid = String(p['학번이름'] || '');
+    return TEACHER_IDS.some(function (t) { return t && sid.indexOf(t) === 0; });
+  }
+  function askTeacher(then) {
+    if (isTeacher()) { then(); return; }
+    openModal({
+      title: '교사 확인',
+      body: '<p class="pin-note">기록 지우기는 교사만 할 수 있어요. 교사 학번을 입력하세요.</p><input type="password" inputmode="numeric" class="pin-in" maxlength="10" autocomplete="off" aria-label="교사 학번">',
+      ok: '확인', cancel: '취소',
+      validate: function () {
+        var v = (document.querySelector('.pin-in') || { value: '' }).value.trim();
+        if (!TEACHER_IDS.length || TEACHER_IDS.indexOf(v) < 0) { toast('교사 학번이 아닙니다.'); return false; }
+        return true;
+      },
+      onOk: then
+    });
+    var inp = document.querySelector('.pin-in'); if (inp) inp.focus();
   }
   function openToolsModal() {
     var t = myTotals(), p = profile();
