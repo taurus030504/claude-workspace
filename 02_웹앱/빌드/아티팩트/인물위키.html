@@ -134,7 +134,8 @@
   .sig-brush{font-family:"Nanum Brush Script","Nanum Pen Script",cursive;font-size:52px;fill:#1b1b1b}
   .sig-pen{font-family:"Nanum Pen Script","Nanum Brush Script",cursive;fill:#2a2a2a}
   .sig-line{fill:none;stroke:#1b1b1b;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
-  .sig-line.thin{stroke-width:1.6}
+  .sig-line.thin{stroke-width:1.5}
+  .sig-brush,.sig-pen{stroke:#1b1b1b;stroke-width:.9;paint-order:stroke fill}
   /* 휴대폰: 3열 이상 표는 칸을 짓누르지 말고 옆으로 넘겨 본다 */
   @media (max-width:560px){.wiki-table.wide{width:max-content;min-width:100%;max-width:200%}.wiki-table.wide td{white-space:nowrap}.wiki-table.wide td:last-child{white-space:normal;min-width:11em}}
   .wiki-table td:first-child{text-align:center;white-space:nowrap;width:1%}
@@ -285,6 +286,7 @@
 {
   "site": {
     "name": "문영위키",
+    "today": "2026-10-05",
     "newsBase": "https://claude.ai/artifact/FB262z41ts6fv9AuVNjSLB",
     "home": "이은호",
     "trending": [
@@ -314,7 +316,7 @@
       "categories": [
         "가수",
         "솔로 가수",
-        "2003년 출생",
+        "2004년 출생",
         "오디션 프로그램 출신",
         "2023년 데뷔"
       ],
@@ -325,7 +327,7 @@
         "rows": [
           [
             "출생",
-            "2003년 3월 5일 (23세)[br]서울특별시 성북구"
+            "{{출생:2004-03-05}}[br]서울특별시 성북구"
           ],
           [
             "국적",
@@ -345,11 +347,11 @@
           ],
           [
             "소속사",
-            "[[리버노트 엔터테인먼트]] (2019~ )"
+            "[[리버노트 엔터테인먼트]] (2020~ )"
           ],
           [
             "데뷔",
-            "2023년 디지털 싱글 《파란선》"
+            "{{데뷔일:2023-09-14}}[br]디지털 싱글 《파란선》"
           ],
           [
             "경력",
@@ -452,7 +454,7 @@
                     ],
                     "rows": [
                       [
-                        "2022",
+                        "2023.02",
                         "[[한문예술고등학교]] 졸업. 소속사 연습생 생활을 이어감."
                       ],
                       [
@@ -714,7 +716,7 @@
       "categories": [
         "가수",
         "솔로 가수",
-        "2003년 출생",
+        "2004년 출생",
         "오디션 프로그램 출신",
         "2025년 데뷔"
       ],
@@ -725,7 +727,7 @@
         "rows": [
           [
             "출생",
-            "2003년 7월 16일 (23세)[br]서울특별시 노원구"
+            "{{출생:2004-07-16}}[br]서울특별시 노원구"
           ],
           [
             "국적",
@@ -745,11 +747,11 @@
           ],
           [
             "소속사",
-            "[[리버노트 엔터테인먼트]] (2019~ )"
+            "[[리버노트 엔터테인먼트]] (2020~ )"
           ],
           [
             "데뷔",
-            "2025년 12월 디지털 싱글 《초점》"
+            "{{데뷔일:2025-12-08}}[br]디지털 싱글 《초점》"
           ],
           [
             "경력",
@@ -845,7 +847,7 @@
                     ],
                     "rows": [
                       [
-                        "2022",
+                        "2023.02",
                         "[[한문예술고등학교]] 졸업. 소속사 연습생 생활 지속."
                       ],
                       [
@@ -1619,8 +1621,8 @@
                     "소공연장 '한문홀' 개관."
                   ],
                   [
-                    "2022",
-                    "제22회 졸업식. [[이은호]]·[[김서진]] 졸업."
+                    "2023",
+                    "제23회 졸업식. [[이은호]]·[[김서진]] 졸업."
                   ],
                   [
                     "2026",
@@ -1694,13 +1696,13 @@
                   ],
                   [
                     "[[이은호]]",
-                    "2022",
+                    "2023",
                     "실용음악과",
                     "가수"
                   ],
                   [
                     "[[김서진]]",
-                    "2022",
+                    "2023",
                     "실용음악과",
                     "가수"
                   ]
@@ -1753,7 +1755,7 @@
         "rows": [
           [
             "출생",
-            "1978년 6월 14일 (48세)[br]전라북도 전주시"
+            "{{출생:1978-06-14}}[br]전라북도 전주시"
           ],
           [
             "국적",
@@ -2033,11 +2035,21 @@
   };
   /* 서명: 손글씨 글꼴로 이름을 쓰고 획을 한 번 긋는다 (글꼴을 못 받으면 보통 글씨로 보임) */
   const SIGN = {
-    '1': '<svg class="sign" viewBox="0 0 230 78" aria-label="이은호 서명"><text x="10" y="50" class="sig-brush" transform="rotate(-6 10 50)">이은호</text><path d="M14 60c30 8 70 6 118-4" class="sig-line"/><path d="M128 58c3-3 7-4 8-1" class="sig-line"/><text x="158" y="42" class="sig-pen" font-size="22" transform="rotate(4 158 42)">으노</text></svg>',
-    '2': '<svg class="sign" viewBox="0 0 230 78" aria-label="김서진 서명"><text x="12" y="48" class="sig-brush" font-size="50" transform="rotate(-3 12 48)">김서진</text><path d="M10 62c40 2 80-2 118-10c8-2 10 2 4 6c-6 4-14 6-10 8c6 2 20-4 30-10" class="sig-line"/></svg>',
-    '3': '<svg class="sign" viewBox="0 0 230 78" aria-label="남궁현 서명"><text x="10" y="46" class="sig-pen" font-size="44" transform="rotate(-4 10 46)">남궁현</text><path d="M8 58c50-4 100-8 150-14" class="sig-line thin"/><path d="M60 64c30-3 60-6 90-10" class="sig-line thin"/></svg>'
+    '1': '<svg class="sign" viewBox="0 0 188 84" aria-label="이은호 서명"><text x="14" y="56" class="sig-brush" font-size="58" rotate="-12 6 -9" dx="0 -3 -3" dy="0 6 -5" transform="skewX(-14) translate(14 0)">이은호</text><path d="M92 48c14-12 30-18 52-16c-12 4-20 12-24 20c16-8 32-14 54-10" class="sig-line"/><path d="M26 66c30-18 64-30 72-34" class="sig-line thin"/><text x="128" y="24" class="sig-pen" font-size="22" rotate="-8 12" transform="rotate(-12 128 24)">으노</text></svg>',
+    '2': '<svg class="sign" viewBox="0 0 240 84" aria-label="김서진 서명"><text x="12" y="52" class="sig-brush" font-size="56" rotate="12 -9 16" dx="0 -13 -11" dy="0 -7 5" transform="skewX(-12) translate(8 0)">김서진</text><path d="M8 64c36 6 66 2 104-8c16-4 22 4 8 10c-14 5-22-2-8-10c20-12 48-16 80-20" class="sig-line"/><path d="M60 72c26-2 50-6 72-12" class="sig-line thin"/></svg>',
+    '3': '<svg class="sign" viewBox="0 0 179 84" aria-label="남궁현 서명"><text x="10" y="50" class="sig-pen" font-size="48" rotate="-6 4 -9" dx="0 -3 -3" dy="0 4 -4" transform="skewX(-16) translate(16 0)">남궁현</text><path d="M6 62l44-7-26 11 56-10-28 13 62-13-30 13 79-14" class="sig-line thin"/><path d="M99 36c10-12 22-16 36-14c-9 6-13 12-9 14c6 2 16-6 26-14" class="sig-line thin"/></svg>',
   };
 
+
+  /* 기준일: 데이터의 site.today (없으면 오늘). 만 나이와 데뷔 경과를 여기서 계산한다 */
+  const TODAY = (() => { const t = SITE.today ? new Date(SITE.today + 'T00:00:00') : new Date(); return isNaN(t) ? new Date() : t; })();
+  const manAge = (y, mo, da) => TODAY.getFullYear() - y - ((TODAY.getMonth() + 1 < mo || (TODAY.getMonth() + 1 === mo && TODAY.getDate() < da)) ? 1 : 0);
+  const sinceText = (y, mo, da) => {
+    const years = manAge(y, mo, da);
+    if (years >= 1) return `${years}주년`;
+    const days = Math.floor((TODAY - new Date(y, mo - 1, da)) / 86400000);
+    return `+${days}일`;
+  };
   const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   const resolve = name => DOCS[name] ? name : (DATA.aliases && DATA.aliases[name]) || name;
   const href = name => '#/w/' + encodeURIComponent(name);
@@ -2063,6 +2075,8 @@
     s = s.replace(/~~(.+?)~~/g, '<del>$1</del>');
     s = s.replace(/\[br\]/g, '<br>');
     s = s.replace(/\{\{작게:(.+?)\}\}/g, '<small class="sm">$1</small>');
+    s = s.replace(/\{\{출생:(\d{4})-(\d{1,2})-(\d{1,2})\}\}/g, (_, y, mo, da) => `${y}년 ${+mo}월 ${+da}일 (${manAge(+y, +mo, +da)}세)`);
+    s = s.replace(/\{\{데뷔일:(\d{4})-(\d{1,2})-(\d{1,2})\}\}/g, (_, y, mo, da) => `${y}년 ${+mo}월 ${+da}일 <b>(${sinceText(+y, +mo, +da)})</b>`);
     s = s.replace(/\{\{국기\}\}/g, '<svg class="flag" viewBox="0 0 24 16" aria-hidden="true"><rect x=".5" y=".5" width="23" height="15" fill="#fff" stroke="#bbb"/><path d="M8 8a4 4 0 0 1 8 0z" fill="#cd2e3a"/><path d="M8 8a4 4 0 0 0 8 0z" fill="#0047a0"/><path d="M3 3.5l2.2-1.3M3 4.8l2.2-1.3M3 6.1l2.2-1.3M18.8 12.2l2.2-1.3M18.8 13.5l2.2-1.3M18.8 14.8l2.2-1.3" stroke="#222" stroke-width=".7"/></svg>');
     s = s.replace(/\{\{링크아이콘:(홈|사진|영상|글)(?:\|(.+?))?\}\}/g, (_, k, t) => `<a class="chip" href="#" data-ext title="${t || k}">${CHIP[k]}</a>`);
     s = s.replace(/\{\{서명:(\d)\}\}/g, (_, n) => SIGN[n] || '');
