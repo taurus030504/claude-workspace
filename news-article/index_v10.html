@@ -65,7 +65,7 @@
   /* ---------- 상단 헤더 ---------- */
   .top {
     display: grid;
-    grid-template-columns: 250px 1fr 250px;   /* 양옆은 비워 둠(광고 없음) */
+    grid-template-columns: 250px 1fr 250px;
     align-items: center;
     gap: 20px;
     padding: 18px 0;
@@ -88,10 +88,8 @@
     position: absolute; right: 4px; top: 3px;
     font-size: 9px; font-weight: 500; opacity: .7;
   }
-  .ad-text { border: 1px solid var(--line); padding: 16px 18px; margin: 18px 0; display: grid; gap: 4px; font-size: 13px; color: var(--text-sub); position: relative; background: #fff; }
-  .ad-text .ad-mark { position: absolute; right: 8px; top: 6px; font-size: 9px; color: #aaa; border: 1px solid #ddd; padding: 0 3px; border-radius: 2px; }
-  .ad-text b { font-size: 15px; color: #111; }
-  .ad-text em { font-style: normal; color: var(--brand); font-size: 12px; margin-top: 4px; }
+  .ad-1 { background: linear-gradient(120deg, #0f766e, #14b8a6); font-size: 19px; }
+  .ad-2 { background: linear-gradient(120deg, #18181b, #3f3f46); font-size: 16px; justify-content: flex-end; text-align: right; }
   .logo { display: flex; justify-content: center; }
   .logo .logo-img { width: 200px; }
 
@@ -311,13 +309,12 @@
     background: rgba(0,0,0,.35); color: #fff;
     font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 3px; letter-spacing: -.02em;
   }
-  .aitem .ath .tvcap .tv-sub { font-size: 30px; }
   .tvcap .tv-sub {
     position: absolute; left: 0; right: 0; bottom: 9%;
     text-align: center;
     font-size: clamp(18px, 4.6vw, 30px); font-weight: 900; letter-spacing: -.04em;
-    color: #fff;
-    -webkit-text-stroke: 6px #d6336c; paint-order: stroke fill;
+    color: #ffe14d;
+    -webkit-text-stroke: 5px #1b1b1b; paint-order: stroke fill;
     text-shadow: 0 3px 0 rgba(0,0,0,.35);
     transform: rotate(-2deg);
   }
@@ -396,9 +393,6 @@
   .citem .c-act button svg { width: 13px; height: 13px; }
   .citem .c-act button.on { border-color: var(--brand); color: var(--brand); }
   .citem .c-act button.on.down { border-color: #2563eb; color: #2563eb; }
-  .citem .c-act .c-sub { border: 0; background: none; color: var(--text-muted); font-size: 12px; padding: 4px 6px; }
-  .citem .c-act .c-sub:hover { color: #333; text-decoration: underline; }
-  .citem .c-act .c-report { margin-left: auto; }
   .citem .c-act .del { margin-left: auto; border: 0; color: var(--text-muted); }
   .citem .c-act button.del.arm { background: var(--brand); border-color: var(--brand); color: #fff; }
   .citem.is-best { background: #fff8fa; padding-left: 12px; padding-right: 12px; }
@@ -464,9 +458,7 @@
   .aitem .sum { margin: 0 0 10px; font-size: 14px; color: var(--text-sub); line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .aitem .info { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; color: var(--text-muted); }
   .aitem .info a:hover { color: var(--brand); }
-  .aitem .ath { width: 150px; height: 100px; border-radius: 2px; display: block; position: relative; overflow: hidden; }
-  .aitem .ath .ath-in { position: absolute; left: 50%; top: 50%; width: 560px; transform: translate(-50%, -50%) scale(.268); transform-origin: center; pointer-events: none; }
-  .aitem .ath .ath-in .tvcap, .aitem .ath .ath-in .poster { width: 560px; max-width: none; box-shadow: none; border-radius: 0; }
+  .aitem .ath { width: 150px; height: 100px; border-radius: 2px; display: block; }
   /* 사건 관련 기사: 포털 검색 결과처럼 제목을 파란 링크색 + 인물 이름 굵게. 관련 없는 기사는 회색 */
   .aitem.case h3 a, .side-right .rank a.t.case, .more-box li.case a { color: #1a4fa3; }
   .aitem.case h3 a b, .rank a.t.case b, .more-box li.case a b { font-weight: 700; }
@@ -655,7 +647,7 @@
           "이은호와 김서진이 열애설에 휩싸였다.",
           "분위기가 바뀐 것은 3일 밤이다. 이날 두 사람의 예술고 동창이라고 밝힌 이용자 C씨는 자신의 SNS 스토리에 메시지 캡처와 함께 \"둘이서 비밀 연애를 한다\"는 글을 올렸다.",
           "공개된 메시지에서 이은호는 \"요새 연락도 없고\", \"너무 서운한데ㅔㅔㅔ\", \"놀아줘\"라고 적은 뒤 \"나 말고 딴 사람 생겼어?\"라고 물었다.",
-          "이를 본 C씨가 \"뭐야 둘이 사귐?\"이라며 김서진을 태그하자 이은호는 \"아 여기 아니네\"라고 답했다. 투정 섞인 말을 단체 대화방에 잘못 보낸 것 아니냐는 해석이 나오는 대목이다.",
+          "이를 본 동창이 \"뭐야 둘이 사귐?\"이라며 김서진을 태그하자 이은호는 \"아 여기 아니네\"라고 답했다. 투정 섞인 말을 단체 대화방에 잘못 보낸 것 아니냐는 해석이 나오는 대목이다.",
           "해당 스토리에는 두 사람의 공식 계정이 함께 태그돼 있었다. 이 때문에 C씨가 부주의하게 사생활을 노출한 것 아니냐는 의혹도 나오고 있다.",
           "캡처는 게시 직후 온라인 커뮤니티와 SNS를 통해 빠르게 퍼졌다. 누리꾼들은 \"딴 사람 생겼냐고 묻는 건 사귀는 사이 아니냐\", \"단톡방에 잘못 보낸 게 맞는 것 같다\" 등의 반응을 보이고 있다.",
           "한편 두 사람은 예술고 동창으로, 최근 예능 '동창회 가는 길'에 함께 출연해 남다른 '케미'로 화제를 모은 바 있다. 열애설과 관련해 양측 소속사는 아직 별도의 입장을 밝히지 않았다."
@@ -1132,9 +1124,13 @@
 
 <header class="wrap">
   <div class="top">
-    <span class="top-left"></span>
+    <a class="ad ad-1" href="#list" aria-label="광고" data-toast="광고 영역입니다.">
+      <span><small>환절기 건강 관리</small>매일 한 포<br>프로바이오틱스</span>
+    </a>
     <a class="logo" href="#list"><span class="logo-img" role="img" aria-label="문영일보"></span></a>
-    <span class="top-right"></span>
+    <a class="ad ad-2" href="#list" aria-label="광고" data-toast="광고 영역입니다.">
+      <span><small>가을 신제품 출시</small>스마트 워시<br>올인원</span>
+    </a>
   </div>
 
   <div class="gnb">
@@ -1246,12 +1242,6 @@
     var t = (a['본문']['문단'][0] || '');
     return t.length > 110 ? t.slice(0, 110) + '…' : t;
   }
-  // 썸네일 안에 실제 기사 그림(방송 캡처·포스터)을 축소해서 넣음. 사진은 배경으로.
-  function thumbInner(a) {
-    var img = a['이미지'];
-    if (!img || img['종류'] === '사진' || !RENDER_IMAGE[img['종류']]) return '';
-    return '<span class="ath-in">' + RENDER_IMAGE[img['종류']](img) + '</span>';
-  }
   function thumbStyle(a) {
     if (a['이미지'] && a['이미지']['종류'] === '사진' && a['이미지']['자료']) return "background:#1b1d29 url('" + a['이미지']['자료'] + "') center top / cover no-repeat";   // data URI에는 따옴표가 없음
     if (a['이미지'] && a['이미지']['종류'] === '스토리 캡처') return 'background:linear-gradient(160deg,#27406b,#9cc3e6)';
@@ -1329,29 +1319,18 @@
     },
     // 예능 방송 화면: 교실 배경 + 두 사람 실루엣 + 노란 자막
     '방송 캡처': function (img) {
-      // 얼굴 없음: 초점이 나간 두 사람 + 스튜디오 조명 보케 + 영상 노이즈. 자막은 예능 스타일
       return '' +
         '<div class="tvcap" role="img" aria-label="' + esc(img['프로그램'] || '') + ' 방송 화면 캡처">' +
           '<svg viewBox="0 0 160 90" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' +
-            '<defs>' +
-              '<filter id="tvBlur" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2.2"/></filter>' +
-              '<filter id="tvSoft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="1.1"/></filter>' +
-              '<filter id="tvGrain"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="7"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues="0 .18"/></feComponentTransfer></filter>' +
-              '<radialGradient id="tvBg" cx="40%" cy="30%" r="80%"><stop offset="0" stop-color="#6b5a4a"/><stop offset=".55" stop-color="#2d2621"/><stop offset="1" stop-color="#14110f"/></radialGradient>' +
-              '<radialGradient id="tvVig" cx="50%" cy="50%" r="70%"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".55"/></radialGradient>' +
-            '</defs>' +
-            '<rect width="160" height="90" fill="url(#tvBg)"/>' +
-            '<g filter="url(#tvBlur)" opacity=".85">' +
-              '<circle cx="22" cy="18" r="9" fill="#f6d6a6"/><circle cx="48" cy="12" r="6" fill="#ffd9b0"/><circle cx="118" cy="14" r="7" fill="#f3c48f"/><circle cx="142" cy="24" r="10" fill="#e9b17a"/>' +
-              '<rect x="0" y="62" width="160" height="28" fill="#5a4030"/><rect x="0" y="58" width="160" height="5" fill="#8a6a50"/>' +
+            '<rect x="0" y="0" width="160" height="30" fill="#2f4b3a"/>' +
+            '<rect x="2" y="2" width="156" height="26" fill="#3d5f49"/>' +
+            '<path d="M10 10h22M12 16h30M40 9l6 6" stroke="#e8efe9" stroke-width=".7" opacity=".55" fill="none"/>' +
+            '<rect x="0" y="62" width="160" height="28" fill="#a86f49"/>' +
+            '<rect x="12" y="58" width="34" height="5" fill="#8a5a3b"/><rect x="112" y="58" width="36" height="5" fill="#8a5a3b"/>' +
+            '<g fill="#2b2f3a" opacity=".88">' +
+              '<circle cx="58" cy="40" r="10"/><path d="M38 90c1-17 9-26 20-26s19 9 20 26z"/>' +
+              '<circle cx="102" cy="42" r="9.5"/><path d="M83 90c1-16 9-24 19-24s18 8 19 24z"/>' +
             '</g>' +
-            '<g filter="url(#tvSoft)">' +
-              '<circle cx="56" cy="38" r="11" fill="#3a2e2a"/><path d="M34 90c1-19 10-29 22-29s21 10 22 29z" fill="#2f2a3a"/>' +
-              '<circle cx="104" cy="40" r="10.5" fill="#3b302b"/><path d="M83 90c1-18 10-27 21-27s20 9 21 27z" fill="#44352f"/>' +
-              '<rect x="60" y="66" width="6" height="2" rx="1" fill="#8b7a6a" opacity=".6"/>' +
-            '</g>' +
-            '<rect width="160" height="90" fill="url(#tvVig)"/>' +
-            '<rect width="160" height="90" filter="url(#tvGrain)" opacity=".9"/>' +
           '</svg>' +
           '<span class="tv-logo">' + esc(img['프로그램'] || '') + '</span>' +
           '<div class="tv-sub">' + esc(img['자막'] || '') + '</div>' +
@@ -1392,32 +1371,30 @@
       return { t: a['본문']['제목'], html: titleHTML(a), cls: isCase(a) ? 'case' : 'other', href: '#article-' + a['아이디'], style: thumbStyle(a) };
     });
     // 시나리오와 무관한 가상 제목(클릭 안 됨)
-    // 시나리오와 무관한 가상 제목(연예면 분위기, 클릭 안 됨)
     var filler = [
-      { t: "'7년 열애' 배우 커플 결별…양측 \"좋은 동료로 남기로\"" },
-      { t: "[단독] 그룹 '라온' 리더, 11월 현역 입대…활동 잠정 중단" },
-      { t: "'한밤의 주방' 시즌3 확정…새 MC는 개그맨 출신" },
-      { t: "예능 PD 폭언 논란에 제작사 \"사실과 다르다\"" },
-      { t: "'밤의 서재' 작가 차기작, OTT행 확정" },
-      { t: "아이돌 출신 배우, 첫 주연 드라마 시청률 2%대 출발" }
+      { t: '[주말 나들이] 억새 절정…가을 산책길 다섯 곳', style: 'background:linear-gradient(160deg,#d6b46a,#8a6d2f)' },
+      { t: '일교차 10도 이상…환절기 감기 주의보', style: 'background:linear-gradient(160deg,#7dd3fc,#2563eb)' },
+      { t: '[알쏭달쏭 우리말] 설렘, 설레임', style: 'background:linear-gradient(160deg,#fca5a5,#be123c)' },
+      { t: '[식사합시다] 골목 안 칼국수집', style: 'background:linear-gradient(160deg,#fde68a,#d97706)' },
+      { t: '청소년 SNS 이용 시간 3년 새 1.4배 늘어', style: 'background:linear-gradient(160deg,#a7f3d0,#047857)' }
     ];
-    var items = ranked.concat(filler).slice(0, 8);
+    var items = ranked.concat(filler).slice(0, 6);
     var rank = items.map(function (it, i) {
       var title = it.href
         ? '<a class="t ' + (it.cls || '') + '" href="' + it.href + '">' + (it.html || esc(it.t)) + '</a>'
         : '<span class="t">' + esc(it.t) + '</span>';
-      return '<li><span class="no">' + (i + 1) + '</span>' + title + '</li>';
+      return '<li><span class="no">' + (i + 1) + '</span>' + title + '<span class="thumb" style="' + it.style + '"></span></li>';
     }).join('');
     return '' +
       '<aside class="side-right">' +
-        '<div class="box"><h3><b>많이 본</b> 연예 기사</h3><ol class="rank">' + rank + '</ol></div>' +
-        '<div class="ad-text" aria-label="광고"><span class="ad-mark">AD</span><b>2027학년도 수시 설명회</b><span>한솔예술학원 · 디자인·영상 전공 상담 접수 중</span><em>자세히 보기 ›</em></div>' +
-        '<div class="box"><h3><b>연예</b> 최신</h3><ul class="simple">' +
-          "<li>'여름의 끝' 종영 인터뷰…\"결말은 시청자 몫\"</li>" +
-          "<li>가수 윤태오 '도화선' 음원 차트 진입</li>" +
-          "<li>드라마 제작진 \"촬영 중단 보도 사실 아냐\"</li>" +
-          "<li>[포토] 영화 제작보고회 현장</li>" +
-          "<li>배우 송하람 소속사 \"캐스팅 논의 중\"</li>" +
+        '<div class="box"><h3><b>많이 본</b> 기사</h3><ol class="rank">' + rank + '</ol></div>' +
+        '<div class="ad ad-side" aria-label="광고"><small>지금 신청하면 첫 달 무료</small>온라인 클래스<br>가을 특강</div>' +
+        '<div class="box"><h3><b>최신</b> 기사</h3><ul class="simple">' +
+          '<li>[기자수첩] 버스 노선 개편, 주민 목소리 먼저</li>' +
+          '<li>구도심 골목 축제, 주말 이틀간 3만 명 찾아</li>' +
+          '<li>가을 전어 시세 지난해보다 소폭 하락</li>' +
+          '<li>도서관 야간 개방 시범 운영…10월 한 달간</li>' +
+          '<li>[날씨] 내일 전국 맑음…아침 쌀쌀</li>' +
         '</ul></div>' +
       '</aside>';
   }
@@ -1435,7 +1412,7 @@
     var r = reporterOf(a), c = counts(a), cls = isCase(a) ? 'case' : 'other';
     var href = '#article-' + a['아이디'];
     return '' +
-      '<li class="aitem ' + cls + (opt.thumb === false || !a['이미지'] ? ' no-thumb' : '') + '">' +
+      '<li class="aitem ' + cls + (opt.thumb === false ? ' no-thumb' : '') + '">' +
         '<div>' +
           '<div class="sec">' + esc(a['본문']['분류'].join(' › ')) + '</div>' +
           '<h3><a href="' + href + '">' + titleHTML(a) + '</a></h3>' +
@@ -1447,7 +1424,7 @@
             '<span>추천 ' + c.up + '</span>' +
           '</div>' +
         '</div>' +
-        (opt.thumb === false || !a['이미지'] ? '' : '<a href="' + href + '" class="ath" style="' + thumbStyle(a) + '" aria-label="' + esc(a['본문']['제목']) + '">' + thumbInner(a) + '</a>') +
+        (opt.thumb === false ? '' : '<a href="' + href + '" class="ath" style="' + thumbStyle(a) + '" aria-label="' + esc(a['본문']['제목']) + '"></a>') +
       '</li>';
   }
 
@@ -1599,8 +1576,7 @@
         '<div class="c-act">' +
           '<button data-creact="up" data-cid="' + id + '" class="' + (cm.react === 'up' ? 'on' : '') + '" aria-pressed="' + (cm.react === 'up') + '" aria-label="댓글 추천">' + ICON.up + cm.up + '</button>' +
           '<button data-creact="down" data-cid="' + id + '" class="down ' + (cm.react === 'down' ? 'on' : '') + '" aria-pressed="' + (cm.react === 'down') + '" aria-label="댓글 반대">' + ICON.down + cm.down + '</button>' +
-          '<button type="button" class="c-sub" data-toast="수업용 페이지에서는 답글을 쓸 수 없습니다.">답글</button>' +
-          (cm.mine ? '<button class="del" data-cdel="' + id + '">삭제</button>' : '<button type="button" class="c-sub c-report" data-toast="신고가 접수되었습니다.">신고</button>') +
+          (cm.mine ? '<button class="del" data-cdel="' + id + '">삭제</button>' : '') +
         '</div></li>';
     }).join('') : '<li class="cempty">아직 댓글이 없습니다. 첫 댓글을 남겨 보세요.</li>') +
       (left > 0 ? '<li class="cmore"><button type="button" data-more>댓글 더보기 <b>' + left + '</b></button></li>' : '');
