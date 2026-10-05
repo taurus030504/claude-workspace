@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="color-scheme" content="light" />
-<title>열린위키</title>
+<title>문영위키</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 <style>
   :root{
@@ -49,6 +49,9 @@
   .suggest.open{display:block}
   .suggest a{display:block;color:var(--text);padding:8px 12px;font-size:14px}
   .suggest a.on,.suggest a:hover{background:#f0f0f0;text-decoration:none}
+  .back-btn{background:none;border:0;color:#fff;width:40px;height:40px;margin:0 4px 0 -10px;border-radius:4px;cursor:pointer;display:grid;place-items:center;font-size:20px}
+  .back-btn:hover:not(:disabled){background:rgba(255,255,255,.14)}
+  .back-btn:disabled{opacity:.35;cursor:default}
   .user-btn{background:none;border:0;color:#fff;width:40px;height:40px;cursor:pointer;display:grid;place-items:center;font-size:22px}
 
   /* ── 본문 레이아웃 ── */
@@ -98,8 +101,10 @@
   .toc-list .lv2{padding-left:26px}
 
   .sec-h{clear:both;display:flex;align-items:center;gap:6px;margin:30px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--line);cursor:pointer;scroll-margin-top:70px}
-  .sec-h h2{margin:0;font-size:27px;font-weight:700;letter-spacing:-.02em;line-height:1.3}
-  .sec-h h2 .num{color:var(--link)}
+  .sec-h h2,.sec-h h3{margin:0;font-size:27px;font-weight:700;letter-spacing:-.02em;line-height:1.3}
+  .sec-h.lv2{margin-top:24px}
+  .sec-h.lv2 h3{font-size:22px}
+  .sec-h .num{color:var(--link)}
   .sec-h .fold{color:#555;font-size:15px;width:22px;display:grid;place-items:center;transition:transform .15s}
   .sec-h.closed .fold{transform:rotate(-90deg)}
   .sec-h .edit{margin-left:auto;align-self:flex-start;font-size:12px;font-weight:700}
@@ -172,7 +177,8 @@
     .top{height:auto}
     .top-in{height:auto;flex-wrap:wrap;gap:0;padding:0}
     .top-in::after{content:"";order:2;flex-basis:100%;height:0}
-    .logo{height:48px;margin:0 6px 0 14px;font-size:19px}
+    .back-btn{height:48px;margin:0 0 0 4px}
+    .logo{height:48px;margin:0 6px 0 2px;font-size:19px}
     .logo svg{width:26px;height:26px}
     .nav-item{padding:8px 9px}
     .top-right{display:contents}
@@ -189,6 +195,7 @@
     .ad-space{height:80px}
     .infobox{float:none;width:500px;max-width:100%;margin:6px 0 16px auto}
     .sec-h h2{font-size:24px}
+    .sec-h.lv2 h3{font-size:20px}
     .floating{right:12px;bottom:16px}
     .floating .grp{opacity:.85}
     .site-foot{margin-top:0;padding:16px 12px}
@@ -209,12 +216,12 @@
 <script type="application/json" id="wiki-data">
 {
   "site": {
-    "name": "열린위키",
+    "name": "문영위키",
     "home": "이은호",
     "trending": ["이은호", "김서진"],
     "license": [
       "이 화면은 수업용으로 만든 가상 위키입니다. 실제 인물·기획사·방송·웹사이트와 관련이 없습니다.",
-      "열린위키는 백과사전이 아니며 검증되지 않았거나, 편향적이거나, 잘못된 서술이 있을 수 있습니다.<br>열린위키는 위키위키입니다. 여러분이 직접 문서를 고칠 수 있으며, 다른 사람의 의견을 원할 경우 직접 토론을 발제할 수 있습니다."
+      "문영위키는 백과사전이 아니며 검증되지 않았거나, 편향적이거나, 잘못된 서술이 있을 수 있습니다.<br>문영위키는 위키위키입니다. 여러분이 직접 문서를 고칠 수 있으며, 다른 사람의 의견을 원할 경우 직접 토론을 발제할 수 있습니다."
     ]
   },
   "aliases": { "eunho": "이은호", "seojin": "김서진" },
@@ -243,18 +250,30 @@
         { "title": "개요", "blocks": [
           { "p": "같은 소속사에서 연습생 생활을 하던 [[김서진]]과 2023년 같은 보컬 오디션 프로그램에 출연했다. 프로그램 출연 이후 먼저 데뷔해 활동을 이어가고 있다." }
         ]},
-        { "title": "활동", "blocks": [
-          { "table": { "head": ["연도", "내용"], "rows": [
-            ["2022", "예술고 졸업."],
-            ["2023", "보컬 오디션 프로그램 출연. 이후 가수로 데뷔."],
-            ["2024~25", "가수 활동 및 행사 참여."],
-            ["2026", "가수 활동 지속."]
-          ]}}
+        { "title": "음반", "blocks": [] },
+        { "title": "생애", "blocks": [], "children": [
+          { "title": "데뷔 전", "blocks": [
+            { "table": { "head": ["연도", "내용"], "rows": [
+              ["2022", "예술고 졸업."],
+              ["2023", "보컬 오디션 프로그램 출연. 이후 가수로 데뷔."]
+            ]}},
+            { "p": "[[김서진]]과 같은 예술고를 졸업했으며, 같은 소속사에서 연습생 생활을 했다. 두 사람은 2023년 같은 보컬 오디션 프로그램에 참가했다." },
+            { "p": "연습생 시절부터 오랜 기간 알고 지낸 사이로 알려져 있다." }
+          ]},
+          { "title": "데뷔 후", "blocks": [
+            { "table": { "head": ["연도", "내용"], "rows": [
+              ["2024~25", "가수 활동 및 행사 참여."],
+              ["2026", "가수 활동 지속."]
+            ]}}
+          ]}
         ]},
-        { "title": "김서진과의 인연", "blocks": [
-          { "p": "[[김서진]]과 같은 예술고를 졸업했으며, 같은 소속사에서 연습생 생활을 했다. 두 사람은 2023년 같은 보컬 오디션 프로그램에 참가했다." },
-          { "p": "연습생 시절부터 오랜 기간 알고 지낸 사이로 알려져 있다." }
+        { "title": "활동", "blocks": [], "children": [
+          { "title": "방송", "blocks": [] },
+          { "title": "라디오", "blocks": [] },
+          { "title": "기타 활동", "blocks": [] }
         ]},
+        { "title": "수상 경력", "blocks": [] },
+        { "title": "사건 사고", "blocks": [] },
         { "title": "여담", "blocks": [
           { "p": "공식 SNS 계정은 {{외부:@e_euno_official}}이다." }
         ]}
@@ -285,18 +304,30 @@
         { "title": "개요", "blocks": [
           { "p": "데뷔 전 연습생 시절부터 SNS에서 인지도를 얻었다. 2023년 [[이은호]]와 함께 보컬 오디션 프로그램에 출연했으며, 2025년 말 가수로 데뷔했다." }
         ]},
-        { "title": "활동", "blocks": [
-          { "table": { "head": ["연도", "내용"], "rows": [
-            ["2022", "예술고 졸업."],
-            ["2023", "보컬 오디션 프로그램 출연. 이후 연습생 생활 지속."],
-            ["2024~25", "연습생 신분으로 활동하며 SNS에서 인지도를 얻음."],
-            ["2025 말", "가수로 데뷔."]
-          ]}}
+        { "title": "음반", "blocks": [] },
+        { "title": "생애", "blocks": [], "children": [
+          { "title": "데뷔 전", "blocks": [
+            { "table": { "head": ["연도", "내용"], "rows": [
+              ["2022", "예술고 졸업."],
+              ["2023", "보컬 오디션 프로그램 출연. 이후 연습생 생활 지속."],
+              ["2024~25", "연습생 신분으로 활동하며 SNS에서 인지도를 얻음."]
+            ]}},
+            { "p": "[[이은호]]와 같은 예술고를 졸업했으며 같은 소속사에서 연습생 생활을 했다. 2023년 같은 보컬 오디션 프로그램에 참가했다." },
+            { "p": "두 사람은 연습생 시절부터 알고 지낸 오랜 동료로 알려져 있다." }
+          ]},
+          { "title": "데뷔 후", "blocks": [
+            { "table": { "head": ["연도", "내용"], "rows": [
+              ["2025 말", "가수로 데뷔."]
+            ]}}
+          ]}
         ]},
-        { "title": "이은호와의 인연", "blocks": [
-          { "p": "[[이은호]]와 같은 예술고를 졸업했으며 같은 소속사에서 연습생 생활을 했다. 2023년 같은 보컬 오디션 프로그램에 참가했다." },
-          { "p": "두 사람은 연습생 시절부터 알고 지낸 오랜 동료로 알려져 있다." }
+        { "title": "활동", "blocks": [], "children": [
+          { "title": "방송", "blocks": [] },
+          { "title": "라디오", "blocks": [] },
+          { "title": "기타 활동", "blocks": [] }
         ]},
+        { "title": "수상 경력", "blocks": [] },
+        { "title": "사건 사고", "blocks": [] },
         { "title": "여담", "blocks": [
           { "p": "공식 SNS 계정은 {{외부:@seojin_official}}이다." }
         ]}
@@ -309,6 +340,7 @@
 
 <header class="top">
   <div class="top-in">
+    <button class="back-btn" type="button" id="backBtn" title="뒤로 가기" aria-label="뒤로 가기" disabled><svg class="i" viewBox="0 0 24 24"><path d="M11 5l1.4 1.4L7.8 11H20v2H7.8l4.6 4.6L11 19l-7-7z"/></svg></button>
     <a class="logo" href="#" data-home>
       <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 4c-5 4-7 8-7 12a7 7 0 0 0 14 0c0-4-2-8-7-12z" fill="#fff" opacity=".95"/><path d="M16 11v17" stroke="var(--top-a)" stroke-width="2" stroke-linecap="round"/><path d="M16 18l-3.5-3M16 22l3.5-3.5" stroke="var(--top-a)" stroke-width="1.8" stroke-linecap="round"/></svg>
       <span id="siteName"></span>
@@ -444,15 +476,23 @@
         <table>${ib.rows.map(([k, v]) => `<tr><th>${esc(k)}</th><td>${markup(v, fns)}</td></tr>`).join('')}</table>
       </div>` : '';
     const lead = doc.lead ? `<p>${markup(doc.lead, fns)}</p>` : '';
+    /* 문단 번호: 1, 2, 3, 3.1, 3.2 … (children = 하위 문단) */
+    const flat = [];
+    doc.sections.forEach((s, i) => {
+      flat.push({ num: `${i + 1}`, s, lv: 1 });
+      (s.children || []).forEach((c, j) => flat.push({ num: `${i + 1}.${j + 1}`, s: c, lv: 2 }));
+    });
+    const sid = num => 's-' + num.replace(/\./g, '-');
     const toc = `<div class="toc" id="toc"><div class="toc-head">목차${ICON.chev}</div><div class="toc-list">
-      ${doc.sections.map((s, i) => `<div><a href="#s-${i + 1}" data-jump>${i + 1}.</a> ${esc(s.title)}</div>`).join('')}</div></div>`;
-    const sections = doc.sections.map((s, i) => `
-      <div class="sec-h" id="s-${i + 1}" data-sec="${i + 1}">
+      ${flat.map(x => `<div class="${x.lv === 2 ? 'lv2' : ''}"><a href="#${sid(x.num)}" data-jump>${x.num}.</a> ${esc(x.s.title)}</div>`).join('')}</div></div>`;
+    const section = (s, num, lv) => `
+      <div class="sec-h lv${lv}" id="${sid(num)}" data-sec="${num}">
         <span class="fold">${ICON.chev}</span>
-        <h2><span class="num">${i + 1}.</span> ${esc(s.title)}</h2>
+        <h${lv + 1}><span class="num">${num}.</span> ${esc(s.title)}</h${lv + 1}>
         <a class="edit" href="#/edit/${encodeURIComponent(name)}">[편집]</a>
       </div>
-      <div class="sec-body" data-body="${i + 1}">${s.blocks.map(b => block(b, fns)).join('')}</div>`).join('');
+      <div class="sec-body" data-body="${num}">${(s.blocks || []).map(b => block(b, fns)).join('')}${(s.children || []).map((c, j) => section(c, `${num}.${j + 1}`, lv + 1)).join('')}</div>`;
+    const sections = doc.sections.map((s, i) => section(s, `${i + 1}`, 1)).join('');
 
     const related = new Set([name]);
     (ib ? ib.rows : []).forEach(([, v]) => v.replace(/\[\[(.+?)(?:\|.+?)?\]\]/g, (_, n) => related.add(n.trim())));
@@ -546,10 +586,25 @@
     else renderMissing(h.replace(/^\//, ''));
     try { window.scrollTo(0, 0); } catch (e) {}
   }
+  const backStack = [];
+  const backBtn = $('#backBtn');
+  const setHash = path => { try { location.hash = path; } catch (e) {} };
+  const updateBack = () => { backBtn.disabled = backStack.length === 0; };
   function nav(path) {
+    if (current && path !== current) backStack.push({ h: current, y: window.scrollY });
     route(path);
-    try { location.hash = path; } catch (e) {}
+    setHash(path);
+    updateBack();
   }
+  function back() {
+    const prev = backStack.pop();
+    if (!prev) return;
+    route(prev.h);
+    setHash(prev.h);
+    try { window.scrollTo(0, prev.y); } catch (e) {}
+    updateBack();
+  }
+  backBtn.addEventListener('click', back);
   const go = name => nav('/w/' + name);
 
   /* ── 사이드바·푸터 ── */
@@ -649,7 +704,15 @@
   $('#upBtn').addEventListener('click', () => scrollTo({ top: 0, behavior: 'smooth' }));
   $('#downBtn').addEventListener('click', () => scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
 
-  window.addEventListener('hashchange', () => { const h = readHash(); if (h !== current) route(h); });
+  /* 브라우저 자체의 뒤로 가기 버튼도 같은 기록에 맞춘다 */
+  window.addEventListener('hashchange', () => {
+    const h = readHash();
+    if (h === current || /^(s|fn|rfn)-/.test(h)) return;
+    const top = backStack[backStack.length - 1];
+    if (top && top.h === h) { backStack.pop(); route(h); try { window.scrollTo(0, top.y); } catch (e) {} }
+    else { if (current) backStack.push({ h: current, y: window.scrollY }); route(h); }
+    updateBack();
+  });
   route(readHash());
 })();
 </script>
