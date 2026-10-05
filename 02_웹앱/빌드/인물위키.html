@@ -34,30 +34,30 @@
   /* ── 상단 바 ── */
   .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;height:56px;background:linear-gradient(90deg,var(--top-a),var(--top-b));color:#fff}
   .top-in{height:100%;display:flex;align-items:center;gap:6px;padding:0 36px}
-  .logo{display:flex;align-items:center;gap:7px;color:#fff;font-weight:800;font-size:20px;letter-spacing:-.04em;margin-right:18px;white-space:nowrap}
+  .logo{display:flex;align-items:center;gap:8px;color:#fff;font-weight:800;font-size:22px;letter-spacing:-.04em;margin-right:18px;white-space:nowrap}
   .logo:hover{text-decoration:none}
-  .logo svg{width:30px;height:30px}
+  .logo svg{width:38px;height:38px}
   .nav-item{position:relative;display:flex;align-items:center;gap:8px;color:#fff;font-size:16px;padding:8px 14px;border-radius:4px;cursor:pointer;white-space:nowrap;background:none;border:0;font-family:inherit}
   .nav-item:hover{background:rgba(255,255,255,.14);text-decoration:none}
-  .nav-item svg.i{font-size:17px}
-  .caret{width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid #fff;margin-left:4px}
+  .nav-item svg.i{font-size:23px}
+  .caret{width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:7px solid #fff;margin-left:4px}
   .dropdown{display:none;position:absolute;top:44px;left:0;background:#fff;border:1px solid var(--line);border-radius:4px;box-shadow:0 4px 12px rgba(0,0,0,.15);min-width:170px;padding:6px 0;z-index:60}
   .dropdown.open{display:block}
   .dropdown a{display:flex;gap:10px;align-items:center;color:var(--text);padding:8px 16px;font-size:14px}
   .dropdown a:hover{background:#f2f2f2;text-decoration:none}
   .top-right{margin-left:auto;display:flex;align-items:center;gap:8px}
-  .sq-btn{width:40px;height:40px;border:0;border-radius:3px;background:#fff;color:#333;display:grid;place-items:center;cursor:pointer;font-size:16px}
+  .sq-btn{width:40px;height:40px;border:0;border-radius:3px;background:#fff;color:#333;display:grid;place-items:center;cursor:pointer;font-size:21px}
   .search{position:relative;display:flex;align-items:center;width:272px;height:40px;background:#fff;border-radius:3px}
   .search input{flex:1;min-width:0;height:100%;border:0;outline:0;padding:0 8px 0 12px;font:inherit;font-size:14px;background:transparent;color:var(--text)}
-  .search button{border:0;background:none;width:32px;height:40px;color:#333;cursor:pointer;display:grid;place-items:center;font-size:18px}
+  .search button{border:0;background:none;width:32px;height:40px;color:#333;cursor:pointer;display:grid;place-items:center;font-size:21px}
   .suggest{display:none;position:absolute;top:42px;left:0;right:0;background:#fff;border:1px solid var(--line);border-radius:3px;box-shadow:0 4px 12px rgba(0,0,0,.15);z-index:60}
   .suggest.open{display:block}
   .suggest a{display:block;color:var(--text);padding:8px 12px;font-size:14px}
   .suggest a.on,.suggest a:hover{background:#f0f0f0;text-decoration:none}
-  .back-btn{background:none;border:0;color:#fff;width:40px;height:40px;margin:0 4px 0 -10px;border-radius:4px;cursor:pointer;display:grid;place-items:center;font-size:20px}
+  .back-btn{background:none;border:0;color:#fff;width:40px;height:40px;margin:0 4px 0 -10px;border-radius:4px;cursor:pointer;display:grid;place-items:center;font-size:26px}
   .back-btn:hover:not(:disabled){background:rgba(255,255,255,.14)}
   .back-btn:disabled{opacity:.35;cursor:default}
-  .user-btn{background:none;border:0;color:#fff;width:40px;height:40px;cursor:pointer;display:grid;place-items:center;font-size:22px}
+  .user-btn{background:none;border:0;color:#fff;width:44px;height:40px;cursor:pointer;display:grid;place-items:center;font-size:28px}
 
   /* ── 본문 레이아웃 ── */
   .wrap{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:16px;padding:16px 36px 0;max-width:1520px;margin:0 auto}
@@ -183,7 +183,7 @@
   .navbox{clear:both;margin:28px 0 6px;border:2px solid var(--ibox);font-size:14px}
   .navbox-title{background:linear-gradient(90deg,var(--ibox),var(--ibox2));color:#fff;text-align:center;font-weight:700;padding:6px}
   .navbox-body{padding:8px 12px;text-align:center}
-  .navbox-body .sep{color:#999;margin:0 8px}
+  .navbox-body .sep{color:#bbb;margin:0 10px;font-weight:300}
 
   sup.fn a{font-size:.75em}
   .fn-list{clear:both;border-top:1px solid var(--line);margin-top:24px;padding-top:12px;font-size:14px}
@@ -249,8 +249,8 @@
     .top-in{height:auto;flex-wrap:wrap;gap:0;padding:0}
     .top-in::after{content:"";order:2;flex-basis:100%;height:0}
     .back-btn{height:48px;margin:0 0 0 4px}
-    .logo{height:48px;margin:0 6px 0 2px;font-size:19px}
-    .logo svg{width:26px;height:26px}
+    .logo{height:48px;margin:0 6px 0 2px;font-size:20px}
+    .logo svg{width:32px;height:32px}
     .nav-item{padding:8px 9px}
     .top-right{display:contents}
     .user-btn{order:1;margin-left:auto;margin-right:6px;height:48px}
@@ -307,7 +307,7 @@
       "리버노트 엔터테인먼트"
     ],
     "license": [
-      "이 화면은 수업용으로 만든 가상 위키입니다. 인물·기획사·음반·시상식은 모두 가상 설정입니다.",
+      "이 화면은 수업용으로 만든 가상 위키입니다. 인물, 기획사, 음반, 시상식은 모두 가상 설정입니다.",
       "문영위키는 이용자가 내용을 편집하는 위키 형식을 재현한 수업용 화면입니다."
     ],
     "showSourceNotes": false,
@@ -367,7 +367,7 @@
           ],
           [
             "경력",
-            "2023년 보컬 오디션 프로그램 출연[br]2024년 대학 축제·지역 음악 행사 출연[br]2024년~2025년 의류·음료·생활용품 브랜드 광고 모델[br]2025년 토크형 예능·심야 음악 라디오 게스트 출연[br]2026년 예능 '동창회 가는 길' 출연"
+            "2023년 보컬 오디션 프로그램 출연[br]2024년 대학 축제, 지역 음악 행사 출연[br]2024년~2025년 의류, 음료, 생활용품 브랜드 광고 모델[br]2025년 토크형 예능, 심야 음악 라디오 게스트 출연[br]2026년 예능 '동창회 가는 길' 출연"
           ],
           [
             "별명",
@@ -473,7 +473,7 @@
                   }
                 },
                 {
-                  "p": "연습생 기간이 길었던 편이라 데뷔 전부터 사내 연습 영상과 오디션 출연 장면으로 얼굴을 알렸다. 같은 학교·소속사에서 오래 지낸 [[김서진]]과는 오디션 당시에도 서로를 가장 잘 아는 참가자 중 하나로 소개됐다."
+                  "p": "연습생 기간이 길었던 편이라 데뷔 전부터 사내 연습 영상과 오디션 출연 장면으로 얼굴을 알렸다. 같은 학교, 소속사에서 오래 지낸 [[김서진]]과는 오디션 당시에도 서로를 가장 잘 아는 참가자 중 하나로 소개됐다."
                 }
               ]
             },
@@ -493,11 +493,11 @@
                       ],
                       [
                         "2024",
-                        "미니 1집 '''《반경》''' 발표. 대학 축제·지역 음악 행사 출연이 늘어남."
+                        "미니 1집 '''《반경》''' 발표. 대학 축제, 지역 음악 행사 출연이 늘어남."
                       ],
                       [
                         "2025",
-                        "'''《낮게, 오래》''', 미니 2집 '''《두 번째 창》'''으로 활동. 방송·광고 활동 병행."
+                        "'''《낮게, 오래》''', 미니 2집 '''《두 번째 창》'''으로 활동. 방송, 광고 활동 병행."
                       ],
                       [
                         "2026",
@@ -549,7 +549,7 @@
                       [
                         "2026",
                         "'동창회 가는 길'",
-                        "[[김서진]]과 함께 출연. 모교 방문 편((문영일보, {{기사:a3|예고 동창 케미에 '훈훈'…이은호·김서진, '동창회 가는 길'서 모교 방문}}, 2026.09.13.))과 '웃참' 벌칙 편((문영일보, {{기사:a2|\"웃참 실패\"…이은호·김서진 '동창회 가는 길' 벌칙 장면 짤 확산}}, 2026.09.27.))이 화제가 됐다"
+                        "[[김서진]]과 함께 출연. 모교 방문 편((문영일보, {{기사:a3|예고 동창 케미에 '훈훈'…이은호, 김서진, '동창회 가는 길'서 모교 방문}}, 2026.09.13.))과 '웃참' 벌칙 편((문영일보, {{기사:a2|\"웃참 실패\"…이은호, 김서진 '동창회 가는 길' 벌칙 장면 짤 확산}}, 2026.09.27.))이 화제가 됐다"
                       ]
                     ]
                   }
@@ -568,7 +568,7 @@
               "title": "기타 활동",
               "blocks": [
                 {
-                  "p": "2024~2025년 공연·브랜드 행사에 꾸준히 참여했다. 의류, 음료, 생활용품 등 대중적인 브랜드와 협업한 이력이 있으며 화보보다는 짧은 영상 광고에서 자연스러운 편이라는 반응을 얻었다."
+                  "p": "2024~2025년 공연, 브랜드 행사에 꾸준히 참여했다. 의류, 음료, 생활용품 등 대중적인 브랜드와 협업한 이력이 있으며 화보보다는 짧은 영상 광고에서 자연스러운 편이라는 반응을 얻었다."
                 }
               ]
             }
@@ -630,7 +630,7 @@
                   "notice": "이 문단은 현재 진행 중인 사건을 다루고 있습니다. 확인되지 않은 추측성 서술은 삼가 주시기 바랍니다."
                 },
                 {
-                  "p": "2026년 10월 3일 밤, 두 사람의 예술고 동창이라고 밝힌 SNS 이용자가 자신의 스토리에 메시지 캡처와 함께 \"나 빼고 비밀연애함ㅡㅡ\"이라는 글을 올리면서 [[김서진]]과의 열애설이 불거졌다.((문영일보, {{기사:a1|이은호·김서진, SNS 스토리에 '비밀 연애' 메시지 캡처 공개…\"나 말고 딴 사람 생겼어?\"}}, 2026.10.04.))"
+                  "p": "2026년 10월 3일 밤, 두 사람의 예술고 동창이라고 밝힌 SNS 이용자가 자신의 스토리에 메시지 캡처와 함께 \"나 빼고 비밀연애함ㅡㅡ\"이라는 글을 올리면서 [[김서진]]과의 열애설이 불거졌다.((문영일보, {{기사:a1|이은호, 김서진, SNS 스토리에 '비밀 연애' 메시지 캡처 공개…\"나 말고 딴 사람 생겼어?\"}}, 2026.10.04.))"
                 },
                 {
                   "p": "공개된 캡처에는 [[이은호]]가 \"요새 연락도 없고\", \"놀아줘\"라고 보낸 뒤 \"나 말고 딴 사람 생겼어?\"라고 묻는 메시지가 담겨 있었다. 스토리를 올린 동창이 \"뭐야 둘이 사귐?\"이라며 [[김서진]]을 태그하자 이은호가 \"아 여기 아니네\"라고 답한 부분까지 함께 퍼지면서, 다른 사람에게 보낼 메시지를 단체 대화방에 잘못 보낸 것 아니냐는 해석이 나왔다."
@@ -639,7 +639,7 @@
                   "p": "해당 스토리에는 두 사람의 공식 계정이 태그돼 있어 캡처는 게시 직후 온라인 커뮤니티와 SNS로 빠르게 퍼졌다. 다음 날인 4일 오전 언론 보도가 나오면서 열애설이 더 널리 알려졌고, 스토리를 올린 동창이 부주의하게 사생활을 노출한 것 아니냐는 비판도 함께 나왔다."
                 },
                 {
-                  "p": "두 사람은 열애설 직전인 9월 예능 '동창회 가는 길'에 함께 출연해 모교 방문((문영일보, {{기사:a3|예고 동창 케미에 '훈훈'…이은호·김서진, '동창회 가는 길'서 모교 방문}}, 2026.09.13.))과 '웃참' 벌칙 장면((문영일보, {{기사:a2|\"웃참 실패\"…이은호·김서진 '동창회 가는 길' 벌칙 장면 짤 확산}}, 2026.09.27.)) 등으로 화제가 된 바 있다."
+                  "p": "두 사람은 열애설 직전인 9월 예능 '동창회 가는 길'에 함께 출연해 모교 방문((문영일보, {{기사:a3|예고 동창 케미에 '훈훈'…이은호, 김서진, '동창회 가는 길'서 모교 방문}}, 2026.09.13.))과 '웃참' 벌칙 장면((문영일보, {{기사:a2|\"웃참 실패\"…이은호, 김서진 '동창회 가는 길' 벌칙 장면 짤 확산}}, 2026.09.27.)) 등으로 화제가 된 바 있다."
                 },
                 {
                   "p": "같은 날 오후, 소속사 [[리버노트 엔터테인먼트]]는 공식 채널을 통해 \"두 사람은 같은 학교와 소속사에서 오랜 시간 함께해 온 동료 사이\"라며 열애설이 사실이 아니라고 밝혔다. 공개된 메시지에 대해서는 \"당사자의 동의 없이 외부로 공개된 사적인 대화\"라며 확인되지 않은 추측의 확산을 자제해 달라고 덧붙였다.((리버노트 엔터테인먼트 공식 채널 공지, 2026.10.04 15:30. 전문은 [[리버노트 엔터테인먼트]] 문서 참고.))"
@@ -672,7 +672,7 @@
           ]
         }
       ],
-      "source": "수업용 가상 프로필. 사건의 핵심 사실·연도·관계는 기획 로그를 따랐고, 음반명·시상식·취향·활동 세부는 화면 현실감을 위한 창작 설정입니다.",
+      "source": "수업용 가상 프로필. 사건의 핵심 사실, 연도, 관계는 기획 로그를 따랐고, 음반명, 시상식, 취향, 활동 세부는 화면 현실감을 위한 창작 설정입니다.",
       "navbox": {
         "logo": "이은호",
         "tabs": [
@@ -763,7 +763,7 @@
           ],
           [
             "경력",
-            "2023년 보컬 오디션 프로그램 출연[br]2024년~2025년 연습생 신분으로 공연·행사 및 소속사 콘텐츠 참여[br]2026년 음악 라디오 게스트 출연[br]2026년 잡지 인터뷰·온라인 화보·브랜드 행사[br]2026년 예능 '동창회 가는 길' 출연"
+            "2023년 보컬 오디션 프로그램 출연[br]2024년~2025년 연습생 신분으로 공연, 행사 및 소속사 콘텐츠 참여[br]2026년 음악 라디오 게스트 출연[br]2026년 잡지 인터뷰, 온라인 화보, 브랜드 행사[br]2026년 예능 '동창회 가는 길' 출연"
           ],
           [
             "별명",
@@ -860,7 +860,7 @@
                       ],
                       [
                         "2024",
-                        "연습생 신분으로 공연·행사 무대와 사내 콘텐츠에 참여. 개인 SNS 팔로워가 눈에 띄게 늘기 시작."
+                        "연습생 신분으로 공연, 행사 무대와 사내 콘텐츠에 참여. 개인 SNS 팔로워가 눈에 띄게 늘기 시작."
                       ],
                       [
                         "2025",
@@ -944,13 +944,13 @@
                       ],
                       [
                         "2026",
-                        "음악 방송·라이브 콘텐츠",
+                        "음악 방송, 라이브 콘텐츠",
                         "후속곡 《천천히 말해》 활동. 라이브 클립과 숏폼 영상이 확산"
                       ],
                       [
                         "2026",
                         "'동창회 가는 길'",
-                        "[[이은호]]와 함께 출연. 모교 방문 편((문영일보, {{기사:a3|예고 동창 케미에 '훈훈'…이은호·김서진, '동창회 가는 길'서 모교 방문}}, 2026.09.13.))과 '웃참' 벌칙 편((문영일보, {{기사:a2|\"웃참 실패\"…이은호·김서진 '동창회 가는 길' 벌칙 장면 짤 확산}}, 2026.09.27.))이 화제가 됐다"
+                        "[[이은호]]와 함께 출연. 모교 방문 편((문영일보, {{기사:a3|예고 동창 케미에 '훈훈'…이은호, 김서진, '동창회 가는 길'서 모교 방문}}, 2026.09.13.))과 '웃참' 벌칙 편((문영일보, {{기사:a2|\"웃참 실패\"…이은호, 김서진 '동창회 가는 길' 벌칙 장면 짤 확산}}, 2026.09.27.))이 화제가 됐다"
                       ]
                     ]
                   }
@@ -1031,7 +1031,7 @@
                   "notice": "이 문단은 현재 진행 중인 사건을 다루고 있습니다. 확인되지 않은 추측성 서술은 삼가 주시기 바랍니다."
                 },
                 {
-                  "p": "2026년 10월 3일 밤, 두 사람의 예술고 동창이라고 밝힌 SNS 이용자가 자신의 스토리에 메시지 캡처와 함께 \"나 빼고 비밀연애함ㅡㅡ\"이라는 글을 올리면서 [[이은호]]와의 열애설이 불거졌다.((문영일보, {{기사:a1|이은호·김서진, SNS 스토리에 '비밀 연애' 메시지 캡처 공개…\"나 말고 딴 사람 생겼어?\"}}, 2026.10.04.))"
+                  "p": "2026년 10월 3일 밤, 두 사람의 예술고 동창이라고 밝힌 SNS 이용자가 자신의 스토리에 메시지 캡처와 함께 \"나 빼고 비밀연애함ㅡㅡ\"이라는 글을 올리면서 [[이은호]]와의 열애설이 불거졌다.((문영일보, {{기사:a1|이은호, 김서진, SNS 스토리에 '비밀 연애' 메시지 캡처 공개…\"나 말고 딴 사람 생겼어?\"}}, 2026.10.04.))"
                 },
                 {
                   "p": "공개된 캡처에는 [[이은호]]가 \"요새 연락도 없고\", \"놀아줘\"라고 보낸 뒤 \"나 말고 딴 사람 생겼어?\"라고 묻는 메시지가 담겨 있었다. 스토리를 올린 동창이 \"뭐야 둘이 사귐?\"이라며 [[김서진]]을 태그하자 이은호가 \"아 여기 아니네\"라고 답한 부분까지 함께 퍼지면서, 다른 사람에게 보낼 메시지를 단체 대화방에 잘못 보낸 것 아니냐는 해석이 나왔다."
@@ -1040,7 +1040,7 @@
                   "p": "해당 스토리에는 두 사람의 공식 계정이 태그돼 있어 캡처는 게시 직후 온라인 커뮤니티와 SNS로 빠르게 퍼졌다. 다음 날인 4일 오전 언론 보도가 나오면서 열애설이 더 널리 알려졌고, 스토리를 올린 동창이 부주의하게 사생활을 노출한 것 아니냐는 비판도 함께 나왔다."
                 },
                 {
-                  "p": "두 사람은 열애설 직전인 9월 예능 '동창회 가는 길'에 함께 출연해 모교 방문((문영일보, {{기사:a3|예고 동창 케미에 '훈훈'…이은호·김서진, '동창회 가는 길'서 모교 방문}}, 2026.09.13.))과 '웃참' 벌칙 장면((문영일보, {{기사:a2|\"웃참 실패\"…이은호·김서진 '동창회 가는 길' 벌칙 장면 짤 확산}}, 2026.09.27.)) 등으로 화제가 된 바 있다."
+                  "p": "두 사람은 열애설 직전인 9월 예능 '동창회 가는 길'에 함께 출연해 모교 방문((문영일보, {{기사:a3|예고 동창 케미에 '훈훈'…이은호, 김서진, '동창회 가는 길'서 모교 방문}}, 2026.09.13.))과 '웃참' 벌칙 장면((문영일보, {{기사:a2|\"웃참 실패\"…이은호, 김서진 '동창회 가는 길' 벌칙 장면 짤 확산}}, 2026.09.27.)) 등으로 화제가 된 바 있다."
                 },
                 {
                   "p": "같은 날 오후, 소속사 [[리버노트 엔터테인먼트]]는 공식 채널을 통해 \"두 사람은 같은 학교와 소속사에서 오랜 시간 함께해 온 동료 사이\"라며 열애설이 사실이 아니라고 밝혔다. 공개된 메시지에 대해서는 \"당사자의 동의 없이 외부로 공개된 사적인 대화\"라며 확인되지 않은 추측의 확산을 자제해 달라고 덧붙였다.((리버노트 엔터테인먼트 공식 채널 공지, 2026.10.04 15:30. 전문은 [[리버노트 엔터테인먼트]] 문서 참고.))"
@@ -1076,7 +1076,7 @@
           ]
         }
       ],
-      "source": "수업용 가상 프로필. 사건의 핵심 사실·연도·관계는 기획 로그를 따랐고, 음반명·시상식·취향·활동 세부는 화면 현실감을 위한 창작 설정입니다.",
+      "source": "수업용 가상 프로필. 사건의 핵심 사실, 연도, 관계는 기획 로그를 따랐고, 음반명, 시상식, 취향, 활동 세부는 화면 현실감을 위한 창작 설정입니다.",
       "navbox": {
         "logo": "김서진",
         "tabs": [
@@ -1145,7 +1145,7 @@
           ],
           [
             "주요 사업",
-            "음악 제작 · 아티스트 매니지먼트"
+            "음악 제작, 아티스트 매니지먼트"
           ],
           [
             "소속 아티스트",
@@ -1279,7 +1279,7 @@
                         "[[온새]]",
                         "2022",
                         "《한낮의 정류장》",
-                        "작사·작곡·편곡을 모두 직접 맡는다"
+                        "작사, 작곡, 편곡을 모두 직접 맡는다"
                       ]
                     ]
                   }
@@ -1287,13 +1287,13 @@
               ]
             },
             {
-              "title": "밴드·그룹",
+              "title": "밴드와 그룹",
               "blocks": [
                 {
                   "table": {
                     "head": [
                       "팀",
-                      "합류·데뷔",
+                      "합류, 데뷔",
                       "구성",
                       "비고"
                     ],
@@ -1308,7 +1308,7 @@
                         "[[노트포]]",
                         "2022",
                         "혼성 4인조",
-                        "보컬 그룹. 차은결·류하진·송지오·백시우"
+                        "보컬 그룹. 차은결, 류하진, 송지오, 백시우"
                       ]
                     ]
                   }
@@ -1316,7 +1316,7 @@
               ]
             },
             {
-              "title": "프로듀서·작가",
+              "title": "프로듀서와 작가",
               "blocks": [
                 {
                   "table": {
@@ -1337,7 +1337,7 @@
                         "[[박하람]]",
                         "2017",
                         "작사가",
-                        "발라드·어쿠스틱 계열 작사"
+                        "발라드, 어쿠스틱 계열 작사"
                       ]
                     ]
                   }
@@ -1417,7 +1417,7 @@
                   "by": "리버노트 엔터테인먼트 공식 입장 전문, 2026.10.04"
                 },
                 {
-                  "p": "입장문은 회사 명의로 발표됐으며, 두 사람의 활동 일정은 예정대로 진행한다고 밝혔다. 열애설의 경위는 [[이은호]]·[[김서진]] 문서의 사건 사고 문단을 참고."
+                  "p": "입장문은 회사 명의로 발표됐으며, 두 사람의 활동 일정은 예정대로 진행한다고 밝혔다. 열애설의 경위는 [[이은호]], [[김서진]] 문서의 사건 사고 문단을 참고."
                 }
               ]
             }
@@ -1461,14 +1461,14 @@
                 ]
               ],
               [
-                "BAND · GROUP",
+                "BAND / GROUP",
                 [
                   "윤슬(밴드)|윤슬",
                   "노트포"
                 ]
               ],
               [
-                "PRODUCER · LYRICIST",
+                "PRODUCER / LYRICIST",
                 [
                   "서지운",
                   "박하람"
@@ -1584,7 +1584,7 @@
           "title": "개요",
           "blocks": [
             {
-              "p": "1998년 한문실업고등학교로 개교했으며, 2009년 음악·공연·시각예술 계열로 학과를 개편하면서 지금의 이름으로 바꿨다. 실기 수업과 일반 교과를 병행하는 예술계 특성화고등학교로, 연습생이나 공연 활동을 병행하는 학생도 재학하고 있다."
+              "p": "1998년 한문실업고등학교로 개교했으며, 2009년 음악, 공연, 시각예술 계열로 학과를 개편하면서 지금의 이름으로 바꿨다. 실기 수업과 일반 교과를 병행하는 예술계 특성화고등학교로, 연습생이나 공연 활동을 병행하는 학생도 재학하고 있다."
             },
             {
               "p": "2010년대 후반부터 실용음악과 졸업생이 가수로 데뷔하는 사례가 이어지면서 이름이 알려졌다. 졸업생 [[이은호]]와 [[김서진]]이 2023년 같은 보컬 오디션 프로그램에 나란히 출연한 뒤로는 방송에서 학교 이름이 언급되는 일도 늘었다."
@@ -1607,7 +1607,7 @@
                   ],
                   [
                     "1998",
-                    "한문실업고등학교 개교. 상업과·정보처리과 2개 학과."
+                    "한문실업고등학교 개교. 상업과, 정보처리과 2개 학과."
                   ],
                   [
                     "2005",
@@ -1615,7 +1615,7 @@
                   ],
                   [
                     "2009",
-                    "한문예술고등학교로 교명 변경. 실용음악과·공연예술과·시각디자인과 신설."
+                    "한문예술고등학교로 교명 변경. 실용음악과, 공연예술과, 시각디자인과 신설."
                   ],
                   [
                     "2014",
@@ -1627,11 +1627,11 @@
                   ],
                   [
                     "2022",
-                    "제22회 졸업식. [[이은호]]·[[김서진]] 졸업."
+                    "제22회 졸업식. [[이은호]], [[김서진]] 졸업."
                   ],
                   [
                     "2026",
-                    "9월, 예능 '동창회 가는 길' 모교 방문 편 촬영.((문영일보, {{기사:a3|예고 동창 케미에 '훈훈'…이은호·김서진, '동창회 가는 길'서 모교 방문}}, 2026.09.13.))"
+                    "9월, 예능 '동창회 가는 길' 모교 방문 편 촬영.((문영일보, {{기사:a3|예고 동창 케미에 '훈훈'…이은호, 김서진, '동창회 가는 길'서 모교 방문}}, 2026.09.13.))"
                   ]
                 ]
               }
@@ -1646,10 +1646,10 @@
             },
             {
               "list": [
-                "'''실용음악과''' - 보컬·기악·작곡 전공. 학교에서 가장 오래된 예술계 학과로 졸업생 가수가 여럿 나왔다. [[이은호]], [[김서진]] 출신 학과.",
-                "'''공연예술과''' - 연기·뮤지컬 전공. 매년 11월 한문예술제에서 정기 공연을 올린다.",
-                "'''시각디자인과''' - 그래픽·편집·브랜드 디자인. 교내 포스터와 공연 홍보물을 대부분 이 과 학생들이 만든다.",
-                "'''영상콘텐츠과''' - 촬영·편집·모션그래픽. 한문홀 공연 실황 촬영을 맡는다."
+                "'''실용음악과''': 보컬, 기악, 작곡 전공. 학교에서 가장 오래된 예술계 학과로 졸업생 가수가 여럿 나왔다. [[이은호]], [[김서진]] 출신 학과.",
+                "'''공연예술과''': 연기, 뮤지컬 전공. 매년 11월 한문예술제에서 정기 공연을 올린다.",
+                "'''시각디자인과''': 그래픽, 편집, 브랜드 디자인. 교내 포스터와 공연 홍보물을 대부분 이 과 학생들이 만든다.",
+                "'''영상콘텐츠과''': 촬영, 편집, 모션그래픽. 한문홀 공연 실황 촬영을 맡는다."
               ]
             }
           ]
@@ -1910,7 +1910,7 @@
           "title": "사건 사고",
           "blocks": [
             {
-              "p": "2026년 10월 소속 가수 [[이은호]]·[[김서진]]의 열애설이 보도되자, 회사는 같은 달 4일 공식 채널을 통해 열애설을 부인하는 입장문을 냈다. 입장문은 회사 명의로 발표됐다. 자세한 내용은 [[리버노트 엔터테인먼트]] 문서 참고."
+              "p": "2026년 10월 소속 가수 [[이은호]], [[김서진]]의 열애설이 보도되자, 회사는 같은 달 4일 공식 채널을 통해 열애설을 부인하는 입장문을 냈다. 입장문은 회사 명의로 발표됐다. 자세한 내용은 [[리버노트 엔터테인먼트]] 문서 참고."
             }
           ]
         },
@@ -2112,7 +2112,7 @@
   }
 
   function license() {
-    return `<div class="license"><div class="badge">CLASS · WIKI</div>${SITE.license.map(t => `<p>${t}</p>`).join('')}</div>`;
+    return `<div class="license"><div class="badge">CLASS WIKI</div>${SITE.license.map(t => `<p>${t}</p>`).join('')}</div>`;
   }
 
   /* 정보상자 그림: 인물은 실루엣, 기획사는 로고 자리, 학교는 건물 그림 */
@@ -2167,7 +2167,7 @@
     const related = new Set([name]);
     (ib ? ib.rows : []).filter(([k]) => k === '관련 인물').forEach(([, v]) => v.replace(/\[\[(.+?)(?:\|.+?)?\]\]/g, (_, n) => related.add(n.trim())));
     const navbox = related.size > 1 ? `<div class="navbox"><div class="navbox-title">관련 인물</div>
-      <div class="navbox-body">${[...related].map(n => n === name ? `<b>${esc(n)}</b>` : link(n)).join('<span class="sep">·</span>')}</div></div>` : '';
+      <div class="navbox-body">${[...related].map(n => n === name ? `<b>${esc(n)}</b>` : link(n)).join('<span class="sep">|</span>')}</div></div>` : '';
 
     const fnList = fns.length ? `<div class="fn-list">${fns.map((f, i) =>
       `<div id="fn-${i + 1}"><a href="#rfn-${i + 1}" data-jump>[${i + 1}]</a> ${f}</div>`).join('')}</div>` : '';
@@ -2327,7 +2327,7 @@
   $('#recentList').innerHTML = Object.entries(DOCS)
     .sort((a, b) => (b[1].updated || '').localeCompare(a[1].updated || ''))
     .map(([n, d]) => `<div>${link(n)}<time>${esc(d.updated || '')}</time></div>`).join('');
-  $('#siteFoot').innerHTML = `${esc(SITE.name)} · 수업용 가상 위키 화면 <a href="#/all">모든 문서</a><a href="#/recent">최근 변경</a><br>
+  $('#siteFoot').innerHTML = `${esc(SITE.name)} <span style="color:#999;margin:0 6px">|</span> 수업용 가상 위키 화면 <a href="#/all">모든 문서</a><a href="#/recent">최근 변경</a><br>
     <span style="color:#777">실제 서비스와 관련이 없으며 외부로 연결되지 않습니다.</span>`;
 
   /* ── 상호작용 ── */
