@@ -10,7 +10,7 @@
   :root{
     --top-a:#0e9f92; --top-b:#2cb27c;
     --bg:#f5f5f5; --card:#fff; --line:#ccc; --line-soft:#ddd;
-    --text:#212529; --muted:#666; --link:#0275d8; --link-missing:#ff0000; --link-ext:#008000;
+    --text:#212529; --muted:#666; --link:#0275d8; --link-missing:#ff0000; --link-ext:#008000; --locked:#8d949a;
     --quote-bar:#71bc6d;
   }
   *{box-sizing:border-box}
@@ -21,6 +21,10 @@
   a{color:var(--link);text-decoration:none}
   a:hover{text-decoration:underline}
   a.missing{color:var(--link-missing)}
+  /* 열람 제한 문서: 회색 + 작은 자물쇠 (눌러도 '열람 권한 없음' 화면만 나온다) */
+  a.locked{color:var(--locked);cursor:not-allowed}
+  a.locked:hover{text-decoration:none;color:var(--locked)}
+  a.locked::after{content:"";display:inline-block;width:.7em;height:.7em;margin-left:2px;vertical-align:-.02em;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 10V7a5 5 0 0 1 10 0v3h2v12H5V10zm2 0h6V7a3 3 0 0 0-6 0z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 10V7a5 5 0 0 1 10 0v3h2v12H5V10zm2 0h6V7a3 3 0 0 0-6 0z'/%3E%3C/svg%3E") center/contain no-repeat;opacity:.85}
   a.ext{color:var(--link-ext)}
   a.ext::before{content:"";display:inline-block;width:13px;height:11px;margin-right:2px;vertical-align:-1px;border-radius:2px;
     background:#1a9a1a url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1'/%3E%3Cpath d='M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1'/%3E%3C/svg%3E") center/9px no-repeat}
@@ -127,6 +131,8 @@
   .wiki-table th{white-space:nowrap}
   .wiki-table td{word-break:keep-all}
   .nw{white-space:nowrap}
+  /* 휴대폰: 3열 이상 표는 칸을 짓누르지 말고 옆으로 넘겨 본다 */
+  @media (max-width:560px){.wiki-table.wide{width:max-content;min-width:100%;max-width:200%}.wiki-table.wide td{white-space:nowrap}.wiki-table.wide td:last-child{white-space:normal;min-width:11em}}
   .wiki-table td:first-child{text-align:center;white-space:nowrap;width:1%}
   .wiki-table.wide td{text-align:center}
   .wiki-table.wide td:first-child{width:auto}
@@ -306,6 +312,7 @@
       "categories": [
         "가수",
         "솔로 가수",
+        "2003년 출생",
         "오디션 프로그램 출신",
         "2023년 데뷔"
       ],
@@ -319,12 +326,8 @@
             "이은호"
           ],
           [
-            "나이",
-            "23세"
-          ],
-          [
-            "생일",
-            "3월 5일"
+            "출생",
+            "2003년 3월 5일 (23세)"
           ],
           [
             "직업",
@@ -659,6 +662,7 @@
       "categories": [
         "가수",
         "솔로 가수",
+        "2003년 출생",
         "오디션 프로그램 출신",
         "2025년 데뷔"
       ],
@@ -672,8 +676,8 @@
             "김서진"
           ],
           [
-            "나이",
-            "23세"
+            "출생",
+            "2003년 7월 16일 (23세)"
           ],
           [
             "직업",
@@ -1432,7 +1436,7 @@
         "rows": [
           [
             "출생",
-            "1978년 (48세)"
+            "1978년 6월 14일 (48세)"
           ],
           [
             "직업",
@@ -1690,7 +1694,8 @@
   const href = name => '#/w/' + encodeURIComponent(name);
   const LOCKED = new Set(DATA.locked || []);
   const isLocked = name => !DOCS[name] && LOCKED.has(name);
-  const link = (name, label) => `<a class="${DOCS[name] || LOCKED.has(name) ? '' : 'missing'}" href="${href(name)}" title="${esc(name)}">${esc(label || name)}</a>`;
+  const linkClass = name => DOCS[name] ? '' : LOCKED.has(name) ? 'locked' : 'missing';
+  const link = (name, label) => `<a class="${linkClass(name)}" href="${href(name)}" title="${esc(name)}${isLocked(name) ? ' (열람 제한 문서)' : ''}">${esc(label || name)}</a>`;
 
   /* 문안 표기법 → HTML. fns는 문서마다 새 배열 */
   function markup(text, fns) {
@@ -2023,7 +2028,7 @@
   function suggest() {
     const v = q.value.trim(); sel = -1;
     const items = v ? [...Object.keys(DOCS), ...LOCKED].filter(n => n.includes(v)).slice(0, 8) : [];
-    sug.innerHTML = items.map(n => `<a href="${href(n)}">${esc(n)}</a>`).join('');
+    sug.innerHTML = items.map(n => `<a class="${linkClass(n)}" href="${href(n)}">${esc(n)}</a>`).join('');
     sug.classList.toggle('open', items.length > 0);
   }
   q.addEventListener('input', suggest);
