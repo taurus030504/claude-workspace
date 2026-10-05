@@ -1750,10 +1750,16 @@
     var best = all.filter(function (cm) { return cm.up >= 50 && !cm.status; })
       .sort(function (x, y) { return y.up - x.up || y.ts - x.ts; }).slice(0, 3);
     var bestIds = best.map(function (cm) { return cm.id; });
-    var rest = all.filter(function (cm) { return bestIds.indexOf(cm.id) < 0; });
-    if (sortMode === 'best') rest.sort(function (x, y) { return (y.up - y.down) - (x.up - x.down) || (y.ts - x.ts); });
-    else rest.sort(function (x, y) { return y.ts - x.ts; });
-    var ordered = best.concat(rest);
+    var ordered;
+    if (sortMode === 'best') {
+      // 추천순: BEST 3개를 맨 위에 고정하고 나머지는 추천-반대 순
+      var rest = all.filter(function (cm) { return bestIds.indexOf(cm.id) < 0; });
+      rest.sort(function (x, y) { return (y.up - y.down) - (x.up - x.down) || (y.ts - x.ts); });
+      ordered = best.concat(rest);
+    } else {
+      // 최신순: 고정 없이 시간순 → 방금 쓴 내 댓글이 맨 위로 (BEST 표시는 그대로 붙음)
+      ordered = all.slice().sort(function (x, y) { return y.ts - x.ts; });
+    }
     var list = ordered.slice(0, shownCount);
     var left = ordered.length - list.length;
 
