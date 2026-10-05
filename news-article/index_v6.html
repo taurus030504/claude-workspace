@@ -288,32 +288,6 @@
     font-size: 10px; padding: 4px 10px; opacity: .8;
   }
 
-  /* ---------- 방송 캡처 (예능 화면 + 자막, 인물은 실루엣) ---------- */
-  .tvcap {
-    position: relative;
-    width: 560px; max-width: calc(100% - 32px);
-    aspect-ratio: 16 / 9;
-    overflow: hidden;
-    border-radius: 4px;
-    background: linear-gradient(180deg, #f3d9b1 0%, #e9b98a 60%, #b98058 100%);
-    box-shadow: 0 10px 30px rgba(0,0,0,.45);
-  }
-  .tvcap svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .tvcap .tv-logo {
-    position: absolute; top: 4%; right: 3%;
-    background: rgba(0,0,0,.35); color: #fff;
-    font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 3px; letter-spacing: -.02em;
-  }
-  .tvcap .tv-sub {
-    position: absolute; left: 0; right: 0; bottom: 9%;
-    text-align: center;
-    font-size: clamp(18px, 4.6vw, 30px); font-weight: 900; letter-spacing: -.04em;
-    color: #ffe14d;
-    -webkit-text-stroke: 5px #1b1b1b; paint-order: stroke fill;
-    text-shadow: 0 3px 0 rgba(0,0,0,.35);
-    transform: rotate(-2deg);
-  }
-
   /* ---------- 기사 본문 ---------- */
   .article-body {
     font-size: var(--body-size);
@@ -364,7 +338,11 @@
   .sort button.on { color: #111; font-weight: 700; }
   .cbox { border: 1px solid #ccc; }
   .cbox .c-top { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 10px; padding: 8px 14px; border-bottom: 1px solid #eee; font-size: 13px; color: var(--text-sub); min-height: 46px; }
-  .cbox .c-top .nick-fixed b { color: #111; margin-right: 1px; }
+  .cbox .c-top input[type=text] { border: 1px solid #ddd; padding: 6px 8px; font: inherit; font-size: 13px; width: 150px; max-width: 100%; }
+  .cbox .c-top .setnick { border: 1px solid #333; background: #fff; padding: 5px 12px; font-size: 13px; }
+  .cbox .c-top .setnick:hover { border-color: var(--brand); color: var(--brand); }
+  .cbox .c-top .hint { font-size: 12px; color: var(--text-muted); }
+  .cbox .c-top .nick-fixed b { color: #111; margin-left: 4px; }
   .cbox .c-top .anon { margin-left: auto; display: flex; align-items: center; gap: 5px; cursor: pointer; user-select: none; }
   .cbox .c-top .anon input { width: 15px; height: 15px; accent-color: var(--brand); margin: 0; }
   .cbox .c-top .anon small { color: var(--text-muted); }
@@ -465,37 +443,6 @@
   }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-  /* ---------- 시작 화면 (학번이름·닉네임 입력) ---------- */
-  .gate {
-    position: fixed; inset: 0; z-index: 15;
-    background: rgba(17, 17, 17, .72);
-    backdrop-filter: blur(3px);
-    display: flex; align-items: center; justify-content: center;
-    padding: 16px;
-    overflow-y: auto;
-  }
-  .gate form {
-    background: #fff; width: 420px; max-width: 100%;
-    border-radius: 8px; padding: 30px 26px 26px;
-    box-shadow: 0 16px 50px rgba(0,0,0,.35);
-    display: grid; gap: 18px;
-  }
-  .gate .g-kicker { font-size: 13px; font-weight: 700; color: var(--brand); letter-spacing: .02em; }
-  .gate h2 { margin: 4px 0 0; font-size: 24px; letter-spacing: -.04em; }
-  .gate label { display: grid; gap: 6px; font-size: 15px; font-weight: 700; }
-  .gate input {
-    font: inherit; font-size: 17px; font-weight: 400;
-    padding: 12px 14px; border: 1.5px solid #ccc; border-radius: 6px; width: 100%;
-  }
-  .gate input:focus { border-color: var(--brand); outline: none; }
-  .gate .g-hint { font-size: 13px; font-weight: 400; color: var(--text-muted); }
-  .gate button {
-    border: 0; background: var(--brand); color: #fff;
-    font-size: 18px; font-weight: 700; padding: 15px; border-radius: 6px;
-  }
-  .gate button:hover { background: #c80f43; }
-  .gate .g-note { margin: 0; font-size: 12px; color: var(--text-muted); text-align: center; }
-
   /* ---------- 확인 팝업 ---------- */
   .modal-bg {
     position: fixed; inset: 0; z-index: 20;
@@ -589,16 +536,10 @@
     {
       "아이디": "a1",
       "템플릿": "포털 뉴스",
-      "게시자": {
-        "매체": "문영일보",
-        "기자": "hanjiwon"
-      },
+      "게시자": { "매체": "문영일보", "기자": "hanjiwon" },
       "시각": "2026.10.04 09:12",
       "본문": {
-        "분류": [
-          "연예",
-          "핫이슈"
-        ],
+        "분류": ["연예", "핫이슈"],
         "제목": "\"아 여기 아니네\"…이은호, 김서진에게 보낸 메시지 단톡방에 잘못 올렸나? 열애설 확산",
         "부제": [
           "예고 동창 SNS 스토리에 메시지 캡처 공개",
@@ -610,51 +551,22 @@
           "이를 본 동창이 \"뭐야 둘이 사귐?\"이라며 김서진을 태그하자 이은호는 \"아 여기 아니네\"라고 답했다. 단체 대화방에 잘못 보낸 것 아니냐는 해석이 나오는 대목이다.",
           "해당 스토리는 두 사람의 공식 계정을 함께 태그한 것으로 알려졌다."
         ],
-        "키워드": [
-          "이은호",
-          "김서진",
-          "열애설",
-          "단톡방"
-        ]
+        "키워드": ["이은호", "김서진", "열애설", "단톡방"]
       },
       "이미지": {
         "종류": "스토리 캡처",
         "스토리 글": "나 빼고 비밀연애함ㅡㅡ",
         "대화방 인원": 8,
         "대화": [
-          {
-            "보낸 사람": "이은호",
-            "말": [
-              "요새 연락도 없고",
-              "너무 서운한데ㅔㅔㅔ",
-              "놀아줘",
-              "나 말고 딴 사람 생겻ㅅ어?"
-            ]
-          },
-          {
-            "보낸 사람": "나",
-            "말": [
-              "뭐야 둘이 사귐? @김서진"
-            ]
-          },
-          {
-            "보낸 사람": "이은호",
-            "말": [
-              "아 여기 아니네"
-            ]
-          }
+          { "보낸 사람": "이은호", "말": ["요새 연락도 없고", "너무 서운한데ㅔㅔㅔ", "놀아줘", "나 말고 딴 사람 생겻ㅅ어?"] },
+          { "보낸 사람": "나", "말": ["뭐야 둘이 사귐? @김서진"] },
+          { "보낸 사람": "이은호", "말": ["아 여기 아니네"] }
         ],
-        "태그": [
-          "@이은호",
-          "@김서진"
-        ],
+        "태그": ["@이은호", "@김서진"],
         "설명": "두 사람의 예술고 동창이라고 밝힌 한 이용자가 SNS 스토리에 올린 메시지 캡처. 사진=SNS 캡처"
       },
       "공개 턴": "[교사 입력]",
-      "반응": {
-        "추천": 186,
-        "반대": 57
-      },
+      "반응": { "추천": 186, "반대": 57 },
       "댓글": [
         { "닉네임": "mjmj__", "시각": "2026.10.04 09:14", "내용": "헐", "추천": 4, "반대": 0 },
         { "닉네임": "dbswl0927", "시각": "2026.10.04 09:16", "내용": "ㅋㅋㅋㅋㅋㅋㅋㅋ아 여기 아니네 ㅋㅋㅋㅋ개웃기네", "추천": 312, "반대": 18 },
@@ -679,175 +591,7 @@
         { "닉네임": "qwer1234", "시각": "2026.10.04 14:10", "내용": "원본 캡처 있는사람??", "추천": 2, "반대": 21 },
         { "닉네임": "봄날의곰", "시각": "2026.10.04 15:37", "내용": "잘어울림 ㅎㅎ 응원해요", "추천": 5, "반대": 7 },
         { "닉네임": "sunny_day", "시각": "2026.10.04 19:52", "내용": "아직도 입장 없음?", "추천": 33, "반대": 2 },
-        { "닉네임": "레몬사탕", "시각": "2026.10.05 08:41", "내용": "하루 지났는데 조용한거 보면 맞는듯", "추천": 57, "반대": 48 },
-        { "닉네임": "kimmy_j", "시각": "2026.10.04 09:15", "내용": "헐 대박", "추천": 3, "반대": 0 },
-        { "닉네임": "ㅇㅇ", "시각": "2026.10.04 09:17", "내용": "?????", "추천": 2, "반대": 0 },
-        { "닉네임": "tteokbokki", "시각": "2026.10.04 09:21", "내용": "아 여기 아니네 ㅋㅋㅋㅋㅋ 이거 밈 된다", "추천": 71, "반대": 2 },
-        { "닉네임": "민트초코러버", "시각": "2026.10.04 09:25", "내용": "예능 때부터 뭔가 있었음 촉이 왔다", "추천": 48, "반대": 30 },
-        { "닉네임": "파란하늘", "시각": "2026.10.04 09:29", "내용": "동창회 가는 길 보면서 둘이 너무 친하다 했는데 ㅋㅋ", "추천": 95, "반대": 11 },
-        { "닉네임": "jhkim88", "시각": "2026.10.04 09:33", "내용": "이런걸 왜 기사로 씀", "추천": 21, "반대": 4 },
-        { "닉네임": "나는야고3", "시각": "2026.10.04 09:44", "내용": "공부하다 이거 보고 놀람", "추천": 14, "반대": 1 },
-        { "닉네임": "오늘저녁뭐먹지", "시각": "2026.10.04 09:48", "내용": "저 동창 계정 털릴듯", "추천": 19, "반대": 27 },
-        { "닉네임": "pink_rabbit", "시각": "2026.10.04 10:06", "내용": "또너야? 하던 사이가 이렇게 될줄", "추천": 63, "반대": 12 },
-        { "닉네임": "가을타는중", "시각": "2026.10.04 10:18", "내용": "둘이 사귀든 말든 관심없는데 왜 자꾸 뜨냐", "추천": 11, "반대": 9 },
-        { "닉네임": "kkk_0101", "시각": "2026.10.04 10:31", "내용": "서운한데ㅔㅔㅔ 이거 말투 뭐임ㅋㅋㅋ", "추천": 36, "반대": 5 },
-        { "닉네임": "곰돌이푸", "시각": "2026.10.04 10:45", "내용": "이거 조작일수도 있지않나", "추천": 27, "반대": 33 },
-        { "닉네임": "hello_world", "시각": "2026.10.04 11:20", "내용": "댓글 반응 왜케 갈림", "추천": 4, "반대": 0 },
-        { "닉네임": "치즈볼", "시각": "2026.10.04 11:52", "내용": "예능 다시 보니까 눈빛이 다르긴 함", "추천": 52, "반대": 41 },
-        { "닉네임": "taeyang_", "시각": "2026.10.04 13:01", "내용": "캡처 원본 찾았다는 사람 있던데", "추천": 8, "반대": 15 },
-        { "닉네임": "새우깡", "시각": "2026.10.04 16:22", "내용": "결국 공식입장은 안나오네", "추천": 12, "반대": 1 },
-        { "닉네임": "hoho_ha", "시각": "2026.10.04 21:40", "내용": "이거 다른 기사에도 났음?", "추천": 3, "반대": 0 },
-        { "닉네임": "말랑콩떡", "시각": "2026.10.05 07:55", "내용": "자고 일어났는데 아직도 이 얘기네", "추천": 9, "반대": 2 }
-      ]
-    },
-    {
-      "아이디": "a2",
-      "템플릿": "포털 뉴스",
-      "게시자": {
-        "매체": "문영일보",
-        "기자": "hanjiwon"
-      },
-      "시각": "2026.09.27 14:05",
-      "본문": {
-        "분류": [
-          "연예",
-          "방송"
-        ],
-        "제목": "\"웃참 실패\"…이은호·김서진 '동창회 가는 길' 벌칙 장면 짤 확산",
-        "부제": [
-          "물 뿜은 이은호에 김서진 \"또 너야?\"",
-          "\"둘이 대화가 콩트\"…온라인서 밈으로"
-        ],
-        "문단": [
-          "'동창회 가는 길' 속 이은호와 김서진의 벌칙 장면이 온라인에서 짧은 영상과 사진으로 퍼지고 있다.",
-          "지난 26일 방송에서 두 사람은 물을 머금고 웃음을 참는 게임에 나섰다. 김서진이 학창 시절 이은호의 별명을 꺼내자 이은호는 3초 만에 물을 뿜었고, 김서진은 \"또 너야?\"라며 고개를 저었다.",
-          "해당 장면은 방송 직후 커뮤니티와 SNS에 '웃참 실패' 짤로 올라와 빠르게 공유됐다. 일부 이용자들은 김서진의 \"또 너야?\"를 따라 하는 영상을 올리기도 했다.",
-          "누리꾼들은 \"둘이 대화가 콩트 같다\", \"다음 주도 둘이 나와야 한다\"는 반응을 보였다."
-        ],
-        "키워드": [
-          "이은호",
-          "김서진",
-          "웃참",
-          "동창회가는길"
-        ]
-      },
-      "이미지": {
-        "종류": "방송 캡처",
-        "프로그램": "동창회 가는 길",
-        "자막": "또 너야?",
-        "설명": "'동창회 가는 길' 방송 화면 캡처"
-      },
-      "공개 턴": "[교사 입력]",
-      "반응": {
-        "추천": 211,
-        "반대": 9
-      },
-      "댓글": [
-        { "닉네임": "dbswl0927", "시각": "2026.09.27 14:08", "내용": "ㅋㅋㅋㅋ물뿜는거 몇번째 보는지 모름", "추천": 204, "반대": 3 },
-        { "닉네임": "포카칩조아", "시각": "2026.09.27 14:10", "내용": "또너야? 이거 유행어 될듯ㅋㅋ", "추천": 158, "반대": 4 },
-        { "닉네임": "은호만바라봐", "시각": "2026.09.27 14:13", "내용": "물뿜는 은호 귀여워 미치겠다", "추천": 61, "반대": 5 },
-        { "닉네임": "hoonnn", "시각": "2026.09.27 14:16", "내용": "근데 둘이 사귀는거 아님?ㅋㅋㅋ", "추천": 97, "반대": 22 },
-        { "닉네임": "nightowl", "시각": "2026.09.27 14:20", "내용": "이정도면 대본 아님?", "추천": 15, "반대": 19 },
-        { "닉네임": "ㅋㅋ맨", "시각": "2026.09.27 14:22", "내용": "ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ", "추천": 3, "반대": 0 },
-        { "닉네임": "tteokbokki", "시각": "2026.09.27 14:27", "내용": "또 너야? 나도 친구한테 써먹음", "추천": 44, "반대": 1 },
-        { "닉네임": "서진이꽃길만", "시각": "2026.09.27 14:31", "내용": "서진이 고개 젓는거 진짜 찐반응", "추천": 52, "반대": 2 },
-        { "닉네임": "mint_00", "시각": "2026.09.27 14:35", "내용": "둘이 예능 고정 가자", "추천": 38, "반대": 0 },
-        { "닉네임": "월요일싫어", "시각": "2026.09.27 14:42", "내용": "회사에서 보다가 웃참 실패함ㅠㅠ", "추천": 29, "반대": 0 },
-        { "닉네임": "jjw_0412", "시각": "2026.09.27 14:50", "내용": "별명 뭐였는지 궁금해 죽겠네", "추천": 33, "반대": 1 },
-        { "닉네임": "단짠단짠", "시각": "2026.09.27 14:58", "내용": "결혼해라 그냥ㅋㅋㅋ", "추천": 71, "반대": 18 },
-        { "닉네임": "pink_rabbit", "시각": "2026.09.27 15:06", "내용": "또너야 짤 저장함", "추천": 12, "반대": 0 },
-        { "닉네임": "하늘보리", "시각": "2026.09.27 15:13", "내용": "둘이 대화하는거 콩트같음 ㅋㅋ", "추천": 26, "반대": 0 },
-        { "닉네임": "감자튀김", "시각": "2026.09.27 15:20", "내용": "이 프로 요즘 화제성 장난아님", "추천": 9, "반대": 0 },
-        { "닉네임": "냉면러버", "시각": "2026.09.27 15:34", "내용": "나만 물뿜는거 3번 돌려봄?", "추천": 18, "반대": 0 },
-        { "닉네임": "kimmy_j", "시각": "2026.09.27 15:47", "내용": "친구한테 링크 보냄ㅋㅋ", "추천": 5, "반대": 0 },
-        { "닉네임": "치즈볼", "시각": "2026.09.27 16:02", "내용": "근데 서진이 은호 볼때 웃는거 뭔가 다름", "추천": 48, "반대": 21 },
-        { "닉네임": "연두빛", "시각": "2026.09.27 16:15", "내용": "둘이 친구로 오래 갔으면 좋겠다", "추천": 22, "반대": 3 },
-        { "닉네임": "레몬사탕", "시각": "2026.09.27 16:40", "내용": "이거 숏폼에 다 뜨던데", "추천": 7, "반대": 0 },
-        { "닉네임": "가을타는중", "시각": "2026.09.27 17:05", "내용": "재밌긴 한데 짤 너무 많이 돌아다님", "추천": 4, "반대": 2 },
-        { "닉네임": "곰돌이푸", "시각": "2026.09.27 17:31", "내용": "둘이 진짜 친한거 맞네", "추천": 11, "반대": 0 },
-        { "닉네임": "민트초코러버", "시각": "2026.09.27 18:02", "내용": "썸 아니냐고ㅋㅋㅋㅋ", "추천": 39, "반대": 25 },
-        { "닉네임": "sunny_day", "시각": "2026.09.27 18:44", "내용": "다음주 예고 보니까 또 둘이 나옴", "추천": 14, "반대": 0 },
-        { "닉네임": "수박바", "시각": "2026.09.27 19:20", "내용": "웃참 게임 레전드 등극", "추천": 20, "반대": 0 },
-        { "닉네임": "코코넛", "시각": "2026.09.27 20:05", "내용": "또너야 이거 밈 된거 웃기다", "추천": 9, "반대": 0 },
-        { "닉네임": "starlight_", "시각": "2026.09.27 21:12", "내용": "편집자님 상줘야함", "추천": 16, "반대": 0 },
-        { "닉네임": "규리맘", "시각": "2026.09.27 22:30", "내용": "보면서 같이 웃었네요", "추천": 2, "반대": 0 },
-        { "닉네임": "bluebird", "시각": "2026.09.28 08:15", "내용": "아침부터 또너야 짤 봄", "추천": 6, "반대": 0 },
-        { "닉네임": "taeyang_", "시각": "2026.09.28 11:40", "내용": "이 둘 조합 진짜 오래 볼듯", "추천": 8, "반대": 0 },
-        { "닉네임": "qwer1234", "시각": "2026.09.28 13:05", "내용": "별명 공개해라", "추천": 3, "반대": 1 },
-        { "닉네임": "말랑콩떡", "시각": "2026.09.28 16:50", "내용": "이 기사 왜 이제 봤지ㅋㅋ", "추천": 1, "반대": 0 }
-      ]
-    },
-    {
-      "아이디": "a3",
-      "템플릿": "포털 뉴스",
-      "게시자": {
-        "매체": "문영일보",
-        "기자": "hanjiwon"
-      },
-      "시각": "2026.09.13 18:40",
-      "본문": {
-        "분류": [
-          "연예",
-          "방송"
-        ],
-        "제목": "예고 동창 케미에 '훈훈'…이은호·김서진, '동창회 가는 길'서 모교 방문",
-        "부제": [
-          "졸업 후 함께 찾은 예술고 연습실",
-          "\"혼난 건 너 혼자였거든\" 티키타카에 웃음"
-        ],
-        "문단": [
-          "예술고 동창인 이은호와 김서진이 예능에서 오랜 친구다운 호흡을 보여줬다.",
-          "12일 방송된 '동창회 가는 길'에서 두 사람은 함께 모교를 찾아 학창 시절 이야기를 나눴다. 이은호는 연습실 문을 열자마자 \"여기서 맨날 혼났다\"며 웃었고, 김서진은 \"혼난 건 너 혼자였거든\"이라고 받아쳐 현장을 웃음바다로 만들었다.",
-          "두 사람은 졸업 앨범을 넘기며 서로의 옛 사진을 놀리기도 했다. 이은호가 김서진의 사진을 보고 \"이때도 표정이 똑같다\"고 하자, 김서진은 \"너는 머리만 바뀌었다\"고 응수했다.",
-          "방송 직후 온라인에서는 \"찐친 케미\", \"티키타카가 자연스럽다\" 등의 반응이 이어졌다."
-        ],
-        "키워드": [
-          "이은호",
-          "김서진",
-          "동창회가는길",
-          "예고동창"
-        ]
-      },
-      "이미지": {
-        "종류": "방송 캡처",
-        "프로그램": "동창회 가는 길",
-        "자막": "혼난 건 너 혼자였거든?",
-        "설명": "'동창회 가는 길' 방송 화면 캡처"
-      },
-      "공개 턴": "[교사 입력]",
-      "반응": {
-        "추천": 94,
-        "반대": 3
-      },
-      "댓글": [
-        { "닉네임": "은호만바라봐", "시각": "2026.09.13 18:44", "내용": "은호 웃는거 보니까 좋다ㅠㅠ", "추천": 58, "반대": 1 },
-        { "닉네임": "hoonnn", "시각": "2026.09.13 18:47", "내용": "둘이 진짜 친해보이네", "추천": 34, "반대": 0 },
-        { "닉네임": "서진이꽃길만", "시각": "2026.09.13 18:49", "내용": "서진이 받아치는거 개웃김 ㅋㅋㅋ 혼난건 너 혼자였거든", "추천": 121, "반대": 2 },
-        { "닉네임": "연두빛", "시각": "2026.09.13 18:55", "내용": "둘이 잘어울린다 찐친으로", "추천": 47, "반대": 3 },
-        { "닉네임": "파란하늘", "시각": "2026.09.13 19:02", "내용": "예고 동창이었구나 몰랐음", "추천": 12, "반대": 0 },
-        { "닉네임": "mint_00", "시각": "2026.09.13 19:06", "내용": "이 조합 고정해주세요 제발", "추천": 88, "반대": 1 },
-        { "닉네임": "kks1004", "시각": "2026.09.13 19:11", "내용": "예능 처음 보는데 재밌네", "추천": 6, "반대": 0 },
-        { "닉네임": "오렌지마멀", "시각": "2026.09.13 19:15", "내용": "졸업앨범 사진 나올때 빵터짐", "추천": 29, "반대": 0 },
-        { "닉네임": "저녁노을", "시각": "2026.09.13 19:23", "내용": "친구끼리 저렇게 편한거 부럽다", "추천": 64, "반대": 0 },
-        { "닉네임": "tv_lover", "시각": "2026.09.13 19:31", "내용": "동창회 가는 길 요즘 제일 재밌음", "추천": 17, "반대": 1 },
-        { "닉네임": "규리맘", "시각": "2026.09.13 19:40", "내용": "둘 다 착해보여요", "추천": 9, "반대": 0 },
-        { "닉네임": "jk_1234", "시각": "2026.09.13 19:52", "내용": "티키타카 장난 아니다", "추천": 21, "반대": 0 },
-        { "닉네임": "뀨뀨", "시각": "2026.09.13 20:05", "내용": "너는 머리만 바뀌었다 ㅋㅋㅋㅋㅋ", "추천": 33, "반대": 0 },
-        { "닉네임": "starlight_", "시각": "2026.09.13 20:17", "내용": "다음주 예고편 보니까 또 나오던데", "추천": 15, "반대": 0 },
-        { "닉네임": "감자튀김", "시각": "2026.09.13 20:30", "내용": "이런 예능 좋다 자극적이지 않고", "추천": 42, "반대": 1 },
-        { "닉네임": "수박바", "시각": "2026.09.13 20:48", "내용": "연습실 장면 찡했음", "추천": 11, "반대": 0 },
-        { "닉네임": "ㅎㅎ", "시각": "2026.09.13 21:03", "내용": "ㅋㅋㅋㅋ귀엽네", "추천": 2, "반대": 0 },
-        { "닉네임": "bluebird", "시각": "2026.09.13 21:15", "내용": "둘이 학교 다닐때도 저랬을듯", "추천": 19, "반대": 0 },
-        { "닉네임": "네모네모", "시각": "2026.09.13 21:44", "내용": "서진이 표정 똑같다는거 인정ㅋㅋ", "추천": 8, "반대": 0 },
-        { "닉네임": "dreamer99", "시각": "2026.09.13 22:10", "내용": "재방 언제 해요?", "추천": 1, "반대": 0 },
-        { "닉네임": "포도알", "시각": "2026.09.13 22:36", "내용": "이은호 원래 이렇게 웃겼나", "추천": 26, "반대": 2 },
-        { "닉네임": "고구마라떼", "시각": "2026.09.13 23:02", "내용": "친구랑 같이 보다가 우리 얘기인줄", "추천": 13, "반대": 0 },
-        { "닉네임": "밤하늘별", "시각": "2026.09.14 00:15", "내용": "둘이 같은 학교 나온거 오늘 알았네", "추천": 5, "반대": 0 },
-        { "닉네임": "하루한잔", "시각": "2026.09.14 08:30", "내용": "아침부터 짤 보고 웃음", "추천": 7, "반대": 0 },
-        { "닉네임": "sky_walker", "시각": "2026.09.14 10:12", "내용": "이 기사 보고 다시보기 하러감", "추천": 4, "반대": 0 },
-        { "닉네임": "연필깎이", "시각": "2026.09.14 12:40", "내용": "편집 잘했다 제작진 일한다", "추천": 10, "반대": 0 },
-        { "닉네임": "코코넛", "시각": "2026.09.14 15:05", "내용": "둘이 케미 미쳤다", "추천": 23, "반대": 1 },
-        { "닉네임": "행복한하루", "시각": "2026.09.14 19:20", "내용": "이런 사이 오래 갔으면", "추천": 31, "반대": 0 }
+        { "닉네임": "레몬사탕", "시각": "2026.10.05 08:41", "내용": "하루 지났는데 조용한거 보면 맞는듯", "추천": 57, "반대": 48 }
       ]
     }
   ]
@@ -962,7 +706,6 @@
   }
   function thumbStyle(a) {
     if (a['이미지'] && a['이미지']['종류'] === '스토리 캡처') return 'background:linear-gradient(160deg,#27406b,#9cc3e6)';
-    if (a['이미지'] && a['이미지']['종류'] === '방송 캡처') return 'background:linear-gradient(160deg,#f3d9b1,#b98058)';
     return 'background:linear-gradient(160deg,#e5e7eb,#9ca3af)';
   }
 
@@ -1033,32 +776,11 @@
       comments: (a['댓글'] || []).length + getMyComments(id).length
     };
   }
-  // 시작 화면에서 입력한 학생 정보 { 학번이름, 닉네임 } — 지금은 이 브라우저에만 저장
-  function profile() { return store.get('profile', null); }
-  function myNick() { var p = profile(); return p ? p['닉네임'] : ''; }
+  function myNick() { return store.get('nick', ''); }
   function anonUsed() { return store.get('anonUsed', false); }
 
   // ================= 이미지 렌더러 =================
   var RENDER_IMAGE = {
-    // 예능 방송 화면: 교실 배경 + 두 사람 실루엣 + 노란 자막
-    '방송 캡처': function (img) {
-      return '' +
-        '<div class="tvcap" role="img" aria-label="' + esc(img['프로그램'] || '') + ' 방송 화면 캡처">' +
-          '<svg viewBox="0 0 160 90" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' +
-            '<rect x="0" y="0" width="160" height="30" fill="#2f4b3a"/>' +
-            '<rect x="2" y="2" width="156" height="26" fill="#3d5f49"/>' +
-            '<path d="M10 10h22M12 16h30M40 9l6 6" stroke="#e8efe9" stroke-width=".7" opacity=".55" fill="none"/>' +
-            '<rect x="0" y="62" width="160" height="28" fill="#a86f49"/>' +
-            '<rect x="12" y="58" width="34" height="5" fill="#8a5a3b"/><rect x="112" y="58" width="36" height="5" fill="#8a5a3b"/>' +
-            '<g fill="#2b2f3a" opacity=".88">' +
-              '<circle cx="58" cy="40" r="10"/><path d="M38 90c1-17 9-26 20-26s19 9 20 26z"/>' +
-              '<circle cx="102" cy="42" r="9.5"/><path d="M83 90c1-16 9-24 19-24s18 8 19 24z"/>' +
-            '</g>' +
-          '</svg>' +
-          '<span class="tv-logo">' + esc(img['프로그램'] || '') + '</span>' +
-          '<div class="tv-sub">' + esc(img['자막'] || '') + '</div>' +
-        '</div>';
-    },
     '스토리 캡처': function (img) {
       function bubble(t) {
         return '<span class="bubble">' + esc(t).replace(/(@\S+)/g, '<span class="mention">$1</span>') + '</span>';
@@ -1250,8 +972,13 @@
   function renderCommentTop() {
     var top = document.getElementById('cmtTop');
     if (!top) return;
-    // 닉네임은 시작 화면에서 정하므로 여기서는 보여주기만 하고, 고르는 것은 익명 여부뿐
-    var left = '<span class="nick-fixed">' + (myNick() ? '<b>' + esc(myNick()) + '</b>(으)로 작성' : '') + '</span>';
+    var nick = myNick();
+    var left = nick
+      ? '<span class="nick-fixed">닉네임<b>' + esc(nick) + '</b></span>'
+      : '<label for="cmtNickInput">닉네임</label>' +
+        '<input type="text" id="cmtNickInput" maxlength="10" placeholder="2~10자" autocomplete="off">' +
+        '<button type="button" class="setnick" data-setnick>설정</button>' +
+        '<span class="hint">한 번 정하면 바꿀 수 없어요</span>';
     var right = anonUsed()
       ? '<span class="anon used" title="익명 댓글은 이미 사용했습니다">익명 사용 완료</span>'
       : '<label class="anon" for="cmtAnon"><input type="checkbox" id="cmtAnon">익명으로 작성<small>(1회)</small></label>';
@@ -1356,7 +1083,6 @@
   function route() {
     var h = location.hash.slice(1), m;
     if (h === 'comments' && current) return;            // 같은 기사 안에서 댓글로 이동
-    if (h === 'reset') { renderList(); resetAll(); return; }
     if ((m = h.match(/^reporter-(.+)$/)) && reporterById[m[1]]) renderReporter(m[1]);
     else if (h === 'list') renderList();
     else if ((m = h.match(/^article-(.+)$/)) && articleById[m[1]]) renderArticle(m[1]);
@@ -1422,6 +1148,20 @@
       return;
     }
 
+    if (t.hasAttribute('data-setnick')) {
+      var inp = document.getElementById('cmtNickInput');
+      var v = inp.value.trim();
+      if (v.length < 2) { toast('닉네임은 2~10자로 입력해 주세요.'); inp.focus(); return; }
+      if (v === '익명') { toast('\'익명\'은 닉네임으로 쓸 수 없어요.'); inp.focus(); return; }
+      openModal({
+        title: '닉네임을 이렇게 정할까요?',
+        body: '<b>' + esc(v) + '</b><br>한 번 정한 닉네임은 바꿀 수 없고, 모든 기사의 댓글에 이 닉네임이 쓰입니다.',
+        ok: '설정',
+        onOk: function () { store.set('nick', v); renderCommentTop(); toast('닉네임을 설정했습니다.'); }
+      });
+      return;
+    }
+
     if (t.hasAttribute('data-creact') && current) {
       var cid = t.getAttribute('data-cid'), ck = t.getAttribute('data-creact');
       if (cid.charAt(0) === 'c') { toast('내 댓글에는 추천·반대를 할 수 없습니다.'); return; }
@@ -1455,6 +1195,9 @@
   document.addEventListener('submit', function (e) {
     if (e.target.id !== 'cmtForm' || !current) return;
     e.preventDefault();
+    var nickInput = document.getElementById('cmtNickInput');
+    // 닉네임 칸에서 Enter를 누르면 닉네임 설정으로
+    if (nickInput && document.activeElement === nickInput) { document.querySelector('[data-setnick]').click(); return; }
     var textEl = document.getElementById('cmtText');
     var text = textEl.value.trim();
     if (!text) { toast('댓글 내용을 입력해 주세요.'); textEl.focus(); return; }
@@ -1469,7 +1212,7 @@
       });
       return;
     }
-    if (!myNick()) { showGate(); return; }
+    if (!myNick()) { toast('먼저 닉네임을 설정해 주세요.'); if (nickInput) nickInput.focus(); return; }
     postComment(text, false);
   });
 
@@ -1522,74 +1265,11 @@
     if (e.target.id === 'cmtText') document.getElementById('cmtLen').textContent = e.target.value.length;
   });
 
-  // ================= 시작 화면 (학번이름·닉네임) =================
-  // 게임에 합칠 때 이 화면이 게임 첫 화면 역할을 함. 닉네임 = 실명 글에 쓰이는 이름.
-  var gateEl = null;
-  function showGate() {
-    if (gateEl) return;
-    gateEl = document.createElement('div');
-    gateEl.className = 'gate';
-    gateEl.innerHTML = '' +
-      '<form id="gateForm" autocomplete="off">' +
-        '<div><div class="g-kicker">학습 게임 시작</div><h2>내 정보를 입력하세요</h2></div>' +
-        '<label for="gateId">학번 이름<input id="gateId" maxlength="20" placeholder="예: 20315 김민지"></label>' +
-        '<label for="gateNick">닉네임<input id="gateNick" maxlength="10" placeholder="2~10자">' +
-          '<span class="g-hint">댓글에 보이는 이름이에요. 시작하면 바꿀 수 없어요.</span></label>' +
-        '<button type="submit">시작하기</button>' +
-        '<p class="g-note">학번과 이름은 화면에 보이지 않아요.</p>' +
-      '</form>';
-    document.body.appendChild(gateEl);
-    document.getElementById('gateId').focus();
-  }
-  function hideGate() { if (gateEl) { gateEl.remove(); gateEl = null; } }
-
-  document.addEventListener('submit', function (e) {
-    if (e.target.id !== 'gateForm') return;
-    e.preventDefault();
-    var idEl = document.getElementById('gateId'), nickEl = document.getElementById('gateNick');
-    var sid = idEl.value.trim().replace(/\s+/g, ' ');
-    var nick = nickEl.value.trim();
-    if (!/\d/.test(sid) || !/[가-힣a-zA-Z]/.test(sid)) { toast('학번과 이름을 함께 입력해 주세요.'); idEl.focus(); return; }
-    if (nick.length < 2) { toast('닉네임은 2~10자로 입력해 주세요.'); nickEl.focus(); return; }
-    if (nick === '익명') { toast('\'익명\'은 닉네임으로 쓸 수 없어요.'); nickEl.focus(); return; }
-    openModal({
-      title: '이대로 시작할까요?',
-      body: esc(sid) + '<br>닉네임 <b>' + esc(nick) + '</b><br>시작하면 닉네임은 바꿀 수 없어요.',
-      ok: '시작하기',
-      cancel: '다시 쓰기',
-      onOk: function () {
-        store.set('profile', { '학번이름': sid, '닉네임': nick });
-        hideGate();
-        renderCommentTop();
-        toast(nick + '님, 시작합니다.');
-      }
-    });
-  });
-
-  // 교사 테스트용: 주소 끝에 #reset 을 붙여 열면 이 브라우저 기록을 지우고 처음 화면으로
-  function resetAll() {
-    openModal({
-      title: '이 브라우저의 기록을 지울까요?',
-      body: '학생 정보, 내가 쓴 댓글, 추천·반대 기록이 모두 지워지고 시작 화면으로 돌아갑니다.',
-      ok: '모두 지우기',
-      onOk: function () {
-        try {
-          Object.keys(localStorage).forEach(function (k) { if (k.indexOf(NS) === 0) localStorage.removeItem(k); });
-        } catch (err) {}
-        Object.keys(mem).forEach(function (k) { delete mem[k]; });
-        location.hash = 'list';
-        showGate();
-        toast('기록을 지웠습니다.');
-      }
-    });
-  }
-
   // ================= 시작 =================
   document.getElementById('updated').textContent = 'UPDATED. ' + DATA['매체']['업데이트'];
   document.querySelectorAll('[data-outlet]').forEach(function (n) { n.textContent = OUTLET; });
   window.addEventListener('hashchange', route);
   route();
-  if (!profile() && location.hash !== '#reset') showGate();
 })();
 </script>
 </body>
