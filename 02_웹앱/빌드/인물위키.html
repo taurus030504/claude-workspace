@@ -41,10 +41,10 @@
   .dropdown a{display:flex;gap:10px;align-items:center;color:var(--text);padding:8px 16px;font-size:14px}
   .dropdown a:hover{background:#f2f2f2;text-decoration:none}
   .top-right{margin-left:auto;display:flex;align-items:center;gap:8px}
-  .sq-btn{width:40px;height:40px;border:0;border-radius:3px;background:#fff;color:#333;display:grid;place-items:center;cursor:pointer}
+  .sq-btn{width:40px;height:40px;border:0;border-radius:3px;background:#fff;color:#333;display:grid;place-items:center;cursor:pointer;font-size:16px}
   .search{position:relative;display:flex;align-items:center;width:272px;height:40px;background:#fff;border-radius:3px}
   .search input{flex:1;min-width:0;height:100%;border:0;outline:0;padding:0 8px 0 12px;font:inherit;font-size:14px;background:transparent;color:var(--text)}
-  .search button{border:0;background:none;width:32px;height:40px;color:#333;cursor:pointer;display:grid;place-items:center}
+  .search button{border:0;background:none;width:32px;height:40px;color:#333;cursor:pointer;display:grid;place-items:center;font-size:18px}
   .suggest{display:none;position:absolute;top:42px;left:0;right:0;background:#fff;border:1px solid var(--line);border-radius:3px;box-shadow:0 4px 12px rgba(0,0,0,.15);z-index:60}
   .suggest.open{display:block}
   .suggest a{display:block;color:var(--text);padding:8px 12px;font-size:14px}
@@ -163,25 +163,35 @@
     .top-in{padding:0 16px}
     .site-foot{padding:16px}
   }
-  @media (max-width:860px){
+  @media (max-width:1000px){
     .nav-item .lbl{display:none}
-    .search{width:auto;flex:1;min-width:0}
-    .top-right{flex:1;min-width:0;justify-content:flex-end}
-    .logo{margin-right:4px}
-    .logo span{display:none}
-    .infobox{float:none;width:100%;margin:6px 0 16px}
-    .ad-space{height:24px}
+    .nav-item{padding:8px 10px}
   }
-  @media (max-width:560px){
-    .article{padding:16px 14px 0}
-    .license{margin:0 -14px;padding:18px 14px}
-    .head{flex-direction:column;gap:10px}
-    .actions{margin-left:0}
-    .head h1{font-size:28px}
-    .sec-h h2{font-size:22px}
+  /* 휴대폰: 검색창이 상단 바 아래 흰 줄로 내려가고, 본문은 테두리 없이 화면 가득 */
+  @media (max-width:768px){
+    .top{height:auto}
+    .top-in{height:auto;flex-wrap:wrap;gap:0;padding:0}
+    .top-in::after{content:"";order:2;flex-basis:100%;height:0}
+    .logo{height:48px;margin:0 6px 0 14px;font-size:19px}
+    .logo svg{width:26px;height:26px}
+    .nav-item{padding:8px 9px}
+    .top-right{display:contents}
+    .user-btn{order:1;margin-left:auto;margin-right:6px;height:48px}
+    .sq-btn.rand{order:3;width:40px;height:40px;border-radius:0;border-bottom:1px solid var(--line-soft);border-right:1px solid var(--line-soft)}
+    .search{order:4;flex:1;min-width:0;width:auto;border-radius:0;border-bottom:1px solid var(--line-soft)}
+    .search input{font-size:15px}
+    .wrap{padding:0;gap:0}
+    .card.article{border:0;border-radius:0;padding:12px 12px 0}
+    .license{margin:0 -12px;padding:18px 12px}
+    .head{flex-direction:column;gap:8px}
+    .head h1{font-size:30px}
+    .actions{align-self:flex-end;padding-top:0}
+    .ad-space{height:80px}
+    .infobox{float:none;width:500px;max-width:100%;margin:6px 0 16px auto}
+    .sec-h h2{font-size:24px}
     .floating{right:12px;bottom:16px}
-    .nav-item{padding:8px}
-    .sq-btn.rand{display:none}
+    .floating .grp{opacity:.85}
+    .site-foot{margin-top:0;padding:16px 12px}
   }
 </style>
 </head>
@@ -315,12 +325,12 @@
     </div>
     <div class="top-right">
       <button class="sq-btn rand" type="button" title="임의 문서로" data-random><svg class="i" viewBox="0 0 24 24"><path d="M17 3l4 4-4 4V8h-2.2l-8 9H2v-2h3.9l8-9H17zM2 7h4.8l2.4 2.7-1.3 1.5L5.9 9H2zm15 6l4 4-4 4v-3h-3.8l-2.4-2.7 1.3-1.5 1.9 2.2H17z"/></svg></button>
-      <form class="search" id="searchForm" autocomplete="off">
-        <input id="q" placeholder="여기에서 검색" aria-label="문서 검색" />
-        <button type="submit" title="검색" data-mode="search"><svg class="i" viewBox="0 0 24 24"><path d="M10 3a7 7 0 0 1 5.6 11.2l5 5-1.4 1.4-5-5A7 7 0 1 1 10 3zm0 2a5 5 0 1 0 0 10 5 5 0 0 0 0-10z"/></svg></button>
+      <div class="search" id="searchForm" role="search">
+        <input id="q" autocomplete="off" placeholder="여기에서 검색" aria-label="문서 검색" />
+        <button type="button" title="검색" id="searchBtn"><svg class="i" viewBox="0 0 24 24"><path d="M10 3a7 7 0 0 1 5.6 11.2l5 5-1.4 1.4-5-5A7 7 0 1 1 10 3zm0 2a5 5 0 1 0 0 10 5 5 0 0 0 0-10z"/></svg></button>
         <button type="button" title="바로 가기" id="goBtn"><svg class="i" viewBox="0 0 24 24"><path d="M13 5l7 7-7 7-1.4-1.4 4.6-4.6H4v-2h12.2l-4.6-4.6z"/></svg></button>
         <div class="suggest" id="suggest"></div>
-      </form>
+      </div>
       <button class="user-btn" type="button" title="로그인" data-unsupported="로그인"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="7.5" r="4.5"/><path d="M3 21a9 7 0 0 1 18 0z"/></svg></button>
     </div>
   </div>
@@ -514,11 +524,18 @@
   }
 
   /* ── 라우팅: #/w/문서, #/search/검색어, #/recent, #/all, #/edit|discuss|history/문서 (옛 주소 #eunho 도 지원) ── */
-  function route() {
+  /* 미리보기 창(샌드박스)에서는 주소 바꾸기가 막힐 수 있어서, 화면은 항상 직접 그리고 주소는 되는 경우에만 바꾼다. */
+  let current = null;
+  function readHash() {
+    try { return decodeURIComponent(location.hash.slice(1)); } catch (e) { return ''; }
+  }
+  function route(h) {
     closeMenus();
-    const h = decodeURIComponent(location.hash.slice(1));
     let m;
-    if (!h || h === '/') return go(SITE.home, true);
+    if (!h || h === '/') h = '/w/' + SITE.home;
+    else if (DATA.aliases && DATA.aliases[h]) h = '/w/' + DATA.aliases[h];
+    else if (/^(s|fn|rfn)-/.test(h)) return;
+    current = h;
     if ((m = h.match(/^\/w\/(.+)$/))) {
       const name = resolve(m[1]);
       DOCS[name] ? renderDoc(name) : renderMissing(m[1]);
@@ -526,16 +543,14 @@
     else if (h === '/recent') renderRecent();
     else if (h === '/all') renderAll();
     else if ((m = h.match(/^\/(edit|discuss|history)\/(.+)$/))) renderLocked(m[1], resolve(m[2]));
-    else if (DATA.aliases && DATA.aliases[h]) return go(DATA.aliases[h], true);
-    else if (h.startsWith('s-') || h.startsWith('fn-') || h.startsWith('rfn-')) return;
-    else renderMissing(h);
-    window.scrollTo(0, 0);
+    else renderMissing(h.replace(/^\//, ''));
+    try { window.scrollTo(0, 0); } catch (e) {}
   }
-  function go(name, replace) {
-    const url = href(name);
-    replace ? history.replaceState(null, '', url) : (location.hash = url.slice(1));
-    if (replace) route();
+  function nav(path) {
+    route(path);
+    try { location.hash = path; } catch (e) {}
   }
+  const go = name => nav('/w/' + name);
 
   /* ── 사이드바·푸터 ── */
   $('#siteName').textContent = SITE.name;
@@ -559,6 +574,8 @@
     if (t.matches('[data-random]')) { e.preventDefault(); const k = Object.keys(DOCS); go(k[Math.floor(Math.random() * k.length)]); return; }
     if (t.matches('[data-unsupported]')) { e.preventDefault(); toast(`'${t.dataset.unsupported}' 기능은 수업용 화면에서 지원하지 않습니다.`); return; }
     if (t.matches('[data-ext]')) { e.preventDefault(); toast('외부 링크는 수업용 화면에서 열리지 않습니다.'); return; }
+    const h = t.getAttribute('href');
+    if (h && h.startsWith('#/')) { e.preventDefault(); nav(decodeURIComponent(h.slice(1))); return; }
     if (t.matches('[data-jump]') || t.matches('[data-fn]')) {
       e.preventDefault();
       const el = document.getElementById(t.getAttribute('href').slice(1));
@@ -604,6 +621,8 @@
   q.addEventListener('input', suggest);
   q.addEventListener('focus', suggest);
   q.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); submit(false); return; }
+    if (e.key === 'Escape') { closeMenus(); return; }
     const items = [...sug.querySelectorAll('a')];
     if (!items.length) return;
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
@@ -616,12 +635,12 @@
     const v = q.value.trim(); if (!v) return;
     const picked = sug.querySelectorAll('a')[sel];
     q.value = ''; q.blur(); closeMenus();
-    if (picked) { location.hash = picked.getAttribute('href').slice(1); return; }
+    if (picked) { nav(decodeURIComponent(picked.getAttribute('href').slice(1))); return; }
     const name = resolve(v);
     if (DOCS[name] || direct) go(name);
-    else location.hash = '/search/' + encodeURIComponent(v);
+    else nav('/search/' + v);
   }
-  $('#searchForm').addEventListener('submit', e => { e.preventDefault(); submit(false); });
+  $('#searchBtn').addEventListener('click', () => submit(false));
   $('#goBtn').addEventListener('click', () => submit(true));
   sug.addEventListener('click', () => { q.value = ''; closeMenus(); });
 
@@ -630,8 +649,8 @@
   $('#upBtn').addEventListener('click', () => scrollTo({ top: 0, behavior: 'smooth' }));
   $('#downBtn').addEventListener('click', () => scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
 
-  window.addEventListener('hashchange', route);
-  route();
+  window.addEventListener('hashchange', () => { const h = readHash(); if (h !== current) route(h); });
+  route(readHash());
 })();
 </script>
 </body>
