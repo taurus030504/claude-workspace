@@ -1,5 +1,5 @@
 <title>문영위키</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&family=Noto+Serif+KR:wght@600&display=swap" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&family=Noto+Serif+KR:wght@600&family=Nanum+Brush+Script&family=Nanum+Pen+Script&display=swap" />
 <style>
   :root{
     --top-a:#0e9f92; --top-b:#2cb27c;
@@ -130,7 +130,11 @@
   .chip{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:4px;background:#444;margin:0 3px 0 0;vertical-align:-5px}
   .chip svg{width:14px;height:14px}
   .chip:hover{background:#222;text-decoration:none}
-  .sign{display:block;width:150px;max-width:100%;height:auto}
+  .sign{display:block;width:210px;max-width:100%;height:auto}
+  .sig-brush{font-family:"Nanum Brush Script","Nanum Pen Script",cursive;font-size:52px;fill:#1b1b1b}
+  .sig-pen{font-family:"Nanum Pen Script","Nanum Brush Script",cursive;fill:#2a2a2a}
+  .sig-line{fill:none;stroke:#1b1b1b;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+  .sig-line.thin{stroke-width:1.6}
   /* 휴대폰: 3열 이상 표는 칸을 짓누르지 말고 옆으로 넘겨 본다 */
   @media (max-width:560px){.wiki-table.wide{width:max-content;min-width:100%;max-width:200%}.wiki-table.wide td{white-space:nowrap}.wiki-table.wide td:last-child{white-space:normal;min-width:11em}}
   .wiki-table td:first-child{text-align:center;white-space:nowrap;width:1%}
@@ -329,7 +333,11 @@
           ],
           [
             "신체",
-            "174cm"
+            "174cm((프로필상 174cm. 본인은 방송에서 '176'이라고 말한 적이 있으나, '동창회 가는 길' 모교 방문 편에서 [[김서진]](169cm)과 나란히 선 장면을 보면 차이가 5cm 남짓이라 174cm 전후가 맞는 것으로 추정된다. 당시 김서진이 옆에서 \"프로필에 174라며\"라고 받아쳤다.)) | A형"
+          ],
+          [
+            "가족",
+            "부모님, 동생((2008년생. 팬사인회에서 '동생이 내 노래를 안 듣는다'고 말한 것이 알려졌다.))"
           ],
           [
             "학력",
@@ -725,7 +733,11 @@
           ],
           [
             "신체",
-            "169cm"
+            "169cm((프로필상 169cm. 데뷔 직후 라디오에서 '170으로 적고 싶었는데 회사가 재서 169가 됐다'고 말했다. 신발을 벗고 재면 168cm대라는 이야기도 있으나 확인되지 않았다.)) | O형"
+          ],
+          [
+            "가족",
+            "부모님((외동이다.))"
           ],
           [
             "학력",
@@ -2019,11 +2031,13 @@
     '영상': '<svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4" fill="#fff"/><path d="M10 9l5 3-5 3z" fill="#444"/></svg>',
     '글': '<svg viewBox="0 0 24 24"><path d="M4 4h16v12H9l-5 4z" fill="#fff"/></svg>'
   };
+  /* 서명: 손글씨 글꼴로 이름을 쓰고 획을 한 번 긋는다 (글꼴을 못 받으면 보통 글씨로 보임) */
   const SIGN = {
-    '1': '<svg class="sign" viewBox="0 0 160 56" aria-label="서명"><path d="M12 40c6-18 10-26 14-28 3-1 2 8-1 16-3 9-6 14-4 14 3 0 8-14 12-22 2-5 4-6 4-2 0 6-5 14-3 15 3 1 10-12 16-16 3-2 2 4 0 10-2 7-1 10 3 8 6-3 10-10 14-12 3-1 2 4-1 9" fill="none" stroke="#222" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M78 30c10-6 22-10 36-12-8 6-14 12-16 20 8-8 20-14 34-16-4 2-10 8-10 12 0 5 10 0 18-6" fill="none" stroke="#222" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-    '2': '<svg class="sign" viewBox="0 0 160 56" aria-label="서명"><path d="M14 44c2-14 6-30 12-36 2-2 3 2 1 8-3 10-8 20-6 22 3 2 9-10 14-18 2-3 4-3 3 1-2 8-6 16-2 17 4 1 9-9 14-13 3-2 3 2 1 8-2 6 0 8 4 6" fill="none" stroke="#222" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M66 36c8-14 20-22 40-24-6 4-10 10-8 14 2 5 12 2 20-4-10 8-14 16-6 18 6 1 14-6 24-14" fill="none" stroke="#222" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M30 50c30-4 60-6 100-8" fill="none" stroke="#222" stroke-width="1.6" stroke-linecap="round"/></svg>',
-    '3': '<svg class="sign" viewBox="0 0 160 56" aria-label="서명"><path d="M10 38c4-16 10-28 18-30 4-1 1 10-4 18-4 7-6 12-2 12 5 0 12-16 18-20 3-2 2 4-1 10-3 7-2 10 2 9 5-2 8-8 12-10" fill="none" stroke="#222" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M60 40c6-16 16-26 30-28-4 6-6 12-2 14 6 2 14-6 20-12-4 10-2 18 6 16 8-2 14-10 20-16-2 8-2 14 2 16" fill="none" stroke="#222" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    '1': '<svg class="sign" viewBox="0 0 230 78" aria-label="이은호 서명"><text x="10" y="50" class="sig-brush" transform="rotate(-6 10 50)">이은호</text><path d="M14 60c30 8 70 6 118-4" class="sig-line"/><path d="M128 58c3-3 7-4 8-1" class="sig-line"/><text x="158" y="42" class="sig-pen" font-size="22" transform="rotate(4 158 42)">으노</text></svg>',
+    '2': '<svg class="sign" viewBox="0 0 230 78" aria-label="김서진 서명"><text x="12" y="48" class="sig-brush" font-size="50" transform="rotate(-3 12 48)">김서진</text><path d="M10 62c40 2 80-2 118-10c8-2 10 2 4 6c-6 4-14 6-10 8c6 2 20-4 30-10" class="sig-line"/></svg>',
+    '3': '<svg class="sign" viewBox="0 0 230 78" aria-label="남궁현 서명"><text x="10" y="46" class="sig-pen" font-size="44" transform="rotate(-4 10 46)">남궁현</text><path d="M8 58c50-4 100-8 150-14" class="sig-line thin"/><path d="M60 64c30-3 60-6 90-10" class="sig-line thin"/></svg>'
   };
+
   const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   const resolve = name => DOCS[name] ? name : (DATA.aliases && DATA.aliases[name]) || name;
   const href = name => '#/w/' + encodeURIComponent(name);

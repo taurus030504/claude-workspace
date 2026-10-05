@@ -16,7 +16,8 @@ OUT = ROOT / "빌드" / "아티팩트" / "인물위키.html"
 
 GOOGLE_FONTS = (
     '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?'
-    'family=Noto+Sans+KR:wght@400;500;700;800&family=Noto+Serif+KR:wght@600&display=swap" />'
+    'family=Noto+Sans+KR:wght@400;500;700;800&family=Noto+Serif+KR:wght@600'
+    '&family=Nanum+Brush+Script&family=Nanum+Pen+Script&display=swap" />'
 )
 
 src = SRC.read_text(encoding="utf-8")
