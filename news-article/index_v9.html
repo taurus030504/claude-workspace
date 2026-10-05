@@ -459,11 +459,6 @@
   .aitem .info { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; color: var(--text-muted); }
   .aitem .info a:hover { color: var(--brand); }
   .aitem .ath { width: 150px; height: 100px; border-radius: 2px; display: block; }
-  /* 사건 관련 기사: 포털 검색 결과처럼 제목을 파란 링크색 + 인물 이름 굵게. 관련 없는 기사는 회색 */
-  .aitem.case h3 a, .side-right .rank a.t.case, .more-box li.case a { color: #1a4fa3; }
-  .aitem.case h3 a b, .rank a.t.case b, .more-box li.case a b { font-weight: 700; }
-  .aitem.other h3 a, .side-right .rank a.t.other, .more-box li.other a { color: #666; }
-  .aitem.no-thumb { grid-template-columns: minmax(0, 1fr); }
   .lempty { padding: 40px 0; text-align: center; color: var(--text-muted); font-size: 14px; }
 
   /* ---------- 오른쪽 사이드 ---------- */
@@ -611,7 +606,6 @@
 {
   "매체": {
     "이름": "문영일보",
-    "사건 인물": ["이은호", "김서진"],
     "업데이트": "2026-10-05 20:03 (월)"
   },
   "기자": [
@@ -1222,20 +1216,6 @@
     var d = new Date();
     return d.getFullYear() + '.' + pad(d.getMonth() + 1) + '.' + pad(d.getDate()) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
   }
-  // 사건(이은호·김서진)과 관련된 기사만 열람 가능. 나머지는 제목만 보이고 누르면 안내 팝업
-  var CASE_NAMES = DATA['매체']['사건 인물'] || [];
-  function isCase(a) {
-    var b = a['본문'], text = b['제목'] + ' ' + (b['키워드'] || []).join(' ');
-    return a['사건 관련'] === true || (a['사건 관련'] !== false && CASE_NAMES.some(function (n) { return text.indexOf(n) > -1; }));
-  }
-  function isCaseId(id) { return !!articleById[id] && isCase(articleById[id]); }
-  // 포털 검색 결과처럼 사건 인물 이름을 굵게
-  function titleHTML(a) {
-    var t = esc(a['본문']['제목']);
-    if (!isCase(a)) return t;
-    CASE_NAMES.forEach(function (n) { t = t.split(esc(n)).join('<b>' + esc(n) + '</b>'); });
-    return t;
-  }
   function reporterOf(a) { return reporterById[a['게시자']['기자']] || { 아이디: '', 이름: a['게시자']['기자'], 직함: '기자' }; }
   function byline(r) { return r['이름'] + ' ' + (r['직함'] || '기자'); }
   function summary(a) {
@@ -1260,12 +1240,27 @@
     down: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 13V4H4v9zM7 13l4 8c1.7 0 2.5-1 2.2-2.6L12.6 15H19a2 2 0 002-2.3l-1.2-6.9A2 2 0 0017.8 4H7"/></svg>'
   };
   // 기자 프로필 일러스트(정장 상반신). 얼굴 사진은 쓰지 않는다.
-  // 기자 프로필 사진: 사이트 기본 아바타(회색 실루엣). 인물 얼굴 그림 없음
   var REPORTER_ART = '' +
     '<svg viewBox="0 0 120 120" aria-hidden="true">' +
-      '<rect width="120" height="120" fill="#dfe3e8"/>' +
-      '<circle cx="60" cy="46" r="22" fill="#9aa3ad"/>' +
-      '<path d="M14 124c3-26 22-40 46-40s43 14 46 40z" fill="#9aa3ad"/>' +
+      '<rect width="120" height="120" fill="#e3e8ef"/>' +
+      '<path d="M8 124c3-22 20-34 52-34s49 12 52 34z" fill="#2c3a50"/>' +
+      '<path d="M45 91l15 27 15-27c-4-1-9-1.5-15-1.5s-11 .5-15 1.5z" fill="#f8fafc"/>' +
+      '<path d="M54 91l6 9 6-9" stroke="#dbe2ea" stroke-width="1.6" fill="none" stroke-linejoin="round"/>' +
+      '<path d="M45 91l15 27-8-25zM75 91L60 118l8-25z" fill="#24303f" opacity=".55"/>' +
+      '<path d="M51 70h18v18c0 4-4 7-9 7s-9-3-9-7z" fill="#e2ad88"/>' +
+      '<path d="M51 78c3 3 6 4 9 4s6-1 9-4v-4H51z" fill="#cf9876"/>' +
+      '<ellipse cx="38.5" cy="55" rx="4.2" ry="6.2" fill="#e8b591"/>' +
+      '<ellipse cx="81.5" cy="55" rx="4.2" ry="6.2" fill="#e8b591"/>' +
+      '<path d="M60 26c13.5 0 22 9 22 25v6c0 13-9.5 23-22 23s-22-10-22-23v-6c0-16 8.5-25 22-25z" fill="#f1c4a1"/>' +
+      '<path d="M37 55c-2-20 6-33 23-33 18 0 26 11 24 31-2-7-5-12-9-15-6 4-17 6-30 5-3 3-6 7-8 12z" fill="#2a2220"/>' +
+      '<path d="M48 31c6-3 14-4 21-2-7 0-14 2-19 5z" fill="#4a3c37" opacity=".7"/>' +
+      '<path d="M47.5 49.5c2.5-1.4 5.5-1.4 8 0M64.5 49.5c2.5-1.4 5.5-1.4 8 0" stroke="#2a2220" stroke-width="1.8" fill="none" stroke-linecap="round"/>' +
+      '<ellipse cx="51.5" cy="56" rx="2" ry="2.3" fill="#2a2220"/>' +
+      '<ellipse cx="68.5" cy="56" rx="2" ry="2.3" fill="#2a2220"/>' +
+      '<path d="M60 58.5l-2.2 7.2c1.3.7 3.1.7 4.4 0" stroke="#d29a78" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<path d="M54.5 70c3.5 2.6 7.5 2.6 11 0" stroke="#b5694f" stroke-width="1.8" fill="none" stroke-linecap="round"/>' +
+      '<ellipse cx="45.5" cy="64" rx="3.5" ry="2" fill="#ec9f8c" opacity=".35"/>' +
+      '<ellipse cx="74.5" cy="64" rx="3.5" ry="2" fill="#ec9f8c" opacity=".35"/>' +
     '</svg>';
   function avatar() { return '<div class="avatar">' + REPORTER_ART + '</div>'; }
 
@@ -1368,7 +1363,7 @@
       var ca = counts(a), cb = counts(b);
       return (cb.up + cb.comments) - (ca.up + ca.comments);
     }).map(function (a) {
-      return { t: a['본문']['제목'], html: titleHTML(a), cls: isCase(a) ? 'case' : 'other', href: '#article-' + a['아이디'], style: thumbStyle(a) };
+      return { t: a['본문']['제목'], href: '#article-' + a['아이디'], style: thumbStyle(a) };
     });
     // 시나리오와 무관한 가상 제목(클릭 안 됨)
     var filler = [
@@ -1381,7 +1376,7 @@
     var items = ranked.concat(filler).slice(0, 6);
     var rank = items.map(function (it, i) {
       var title = it.href
-        ? '<a class="t ' + (it.cls || '') + '" href="' + it.href + '">' + (it.html || esc(it.t)) + '</a>'
+        ? '<a class="t" href="' + it.href + '">' + esc(it.t) + '</a>'
         : '<span class="t">' + esc(it.t) + '</span>';
       return '<li><span class="no">' + (i + 1) + '</span>' + title + '<span class="thumb" style="' + it.style + '"></span></li>';
     }).join('');
@@ -1407,15 +1402,14 @@
     return html + '</div>';
   }
 
-  function articleItemHTML(a, opt) {
-    opt = opt || {};
-    var r = reporterOf(a), c = counts(a), cls = isCase(a) ? 'case' : 'other';
+  function articleItemHTML(a) {
+    var r = reporterOf(a), c = counts(a);
     var href = '#article-' + a['아이디'];
     return '' +
-      '<li class="aitem ' + cls + (opt.thumb === false ? ' no-thumb' : '') + '">' +
+      '<li class="aitem">' +
         '<div>' +
           '<div class="sec">' + esc(a['본문']['분류'].join(' › ')) + '</div>' +
-          '<h3><a href="' + href + '">' + titleHTML(a) + '</a></h3>' +
+          '<h3><a href="' + href + '">' + esc(a['본문']['제목']) + '</a></h3>' +
           '<p class="sum">' + esc(summary(a)) + '</p>' +
           '<div class="info">' +
             (r['아이디'] ? '<a href="#reporter-' + r['아이디'] + '">' + esc(byline(r)) + '</a>' : '<span>' + esc(byline(r)) + '</span>') +
@@ -1424,7 +1418,7 @@
             '<span>추천 ' + c.up + '</span>' +
           '</div>' +
         '</div>' +
-        (opt.thumb === false ? '' : '<a href="' + href + '" class="ath" style="' + thumbStyle(a) + '" aria-label="' + esc(a['본문']['제목']) + '"></a>') +
+        '<a href="' + href + '" class="ath" style="' + thumbStyle(a) + '" aria-label="' + esc(a['본문']['제목']) + '"></a>' +
       '</li>';
   }
 
@@ -1457,7 +1451,7 @@
     var others = ARTICLES.filter(function (x) { return x['게시자']['기자'] === r['아이디'] && x['아이디'] !== id; }).slice(0, 5);
     var moreBox = others.length ? '<div class="more-box"><h4>' + esc(byline(r)) + '의 다른 기사</h4><ul>' +
       others.map(function (x) {
-        return '<li class="' + (isCase(x) ? 'case' : 'other') + '"><a href="#article-' + x['아이디'] + '">' + titleHTML(x) + '</a><time>' + esc(x['시각'].slice(0, 10)) + '</time></li>';
+        return '<li><a href="#article-' + x['아이디'] + '">' + esc(x['본문']['제목']) + '</a><time>' + esc(x['시각'].slice(0, 10)) + '</time></li>';
       }).join('') + '</ul></div>' : '';
 
     var crumbs = b['분류'].map(function (s, i) { return { t: s, href: i === 0 ? '#list' : null }; });
@@ -1590,7 +1584,7 @@
   }
   function commentsByNick() {
     var map = {};
-    ARTICLES.filter(isCase).forEach(function (a) {
+    ARTICLES.forEach(function (a) {
       allComments(a).forEach(function (cm) {
         if (cm.anon || cm.nick === '익명') return;
         var u = map[cm.nick] || (map[cm.nick] = { nick: cm.nick, items: [], up: 0, down: 0, articles: {}, mine: false, last: 0 });
@@ -1641,7 +1635,7 @@
       body = '<p class="lempty">\'' + esc(nick) + '\' 닉네임으로 쓴 댓글이 없습니다.</p>';
     } else {
       // 기사별로 묶어서 최신 기사부터, 기사 안에서는 쓴 순서대로
-      var groups = ARTICLES.filter(isCase).map(function (a) {
+      var groups = ARTICLES.map(function (a) {
         var items = u.items.filter(function (it) { return it.a === a; }).sort(function (p, q) { return p.cm.ts - q.cm.ts; });
         return items.length ? { a: a, items: items } : null;
       }).filter(Boolean);
@@ -1705,7 +1699,7 @@
             '</div>' +
           '</section>' +
           '<h2 class="list-title">' + esc(byline(r)) + '의 기사 <small>' + mine.length + '건</small></h2>' +
-          (mine.length ? '<ul class="alist">' + mine.map(function (a) { return articleItemHTML(a, { thumb: false }); }).join('') + '</ul>' : '<p class="lempty">아직 작성한 기사가 없습니다.</p>') +
+          (mine.length ? '<ul class="alist">' + mine.map(articleItemHTML).join('') + '</ul>' : '<p class="lempty">아직 작성한 기사가 없습니다.</p>') +
         '</div>' +
         sideHTML() +
       '</div>';
@@ -1736,7 +1730,6 @@
     else if (h === 'users') renderUsers();
     else if ((m = h.match(/^user-(.+)$/))) { var nk; try { nk = decodeURIComponent(m[1]); } catch (err) { nk = m[1]; } renderUser(nk); }
     else if (h === 'list') renderList();
-    else if ((m = h.match(/^article-(.+)$/)) && articleById[m[1]] && !isCase(articleById[m[1]])) { if (!current) renderList(); lockedNotice(); return; }
     else if ((m = h.match(/^article-(.+)$/)) && articleById[m[1]]) renderArticle(m[1]);
     else renderArticle(ARTICLES[0]['아이디']);
     window.scrollTo(0, 0);
@@ -1758,8 +1751,6 @@
     var t = e.target.closest('button, a');
     if (!t) return;
 
-    var ah = t.getAttribute && t.getAttribute('href'), am = ah && ah.match(/^#article-(.+)$/);
-    if (am && articleById[am[1]] && !isCase(articleById[am[1]])) { e.preventDefault(); lockedNotice(); return; }
     if (t.hasAttribute('data-closed')) { e.preventDefault(); toast('수업용 페이지에서는 열리지 않는 메뉴입니다.'); return; }
     if (t.hasAttribute('data-toast')) { e.preventDefault(); toast(t.getAttribute('data-toast')); return; }
     if (t.hasAttribute('data-share')) { toast('수업용 페이지에서는 공유 기능이 동작하지 않습니다.'); return; }
@@ -1873,14 +1864,11 @@
     modalBg.className = 'modal-bg';
     modalBg.innerHTML = '<div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">' +
       '<div class="m-body"><h5 id="mTitle">' + esc(o.title) + '</h5><p>' + o.body + '</p></div>' +
-      '<div class="m-btns">' + (o.single ? '' : '<button type="button" data-m="cancel">' + esc(o.cancel || '취소') + '</button>') +
+      '<div class="m-btns"><button type="button" data-m="cancel">' + esc(o.cancel || '취소') + '</button>' +
       '<button type="button" class="ok" data-m="ok">' + esc(o.ok || '확인') + '</button></div></div>';
     document.body.appendChild(modalBg);
     modalOk = o.onOk;
     modalBg.querySelector('[data-m="ok"]').focus();
-  }
-  function lockedNotice() {
-    openModal({ title: '안내', body: '사건과 관련된 기사만 조회할 수 있습니다.', ok: '확인', single: true });
   }
   function closeModal() {
     if (!modalBg) return;
