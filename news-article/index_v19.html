@@ -103,15 +103,7 @@
     border-bottom: 1px solid var(--line);
     height: 56px;
   }
-  .gnb .updated { font-size: 14px; color: #222; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
-  .gnb .updated b { font-weight: 700; }
-  .gnb .updated .next-turn { border: 1px solid #ccc; background: #fff; font-size: 12px; padding: 3px 9px; border-radius: 3px; color: #333; margin-left: 4px; }
-  .gnb .updated .next-turn:hover { border-color: #555; }
-  .turns { display: flex; gap: 6px; flex-wrap: wrap; }
-  .turns button { border: 1px solid #ccc; background: #fff; padding: 8px 12px; font-size: 13px; color: #111; border-radius: 4px; display: grid; gap: 2px; }
-  .turns button small { font-size: 11px; color: var(--text-muted); }
-  .turns button.on { border-color: #111; background: #111; color: #fff; }
-  .turns button.on small { color: #ccc; }
+  .gnb .updated { font-size: 14px; color: #222; white-space: nowrap; }
   .gnb nav { flex: 1; display: flex; justify-content: center; gap: 26px; overflow-x: auto; scrollbar-width: none; }
   .gnb nav::-webkit-scrollbar { display: none; }
   .gnb nav a { font-size: 17px; font-weight: 700; white-space: nowrap; }
@@ -703,11 +695,7 @@
     "이름": "문영일보",
     "사건 인물": ["이은호", "김서진"],
     "교사 학번": ["1444"],
-    "턴": [
-      { "이름": "1턴", "시각": "2026.10.04 12:00", "설명": "열애설 기사가 막 올라온 날 낮" },
-      { "이름": "2턴", "시각": "2026.10.05 12:00", "설명": "하루 지남, 아직 입장 없음" },
-      { "이름": "3턴", "시각": "2026.10.06 23:59", "설명": "소속사 부인 기사 이후" }
-    ],
+    "기준일": "2026-10-06",
     "업데이트": "2026-10-06 14:10 (화)"
   },
   "기자": [
@@ -1254,7 +1242,7 @@
         ]
       },
       "이미지": null,
-      "공개 턴": 3,
+      "공개 턴": 1,
       "반응": {
         "추천": 97,
         "반대": 41
@@ -1394,7 +1382,7 @@
   function now() { return fmtTs(Date.now()); }
   // 새 글의 시각: 실제 시계와 "기준 시각(floor) + 1분" 중 늦은 쪽. 시나리오 날짜가 실제보다 앞서 있어도 새 글이 항상 가장 최신이 됨
   function postStamp(floorTs) {
-    var t = Math.max(gameNow() - 10 * 60000, (floorTs || 0)) + 60000;   // 현재 시점 10분 전과 가장 늦은 글 중 늦은 쪽 + 1분
+    var t = Math.max(Date.now(), (floorTs || 0) + 60000);
     return { ts: t, time: fmtTs(t) };
   }
   function latestTs(a) {
@@ -1466,27 +1454,18 @@
   function getReports(id) { return store.get('reports:' + id, []); }     // 이 브라우저에서 한 신고 [{id, nick, reason, detail, time}]
   function getModeration(id) { return store.get('moderation:' + id, {}); }   // 교사가 처리한 결과 { 댓글아이디: {status, reason} }
   function isReported(aid, cid) { return getReports(aid).some(function (r) { return r.id === cid; }); }
-  // ---------- 날짜는 시나리오 날짜 그대로. "현재 시점"(턴)은 교사가 구두로 알리고 화면에서 넘긴다 ----------
+  // ---------- 날짜는 수업일 기준: 데이터의 "기준일"이 오늘이 되도록 모든 시각을 날짜 단위로 옮긴다 ----------
   var DAY_MS = 24 * 60 * 60 * 1000;
-  var TURNS = (DATA['매체']['턴'] || []).map(function (t) { return { name: t['이름'], ts: toTs(t['시각']), time: t['시각'], note: t['설명'] || '' }; });
-  function turnIndex() { var i = store.get('turn', 0); return Math.max(0, Math.min(TURNS.length - 1, i | 0)); }
-  function gameNow() { return TURNS.length ? TURNS[turnIndex()].ts : Date.now(); }   // 현재 시점. 이보다 늦은 기사·댓글은 아직 없는 것
-  function visible(a) { return toTs(a['시각']) <= gameNow(); }
-  function VIS() { return ARTICLES.filter(visible); }
-  function setTurn(i) {
-    store.set('turn', i);
-    renderClock();
-    route();
-  }
-  function renderClock() {
-    var el = document.getElementById('updated'); if (!el || !TURNS.length) return;
-    var i = turnIndex(), t = TURNS[i], d = new Date(t.ts), days = ['일', '월', '화', '수', '목', '금', '토'];
-    el.innerHTML = '현재 시점 <b>' + esc(t.name) + '</b> ' + d.getFullYear() + '.' + pad(d.getMonth() + 1) + '.' + pad(d.getDate()) + ' (' + days[d.getDay()] + ') ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) +
-      (i < TURNS.length - 1 ? ' <button type="button" class="next-turn" data-next-turn>다음 턴 ›</button>' : '');
-  }
+  var DAY_SHIFT = (function () {
+    var m = String(DATA['매체']['기준일'] || '').match(/(\d{4})-(\d{2})-(\d{2})/);
+    if (!m) return 0;
+    var base = new Date(+m[1], m[2] - 1, +m[3]).getTime();
+    var t = new Date(); var today = new Date(t.getFullYear(), t.getMonth(), t.getDate()).getTime();
+    return today - base;
+  })();
   function toTs(s) {
     var m = String(s).match(/(\d{4})\.(\d{2})\.(\d{2})\s+(\d{2}):(\d{2})/);
-    return m ? new Date(+m[1], m[2] - 1, +m[3], +m[4], +m[5]).getTime() : 0;
+    return m ? new Date(+m[1], m[2] - 1, +m[3], +m[4], +m[5]).getTime() + DAY_SHIFT : 0;
   }
   function aTime(a) { return fmtTs(toTs(a['시각'])); }
   // 본문의 {{D}}, {{D-1}}, {{D+12}} → 기사 날짜 기준 n일 뒤의 "일" 숫자
@@ -1497,11 +1476,11 @@
   // 데이터에 들어 있는 댓글 + 이 브라우저에서 단 댓글
   function allComments(a) {
     var id = a['아이디'], react = getCReact(id);
-    var mod = getModeration(id), gnow = gameNow();
+    var mod = getModeration(id);
     var seed = (a['댓글'] || []).map(function (c, i) {
       var m = mod['s' + i];
       return { id: 's' + i, seed: c, nick: c['닉네임'], text: c['내용'], time: fmtTs(toTs(c['시각'])), ts: toTs(c['시각']), up: c['추천'] || 0, down: c['반대'] || 0, mine: false, status: (m && m.status) || c['상태'] || '', reason: (m && m.reason) || c['사유'] || '' };
-    }).filter(function (cm) { return cm.ts <= gnow; });
+    });
     var mine = getMyComments(id).map(function (c) {
       return { id: c.id, nick: c.anon ? '익명' : c.nick, anon: c.anon, text: c.text, time: c.time, ts: c.ts, up: 0, down: 0, mine: true };
     });
@@ -1514,11 +1493,11 @@
   }
   function repliesOf(a, cm) {
     var id = a['아이디'], react = getCReact(id);
-    var mod = getModeration(id), gnow = gameNow();
+    var mod = getModeration(id);
     var seed = (cm.seed && cm.seed['답글'] ? cm.seed['답글'] : []).map(function (r, i) {
       var m = mod[cm.id + 'r' + i];
       return { id: cm.id + 'r' + i, parent: cm.id, nick: r['닉네임'], text: r['내용'], time: fmtTs(toTs(r['시각'])), ts: toTs(r['시각']), up: r['추천'] || 0, down: r['반대'] || 0, mine: false, status: (m && m.status) || r['상태'] || '', reason: (m && m.reason) || r['사유'] || '' };
-    }).filter(function (r) { return r.ts <= gnow; });
+    });
     var mine = getMyReplies(id).filter(function (r) { return r.parent === cm.id; }).map(function (r) {
       return { id: r.id, parent: r.parent, nick: r.anon ? '익명' : r.nick, anon: r.anon, text: r.text, time: r.time, ts: r.ts, up: 0, down: 0, mine: true };
     });
@@ -1531,8 +1510,8 @@
   }
   function replyTotal(a) {
     var n = 0;
-    allComments(a).forEach(function (cm) { n += repliesOf(a, cm).length; });
-    return n;
+    (a['댓글'] || []).forEach(function (c) { n += (c['답글'] || []).length; });
+    return n + getMyReplies(a['아이디']).length;
   }
   function counts(a) {
     var id = a['아이디'], base = a['반응'] || {}, v = getVote(id);
@@ -1540,7 +1519,7 @@
       up: (base['추천'] || 0) + (v === 'up' ? 1 : 0),
       down: (base['반대'] || 0) + (v === 'down' ? 1 : 0),
       vote: v,
-      comments: allComments(a).length + replyTotal(a)   // 포털처럼 답글까지 셈 (현재 시점까지 보이는 것만)
+      comments: (a['댓글'] || []).length + getMyComments(id).length + replyTotal(a)   // 포털처럼 답글까지 셈
     };
   }
   // 시작 화면에서 입력한 학생 정보 { 학번이름, 닉네임 } — 지금은 이 브라우저에만 저장
@@ -1616,11 +1595,11 @@
 
   // ================= 공통 조각 =================
   // 사이트 기준 시각(매체.업데이트) — "많이 본 기사"는 이 시각 기준 최근 3일 안 기사만 올라감
-  function siteNow() { return gameNow(); }   // "많이 본 기사"는 현재 시점 기준
+  function siteNow() { return Date.now(); }   // 날짜가 수업일 기준으로 움직이므로 지금 시각이 기준
   var RANK_WINDOW = 3 * 24 * 60 * 60 * 1000;
   function sideHTML() {
     var now = siteNow();
-    var ranked = VIS().filter(function (a) { return now - toTs(a['시각']) <= RANK_WINDOW; }).sort(function (a, b) {
+    var ranked = ARTICLES.filter(function (a) { return now - toTs(a['시각']) <= RANK_WINDOW; }).sort(function (a, b) {
       var ca = counts(a), cb = counts(b);
       return (cb.up + cb.comments) - (ca.up + ca.comments);
     }).map(function (a) {
@@ -1729,7 +1708,7 @@
         (img['설명'] ? '<figcaption>' + esc(img['설명']) + '</figcaption>' : '') + '</figure>';
     }
 
-    var others = VIS().filter(function (x) { return x['게시자']['기자'] === r['아이디'] && x['아이디'] !== id; }).slice(0, 5);
+    var others = ARTICLES.filter(function (x) { return x['게시자']['기자'] === r['아이디'] && x['아이디'] !== id; }).slice(0, 5);
     var moreBox = others.length ? '<div class="more-box"><h4>' + esc(byline(r)) + '의 다른 기사</h4><ul>' +
       others.map(function (x) {
         return '<li class="' + (isCase(x) ? 'case' : 'other') + '"><a href="#article-' + x['아이디'] + '">' + titleHTML(x) + '</a><time>' + esc(aTime(x).slice(0, 10)) + '</time></li>';
@@ -1930,7 +1909,7 @@
       if (cm.mine) u.mine = true;
       if (cm.ts > u.last) u.last = cm.ts;
     }
-    VIS().filter(isCase).forEach(function (a) {
+    ARTICLES.filter(isCase).forEach(function (a) {
       allComments(a).forEach(function (cm) {
         add(a, cm, '');
         repliesOf(a, cm).forEach(function (r) { add(a, r, cm.nick); });
@@ -1976,7 +1955,7 @@
       body = '<p class="lempty">\'' + esc(nick) + '\' 닉네임으로 쓴 댓글이 없습니다.</p>';
     } else {
       // 기사별로 묶어서 최신 기사부터, 기사 안에서는 쓴 순서대로
-      var groups = VIS().filter(isCase).map(function (a) {
+      var groups = ARTICLES.filter(isCase).map(function (a) {
         var items = u.items.filter(function (it) { return it.a === a; }).sort(function (p, q) { return p.cm.ts - q.cm.ts; });
         return items.length ? { a: a, items: items } : null;
       }).filter(Boolean);
@@ -2022,7 +2001,7 @@
     current = null;
     document.title = byline(r) + ' - ' + OUTLET;
     setNav('');
-    var mine = VIS().filter(function (a) { return a['게시자']['기자'] === rid; });
+    var mine = ARTICLES.filter(function (a) { return a['게시자']['기자'] === rid; });
     var totalUp = 0, totalCm = 0;
     mine.forEach(function (a) { var c = counts(a); totalUp += c.up; totalCm += c.comments; });
 
@@ -2057,8 +2036,8 @@
       crumbHTML([{ t: '전체기사' }]) +
       '<div class="layout two" style="padding-top:12px">' +
         '<div>' +
-          '<h2 class="list-title">전체기사 <small>' + VIS().length + '건</small></h2>' +
-          '<ul class="alist">' + VIS().map(articleItemHTML).join('') + '</ul>' +
+          '<h2 class="list-title">전체기사 <small>' + ARTICLES.length + '건</small></h2>' +
+          '<ul class="alist">' + ARTICLES.map(articleItemHTML).join('') + '</ul>' +
         '</div>' +
         sideHTML() +
       '</div>';
@@ -2073,10 +2052,9 @@
     else if (h === 'users') { if (isTeacher()) renderUsers(); else { renderList(); askTeacher(renderUsers); } }
     else if ((m = h.match(/^user-(.+)$/))) { var nk; try { nk = decodeURIComponent(m[1]); } catch (err) { nk = m[1]; } if (isTeacher()) renderUser(nk); else { renderList(); askTeacher(function () { renderUser(nk); }); } }
     else if (h === 'list') renderList();
-    else if ((m = h.match(/^article-(.+)$/)) && articleById[m[1]] && !visible(articleById[m[1]])) { renderList(); toast('아직 올라오지 않은 기사입니다.'); }
     else if ((m = h.match(/^article-(.+)$/)) && articleById[m[1]] && !isCase(articleById[m[1]])) { if (!current) renderList(); lockedNotice(); return; }
     else if ((m = h.match(/^article-(.+)$/)) && articleById[m[1]]) renderArticle(m[1]);
-    else renderArticle((VIS()[0] || ARTICLES[ARTICLES.length - 1])['아이디']);
+    else renderArticle(ARTICLES[0]['아이디']);
     window.scrollTo(0, 0);
   }
 
@@ -2099,13 +2077,6 @@
     var ah = t.getAttribute && t.getAttribute('href'), am = ah && ah.match(/^#article-(.+)$/);
     if (am && articleById[am[1]] && !isCase(articleById[am[1]])) { e.preventDefault(); lockedNotice(); return; }
     if (t.hasAttribute('data-tools')) { askTeacher(openToolsModal); return; }
-    if (t.hasAttribute('data-next-turn')) {
-      var ni = turnIndex() + 1; if (ni >= TURNS.length) return;
-      openModal({ title: TURNS[ni].name + '(으)로 넘길까요?', body: '선생님이 알려 주셨을 때만 넘기세요.<br><b>' + esc(TURNS[ni].time) + '</b> ' + esc(TURNS[ni].note), ok: '넘기기', cancel: '아직',
-        onOk: function () { setTurn(ni); toast(TURNS[ni].name + '이 되었습니다.'); } });
-      return;
-    }
-    if (t.hasAttribute('data-set-turn')) { var ti = +t.getAttribute('data-set-turn'); closeModal(); setTurn(ti); toast(TURNS[ti].name + '으로 맞췄습니다.'); return; }
     if (t.hasAttribute('data-closed')) { e.preventDefault(); toast('수업용 페이지에서는 열리지 않는 메뉴입니다.'); return; }
     if (t.hasAttribute('data-toast')) { e.preventDefault(); toast(t.getAttribute('data-toast')); return; }
     if (t.hasAttribute('data-share')) { toast('수업용 페이지에서는 공유 기능이 동작하지 않습니다.'); return; }
@@ -2507,10 +2478,7 @@
     openModal({
       title: '교사 도구',
       wide: true, single: true, ok: '닫기',
-      body: '<h6 class="tools-h">현재 시점</h6><div class="turns">' + TURNS.map(function (tn, i) {
-          return '<button type="button" data-set-turn="' + i + '"' + (i === turnIndex() ? ' class="on"' : '') + '>' + esc(tn.name) + '<small>' + esc(tn.time) + '</small></button>';
-        }).join('') + '</div>' +
-        '<h6 class="tools-h">신고 접수함 <small>' + pend + '건 대기</small></h6>' + reportsHTML() +
+      body: '<h6 class="tools-h">신고 접수함 <small>' + pend + '건 대기</small></h6>' + reportsHTML() +
         '<h6 class="tools-h">기록 지우기</h6>' +
         '<p class="tools-now">' + (p ? '<b>' + esc(p['닉네임']) + '</b> / ' : '') + '내 댓글 ' + t.comments + '개, 답글 ' + t.replies + '개, 신고 ' + t.reports + '건</p>' +
         '<div class="tools">' +
@@ -2555,7 +2523,10 @@
   }
 
   // ================= 시작 =================
-  renderClock();
+  (function () {
+    var d = new Date(), days = ['일', '월', '화', '수', '목', '금', '토'];
+    document.getElementById('updated').textContent = 'UPDATED. ' + d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ' (' + days[d.getDay()] + ')';
+  })();
   document.querySelectorAll('[data-outlet]').forEach(function (n) { n.textContent = OUTLET; });
   window.addEventListener('hashchange', route);
   route();
