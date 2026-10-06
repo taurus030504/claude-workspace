@@ -127,7 +127,7 @@
   .tools button.danger { border-color: #f1b7c4; }
   .tools button.danger:hover { border-color: var(--brand); }
   .pin-note { margin-bottom: 10px !important; }
-  .pin-in { display: block; width: 100%; font: inherit; font-size: 18px; letter-spacing: .2em; padding: 10px 12px; border: 1.5px solid #ccc; border-radius: 4px; }
+  .pin-in { display: block; width: 100%; font: inherit; background: #fff; color: #111; font-size: 18px; letter-spacing: .2em; padding: 10px 12px; border: 1.5px solid #ccc; border-radius: 4px; }
   .pin-in:focus { border-color: var(--brand); outline: none; }
   .tools-h { margin: 14px 0 8px; font-size: 14px; font-weight: 700; color: #111; }
   .tools-h:first-child { margin-top: 0; }
@@ -610,7 +610,7 @@
   .gate h2 { margin: 4px 0 0; font-size: 24px; letter-spacing: -.04em; }
   .gate label { display: grid; gap: 6px; font-size: 15px; font-weight: 700; }
   .gate input {
-    font: inherit; font-size: 17px; font-weight: 400;
+    font: inherit; font-size: 17px; font-weight: 400; background: #fff; color: #111;
     padding: 12px 14px; border: 1.5px solid #ccc; border-radius: 6px; width: 100%;
   }
   .gate input:focus { border-color: var(--brand); outline: none; }
@@ -2374,7 +2374,7 @@
       '<form id="gateForm" autocomplete="off">' +
         '<div><div class="g-kicker">학습 게임 시작</div><h2>내 정보를 입력하세요</h2></div>' +
         '<label for="gateId">학번이름<input id="gateId" maxlength="12" placeholder="예: 1401강기범">' +
-          '<span class="g-hint">학번 네 자리 뒤에 이름을 붙여 써요. 띄어쓰기 없이.</span></label>' +
+          '<span class="g-hint">학번 네 자리 뒤에 이름을 붙여 써요.</span></label>' +
         '<label for="gateNick">닉네임<input id="gateNick" maxlength="10" placeholder="2~10자">' +
           '<span class="g-hint">댓글에 보이는 이름이에요. 시작하면 바꿀 수 없어요.</span></label>' +
         '<button type="submit">시작하기</button>' +
