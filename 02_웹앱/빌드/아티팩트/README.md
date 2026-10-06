@@ -22,6 +22,8 @@
 |---|---|
 | v-lyric-second-window | 이은호 《두 번째 창》 가사 영상 |
 | v-lyric-focus | 김서진 《초점》 가사 영상 |
+| v-lyric-low-long | 이은호 《낮게, 오래》 가사 영상 (사진 표지) |
+| v-lyric-slowly | 김서진 《천천히 말해》 가사 영상 (사진 표지) |
 | v-eunho-radio-2025 | 문영FM 밤의 음악실 이은호 편 (2025.08.20) |
 | v-seojin-radio-2025 | 문영FM 밤의 음악실 김서진 편 (2025.12.19) |
 | v-namgung-interview | 뮤직노트 남궁현 오디오 인터뷰 (2026.03.12) |
