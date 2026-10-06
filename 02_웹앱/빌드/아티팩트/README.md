@@ -1,11 +1,30 @@
-# 인물위키 아티팩트
+# 아티팩트 (게시용 사본)
 
-- 주소: https://claude.ai/artifact/JM9iRLeWXGpZZE3h4RTWDV (비공개, 공유는 페이지의 Share 메뉴에서)
-- 원본: `02_웹앱/빌드/인물위키.html` (직접 여는 파일. 내용 수정은 여기서)
-- 이 폴더의 `인물위키.html`은 게시용 사본이다. 직접 고치지 않는다.
+| 화면 | 주소 | 원본 |
+|---|---|---|
+| 문영위키 (인물위키) | https://claude.ai/artifact/JM9iRLeWXGpZZE3h4RTWDV | `02_웹앱/빌드/인물위키.html` |
+| 문영TV (가사 영상, 라디오) | https://claude.ai/artifact/CkW6BpMk5EkZJAYYNVsZC1 | `02_웹앱/빌드/문영TV.html` |
+| 문영일보 (뉴스) | https://claude.ai/artifact/FB262z41ts6fv9AuVNjSLB | 브랜치 `claude/zen-gauss-smepeo`의 `news-article/index.html` |
+
+- 공유 설정은 각 페이지의 Share 메뉴에서 한다.
+- 이 폴더의 html은 게시용 사본이다. 직접 고치지 않는다. 내용 수정은 원본에서.
+- 위키의 `site.videoBase`에 문영TV 주소가, `site.newsBase`에 문영일보 주소가 들어 있다. 주소가 바뀌면 여기를 고친다.
 
 ## 수정 후 다시 게시하기
 
-1. `02_웹앱/빌드/인물위키.html`을 고친다.
-2. `python3 02_웹앱/도구/아티팩트용_변환.py` 로 사본을 다시 만든다.
+1. `02_웹앱/빌드/` 안의 원본을 고친다.
+2. `python3 02_웹앱/도구/아티팩트용_변환.py` 로 사본을 다시 만든다. (`python3 … 문영TV` 처럼 이름을 주면 하나만)
 3. 사본을 위 주소로 다시 게시한다. 다른 대화에서 게시할 때는 위 주소를 `url`로 넘겨야 같은 주소가 유지된다.
+
+## 문영TV 영상 id (위키 `{{영상:id|라벨}}`에서 쓰는 값)
+
+| id | 내용 |
+|---|---|
+| v-lyric-second-window | 이은호 《두 번째 창》 가사 영상 |
+| v-lyric-focus | 김서진 《초점》 가사 영상 |
+| v-eunho-radio-2025 | 문영FM 밤의 음악실 이은호 편 (2025.08.20) |
+| v-seojin-radio-2025 | 문영FM 밤의 음악실 김서진 편 (2025.12.19) |
+| v-namgung-interview | 뮤직노트 남궁현 오디오 인터뷰 (2026.03.12) |
+| v-eunho-height, v-seojin-short-answers, v-namgung-ending | 삭제 또는 비공개 안내 화면 |
+
+별칭(옛 id): v-eunho-radio-euno, v-seojin-radio-height, v-seojin-webshow-mbti 는 모두 해당 라디오 편으로 연결된다.

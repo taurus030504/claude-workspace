@@ -1,0 +1,277 @@
+<title>문영TV</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&family=Nanum+Brush+Script&family=Nanum+Pen+Script&display=swap" />
+<style>
+  /* 수업용 가상 영상 플랫폼. 소리는 없고, 가사·대본이 시간에 맞춰 넘어간다. */
+  :root{--bg:#0f0f0f;--panel:#181818;--line:#2a2a2a;--text:#f1f1f1;--muted:#aaa;--accent:#e8402f;--chip:#272727}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:"Pretendard","Pretendard JP","Noto Sans KR","Noto Sans KR",-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-size:15px;line-height:1.5}
+  a{color:inherit;text-decoration:none}
+  .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;height:56px;background:var(--bg);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;padding:0 20px}
+  .logo{display:flex;align-items:center;gap:7px;font-weight:800;font-size:21px;letter-spacing:-.03em}
+  .logo i{display:inline-grid;place-items:center;width:30px;height:21px;border-radius:6px;background:var(--accent)}
+  .logo i::after{content:"";border-left:9px solid #fff;border-top:5.5px solid transparent;border-bottom:5.5px solid transparent;margin-left:2px}
+  .search{margin-left:auto;display:flex;width:min(420px,46vw);height:38px;border:1px solid #303030;border-radius:20px;overflow:hidden;background:#121212}
+  .search input{flex:1;min-width:0;border:0;background:transparent;color:var(--text);padding:0 16px;font:inherit;outline:0}
+  .search button{border:0;background:#222;color:#ddd;width:56px;cursor:pointer}
+  .wrap{max-width:1180px;margin:0 auto;padding:18px 20px 40px}
+
+  /* 목록 */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:22px 16px}
+  .card{cursor:pointer}
+  .thumb{position:relative;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#222}
+  .thumb svg,.thumb img{width:100%;height:100%;display:block}
+  .thumb .dur{position:absolute;right:6px;bottom:6px;background:rgba(0,0,0,.85);font-size:12px;font-weight:700;padding:2px 5px;border-radius:4px}
+  .card h3{margin:10px 0 2px;font-size:15px;font-weight:600;line-height:1.35}
+  .card p{margin:0;color:var(--muted);font-size:13px}
+  .list-h{display:flex;gap:8px;margin:0 0 16px;flex-wrap:wrap}
+  .list-h button{border:0;background:var(--chip);color:#eee;font:inherit;font-size:13.5px;padding:6px 12px;border-radius:8px;cursor:pointer}
+  .list-h button.on{background:#f1f1f1;color:#0f0f0f}
+
+  /* 재생 화면 */
+  .player{position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000;user-select:none}
+  .player .bgart{position:absolute;inset:-40px;filter:blur(26px) brightness(.55);transform:scale(1.15)}
+  .player .bgart svg{width:100%;height:100%;display:block}
+  .player .veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.15) 40%,rgba(0,0,0,.55))}
+  .stage{position:absolute;inset:0;display:grid;grid-template-columns:38% 1fr;align-items:center;padding:7% 6% 10%}
+  .stage .title{position:absolute;top:6%;left:0;right:0;text-align:center;font-size:clamp(14px,2.6vw,28px);font-weight:800;text-shadow:0 2px 10px rgba(0,0,0,.6)}
+  .disc{width:min(70%,260px);aspect-ratio:1;border-radius:50%;overflow:hidden;margin:0 auto;box-shadow:0 10px 40px rgba(0,0,0,.5)}
+  .disc svg{width:100%;height:100%;display:block}
+  .lines{display:flex;flex-direction:column;gap:clamp(6px,1.4vw,14px);background:rgba(20,20,20,.28);padding:clamp(10px,2vw,22px) clamp(12px,2.4vw,28px);border-radius:8px;backdrop-filter:blur(2px)}
+  .lines div{font-size:clamp(11px,1.9vw,21px);font-weight:600;text-align:center;color:rgba(255,255,255,.28);transition:color .3s,transform .3s;text-shadow:0 1px 6px rgba(0,0,0,.5);white-space:pre-wrap}
+  .lines div.near{color:rgba(255,255,255,.6)}
+  .lines div.now{color:#fff;transform:scale(1.04)}
+  .lines .spk{font-weight:800}
+  .lines .now .spk{color:#ffb3a7}
+  .radio .lines div{text-align:left;font-weight:500}
+  .radio .stage{grid-template-columns:34% 1fr}
+  .wave{display:flex;align-items:center;justify-content:center;gap:3px;height:120px}
+  .wave i{width:5px;border-radius:3px;background:#fff;opacity:.85;height:14px;transition:height .18s}
+  .onair{display:block;text-align:center;margin-top:14px;font-weight:800;letter-spacing:.12em;font-size:clamp(10px,1.4vw,14px);color:#ffb3a7}
+  .playbtn{position:absolute;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.25);cursor:pointer}
+  .playbtn span{width:72px;height:72px;border-radius:50%;background:rgba(0,0,0,.65);display:grid;place-items:center;border:2px solid rgba(255,255,255,.7)}
+  .playbtn span::after{content:"";border-left:24px solid #fff;border-top:14px solid transparent;border-bottom:14px solid transparent;margin-left:6px}
+  .player.playing .playbtn{display:none}
+  .ctrl{position:absolute;left:0;right:0;bottom:0;padding:10px 14px 10px;background:linear-gradient(0deg,rgba(0,0,0,.7),transparent);display:flex;align-items:center;gap:12px;font-size:12.5px;font-variant-numeric:tabular-nums}
+  .ctrl button{border:0;background:none;color:#fff;cursor:pointer;width:28px;height:28px;display:grid;place-items:center;padding:0}
+  .bar{flex:1;height:4px;background:rgba(255,255,255,.3);border-radius:2px;position:relative;cursor:pointer}
+  .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--accent);border-radius:2px;width:0}
+  .removed{aspect-ratio:16/9;border-radius:12px;background:#1a1a1a;display:grid;place-items:center;text-align:center;color:#bbb;padding:20px}
+  .removed b{display:block;color:#fff;font-size:20px;margin-bottom:8px}
+  .removed svg{width:56px;height:56px;margin-bottom:14px;opacity:.7}
+
+  .meta{padding:14px 2px 0}
+  .meta h1{margin:0 0 6px;font-size:20px;font-weight:700;line-height:1.35}
+  .meta .stat{color:var(--muted);font-size:13.5px}
+  .chan{display:flex;align-items:center;gap:12px;margin:14px 0 0;padding:12px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .chan .av{width:40px;height:40px;border-radius:50%;background:#333;display:grid;place-items:center;font-weight:800;font-size:14px;flex-shrink:0}
+  .chan b{display:block}
+  .chan small{color:var(--muted)}
+  .chan .sub{margin-left:auto;border:0;background:#f1f1f1;color:#0f0f0f;font:inherit;font-weight:700;font-size:13.5px;padding:8px 16px;border-radius:18px;cursor:pointer}
+  .desc{background:var(--panel);border-radius:10px;padding:12px 14px;margin-top:14px;font-size:14px;color:#ddd;white-space:pre-wrap}
+  .cmts{margin-top:22px}
+  .cmts h2{font-size:16px;margin:0 0 14px}
+  .cmt{display:flex;gap:12px;margin-bottom:16px}
+  .cmt .av{width:36px;height:36px;border-radius:50%;flex-shrink:0;display:grid;place-items:center;font-size:12px;font-weight:700;color:#fff}
+  .cmt .who{font-size:13px;font-weight:600}
+  .cmt .who small{color:var(--muted);font-weight:400;margin-left:6px}
+  .cmt p{margin:3px 0 4px;font-size:14px}
+  .cmt .like{font-size:12px;color:var(--muted)}
+  .toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(20px);background:#eee;color:#111;padding:10px 16px;border-radius:6px;font-size:14px;opacity:0;pointer-events:none;transition:.2s;z-index:80}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .foot{color:#777;font-size:12px;padding:30px 20px;text-align:center;border-top:1px solid var(--line)}
+  @media (max-width:640px){
+    .top{padding:0 12px;gap:8px}.wrap{padding:12px 12px 30px}
+    .search{width:auto;flex:1}
+    .stage{padding:12% 5% 14%;gap:8px}
+    .disc{width:min(80%,140px)}
+    .lines{gap:4px;padding:8px 10px}
+    .wave{height:70px}
+    .player,.removed{border-radius:0;margin:0 -12px}
+  }
+  @media (prefers-reduced-motion:reduce){.lines div,.wave i{transition:none}}
+</style>
+<!--
+  ▣ 영상 목록은 아래 JSON 한 곳에서 고칩니다.
+  종류: "lyric"(가사 영상) / "radio"(라디오·오디오, 대본이 넘어감) / "removed"(삭제·비공개 안내)
+  lines: [[시작 초, "글"], ...]  대본에서 "이름: 말" 형식이면 이름이 굵게 표시됩니다.
+  cover: 가사 영상의 앨범 표지(SVG). 문영위키의 표지와 같은 그림입니다.
+-->
+<script type="application/json" id="tv-data">
+{
+  "site": {"name": "문영TV", "notice": "수업용 가상 영상 플랫폼입니다. 소리는 나지 않고 가사와 대본만 시간에 맞춰 넘어갑니다."},
+  "aliases": {"v-eunho-radio-euno": "v-eunho-radio-2025", "v-seojin-radio-height": "v-seojin-radio-2025", "v-seojin-webshow-mbti": "v-seojin-radio-2025"},
+  "videos": [
+    {
+      "id": "v-lyric-second-window", "type": "lyric", "cover": "두 번째 창",
+      "title": "이은호 - 두 번째 창 (가사)", "artist": "이은호", "song": "두 번째 창",
+      "channel": "리버노트 엔터테인먼트", "channelMark": "RN", "views": "41만회", "date": "2025.08.14", "duration": 220,
+      "desc": "이은호 미니 2집 '두 번째 창' 타이틀곡 가사 영상\n작사 이은호 / 작곡 서지운, 이은호 / 편곡 서지운",
+      "lines": [[9,"이사 가던 날 돌아본 골목 끝"],[22,"두 번째 창에 불이 켜져 있었어"],[36,"누가 살게 될까 그 방엔"],[49,"내가 두고 온 여름이 아직 있을까"],[68,"아무한테도 말 안 했어"],[80,"거기서 널 처음 봤다는 거"],[93,"커튼 사이로 흔들리던 그 저녁"],[107,"우리 둘만 아는 창이었지"],[132,"이제는 모르는 불빛이 켜지고"],[147,"나는 길 건너에서 손을 흔들어"],[175,""]],
+      "comments": [
+        ["하늘색연필","2025.09.02","이사하는 날 생각나서 울었음",214],
+        ["mingming_","2025.11.17","라이브로 듣고 싶다",58],
+        ["연두빛","2026.10.04","5번째 줄 누구 얘기임? 이제 알겠네 ㅋㅋ",391]
+      ]
+    },
+    {
+      "id": "v-lyric-focus", "type": "lyric", "cover": "초점",
+      "title": "김서진 - 초점 (가사)", "artist": "김서진", "song": "초점",
+      "channel": "리버노트 엔터테인먼트", "channelMark": "RN", "views": "27만회", "date": "2025.12.08", "duration": 203,
+      "desc": "김서진 데뷔 디지털 싱글 '초점' 가사 영상\n작사 김서진 / 작곡 서지운 / 편곡 서지운",
+      "lines": [[8,"중고로 산 낡은 카메라 하나"],[20,"셔터를 누르면 반 박자 늦게 찍혀"],[33,"흔들린 사진이 더 많았지만"],[45,"그래도 버리지 않았어"],[64,"자꾸 너한테만 맞춰지는 초점"],[77,"흐린 것들 사이에 또렷한 하나"],[90,"천천히 돌려 봐 조금만 더"],[103,"선명해질 때까지 기다릴게"],[128,"현상한 사진 뒷면에 날짜를 적고"],[142,"서랍 맨 위에 넣어 뒀어"],[168,""]],
+      "comments": [
+        ["포카칩조아","2025.12.10","데뷔 축하해요 목소리 진짜 담백하다",176],
+        ["서진이꽃길만","2026.01.03","서랍 맨 위에 넣어 뒀어 이 부분 제일 좋아",92],
+        ["hoonnn","2026.10.04","너한테만 맞춰지는 초점... 걍 사귀는거 아님?",260]
+      ]
+    },
+    {
+      "id": "v-eunho-radio-2025", "type": "radio",
+      "title": "[문영FM 밤의 음악실] 이은호 편 - '두 번째 창'은 누구 얘기? (2025.08.20)",
+      "channel": "문영FM", "channelMark": "FM", "views": "6.3만회", "date": "2025.08.21", "duration": 96,
+      "show": "밤의 음악실", "desc": "2025년 8월 20일 방송분 중 일부. 소리 없이 대본만 제공됩니다.",
+      "lines": [[2,"진행자: 이번 앨범 타이틀이 '두 번째 창'이에요. 제목이 좀 궁금했어요."],[10,"이은호: 어릴 때 살던 집에 방이 두 개였는데, 둘째 방 창문이 옆집이랑 거의 붙어 있었어요."],[20,"이은호: 거기서 옆집이 틀어 놓은 공연 영상을 봤어요. 그때 처음 노래를 하고 싶다고 생각했고요."],[31,"진행자: 그럼 가사에 나오는 '너'는..."],[37,"이은호: 노래예요. 다들 사람인 줄 아시더라고요. (웃음)"],[47,"진행자: 청취자 문자 하나 읽어 드릴게요. \"으노 오늘도 화이팅 ㅎㅎㅎ 어제 라이브 너무 조았어요\""],[58,"이은호: 아 이거 제 말투인데요. 받침 빼먹는 거. 그래도 뜻은 통하지 않나요?"],[69,"진행자: MBTI 물어보는 문자가 많아요."],[75,"이은호: ENFP요. 검사할 때마다 똑같이 나와요."],[88,""]],
+      "comments": [["은호만바라봐","2025.08.21","너가 노래라니 ㅠㅠ",120],["nightowl","2025.08.22","받침 빼먹는 거 인정하네 ㅋㅋㅋ",44]]
+    },
+    {
+      "id": "v-seojin-radio-2025", "type": "radio",
+      "title": "[문영FM 밤의 음악실] 김서진 편 - 데뷔 첫 라디오 (2025.12.19)",
+      "channel": "문영FM", "channelMark": "FM", "views": "4.8만회", "date": "2025.12.20", "duration": 84,
+      "show": "밤의 음악실", "desc": "2025년 12월 19일 방송분 중 일부. 소리 없이 대본만 제공됩니다.",
+      "lines": [[2,"진행자: 데뷔 축하드려요. 프로필 보니까 169라고 돼 있던데."],[9,"김서진: 170으로 적고 싶었는데 회사가 재서 169가 됐어요."],[18,"진행자: '초점'은 어떻게 나온 곡이에요?"],[24,"김서진: 연습생 때 중고로 필름 카메라를 샀어요. 밖에 나갈 시간이 없어서 집에서만 찍었는데, 현상해 보면 다 엄마였어요."],[38,"진행자: 그럼 '너한테만 맞춰지는 초점'이..."],[44,"김서진: 네. 엄마요."],[52,"진행자: MBTI는요?"],[56,"김서진: ISTP요."],[62,"진행자: 한 문장만 더 말해 주실 수 있어요?"],[68,"김서진: 음. 아니요."],[78,""]],
+      "comments": [["서진이꽃길만","2025.12.20","엄마요 ㅋㅋㅋㅋ 단답 뭐야",203],["포카칩조아","2025.12.21","한 문장만 더 → 아니요 레전드",150]]
+    },
+    {
+      "id": "v-namgung-interview", "type": "radio",
+      "title": "[뮤직노트 인터뷰] 리버노트 남궁현 대표 \"오래 부를 수 있는 사람\" (오디오)",
+      "channel": "뮤직노트", "channelMark": "MN", "views": "1.1만회", "date": "2026.03.12", "duration": 70,
+      "show": "뮤직노트 오디오 인터뷰", "desc": "음악 전문 매체 뮤직노트의 오디오 인터뷰. 소리 없이 대본만 제공됩니다.",
+      "lines": [[2,"기자: 리버노트는 데뷔가 느리다는 말을 많이 듣습니다."],[9,"남궁현: 노래를 잘하는 사람은 많아요. 오래 부를 수 있는 사람을 만드는 게 회사가 할 일이라고 생각합니다."],[22,"기자: 월말 평가 때 점수표 대신 메모를 준다고 들었어요."],[29,"남궁현: 잘한 것 하나, 고칠 것 하나. 그 이상은 안 적어요. 많이 적으면 아무것도 안 남더라고요."],[42,"기자: 대표가 된 뒤에도 녹음실에 직접 들어가신다고요."],[49,"남궁현: 목 상태는 숫자로 안 보여요. 들어가서 들어야 압니다."],[62,""]],
+      "comments": [["연두빛","2026.03.13","느린 회사 인정하는 거 멋있네",37]]
+    },
+    {"id": "v-eunho-height", "type": "removed", "title": "[동창회 가는 길] 이은호 김서진 모교 방문 풀버전", "reason": "저작권자의 요청으로 삭제된 영상입니다.", "channel": "짤모음tv"},
+    {"id": "v-seojin-short-answers", "type": "removed", "title": "김서진 단답 모음.zip (응 아니 그건좀)", "reason": "업로더가 삭제한 영상입니다.", "channel": "서진이꽃길만"},
+    {"id": "v-namgung-ending", "type": "removed", "title": "리버노트 라이브 위크 2025 엔딩 (뒷모습 그분 등장)", "reason": "비공개 영상입니다.", "channel": "은호만바라봐"}
+  ]
+}
+</script>
+
+<header class="top">
+  <a class="logo" href="#list" data-home><i></i><span id="siteName">문영TV</span></a>
+  <div class="search"><input id="q" placeholder="검색" aria-label="검색" autocomplete="off" /><button type="button" id="searchBtn" aria-label="검색">⌕</button></div>
+</header>
+<main class="wrap" id="main"></main>
+<footer class="foot" id="foot"></footer>
+<div class="toast" id="toast"></div>
+
+<script>
+(() => {
+  const DATA = JSON.parse(document.getElementById('tv-data').textContent);
+  const $ = s => document.querySelector(s);
+  const main = $('#main');
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  $('#foot').textContent = DATA.site.notice;
+
+  /* 앨범 표지 (문영위키와 같은 그림) */
+  const grain = (i, a) => `<filter id="g${i}"><feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="2" seed="${parseInt(i, 10) * 7}"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues="0 ${a}"/></feComponentTransfer></filter>`;
+  const G = i => `<rect width="120" height="120" filter="url(#g${i})" style="mix-blend-mode:multiply"/>`;
+  const SANS = 'font-family:inherit', PEN = "font-family:'Nanum Pen Script',cursive";
+  /* text=false 이면 글자 없는 표지(원형으로 자를 때, 흐린 배경에 쓸 때) */
+  const COVERS = {
+    '두 번째 창': (text = true, k = '') => `<svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice"><defs>${grain('4' + k, '.26')}<filter id="b4${k}"><feGaussianBlur stdDeviation="1.6"/></filter><linearGradient id="wall4${k}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d9d2c6"/><stop offset="1" stop-color="#a99e8f"/></linearGradient></defs><rect width="120" height="120" fill="url(#wall4${k})"/><g filter="url(#b4${k})" opacity=".92"><path d="M44 18l46 10v62l-46 6z" fill="#fff3d6"/><path d="M66 23v70M44 48l46 6" stroke="#b9a98d" stroke-width="2.2"/></g>${G('4' + k)}${text ? `<text x="9" y="110" font-size="7.5" font-weight="700" fill="#2b2622" style="${SANS}">두 번째 창</text>` : ''}</svg>`,
+    '초점': (text = true, k = '') => `<svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice"><defs>${grain('5' + k, '.3')}<filter id="b5${k}"><feGaussianBlur stdDeviation="7"/></filter></defs><rect width="120" height="120" fill="#101c26"/><g filter="url(#b5${k})"><ellipse cx="40" cy="48" rx="30" ry="22" fill="#3f6f7a" opacity=".8"/><ellipse cx="92" cy="80" rx="26" ry="30" fill="#1f4a57" opacity=".9"/><circle cx="78" cy="30" r="9" fill="#9fd3d6" opacity=".7"/></g>${G('5' + k)}${text ? `<text x="10" y="106" font-size="11" font-weight="800" fill="#f2f6f6" style="${SANS}">초점</text><text x="110" y="106" font-size="4.5" fill="#9fb4b9" text-anchor="end" style="${SANS}">김서진</text>` : ''}</svg>`
+  };
+  const cover = (name, text, k) => COVERS[name] ? COVERS[name](text, k) : '';
+  const coverBg = {'두 번째 창': '#b9ad9c', '초점': '#17303a'};
+  const fmt = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+  const radioThumb = (v) => `<svg viewBox="0 0 160 90"><rect width="160" height="90" fill="#1d1d1f"/><g fill="#ffb3a7">${[...Array(18)].map((_, i) => `<rect x="${22 + i * 6.5}" y="${45 - (6 + ((i * 37) % 23))}" width="3.5" height="${12 + ((i * 37) % 23) * 2}" rx="1.5"/>`).join('')}</g><text x="80" y="78" font-size="8" fill="#aaa" text-anchor="middle" style="font-family:inherit;letter-spacing:.2em">${esc(v.channel)}</text></svg>`;
+  const removedThumb = `<svg viewBox="0 0 160 90"><rect width="160" height="90" fill="#222"/><text x="80" y="50" font-size="10" fill="#888" text-anchor="middle" style="font-family:inherit">삭제된 영상</text></svg>`;
+  const thumb = v => v.type === 'lyric' ? `<div style="position:absolute;inset:0;background:${coverBg[v.cover] || '#333'}"></div><div style="position:absolute;inset:0;display:grid;place-items:center"><div style="width:38%;aspect-ratio:1;border-radius:50%;overflow:hidden">${cover(v.cover, false, 't' + v.id)}</div></div>` : v.type === 'radio' ? radioThumb(v) : removedThumb;
+
+  const find = id => { id = DATA.aliases[id] || id; return DATA.videos.find(v => v.id === id); };
+  const avColor = n => `hsl(${[...n].reduce((a, c) => a + c.charCodeAt(0), 0) % 360} 40% 45%)`;
+
+  /* ── 목록 ── */
+  let filter = 'all';
+  function renderList(q) {
+    stop();
+    const vids = DATA.videos.filter(v => filter === 'all' || v.type === filter).filter(v => !q || v.title.includes(q) || (v.channel || '').includes(q));
+    main.innerHTML = `<div class="list-h">${[['all', '전체'], ['lyric', '가사 영상'], ['radio', '라디오 / 인터뷰']].map(([k, l]) => `<button type="button" data-filter="${k}" class="${filter === k ? 'on' : ''}">${l}</button>`).join('')}</div>
+      ${q ? `<p style="color:#aaa;margin:0 0 14px">'${esc(q)}' 검색 결과 ${vids.length}개</p>` : ''}
+      <div class="grid">${vids.map(v => `<a class="card" href="#${v.id}"><div class="thumb">${thumb(v)}${v.duration ? `<span class="dur">${fmt(v.duration)}</span>` : ''}</div><h3>${esc(v.title)}</h3><p>${esc(v.channel)}${v.views ? ` · 조회수 ${esc(v.views)} · ${esc(v.date)}` : ''}</p></a>`).join('')}</div>`;
+    document.title = (q ? q + ' - ' : '') + DATA.site.name;
+  }
+
+  /* ── 재생 화면 ── */
+  let timer = null, t = 0, cur = null;
+  function stop() { clearInterval(timer); timer = null; }
+  function renderVideo(v) {
+    stop(); t = 0; cur = v;
+    if (v.type === 'removed') {
+      main.innerHTML = `<div class="removed"><div><svg viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg><b>${esc(v.reason)}</b><span>${esc(v.title)}</span></div></div>
+        <div class="meta"><h1>${esc(v.title)}</h1><div class="stat">${esc(v.channel)}</div></div>`;
+      document.title = v.title + ' - ' + DATA.site.name; return;
+    }
+    const isLyric = v.type === 'lyric';
+    const art = isLyric ? `<div class="disc">${cover(v.cover, false, 'd')}</div>` :`<div><div class="wave" id="wave">${[...Array(28)].map(() => '<i></i>').join('')}</div><span class="onair">${esc(v.show || v.channel)}</span></div>`;
+    main.innerHTML = `
+      <div class="player ${isLyric ? 'lyric' : 'radio'}" id="player">
+        <div class="bgart" style="${isLyric ? '' : 'background:#2a1d1b'}">${isLyric ? cover(v.cover, false, 'b') : ''}</div><div class="veil"></div>
+        <div class="stage"><div class="title">${esc(isLyric ? `${v.artist} - ${v.song}` : v.title.replace(/^\[.*?\]\s*/, ''))}</div>${art}<div class="lines" id="lines"></div></div>
+        <div class="playbtn" id="playbtn" title="재생"><span></span></div>
+        <div class="ctrl"><button type="button" id="toggle" aria-label="재생/일시정지">▶</button><span id="time">0:00</span><div class="bar" id="bar"><i id="fill"></i></div><span>${fmt(v.duration)}</span></div>
+      </div>
+      <div class="meta"><h1>${esc(v.title)}</h1><div class="stat">조회수 ${esc(v.views)} · ${esc(v.date)}</div>
+        <div class="chan"><div class="av">${esc(v.channelMark || v.channel.slice(0, 2))}</div><div><b>${esc(v.channel)}</b><small>구독자 ${esc(v.channel === '문영FM' ? '12.4만명' : v.channel === '뮤직노트' ? '3.1만명' : '8.7만명')}</small></div><button type="button" class="sub" data-unsupported="구독">구독</button></div>
+        <div class="desc">${esc(v.desc || '')}</div></div>
+      <div class="cmts"><h2>댓글 ${v.comments.length}개</h2>${v.comments.map(([n, d, c, l]) => `<div class="cmt"><div class="av" style="background:${avColor(n)}">${esc(n.slice(0, 1))}</div><div><div class="who">@${esc(n)}<small>${esc(d)}</small></div><p>${esc(c)}</p><div class="like">👍 ${l}</div></div></div>`).join('')}</div>`;
+    paint();
+    $('#playbtn').addEventListener('click', play);
+    $('#toggle').addEventListener('click', () => timer ? pause() : play());
+    $('#bar').addEventListener('click', e => { const r = e.currentTarget.getBoundingClientRect(); t = Math.floor((e.clientX - r.left) / r.width * v.duration); paint(); });
+    document.title = v.title + ' - ' + DATA.site.name;
+  }
+  function play() { if (timer) return; $('#player').classList.add('playing'); $('#toggle').textContent = '❚❚'; timer = setInterval(() => { t++; if (t >= cur.duration) { t = cur.duration; pause(); } paint(); }, 1000); }
+  function pause() { stop(); const p = $('#player'); if (p) { p.classList.remove('playing'); $('#toggle').textContent = '▶'; } }
+  function paint() {
+    const v = cur, lines = v.lines;
+    let idx = -1; lines.forEach(([s], i) => { if (t >= s) idx = i; });
+    const win = v.type === 'lyric' ? 2 : 1;
+    const from = Math.max(0, Math.min(idx - win, lines.length - (win * 2 + 1))), to = Math.min(lines.length, from + win * 2 + 1);
+    const box = $('#lines');
+    box.innerHTML = lines.slice(from, to).map(([s, text], k) => {
+      const i = from + k; const cls = i === idx ? 'now' : Math.abs(i - idx) === 1 ? 'near' : '';
+      const m = text.match(/^([^:]{1,6}): (.*)$/);
+      return `<div class="${cls}">${m ? `<span class="spk">${esc(m[1])}</span>  ${esc(m[2])}` : esc(text)}</div>`;
+    }).join('');
+    $('#time').textContent = fmt(t); $('#fill').style.width = (t / v.duration * 100) + '%';
+    const w = $('#wave'); if (w) [...w.children].forEach((b, i) => { b.style.height = (timer ? 10 + Math.abs(Math.sin(t * 1.7 + i * .9)) * 46 + ((i * 13) % 7) : 14) + 'px'; });
+  }
+
+  /* ── 이동 (샌드박스에서도 동작하도록 주소 변경 실패는 무시) ── */
+  function route(h) {
+    h = (h || '').replace(/^#/, '');
+    let m;
+    if (!h || h === 'list') return renderList();
+    if ((m = h.match(/^search=(.+)$/))) return renderList(decodeURIComponent(m[1]));
+    const v = find(h);
+    if (v) renderVideo(v); else main.innerHTML = `<div class="removed"><div><b>해당 영상을 찾을 수 없습니다.</b><span>${esc(h)}</span></div></div>`;
+    try { window.scrollTo(0, 0); } catch (e) {}
+  }
+  function nav(h) { route(h); try { location.hash = h; } catch (e) {} }
+  const toastEl = $('#toast'); let tt;
+  const toast = m => { toastEl.textContent = m; toastEl.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => toastEl.classList.remove('show'), 1800); };
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href^="#"],[data-filter],[data-unsupported]');
+    if (!a) return;
+    if (a.dataset.filter) { filter = a.dataset.filter; renderList(); return; }
+    if (a.dataset.unsupported) { e.preventDefault(); toast(`'${a.dataset.unsupported}' 기능은 수업용 화면에서 지원하지 않습니다.`); return; }
+    e.preventDefault(); nav(a.getAttribute('href').slice(1));
+  });
+  const doSearch = () => { const q = $('#q').value.trim(); if (q) nav('search=' + encodeURIComponent(q)); };
+  $('#searchBtn').addEventListener('click', doSearch);
+  $('#q').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); doSearch(); } });
+  window.addEventListener('hashchange', () => route(location.hash));
+  route((() => { try { return location.hash; } catch (e) { return ''; } })());
+})();
+</script>
