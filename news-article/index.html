@@ -528,6 +528,8 @@
   .profile.user h1 small { font-size: 12px; margin-left: 10px; color: var(--text-muted); }
   .profile.user .stats { margin-top: 10px; font-size: 12px; gap: 14px; }
   .profile.user .stats b { font-size: 13px; }
+  .citem.u-go { cursor: pointer; }
+  .citem.u-go:hover { background: #f6f6f6; }
   .citem.flash, .ritem.flash { background: #fff3c4; transition: background 1.2s ease 1s; }
   .ugroup { margin-top: 26px; }
   .ugroup h3 { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin: 0; padding-bottom: 10px; border-bottom: 2px solid #222; font-size: 17px; font-weight: 500; line-height: 1.45; letter-spacing: -.03em; word-break: keep-all; }
@@ -1984,26 +1986,20 @@
     if (!u) {
       body = '<p class="lempty">\'' + esc(nick) + '\' 닉네임으로 쓴 댓글이 없습니다.</p>';
     } else {
-      // 기사별로 묶어서 최신 기사부터, 기사 안에서는 쓴 순서대로
-      var groups = VIS().filter(isCase).map(function (a) {
-        var items = u.items.filter(function (it) { return it.a === a; }).sort(function (p, q) { return p.cm.ts - q.cm.ts; });
-        return items.length ? { a: a, items: items } : null;
-      }).filter(Boolean);
-      body = groups.map(function (g) {
-        var a = g.a, href = '#article-' + a['아이디'] + '/comments';
-        return '<section class="ugroup">' +
-          '<h3><span class="sec">' + esc(aTime(a).slice(0, 10)) + '</span><a href="' + href + '">' + esc(a['본문']['제목']) + '</a><small>댓글 ' + g.items.length + '</small></h3>' +
-          '<ul class="clist">' + g.items.map(function (it) {
-            var cm = it.cm;
-            return '<li class="citem' + (cm.up >= 50 ? ' is-best' : '') + '">' +
+      // 기사 구분 없이 최신 글부터 (어느 기사인지는 표시하지 않음 — 누르면 그 댓글 위치로 감)
+      var all = u.items.slice().sort(function (p, q) { return q.cm.ts - p.cm.ts; });
+      body = '<section class="ugroup">' +
+          '<ul class="clist">' + all.map(function (it) {
+            var cm = it.cm, a = it.a;
+            var goHref = '#article-' + a['아이디'] + '/comment-' + encodeURIComponent(cm.id);
+            return '<li class="citem u-go' + (cm.up >= 50 ? ' is-best' : '') + '" data-go="' + goHref + '" title="누르면 기사의 이 댓글 위치로 갑니다">' +
               '<div class="c-meta">' + (cm.up >= 50 && !it.parentNick ? '<span class="best">BEST</span>' : '') + '<b>' + esc(cm.nick) + '</b>' + (cm.mine ? '<span class="me-tag">' + (it.parentNick ? '내 답글' : '내 댓글') + '</span>' : '') + (it.parentNick ? '<span class="r-tag">' + (it.parentNick === cm.nick ? '내 댓글 밑 답글' : esc(it.parentNick) + ' 댓글에 답글') + '</span>' : '') + '<span>' + esc(cm.time) + '</span></div>' +
               (cm.status === '블라인드'
                 ? '<div class="c-hidden"><span class="c-hidden-msg">신고가 누적되어 블라인드 처리된 댓글입니다.</span></div><p class="c-peeked">' + esc(cm.text) + '<span class="c-reason">블라인드 사유: ' + esc(cm.reason || '운영 정책 위반') + '</span></p>'
                 : '<p>' + esc(cm.text) + '</p>') +
               '<div class="c-act"><span class="c-num">' + ICON.up + cm.up + '</span><span class="c-num down">' + ICON.down + cm.down + '</span>' +
-              '<a class="c-go" href="#article-' + a['아이디'] + '/comment-' + encodeURIComponent(cm.id) + '">기사에서 보기</a></div></li>';
+              '<a class="c-go" href="' + goHref + '">기사에서 보기 ›</a></div></li>';
           }).join('') + '</ul></section>';
-      }).join('');
     }
     document.getElementById('view').innerHTML = '' +
       userCrumb({ t: nick }) +
@@ -2123,6 +2119,8 @@
   var armedDelete = null, armTimer;
 
   document.addEventListener('click', function (e) {
+    var go = e.target.closest('[data-go]');
+    if (go && !e.target.closest('a, button')) { location.hash = go.getAttribute('data-go'); return; }
     var t = e.target.closest('button, a');
     if (!t) return;
 
