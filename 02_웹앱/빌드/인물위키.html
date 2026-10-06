@@ -161,7 +161,7 @@
   /* ── 상단 틀(아티스트·기획사 배너) ── */
   .banner{max-width:700px;margin:0 auto 16px;border-radius:7px;color:#fff;background:linear-gradient(90deg,var(--b1),var(--b2));padding:14px 18px 8px;text-align:center;font-size:15px}
   .banner-head{display:flex;align-items:center;justify-content:center;gap:12px;padding:2px 0 12px;margin:0 18px;border-bottom:1px solid rgba(255,255,255,.8)}
-  .banner-head .wordmark{font-family:"Noto Serif KR","Nanum Myeongjo",serif;font-size:30px;font-weight:600;letter-spacing:.06em;line-height:1.2}
+  .banner-head .wordmark{font-family:inherit;font-size:30px;font-weight:800;letter-spacing:.04em;line-height:1.2}
   .banner-head .mark{width:44px;height:44px;border:2px solid #fff;border-radius:6px;display:grid;place-items:center;font-weight:800;font-size:17px;letter-spacing:-.02em}
   .banner-head .sep{width:1px;align-self:stretch;background:rgba(255,255,255,.85)}
   .banner-head .names{text-align:left;line-height:1.3}
@@ -174,7 +174,9 @@
   .banner-panel.open{display:block}
   .banner-panel .grp-title{background:var(--b1);color:#fff;font-weight:700;padding:3px;margin:0 0 10px;border-radius:2px}
   .album-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:14px 12px;margin-bottom:6px}
-  .album .cover{aspect-ratio:1;border-radius:2px;background:linear-gradient(135deg,var(--b1),var(--b2));display:grid;place-items:center;color:#fff;font-family:"Noto Serif KR",serif;font-weight:600;font-size:15px;padding:10px;margin-bottom:6px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+  .album .cover{aspect-ratio:1;border-radius:2px;background:linear-gradient(135deg,var(--b1),var(--b2));display:grid;place-items:center;color:#fff;font-family:inherit;font-weight:700;font-size:15px;padding:10px;margin-bottom:6px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+  .album .cover.art{padding:0;background:#fff;overflow:hidden}
+  .album .cover svg{display:block;width:100%;height:100%}
   .album{line-height:1.35}
   .album small{display:block;font-size:12px;color:#555}
   .album b{display:block}
@@ -2049,6 +2051,16 @@
     const days = Math.floor((TODAY - new Date(y, mo - 1, da)) / 86400000);
     return `+${days}일`;
   };
+  /* 앨범 표지: 제목 뜻을 살린 간단한 그림 (120×120). 없는 앨범은 색 타일에 제목만 */
+  const F = 'font-family:inherit';
+  const COVERS = {
+    '파란선': `<svg viewBox="0 0 120 120"><rect width="120" height="120" fill="#f3efe6"/><path d="M-4 78L124 66" stroke="#2b5cff" stroke-width="1.6"/><text x="12" y="26" font-size="12" font-weight="800" fill="#1d1d1f" style="${F}">파란선</text><text x="12" y="38" font-size="5.5" fill="#6b6b6b" letter-spacing="1.2" style="${F}">DIGITAL SINGLE 2023</text><text x="108" y="108" font-size="6.5" fill="#1d1d1f" text-anchor="end" style="${F}">이은호</text></svg>`,
+    '반경': `<svg viewBox="0 0 120 120"><rect width="120" height="120" fill="#1b1b1d"/><circle cx="60" cy="56" r="34" fill="none" stroke="#e8a04a" stroke-width="1.4"/><path d="M60 56L89 39" stroke="#e8a04a" stroke-width="1.4"/><circle cx="60" cy="56" r="1.8" fill="#e8a04a"/><text x="12" y="106" font-size="13" font-weight="800" fill="#fff" style="${F}">반경</text><text x="108" y="106" font-size="5.5" fill="#bdbdbd" text-anchor="end" letter-spacing="1.5" style="${F}">RADIUS</text></svg>`,
+    '낮게, 오래': `<svg viewBox="0 0 120 120"><defs><linearGradient id="lg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a2f45"/><stop offset="1" stop-color="#c9553d"/></linearGradient></defs><rect width="120" height="120" fill="url(#lg1)"/><rect x="0" y="86" width="120" height="2" fill="#f2d6b3" opacity=".9"/><rect x="0" y="94" width="92" height="2" fill="#f2d6b3" opacity=".7"/><rect x="0" y="102" width="118" height="2" fill="#f2d6b3" opacity=".5"/><rect x="0" y="110" width="70" height="2" fill="#f2d6b3" opacity=".35"/><text x="12" y="24" font-size="11" font-weight="700" fill="#fff" style="${F}">낮게, 오래</text><text x="12" y="34" font-size="5.5" fill="#f2d6b3" style="${F}">이은호</text></svg>`,
+    '두 번째 창': `<svg viewBox="0 0 120 120"><rect width="120" height="120" fill="#f7f4ee"/><g stroke="#9a948a" stroke-width="1.2" fill="none"><rect x="18" y="30" width="34" height="46"/><path d="M35 30v46M18 53h34"/></g><g stroke="#b9843a" stroke-width="1.2"><rect x="66" y="30" width="34" height="46" fill="#f1c27d"/><path d="M83 30v46M66 53h34" fill="none"/></g><text x="18" y="100" font-size="11" font-weight="800" fill="#1d1d1f" style="${F}">두 번째 창</text><text x="18" y="110" font-size="5.5" fill="#6b6b6b" style="${F}">이은호 미니 2집</text></svg>`,
+    '초점': `<svg viewBox="0 0 120 120"><rect width="120" height="120" fill="#0f1a22"/><g fill="none" stroke="#4d8a8a"><circle cx="60" cy="56" r="40" stroke-width=".6" opacity=".4"/><circle cx="60" cy="56" r="28" stroke-width=".8" opacity=".6"/><circle cx="60" cy="56" r="16" stroke-width="1"/><path d="M60 8v10M60 94v10M12 56h10M98 56h10" stroke-width="1"/></g><circle cx="60" cy="56" r="2" fill="#fff"/><text x="60" y="110" font-size="12" font-weight="800" fill="#fff" text-anchor="middle" style="${F}">초점</text></svg>`,
+    '천천히 말해': `<svg viewBox="0 0 120 120"><rect width="120" height="120" fill="#e9eef0"/><text x="14" y="52" font-size="17" font-weight="800" fill="#22465a" letter-spacing="7" style="${F}">천천히</text><text x="14" y="78" font-size="17" font-weight="300" fill="#22465a" letter-spacing="7" style="${F}">말해</text><circle cx="86" cy="75" r="1.4" fill="#22465a"/><circle cx="93" cy="75" r="1.4" fill="#22465a"/><circle cx="100" cy="75" r="1.4" fill="#22465a"/><text x="14" y="108" font-size="5.5" fill="#5b7f8f" style="${F}">김서진</text></svg>`
+  };
   const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   const resolve = name => DOCS[name] ? name : (DATA.aliases && DATA.aliases[name]) || name;
   const href = name => '#/w/' + encodeURIComponent(name);
@@ -2198,7 +2210,7 @@
     const panels = (nb.tabs || []).map(t => {
       let body = '';
       if (t.albums) body = `<div class="album-grid">${t.albums.map(([kind, title, date]) =>
-        `<div class="album"><div class="cover">${esc(title)}</div><small>${esc(kind)}</small><b>${esc(title)}</b><small>${esc(date || '')}</small></div>`).join('')}</div>`;
+        `<div class="album"><div class="cover${COVERS[title] ? ' art' : ''}">${COVERS[title] || esc(title)}</div><small>${esc(kind)}</small><b>${esc(title)}</b><small>${esc(date || '')}</small></div>`).join('')}</div>`;
       if (t.groups) body = t.groups.map(([g, names]) =>
         `<div class="grp-title">${esc(g)}</div><div class="chip-row">${names.map(n => link(...n.split('|'))).join('')}</div>`).join('');
       if (t.links) body = `<div class="chip-row">${t.links.map(n => link(n)).join('')}</div>`;
