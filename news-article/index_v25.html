@@ -922,7 +922,7 @@
         "자막": "또 너야?",
         "설명": "'동창회 가는 길' 방송 화면 캡처"
       },
-      "공개 턴": 2,
+      "공개 턴": 1,
       "반응": {
         "추천": 211,
         "반대": 9
@@ -1000,7 +1000,7 @@
         "자막": "혼난 건 너 혼자였거든?",
         "설명": "'동창회 가는 길' 방송 화면 캡처"
       },
-      "공개 턴": 2,
+      "공개 턴": 1,
       "반응": {
         "추천": 94,
         "반대": 3
@@ -1615,18 +1615,7 @@
   var TURNS = (DATA['매체']['턴'] || []).map(function (t) { return { name: t['이름'], ts: toTs(t['시각']), time: t['시각'], note: t['설명'] || '' }; });
   function turnIndex() { var i = store.get('turn', 0); return Math.max(0, Math.min(TURNS.length - 1, i | 0)); }
   function gameNow() { return TURNS.length ? TURNS[turnIndex()].ts : Date.now(); }   // 현재 시점. 이보다 늦은 기사·댓글은 아직 없는 것
-  // 기사는 (1) 현재 시점보다 먼저 쓰였고 (2) 데이터 "공개 턴"에 도달했을 때만 보인다. 공개 턴이 비었거나 숫자가 아니면 1턴
-  function openTurn(a) { var n = parseInt(a['공개 턴'], 10); return n > 0 ? n : 1; }
-  function visible(a) { return toTs(a['시각']) <= gameNow() && turnIndex() + 1 >= openTurn(a); }
-  // 데이터의 추천·반대는 "다 쌓인 값". 현재 시점에 글이 올라온 지 얼마나 됐는지에 따라 일부만 보여 준다
-  // (2시간 33%, 6시간 70%, 12시간 91%, 하루 99%, 36시간부터 100%)
-  var GROW_TAU = 5 * 60 * 60 * 1000, GROW_FULL = 36 * 60 * 60 * 1000;
-  function grown(n, ts) {
-    var age = gameNow() - ts;
-    if (!n || age >= GROW_FULL) return n || 0;
-    if (age <= 0) return 0;
-    return Math.round(n * (1 - Math.exp(-age / GROW_TAU)));
-  }
+  function visible(a) { return toTs(a['시각']) <= gameNow(); }
   function VIS() { return ARTICLES.filter(visible); }
   function setTurn(i) {
     var ta = store.get('rx:turnAt', {}) || {};
@@ -1657,7 +1646,7 @@
     var mod = getModeration(id), gnow = gameNow();
     var seed = (a['댓글'] || []).map(function (c, i) {
       var m = mod['s' + i];
-      return { id: 's' + i, seed: c, nick: c['닉네임'], text: c['내용'], time: fmtTs(toTs(c['시각'])), ts: toTs(c['시각']), up: grown(c['추천'], toTs(c['시각'])), down: grown(c['반대'], toTs(c['시각'])), mine: false, status: (m && m.status) || c['상태'] || '', reason: (m && m.reason) || c['사유'] || '' };
+      return { id: 's' + i, seed: c, nick: c['닉네임'], text: c['내용'], time: fmtTs(toTs(c['시각'])), ts: toTs(c['시각']), up: c['추천'] || 0, down: c['반대'] || 0, mine: false, status: (m && m.status) || c['상태'] || '', reason: (m && m.reason) || c['사유'] || '' };
     }).filter(function (cm) { return cm.ts <= gnow; });
     var mine = getMyComments(id).map(function (c) {
       var rx = rxFor(id, c);
@@ -1675,7 +1664,7 @@
     var mod = getModeration(id), gnow = gameNow();
     var seed = (cm.seed && cm.seed['답글'] ? cm.seed['답글'] : []).map(function (r, i) {
       var m = mod[cm.id + 'r' + i];
-      return { id: cm.id + 'r' + i, parent: cm.id, nick: r['닉네임'], text: r['내용'], time: fmtTs(toTs(r['시각'])), ts: toTs(r['시각']), up: grown(r['추천'], toTs(r['시각'])), down: grown(r['반대'], toTs(r['시각'])), mine: false, status: (m && m.status) || r['상태'] || '', reason: (m && m.reason) || r['사유'] || '' };
+      return { id: cm.id + 'r' + i, parent: cm.id, nick: r['닉네임'], text: r['내용'], time: fmtTs(toTs(r['시각'])), ts: toTs(r['시각']), up: r['추천'] || 0, down: r['반대'] || 0, mine: false, status: (m && m.status) || r['상태'] || '', reason: (m && m.reason) || r['사유'] || '' };
     }).filter(function (r) { return r.ts <= gnow; });
     var mine = getMyReplies(id).filter(function (r) { return r.parent === cm.id; }).map(function (r) {
       return { id: r.id, parent: r.parent, nick: r.anon ? '익명' : r.nick, anon: r.anon, text: r.text, time: r.time, ts: r.ts, up: 0, down: 0, mine: true };
@@ -1700,8 +1689,8 @@
   function counts(a) {
     var id = a['아이디'], base = a['반응'] || {}, v = getVote(id);
     return {
-      up: grown(base['추천'], toTs(a['시각'])) + (v === 'up' ? 1 : 0),
-      down: grown(base['반대'], toTs(a['시각'])) + (v === 'down' ? 1 : 0),
+      up: (base['추천'] || 0) + (v === 'up' ? 1 : 0),
+      down: (base['반대'] || 0) + (v === 'down' ? 1 : 0),
       vote: v,
       comments: allComments(a).length + replyTotal(a)   // 포털처럼 답글까지 셈 (현재 시점까지 보이는 것만)
     };
@@ -2393,7 +2382,7 @@
     else if (h === 'users') { if (isTeacher()) renderUsers(); else { renderList(); askTeacher(renderUsers); } }
     else if ((m = h.match(/^user-(.+)$/))) { var nk; try { nk = decodeURIComponent(m[1]); } catch (err) { nk = m[1]; } if (isTeacher()) renderUser(nk); else { renderList(); askTeacher(function () { renderUser(nk); }); } }
     else if (h === 'list') renderList();
-    else if ((m = h.match(/^article-([^/]+)(?:\/(comments|comment-(.+)))?$/)) && articleById[m[1]] && !visible(articleById[m[1]])) { renderList(); toast('아직 볼 수 없는 기사입니다.'); }
+    else if ((m = h.match(/^article-([^/]+)(?:\/(comments|comment-(.+)))?$/)) && articleById[m[1]] && !visible(articleById[m[1]])) { renderList(); toast('아직 올라오지 않은 기사입니다.'); }
     else if (m && articleById[m[1]] && !isCase(articleById[m[1]])) { if (!current) renderList(); lockedNotice(); return; }
     else if (m && articleById[m[1]]) {
       if (current !== m[1]) renderArticle(m[1]);
