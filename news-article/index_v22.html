@@ -144,38 +144,6 @@
   .rq-btns button:hover { border-color: #555; }
   .rq-btns button.ghost { color: var(--text-muted); }
   .modal .m-body .rq p { color: #333; }
-  /* 가상 반응 */
-  .rx-pill { border: 0; background: #e8344e; color: #fff; font-size: 12px; padding: 5px 10px; border-radius: 14px; margin-right: 4px; white-space: nowrap; }
-  .rx-pill b { font-weight: 700; margin-left: 2px; }
-  .rx-pill[hidden] { display: none; }
-  .rx-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #e8344e; margin-left: 4px; vertical-align: 2px; }
-  .ritem.rx-fresh { animation: rxFresh 2.4s ease-out; }
-  @keyframes rxFresh { 0% { background: #fff4bf; } 100% { background: transparent; } }
-  .rx-set { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
-  .rx-set > span { width: 32px; font-size: 12px; color: var(--text-muted); }
-  .rx-set .turns button { padding: 5px 12px; }
-  .rx-open { margin: 10px 0 8px; }
-  .rx-bad { color: #c62828; }
-  .rx-lint { margin: 0 0 10px; padding: 0 0 0 16px; font-size: 12px; color: #333; }
-  .rx-lint span { color: #c62828; }
-  .rx-vs { margin-top: 6px; }
-  .rx-vs button { padding: 4px 10px; font-size: 12px; }
-  .rxp-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 6px; }
-  .rxp-row label { display: grid; gap: 3px; font-size: 12px; color: var(--text-muted); }
-  .rxp-row select, .rxp-row input { font-size: 13px; padding: 5px 6px; border: 1px solid #ccc; border-radius: 3px; background: #fff; color: #111; }
-  .rxp-row .rxp-a { max-width: 190px; }
-  .rxp-row .rxp-s { width: 64px; }
-  .rxp-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .rxp-col textarea { width: 100%; box-sizing: border-box; font: inherit; font-size: 13px; padding: 7px; border: 1px solid #ccc; border-radius: 3px; resize: vertical; }
-  .rxp-v { font-size: 13px; margin: 6px 0; }
-  .rxp-v span { color: var(--text-muted); font-size: 12px; }
-  .rxp-turn { border-top: 1px solid #eee; padding: 6px 0; font-size: 12px; }
-  .rxp-th { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
-  .rxp-th em { font-style: normal; color: var(--text-muted); margin-left: auto; }
-  .rxp-turn ul { margin: 4px 0 0; padding: 0 0 0 14px; }
-  .rxp-empty { color: var(--text-muted); font-size: 12px; margin: 4px 0 !important; }
-  .modal.wide:has(.rxp) { width: 640px; }
-  @media (max-width: 640px) { .rxp-cols { grid-template-columns: 1fr; } }
   .tools-now { font-size: 12px; color: var(--text-muted); margin: 0 0 12px !important; }
 
   /* ---------- 공통 머리 ---------- */
@@ -1334,97 +1302,7 @@
         { "닉네임": "sunny_day", "시각": "2026.10.06 23:40", "내용": "자고 일어나면 또 뭐 나오겠지", "추천": 4, "반대": 0 }
       ]
     }
-  ],
-  "댓글 반응": {
-    "설명": "학생 댓글에 가상 네티즌이 반응한다. 문장은 아래 대본에서만 나온다(생성형 AI 없음). 답글 문장은 전부 초안이니 교사가 고친다.",
-    "켜기": true,
-    "세기": "보통",
-    "속도": "보통",
-    "추천 도착(초)": [6, 20, 45],
-    "답글 도착(초)": [15, 70],
-    "판정": [
-      { "이름": "차단", "말": ["시발", "씨발", "ㅅㅂ", "병신", "ㅂㅅ", "존나", "좆", "꺼져", "죽어", "미친년", "미친놈", "느금"] },
-      { "이름": "의심", "말": ["출처", "원본", "증거", "조작", "합성", "주작", "확인", "팩트", "누가 올린", "진짜임", "가짜", "캡처만", "뇌피셜"] },
-      { "이름": "반박", "말": ["사생활", "기레기", "기자", "선넘", "그만", "친구", "동창", "장난", "아니라", "아닌데", "응원", "놔줘", "불쌍"] },
-      { "이름": "동조", "말": ["사귀", "열애", "연애", "커플", "티났", "티 났", "티남", "맞네", "확정", "럽스타", "눈빛", "그럴줄", "알았", "결혼", "빼박", "수상"] }
-    ],
-    "기본 판정": "기타",
-    "턴": [
-      {
-        "턴": "1턴",
-        "동조": { "추천": [14, 26], "반대": [1, 4], "답글 수": [1, 2], "답글": [
-          { "닉네임": "hoonnn", "내용": "ㅇㅈ 나만 그렇게 본거 아니었네" },
-          { "닉네임": "치즈볼", "내용": "ㄹㅇ 말투가 그냥 커플임" },
-          { "닉네임": "ㅇㅇ", "내용": "222" },
-          { "닉네임": "곰돌2", "내용": "이건 빼박이지" },
-          { "닉네임": "포카칩조아", "내용": "아 나도 이생각함ㅋㅋ" },
-          { "닉네임": "퇴근시켜줘", "내용": "팬들 오늘 잠 못자겠네" }
-        ] },
-        "의심": { "추천": [2, 6], "반대": [8, 15], "답글 수": [1, 1], "답글": [
-          { "닉네임": "퇴근시켜줘", "내용": "캡처가 다 말해주는데 무슨 출처" },
-          { "닉네임": "민트초코러버", "내용": "또 팬이 쉴드치네" },
-          { "닉네임": "ㅇㅇ", "내용": "소속사 직원임?" },
-          { "닉네임": "치즈볼", "내용": "그럼 그 캡처는 누가 만들었는데" },
-          { "닉네임": "hoonnn", "내용": "아니면 아니라고 하겠지 기다려봐" }
-        ] },
-        "반박": { "추천": [4, 9], "반대": [9, 16], "답글 수": [1, 2], "답글": [
-          { "닉네임": "민트초코러버", "내용": "공인인데 이정도는 감수해야지" },
-          { "닉네임": "퇴근시켜줘", "내용": "사생활 타령 또 나왔다" },
-          { "닉네임": "은호만바라봐", "내용": "ㄹㅇ 남의 단톡을 왜 까" },
-          { "닉네임": "감자튀김", "내용": "팬인거 티남" },
-          { "닉네임": "kks1004", "내용": "기사 수준 보면 맞는말" }
-        ] },
-        "기타": { "추천": [1, 4], "반대": [0, 1], "답글 수": [0, 0], "답글": [] }
-      },
-      {
-        "턴": "2턴",
-        "동조": { "추천": [10, 20], "반대": [1, 3], "답글 수": [0, 1], "답글": [
-          { "닉네임": "곰돌2", "내용": "하루 지났는데 아직 입장 없음" },
-          { "닉네임": "치즈볼", "내용": "조용한게 더 수상" },
-          { "닉네임": "hoonnn", "내용": "이쯤되면 맞는거지" },
-          { "닉네임": "말랑콩떡", "내용": "커뮤마다 이 얘기뿐임" },
-          { "닉네임": "민트초코러버", "내용": "팬들 다 어디감" }
-        ] },
-        "의심": { "추천": [1, 4], "반대": [5, 10], "답글 수": [0, 1], "답글": [
-          { "닉네임": "퇴근시켜줘", "내용": "아직도 출처 타령ㅋㅋ" },
-          { "닉네임": "ㅇㅇ", "내용": "증거 더 나와야 믿을거임?" },
-          { "닉네임": "감자튀김", "내용": "의심병 걸렸네" },
-          { "닉네임": "jjw_0412", "내용": "근데 원본 본 사람 아무도 없음" },
-          { "닉네임": "가을타는중", "내용": "캡처 한장으로 여기까지 옴" }
-        ] },
-        "반박": { "추천": [1, 4], "반대": [5, 9], "답글 수": [0, 1], "답글": [
-          { "닉네임": "민트초코러버", "내용": "아직도 부정중" },
-          { "닉네임": "하늘보리", "내용": "기다려보자는데 왜 욕먹음" },
-          { "닉네임": "서진이꽃길만", "내용": "애들 일에 지장 없었으면" },
-          { "닉네임": "치즈볼", "내용": "팬심 빼고 봐 좀" }
-        ] },
-        "기타": { "추천": [0, 2], "반대": [0, 1], "답글 수": [0, 0], "답글": [] }
-      },
-      {
-        "턴": "3턴",
-        "동조": { "추천": [3, 8], "반대": [8, 14], "답글 수": [1, 1], "답글": [
-          { "닉네임": "hoonnn", "내용": "사실무근이라고 끝난거 아님" },
-          { "닉네임": "퇴근시켜줘", "내용": "친한 동료 ㅋㅋㅋ 다들 처음엔 그러지" },
-          { "닉네임": "kks1004", "내용": "이제 그만 좀 해라" },
-          { "닉네임": "하늘보리", "내용": "소속사가 아니라잖아" },
-          { "닉네임": "곰돌2", "내용": "생일사진은 설명 안해줌" }
-        ] },
-        "의심": { "추천": [6, 12], "반대": [1, 4], "답글 수": [0, 1], "답글": [
-          { "닉네임": "jjw_0412", "내용": "처음부터 이말 하던 사람 있었음" },
-          { "닉네임": "가을타는중", "내용": "캡처 하나로 며칠을 떠든거냐" },
-          { "닉네임": "민트초코러버", "내용": "부인하면 끝임? 순진하네" },
-          { "닉네임": "치즈볼", "내용": "근데 캡처는 왜 가짜라고 안함" }
-        ] },
-        "반박": { "추천": [2, 5], "반대": [6, 12], "답글 수": [1, 1], "답글": [
-          { "닉네임": "민트초코러버", "내용": "거봐는 무슨 아직 몰라" },
-          { "닉네임": "퇴근시켜줘", "내용": "소속사 말을 믿냐" },
-          { "닉네임": "은호만바라봐", "내용": "ㅇㅇ 이제 좀 놔줘" },
-          { "닉네임": "ㅇㅇ", "내용": "입장문 복붙 수준인데" }
-        ] },
-        "기타": { "추천": [0, 2], "반대": [0, 1], "답글 수": [0, 0], "답글": [] }
-      }
-    ]
-  }
+  ]
 }
 </script>
 
@@ -1607,8 +1485,6 @@
   function visible(a) { return toTs(a['시각']) <= gameNow(); }
   function VIS() { return ARTICLES.filter(visible); }
   function setTurn(i) {
-    var ta = store.get('rx:turnAt', {}) || {};
-    if (i > turnIndex() || !ta[i]) { ta[i] = Date.now(); store.set('rx:turnAt', ta); }
     store.set('turn', i);
     renderClock();
     route();
@@ -1638,8 +1514,7 @@
       return { id: 's' + i, seed: c, nick: c['닉네임'], text: c['내용'], time: fmtTs(toTs(c['시각'])), ts: toTs(c['시각']), up: c['추천'] || 0, down: c['반대'] || 0, mine: false, status: (m && m.status) || c['상태'] || '', reason: (m && m.reason) || c['사유'] || '' };
     }).filter(function (cm) { return cm.ts <= gnow; });
     var mine = getMyComments(id).map(function (c) {
-      var rx = rxFor(id, c);
-      return { id: c.id, nick: c.anon ? '익명' : c.nick, anon: c.anon, text: c.text, time: c.time, ts: c.ts, up: rx.up, down: rx.down, mine: true, rx: rx };
+      return { id: c.id, nick: c.anon ? '익명' : c.nick, anon: c.anon, text: c.text, time: c.time, ts: c.ts, up: 0, down: 0, mine: true };
     });
     return seed.concat(mine).map(function (c) {
       c.react = react[c.id] || '';
@@ -1658,12 +1533,7 @@
     var mine = getMyReplies(id).filter(function (r) { return r.parent === cm.id; }).map(function (r) {
       return { id: r.id, parent: r.parent, nick: r.anon ? '익명' : r.nick, anon: r.anon, text: r.text, time: r.time, ts: r.ts, up: 0, down: 0, mine: true };
     });
-    var auto = (cm.mine && cm.rx ? cm.rx.replies : []).map(function (r) {
-      var m = mod[r.id], o = {}; for (var k in r) o[k] = r[k];
-      o.status = (m && m.status) || ''; o.reason = (m && m.reason) || '';
-      return o;
-    });
-    return seed.concat(mine, auto).map(function (r) {
+    return seed.concat(mine).map(function (r) {
       r.react = react[r.id] || '';
       if (r.react === 'up') r.up++;
       if (r.react === 'down') r.down++;
@@ -1688,137 +1558,6 @@
   function profile() { return store.get('profile', null); }
   function myNick() { var p = profile(); return p ? p['닉네임'] : ''; }
   function anonUsed() { return store.get('anonUsed', false); }
-
-  // ================= 가상 네티즌 반응 (대본 + 고정 난수) =================
-  // 학생 댓글이 올라오면 판정(동조, 의심, 반박, 기타, 차단)을 정하고, 데이터 "댓글 반응" 대본에서 추천, 반대, 답글을 고른다.
-  // 고르는 값은 (기사, 턴, 판정, 출석번호, 그 기사에서 몇 번째 댓글)로 정해지므로 어느 반에서 해도, 새로고침해도 같다.
-  // 반응은 실제 시간으로 몇 초에 걸쳐 도착한다. 턴이 넘어가면 이미 있던 댓글에도 그 턴의 반응이 새로 쌓인다.
-  var RX = DATA['댓글 반응'] || null;
-  var RX_LEVELS = { '보통': 1, '과열': 2 };
-  var RX_SPEEDS = { '느리게': 1.6, '보통': 1, '시연': 0.15 };
-  function rxSetting(k) {
-    var local = store.get('rx:' + k, null);
-    if (local != null) return local;
-    if (!RX) return null;
-    return k === 'on' ? RX['켜기'] !== false : k === 'level' ? (RX['세기'] || '보통') : (RX['속도'] || '보통');
-  }
-  function hash32(str) {
-    var h = 0x811c9dc5;
-    for (var i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 0x01000193); }
-    return h >>> 0;
-  }
-  function mulberry32(a) {
-    return function () {
-      a = (a + 0x6D2B79F5) | 0;
-      var t = Math.imul(a ^ (a >>> 15), 1 | a);
-      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-    };
-  }
-  function rint(rnd, range) { var lo = range[0] | 0, hi = range[1] | 0; return lo + Math.floor(rnd() * (hi - lo + 1)); }
-  // 판정: 금칙어가 하나라도 있으면 차단. 아니면 낱말이 가장 많이 맞은 쪽, 같으면 목록 위쪽(의심 > 반박 > 동조)
-  function rxJudge(text) {
-    if (!RX) return { v: '기타', hits: [] };
-    var t = String(text).replace(/\s+/g, ' '), best = null;
-    RX['판정'].forEach(function (rule) {
-      var hits = rule['말'].filter(function (w) { return t.indexOf(w) > -1; });
-      if (rule['이름'] === '차단') { if (hits.length && !best) best = { v: '차단', hits: hits, n: 999 }; return; }
-      if (hits.length && (!best || hits.length > best.n)) best = { v: rule['이름'], hits: hits, n: hits.length };
-    });
-    return best ? { v: best.v, hits: best.hits } : { v: RX['기본 판정'] || '기타', hits: [] };
-  }
-  function attendNo() {
-    var p = profile(), m = p && String(p['학번이름'] || '').match(/^(\d+)/);
-    return m ? m[1].slice(-2) : '00';
-  }
-  // 한 턴(j) 동안 받을 반응 묶음. 실제 시각과 상관없이 늘 같은 값
-  function rxPlan(aid, j, v, att, n, myNickName) {
-    var row = RX && RX['턴'][j], cell = row && row[v];
-    if (!cell) return null;
-    var rnd = mulberry32(hash32([aid, j, v, att, n].join('|')));
-    var lvl = RX_LEVELS[rxSetting('level')] || 1;
-    var up = rint(rnd, cell['추천'] || [0, 0]) * lvl, down = rint(rnd, cell['반대'] || [0, 0]) * lvl;
-    var pool = (cell['답글'] || []).filter(function (r) { return r['닉네임'] !== myNickName; });
-    var want = Math.min(pool.length, rint(rnd, cell['답글 수'] || [0, 0]));
-    var picks = [];
-    while (picks.length < want) { var k = Math.floor(rnd() * pool.length); if (picks.indexOf(k) < 0) picks.push(k); }
-    var steps = RX['추천 도착(초)'] || [6, 20, 45], rr = RX['답글 도착(초)'] || [15, 70];
-    var stepAt = steps.map(function (s) { return s * (0.8 + rnd() * 0.4); });
-    var replies = picks.map(function (k, i) {
-      var at = rr[0] + rnd() * (rr[1] - rr[0]) + i * 12;
-      return { src: pool[k], at: at, up: Math.floor(rnd() * 9 * lvl), down: Math.floor(rnd() * 3), min: 2 + Math.floor(rnd() * 9) };
-    });
-    return { up: up, down: down, stepAt: stepAt, replies: replies, v: v };
-  }
-  function turnAt(j) { return (store.get('rx:turnAt', {}) || {})[j] || 0; }
-  // 내 댓글 c 의 지금까지 도착한 반응. preview 가 있으면 시간과 상관없이 전부 도착한 것으로 계산
-  function rxFor(aid, c, opt) {
-    var out = { up: 0, down: 0, replies: [], next: 0, v: c.v || '', turns: [] };
-    if (!RX || (!opt && !rxSetting('on'))) return out;
-    var v = c.vOverride || c.v || rxJudge(c.text).v;
-    out.v = v;
-    if (v === '차단') return out;
-    var k = c.turn == null ? turnIndex() : c.turn, cur = opt ? (opt.until != null ? opt.until : RX['턴'].length - 1) : turnIndex();
-    var nowMs = Date.now(), speed = RX_SPEEDS[rxSetting('speed')] || 1;
-    var att = opt ? opt.att : (c.att || attendNo()), n = c.n || 0;
-    for (var j = k; j <= cur && j < RX['턴'].length; j++) {
-      var plan = rxPlan(aid, j, v, att, n, opt ? '' : myNick());
-      if (!plan) continue;
-      var start = j === k ? (c.rt || 0) : Math.max(turnAt(j), c.rt || 0);
-      var el = opt ? Infinity : (nowMs - start) / 1000;
-      var parts = [0.3, 0.35, 0.35], gu = 0, gd = 0;
-      plan.stepAt.forEach(function (s, i) {
-        var at = s * speed;
-        if (el >= at) { gu += Math.round(plan.up * parts[i]); gd += Math.round(plan.down * parts[i]); }
-        else if (!out.next || start + at * 1000 < out.next) out.next = start + at * 1000;
-      });
-      if (el >= plan.stepAt[2] * speed) { gu = plan.up; gd = plan.down; }
-      out.up += gu; out.down += gd;
-      var baseTs = j === k ? c.ts : TURNS[j].ts - 9 * 60000;
-      plan.replies.forEach(function (r, i) {
-        var at = r.at * speed;
-        if (el < at) { if (!out.next || start + at * 1000 < out.next) out.next = start + at * 1000; return; }
-        var ts = baseTs + (r.min + i * 3) * 60000;
-        out.replies.push({ id: c.id + '_rx' + j + '_' + i, parent: c.id, nick: r.src['닉네임'], text: r.src['내용'], ts: ts, time: fmtTs(ts), up: r.up, down: r.down, auto: true, turn: j });
-      });
-      out.turns.push({ j: j, plan: plan });
-    }
-    return out;
-  }
-  // 대본 검사: 길이, 가운뎃점, 존댓말 어미, 마침표
-  function rxLint() {
-    var bad = [];
-    if (!RX) return bad;
-    RX['턴'].forEach(function (row) {
-      Object.keys(row).forEach(function (v) {
-        var cell = row[v]; if (!cell || !cell['답글']) return;
-        cell['답글'].forEach(function (r) {
-          var t = r['내용'] || '', why = [];
-          if (t.length > 25) why.push('25자 넘음');
-          if (t.indexOf('·') > -1) why.push('가운뎃점');
-          if (/(요|니다|세요|습니다)[.!?~]*$/.test(t)) why.push('존댓말 끝맺음');
-          if (/\.$/.test(t)) why.push('마침표');
-          if (why.length) bad.push({ turn: row['턴'], v: v, nick: r['닉네임'], text: t, why: why.join(', ') });
-        });
-      });
-    });
-    return bad;
-  }
-  // 아직 안 본 가상 답글 (상단 알림용)
-  function rxUnseen() {
-    var seen = store.get('rx:seen', {}), out = [];
-    VIS().forEach(function (a) {
-      var aid = a['아이디'];
-      getMyComments(aid).forEach(function (c) {
-        rxFor(aid, c).replies.forEach(function (r) { if (!seen[r.id]) out.push({ aid: aid, cid: c.id, rid: r.id }); });
-      });
-    });
-    return out;
-  }
-  function rxMarkSeen(ids) {
-    if (!ids.length) return;
-    var seen = store.get('rx:seen', {}); ids.forEach(function (i) { seen[i] = 1; }); store.set('rx:seen', seen);
-  }
 
   // ================= 이미지 렌더러 =================
   var RENDER_IMAGE = {
@@ -1967,10 +1706,9 @@
   // ================= 화면: 기사 보기 =================
   var current = null;   // 지금 보고 있는 기사 아이디
   var PAGE = 10, shownCount = PAGE;   // 댓글은 10개씩 보여주고 '더보기'로 이어서
-  var sortMode = 'best';   // 기사를 열면 추천순이 먼저 (10-08 교사 지시). 내가 댓글을 쓰면 최신순으로 바뀌어 내 글이 맨 위에 보임
+  var sortMode = 'new';
   var openReplies = {};      // 펼쳐 둔 답글 스레드 { 댓글아이디: true }
   var rendered = {};         // 화면에 그린 댓글·답글 { 아이디: {nick, text} } — 신고창에서 씀
-  var freshIds = {};         // 방금 처음 보인 가상 답글 (노란 강조)
   var peeked = {};           // 블라인드 댓글 중 "내용 보기"를 누른 것 { 아이디: true }
   // 신고 처리된 댓글의 자리표시 (실제 포털처럼). 상태: 블라인드(신고 누적, 내용 보기 가능) / 삭제(운영 정책 위반) / 작성자 삭제
   function hiddenHTML(item) {
@@ -1989,7 +1727,6 @@
     var a = articleById[id], b = a['본문'], r = reporterOf(a), img = a['이미지'];
     current = id;
     shownCount = PAGE;
-    sortMode = 'best';
     openReplies = {};
     peeked = {};
     document.title = b['제목'] + ' - ' + OUTLET;
@@ -2057,7 +1794,7 @@
           moreBox +
           '<section class="comments" id="comments">' +
             '<div class="c-head"><h4><b data-ccount>0</b> 개의 댓글</h4>' +
-              '<div class="sort">' + (isTeacher() ? '<a class="who-link" href="#users">작성자별 보기</a>' : '') + '<button data-sort="best">추천순</button><button data-sort="new">최신순</button></div></div>' +
+              '<div class="sort">' + (isTeacher() ? '<a class="who-link" href="#users">작성자별 보기</a>' : '') + '<button data-sort="new">최신순</button><button data-sort="best">추천순</button></div></div>' +
             '<form class="cbox" id="cmtForm">' +
               '<div class="c-top" id="cmtTop"></div>' +
               '<textarea id="cmtText" maxlength="400" placeholder="댓글을 입력하세요. 다른 사람을 비방하는 댓글은 삭제될 수 있습니다."></textarea>' +
@@ -2121,8 +1858,6 @@
     var ul = document.getElementById('cmtList');
     if (!ul) return;
     rendered = {};
-    var seenMap = store.get('rx:seen', {}), toMark = [];
-    freshIds = {};
     function reportBtn(item) {
       if (item.mine) return '';
       return isReported(current, item.id)
@@ -2143,7 +1878,7 @@
             hiddenHTML(r) + '</li>';
         }
         rendered[r.id] = { nick: r.nick, text: r.text };
-        return '<li class="ritem' + (freshIds[r.id] ? ' rx-fresh' : '') + '">' +
+        return '<li class="ritem">' +
           '<div class="c-meta">' + nickHTML(r) + (r.mine ? '<span class="me-tag">내 답글</span>' : '') + '<span>' + esc(r.time) + '</span></div>' +
           '<p>' + esc(r.text) + '</p>' +
           '<div class="c-act">' + reactBtns(r, '답글') +
@@ -2165,8 +1900,6 @@
       var id = esc(cm.id);
       var isBest = bestIds.indexOf(cm.id) > -1;
       var rcount = repliesOf(a, cm).length, open = !!openReplies[cm.id];
-      var unseen = cm.mine && cm.rx ? cm.rx.replies.filter(function (r) { return !seenMap[r.id]; }).map(function (r) { return r.id; }) : [];
-      if (open && unseen.length) { unseen.forEach(function (i) { freshIds[i] = 1; }); toMark = toMark.concat(unseen); unseen = []; }
       if (cm.status) {
         return '<li class="citem is-hidden' + (open ? ' r-open' : '') + '">' +
           (cm.status === '블라인드' ? '<div class="c-meta"><b>' + esc(cm.nick) + '</b><span>' + esc(cm.time) + '</span></div>' : '') +
@@ -2182,15 +1915,13 @@
           '<span>' + esc(cm.time) + '</span></div>' +
         '<p>' + esc(cm.text) + '</p>' +
         '<div class="c-act">' + reactBtns(cm, '댓글') +
-          '<button type="button" class="c-sub r-toggle' + (open ? ' on' : '') + '" data-rtoggle="' + id + '" aria-expanded="' + open + '">답글' + (rcount ? ' <b>' + rcount + '</b>' : '') + (unseen.length ? '<i class="rx-dot" aria-label="새 답글"></i>' : '') + '</button>' +
+          '<button type="button" class="c-sub r-toggle' + (open ? ' on' : '') + '" data-rtoggle="' + id + '" aria-expanded="' + open + '">답글' + (rcount ? ' <b>' + rcount + '</b>' : '') + '</button>' +
           (cm.mine ? '<button class="del" data-cdel="' + id + '">삭제</button>' : reportBtn(cm)) +
         '</div>' +
         (open ? replyHTML(cm) : '') +
       '</li>';
     }).join('') : '<li class="cempty">아직 댓글이 없습니다. 첫 댓글을 남겨 보세요.</li>') +
       (left > 0 ? '<li class="cmore"><button type="button" data-more>댓글 더보기 <b>' + left + '</b></button></li>' : '');
-    rxMarkSeen(toMark);
-    renderRxPill();
   }
 
   // ================= 댓글 작성자(닉네임)별 모아보기 =================
@@ -2344,7 +2075,6 @@
     if (cid) {
       var parent = cid.indexOf('r') > 0 && cid.charAt(0) === 's' ? cid.slice(0, cid.indexOf('r')) : null;   // 시드 답글 s3r1 → 부모 s3
       if (!parent) { var mineR = getMyReplies(current).filter(function (r) { return r.id === cid; })[0]; if (mineR) parent = mineR.parent; }
-      if (!parent && cid.indexOf('_rx') > 0) parent = cid.split('_rx')[0];   // 가상 답글 → 내 댓글
       var target = parent || cid;
       shownCount = Math.max(shownCount, allComments(a).length);   // 전부 펼침
       if (parent) openReplies[parent] = true;
@@ -2605,17 +2335,8 @@
   function postComment(text, anon) {
     var list = getMyComments(current);
     var st = postStamp(latestTs(articleById[current]));
-    var jd = rxJudge(text), nOrd = store.get('rx:count:' + current, 0);
-    var cid = 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-    // v: 판정(고정), n: 이 기사에서 몇 번째 댓글, turn: 쓴 턴, rt: 실제로 쓴 시각, att: 출석번호
-    list.push({ id: cid, nick: anon ? '' : myNick(), anon: anon, text: text, time: st.time, ts: st.ts, v: jd.v, n: nOrd, turn: turnIndex(), rt: Date.now(), att: attendNo() });
-    store.set('rx:count:' + current, nOrd + 1);
+    list.push({ id: 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), nick: anon ? '' : myNick(), anon: anon, text: text, time: st.time, ts: st.ts });
     store.set('comments:' + current, list);
-    if (jd.v === '차단') {   // 금칙어: 반응 없이 교사 신고 접수함으로
-      var reps = getReports(current);
-      reps.push({ id: cid, nick: anon ? '익명' : myNick(), reason: '금칙어 자동 감지', detail: jd.hits.join(', '), time: now(), auto: true });
-      store.set('reports:' + current, reps);
-    }
     document.getElementById('cmtText').value = '';
     document.getElementById('cmtLen').textContent = '0';
     sortMode = 'new';
@@ -2817,7 +2538,6 @@
       body: '<h6 class="tools-h">현재 시점</h6><div class="turns">' + TURNS.map(function (tn, i) {
           return '<button type="button" data-set-turn="' + i + '"' + (i === turnIndex() ? ' class="on"' : '') + '>' + esc(tn.name) + '<small>' + esc(tn.time) + '</small></button>';
         }).join('') + '</div>' +
-        '<h6 class="tools-h">댓글 반응 <small>이 브라우저 설정</small></h6>' + rxToolsHTML() +
         '<h6 class="tools-h">신고 접수함 <small>' + pend + '건 대기</small></h6>' + reportsHTML() +
         '<h6 class="tools-h">기록 지우기</h6>' +
         '<p class="tools-now">' + (p ? '<b>' + esc(p['닉네임']) + '</b> / ' : '') + '내 댓글 ' + t.comments + '개, 답글 ' + t.replies + '개, 신고 ' + t.reports + '건</p>' +
@@ -2861,152 +2581,6 @@
       }
     });
   }
-
-
-  // ---------- 가상 반응: 상단 알림, 자동 새로 그림 ----------
-  function renderRxPill() {
-    var host = document.querySelector('.gnb .icons'); if (!host) return;
-    var el = document.getElementById('rxPill');
-    if (!el) {
-      el = document.createElement('button'); el.type = 'button'; el.id = 'rxPill'; el.className = 'rx-pill'; el.setAttribute('data-rx-pill', '');
-      host.insertBefore(el, host.firstChild);
-    }
-    var list = RX ? rxUnseen() : [];
-    el.hidden = !list.length;
-    el.innerHTML = '내 댓글에 새 답글 <b>' + list.length + '</b>';
-  }
-  var rxSig = '';
-  function rxSignature() {
-    var parts = [rxSetting('on'), rxSetting('level'), rxSetting('speed'), turnIndex()];
-    VIS().forEach(function (a) {
-      var aid = a['아이디'];
-      getMyComments(aid).forEach(function (c) { var r = rxFor(aid, c); parts.push(c.id + ':' + r.up + '/' + r.down + '/' + r.replies.length); });
-    });
-    return parts.join(',');
-  }
-  // 학생이 답글을 쓰는 중이어도 글이 날아가지 않게 입력값을 지켰다가 다시 넣는다
-  function rxSoftRefresh() {
-    if (!current) { renderRxPill(); return; }
-    var keep = {}, act = document.activeElement;
-    document.querySelectorAll('[data-rform]').forEach(function (f) {
-      var ta = f.querySelector('textarea'), an = f.querySelector('input[name="anon"]');
-      keep[f.getAttribute('data-rform')] = { v: ta.value, focus: act === ta, s: ta.selectionStart, e: ta.selectionEnd, anon: an ? an.checked : false };
-    });
-    var y = window.scrollY;
-    refreshReactions();
-    Object.keys(keep).forEach(function (id) {
-      var f = document.querySelector('[data-rform="' + CSS.escape(id) + '"]'); if (!f) return;
-      var k = keep[id], ta = f.querySelector('textarea'), an = f.querySelector('input[name="anon"]');
-      ta.value = k.v; if (an) an.checked = k.anon;
-      var n = f.querySelector('[data-rlen]'); if (n) n.textContent = k.v.length;
-      if (k.focus) { ta.focus(); try { ta.setSelectionRange(k.s, k.e); } catch (err) {} }
-    });
-    window.scrollTo(0, y);
-  }
-  setInterval(function () {
-    if (!RX) return;
-    var sig = rxSignature();
-    if (sig === rxSig) return;
-    var first = !rxSig; rxSig = sig;
-    if (first) { renderRxPill(); return; }
-    rxSoftRefresh();
-  }, 1500);
-
-  // ---------- 가상 반응: 교사 도구 ----------
-  var RX_VERDICTS = ['동조', '의심', '반박', '기타', '차단'];
-  function rxToolsHTML() {
-    if (!RX) return '<p class="tools-now">데이터에 "댓글 반응"이 없습니다.</p>';
-    function btns(key, opts) {
-      return opts.map(function (o) {
-        var cur = rxSetting(key), on = key === 'on' ? (o[0] === '1') === !!cur : o[0] === cur;
-        return '<button type="button" data-rx-set="' + key + ':' + esc(o[0]) + '"' + (on ? ' class="on"' : '') + '>' + esc(o[1]) + '</button>';
-      }).join('');
-    }
-    var lint = rxLint();
-    return '<div class="rx-set"><span>반응</span><div class="turns">' + btns('on', [['1', '켜짐'], ['0', '꺼짐']]) + '</div></div>' +
-      '<div class="rx-set"><span>세기</span><div class="turns">' + btns('level', [['보통', '보통'], ['과열', '과열']]) + '</div></div>' +
-      '<div class="rx-set"><span>속도</span><div class="turns">' + btns('speed', [['느리게', '느리게'], ['보통', '보통'], ['시연', '시연']]) + '</div></div>' +
-      '<div class="rq-btns rx-open"><button type="button" data-rx-preview>미리보기</button><button type="button" data-rx-log>이 브라우저 반응 기록</button></div>' +
-      '<p class="tools-now">' + (lint.length ? '대본 검사: <b class="rx-bad">' + lint.length + '줄 확인 필요</b>' : '대본 검사: 문제 없음') + '</p>' +
-      (lint.length ? '<ul class="rx-lint">' + lint.map(function (b) { return '<li><b>' + esc(b.turn + ' ' + b.v) + '</b> ' + esc(b.nick) + ' "' + esc(b.text) + '" <span>' + esc(b.why) + '</span></li>'; }).join('') + '</ul>' : '');
-  }
-  function rxPreviewOut(box) {
-    var aid = box.querySelector('.rxp-a').value, t = +box.querySelector('.rxp-t').value;
-    var sid = box.querySelector('.rxp-s').value.replace(/\D/g, '') || '00', n = +box.querySelector('.rxp-n').value;
-    box.querySelectorAll('.rxp-col').forEach(function (col) {
-      var text = col.querySelector('textarea').value.trim(), out = col.querySelector('.rxp-out');
-      if (!text) { out.innerHTML = '<p class="rxp-empty">문장을 넣으면 결과가 나옵니다.</p>'; return; }
-      var jd = rxJudge(text);
-      var c = { id: 'pv', text: text, v: jd.v, turn: t, n: n, ts: TURNS[t].ts - 9 * 60000, rt: 0 };
-      var r = rxFor(aid, c, { att: sid.slice(-2) });
-      var html = '<div class="rxp-v">판정 <b>' + esc(jd.v) + '</b>' + (jd.hits.length ? ' <span>' + esc(jd.hits.join(', ')) + '</span>' : ' <span>맞은 말 없음</span>') + '</div>';
-      if (jd.v === '차단') html += '<p class="rxp-empty">반응 없이 신고 접수함으로 갑니다.</p>';
-      var su = 0, sd = 0;
-      r.turns.forEach(function (x) {
-        su += x.plan.up; sd += x.plan.down;
-        var reps = r.replies.filter(function (p) { return p.turn === x.j; });
-        html += '<div class="rxp-turn"><div class="rxp-th"><b>' + esc(TURNS[x.j].name) + '</b><span>추천 +' + x.plan.up + '  반대 +' + x.plan.down + '</span><em>누적 ' + su + ' / ' + sd + '</em></div>' +
-          (reps.length ? '<ul>' + reps.map(function (p) { return '<li><b>' + esc(p.nick) + '</b> ' + esc(p.text) + '</li>'; }).join('') + '</ul>' : '<p class="rxp-empty">답글 없음</p>') + '</div>';
-      });
-      out.innerHTML = html;
-    });
-  }
-  function openRxPreview() {
-    var arts = ARTICLES.filter(isCase);
-    var col = function (ph) { return '<div class="rxp-col"><textarea maxlength="300" rows="2" placeholder="' + ph + '"></textarea><div class="rxp-out"></div></div>'; };
-    openModal({
-      title: '반응 미리보기', wide: true, single: true, ok: '닫기',
-      body: '<div class="rxp" data-rxp>' +
-        '<div class="rxp-row"><label>기사<select class="rxp-a">' + arts.map(function (a) { return '<option value="' + esc(a['아이디']) + '"' + (a['아이디'] === (current && isCaseId(current) ? current : 'a1') ? ' selected' : '') + '>' + esc(a['아이디'] + ' ' + a['본문']['제목'].slice(0, 18)) + '</option>'; }).join('') + '</select></label>' +
-        '<label>쓴 턴<select class="rxp-t">' + TURNS.map(function (tn, i) { return '<option value="' + i + '"' + (i === turnIndex() ? ' selected' : '') + '>' + esc(tn.name) + '</option>'; }).join('') + '</select></label>' +
-        '<label>학번<input class="rxp-s" value="1401" maxlength="5" inputmode="numeric"></label>' +
-        '<label>몇 번째<select class="rxp-n"><option value="0">첫 댓글</option><option value="1">두 번째</option><option value="2">세 번째</option></select></label></div>' +
-        '<p class="tools-now">같은 기사, 턴, 출석번호, 순번, 문장이면 어느 반에서나 이 결과가 그대로 나옵니다.</p>' +
-        '<div class="rxp-cols">' + col('문장 하나') + col('비교할 문장 (선택)') + '</div></div>'
-    });
-    var box = document.querySelector('[data-rxp]'); if (box) rxPreviewOut(box);
-  }
-  document.addEventListener('input', function (e) { var box = e.target.closest && e.target.closest('[data-rxp]'); if (box) rxPreviewOut(box); });
-  document.addEventListener('change', function (e) { var box = e.target.closest && e.target.closest('[data-rxp]'); if (box) rxPreviewOut(box); });
-  function openRxLog() {
-    var rows = [];
-    ARTICLES.forEach(function (a) {
-      var aid = a['아이디'];
-      getMyComments(aid).forEach(function (c) { rows.push({ a: a, c: c, r: rxFor(aid, c) }); });
-    });
-    openModal({
-      title: '이 브라우저 반응 기록', wide: true, single: true, ok: '닫기',
-      body: rows.length ? '<p class="tools-now">판정을 바꾸면 그 댓글의 반응이 새 판정으로 다시 정해집니다.</p><div class="rq">' + rows.map(function (x) {
-        var v = x.c.vOverride || x.r.v;
-        return '<div class="rq-item"><div class="rq-head"><b>' + esc(x.c.anon ? '익명' : x.c.nick) + '</b><span>' + esc(x.a['아이디'] + ' ' + TURNS[x.c.turn || 0].name) + '</span></div>' +
-          '<p class="rq-text">' + esc(x.c.text) + '</p>' +
-          '<div class="rq-reason">받은 반응: 추천 ' + x.r.up + ', 반대 ' + x.r.down + ', 답글 ' + x.r.replies.length + '</div>' +
-          '<div class="turns rx-vs">' + RX_VERDICTS.map(function (k) { return '<button type="button" data-rx-v="' + esc(x.a['아이디'] + '|' + x.c.id + '|' + k) + '"' + (k === v ? ' class="on"' : '') + '>' + k + '</button>'; }).join('') + '</div></div>';
-      }).join('') + '</div>' : '<p class="tools-now">이 브라우저에서 쓴 댓글이 없습니다.</p>'
-    });
-  }
-  document.addEventListener('click', function (e) {
-    var b = e.target.closest('[data-rx-set], [data-rx-preview], [data-rx-log], [data-rx-v], [data-rx-pill]');
-    if (!b) return;
-    if (b.hasAttribute('data-rx-pill')) {
-      var u = rxUnseen()[0]; if (!u) return;
-      var h = '#article-' + u.aid + '/comment-' + encodeURIComponent(u.rid);
-      if (location.hash === h) jumpToComment(u.rid); else location.hash = h;
-      return;
-    }
-    if (b.hasAttribute('data-rx-preview')) { openRxPreview(); return; }
-    if (b.hasAttribute('data-rx-log')) { openRxLog(); return; }
-    if (b.hasAttribute('data-rx-v')) {
-      var p = b.getAttribute('data-rx-v').split('|'), list = getMyComments(p[0]);
-      list.forEach(function (c) { if (c.id === p[1]) c.vOverride = p[2]; });
-      store.set('comments:' + p[0], list);
-      rxSig = 'x'; openRxLog(); toast('판정을 ' + p[2] + '(으)로 바꿨습니다.');
-      return;
-    }
-    var kv = b.getAttribute('data-rx-set').split(':');
-    store.set('rx:' + kv[0], kv[0] === 'on' ? kv[1] === '1' : kv[1]);
-    rxSig = 'x'; openToolsModal();
-  });
 
   // ================= 시작 =================
   renderClock();
