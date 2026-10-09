@@ -3,288 +3,357 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=Nanum+Myeongjo:wght@700;800&family=Nanum+Pen+Script&display=swap">
 <style>
-/* 레이아웃: 위에 사건 머리띠와 '증거 시간자'(날짜 눈금 위에 증거가 꽂힘), 아래는 왼쪽 판단 노트와 오른쪽 증거함 두 단.
-   스타일: 교정지와 형광펜. 종이와 볼펜 잉크, 판단은 형광펜 세 가지로만 칠한다. 위키의 청록은 '움직이는 것'(단추, 링크)에만. */
+/* 레이아웃: 사건 파일 표지 → 증거 '자'(날짜 눈금) → 왼쪽 공책 한 장(판단 노트) + 오른쪽 증거함(출처마다 생김새가 다름).
+   스타일: 교정지와 형광펜. 색은 판정 형광 세 가지와 출처 세 가지에만. 움직임은 판정할 때 형광펜이 그어지는 한 번뿐. */
 :root {
-  --paper: #F3F5F2;      /* 바탕: 살짝 푸른 회백색 공책 종이 */
-  --sheet: #FFFFFF;      /* 카드와 노트 면 */
-  --ink: #1D2433;        /* 본문: 청흑색 볼펜 잉크 */
-  --graphite: #5B6472;   /* 보조 글자: 연필 */
-  --rule: #C9D3DA;       /* 공책 줄, 구분선 */
+  --paper: #F3F5F2;      /* 바탕: 푸른 기 도는 회백색 종이 */
+  --sheet: #FFFFFF;      /* 공책 면, 증거 조각 */
+  --newsprint: #EEEFEA;  /* 기사 조각: 신문 용지 */
+  --ink: #1D2433;        /* 볼펜 잉크 */
+  --graphite: #5B6472;   /* 연필 (흰 바탕 5.98:1) */
+  --rule: #C9D3DA;       /* 공책 줄 */
   --rule-soft: #E2E8EB;
-  --wiki: #0E9F92;       /* 문영위키 청록: 누르는 것 */
-  --wiki-ink: #0A7A70;   /* 청록 글자 (흰 바탕 대비 확보) */
-  --news: #2F6FB5;       /* 출처: 기사 */
-  --sns: #C2477F;        /* 출처: SNS */
-  --hl-true: #7FD8F5;    /* 형광 하늘: 사실이다 */
-  --hl-false: #FF8FB8;   /* 형광 분홍: 사실이 아니다 */
-  --hl-open: #FFE45C;    /* 형광 노랑: 아직 모른다 */
-  --mark-ink: #1D2433;   /* 형광 위 글자는 어느 테마에서도 잉크색 */
-  --shadow: 0 1px 0 rgba(29, 36, 51, .06), 0 6px 18px rgba(29, 36, 51, .07);
+  --sel: #E9EEF0;        /* 고른 주장 바탕 */
+  --wiki: #0E9F92;       /* 위키 청록 (선, 점) */
+  --wiki-ink: #0A7A70;   /* 위키 글자와 단추 바탕 (흰 글자 5.21:1) */
+  --news: #2F6FB5;
+  --sns: #C2477F;
+  --pencil-red: #C8372D; /* '지금' 표시 하나에만 */
+  --btn-bg: #0A7A70; --btn-fg: #FFFFFF;
+  --hl-true: #7FD8F5; --hl-false: #FF8FB8; --hl-open: #FFE45C;
+  --mark-ink: #1D2433;
+  /* 형광펜 자국: 끝이 거친 획 (SVG를 늘려 씀) */
+  --hl-img-true: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20' preserveAspectRatio='none'%3E%3Cpath d='M2 6C18 4 40 4.6 62 3.4S90 2.6 98.6 3.6L99.2 6.4 97.8 9.6 99.4 13.8 97.2 17C78 18.2 52 17.4 30 18.4S6 18.6 1.4 17.4L.6 13.4 2.2 9.8.8 6.6Z' fill='%237FD8F5'/%3E%3C/svg%3E");
+  --hl-img-false: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20' preserveAspectRatio='none'%3E%3Cpath d='M2 6C18 4 40 4.6 62 3.4S90 2.6 98.6 3.6L99.2 6.4 97.8 9.6 99.4 13.8 97.2 17C78 18.2 52 17.4 30 18.4S6 18.6 1.4 17.4L.6 13.4 2.2 9.8.8 6.6Z' fill='%23FF8FB8'/%3E%3C/svg%3E");
+  --hl-img-open: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20' preserveAspectRatio='none'%3E%3Cpath d='M2 6C18 4 40 4.6 62 3.4S90 2.6 98.6 3.6L99.2 6.4 97.8 9.6 99.4 13.8 97.2 17C78 18.2 52 17.4 30 18.4S6 18.6 1.4 17.4L.6 13.4 2.2 9.8.8 6.6Z' fill='%23FFE45C'/%3E%3C/svg%3E");
   --f-head: "Nanum Myeongjo", "Noto Serif KR", "AppleMyungjo", serif;
   --f-body: "IBM Plex Sans KR", "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
   --f-hand: "Nanum Pen Script", "Nanum Pen", cursive;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper: #121822; --sheet: #1A2230; --ink: #E6EAF0; --graphite: #9AA4B2; --rule: #2E3848; --rule-soft: #243042;
-    --wiki: #2CC3B3; --wiki-ink: #5FD9CB; --news: #7FAEE8; --sns: #E886B4;
-    --hl-true: #74CDEA; --hl-false: #F58BB2; --hl-open: #F5DA55;
-    --shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 8px 22px rgba(0, 0, 0, .35); color-scheme: dark;
+    --paper: #121822; --sheet: #1A2230; --newsprint: #20283A; --ink: #E6EAF0; --graphite: #9AA4B2; --rule: #364154; --rule-soft: #263143; --sel: #233046;
+    --wiki: #2CC3B3; --wiki-ink: #5FD9CB; --news: #7FAEE8; --sns: #E886B4; --pencil-red: #FF7A6E; --btn-bg: #2CC3B3; --btn-fg: #121822;
+    color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --paper: #121822; --sheet: #1A2230; --ink: #E6EAF0; --graphite: #9AA4B2; --rule: #2E3848; --rule-soft: #243042;
-  --wiki: #2CC3B3; --wiki-ink: #5FD9CB; --news: #7FAEE8; --sns: #E886B4;
-  --hl-true: #74CDEA; --hl-false: #F58BB2; --hl-open: #F5DA55;
-  --shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 8px 22px rgba(0, 0, 0, .35); color-scheme: dark;
+  --paper: #121822; --sheet: #1A2230; --newsprint: #20283A; --ink: #E6EAF0; --graphite: #9AA4B2; --rule: #364154; --rule-soft: #263143; --sel: #233046;
+  --wiki: #2CC3B3; --wiki-ink: #5FD9CB; --news: #7FAEE8; --sns: #E886B4; --pencil-red: #FF7A6E; --btn-bg: #2CC3B3; --btn-fg: #121822;
+  color-scheme: dark;
 }
 * { box-sizing: border-box }
 [hidden] { display: none !important }
 html, body { background: var(--paper) }
 body { color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.6; padding-inline: 16px; padding-block: 0 48px; -webkit-font-smoothing: antialiased }
 a { color: var(--wiki-ink) }
-button { font: inherit; color: inherit }
+button, input, textarea { font: inherit; color: inherit }
 :focus-visible { outline: 2px solid var(--wiki); outline-offset: 2px }
 .wrap { max-width: 1180px; margin: 0 auto }
 h1, h2, h3 { font-family: var(--f-head); font-weight: 800; letter-spacing: -.01em; text-wrap: balance; margin: 0 }
 .num { font-variant-numeric: tabular-nums }
+.t-true { --hl: var(--hl-true); --hl-img: var(--hl-img-true) }
+.t-false { --hl: var(--hl-false); --hl-img: var(--hl-img-false) }
+.t-open { --hl: var(--hl-open); --hl-img: var(--hl-img-open) }
 
-/* 사건 머리띠 */
-.case { display: flex; align-items: center; gap: 12px 20px; flex-wrap: wrap; padding-block: 18px 14px; border-bottom: 2px solid var(--ink) }
-.brand { display: flex; align-items: baseline; gap: 10px; margin-right: auto; min-width: 0 }
-.brand h1 { font-size: 26px }
-.brand span { color: var(--graphite); font-size: 14px }
-.turn { display: flex; align-items: center; gap: 8px; font-size: 14px }
-.turn b { background: var(--ink); color: var(--paper); border-radius: 3px; padding: 1px 8px; font-weight: 700 }
-.tabs { display: flex; gap: 4px }
-.tab { text-decoration: none; color: var(--graphite); font-weight: 500; padding: 6px 12px; border-radius: 4px }
-.tab[aria-current="page"] { color: var(--ink); background: var(--sheet); box-shadow: inset 0 0 0 1px var(--rule) }
-.btn { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--rule); background: var(--sheet); border-radius: 4px; padding: 6px 12px; font-size: 14px; cursor: pointer; text-decoration: none; color: var(--ink) }
-.btn:hover { border-color: var(--wiki); color: var(--wiki-ink) }
-.btn.pri { background: var(--wiki); border-color: var(--wiki); color: #fff; font-weight: 700 }
-.btn.pri:hover { filter: brightness(1.06); color: #fff }
+/* 맨 위 줄 */
+.top { display: flex; align-items: center; gap: 8px 16px; flex-wrap: wrap; padding-block: 14px 10px }
+.brand { font-family: var(--f-head); font-weight: 800; font-size: 17px; margin-right: auto }
+.tabs { display: flex; gap: 14px }
+.tab { text-decoration: none; color: var(--graphite); font-weight: 500; padding-block: 6px; border-bottom: 2px solid transparent }
+.tab[aria-current="page"] { color: var(--ink); border-bottom-color: var(--ink) }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid var(--graphite); background: transparent; border-radius: 3px; padding: 6px 12px; font-size: 14px; cursor: pointer; text-decoration: none; color: var(--ink); min-height: 34px }
+.btn:hover { border-color: var(--ink) }
+.btn.pri { background: var(--btn-bg); border-color: var(--btn-bg); color: var(--btn-fg); font-weight: 700 }
+.btn.pri:hover { filter: brightness(1.08) }
 
-/* 증거 시간자: 이 화면의 기억에 남는 한 가지 */
-.ruler-box { margin-block: 18px 22px }
-.ruler-head { display: flex; align-items: baseline; justify-content: space-between; gap: 4px 12px; flex-wrap: wrap; margin-bottom: 6px }
-.ruler-head h2 { flex-shrink: 0 }
-.ruler-head h2 { font-size: 17px }
+/* 사건 파일 표지 */
+.cover { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 24px; align-items: end; border-top: 3px solid var(--ink); border-bottom: 1px solid var(--ink); padding-block: 14px 16px }
+.file-no { font-size: 13px; color: var(--graphite); grid-column: 1 / -1 }
+.cover h1 { font-size: clamp(24px, 4vw, 34px); line-height: 1.25 }
+.cover dl { display: flex; gap: 6px 22px; flex-wrap: wrap; margin: 0; font-size: 14px }
+.cover dl div { display: flex; align-items: baseline; gap: 8px }
+.cover dt { color: var(--graphite) }
+.cover dd { margin: 0; font-weight: 500 }
+.cover input { border: 0; border-bottom: 1.5px solid var(--graphite); background: transparent; font-family: var(--f-hand); font-size: 22px; line-height: 1.1; width: 9em; padding: 0 2px; color: var(--ink) }
+.cover input::placeholder { font-family: var(--f-body); font-size: 14px; color: var(--graphite) }
+@media (max-width: 640px) { .cover { grid-template-columns: 1fr } }
+
+/* 증거 자: 날짜 눈금 위에 증거가 꽂힌다 */
+.ruler-box { margin-block: 22px 26px }
+.ruler-head { display: flex; align-items: baseline; gap: 4px 12px; flex-wrap: wrap; margin-bottom: 4px }
+.ruler-head h2 { font-size: 18px }
 .ruler-head p { margin: 0; color: var(--graphite); font-size: 13.5px }
-.ruler-scroll { overflow-x: auto; padding-bottom: 6px }
-.ruler { position: relative; min-width: 720px; height: 150px; background:
-  repeating-linear-gradient(90deg, transparent 0 calc(100% / 71 - 1px), var(--rule-soft) calc(100% / 71 - 1px) calc(100% / 71)); border-top: 1px solid var(--rule); border-bottom: 2px solid var(--ink) }
-.month { position: absolute; bottom: -24px; transform: translateX(-1px); font-size: 12.5px; color: var(--graphite); border-left: 2px solid var(--ink); padding-left: 5px; height: 30px; line-height: 44px }
-.today { position: absolute; top: -4px; bottom: -2px; border-left: 2px dashed var(--wiki) }
-.today span { position: absolute; top: -18px; left: 4px; font-size: 12px; color: var(--wiki-ink); font-weight: 700; white-space: nowrap }
-.pin { position: absolute; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 2px; border: 0; background: none; padding: 0; cursor: pointer; max-width: 150px }
-.pin i { width: 11px; height: 11px; border-radius: 50%; background: var(--sheet); border: 2.5px solid var(--src, var(--graphite)) }
-.pin .stem { width: 1.5px; background: var(--src, var(--graphite)); opacity: .55; flex: 1 }
-.pin em { font-style: normal; font-size: 12.5px; line-height: 1.3; background: var(--sheet); border: 1px solid var(--rule); border-radius: 3px; padding: 2px 6px; white-space: nowrap; color: var(--ink) }
-.pin.dim { opacity: .38 }
-.pin.on em { border-color: var(--ink); box-shadow: 2px 2px 0 var(--ink) }
+.swipe-hint { font-size: 13px; color: var(--graphite) }
+.ruler-scroll { overflow-x: auto; padding-bottom: 4px }
+.ruler-scroll.scrollable { -webkit-mask-image: linear-gradient(90deg, transparent, #000 28px, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(90deg, transparent, #000 28px, #000 calc(100% - 28px), transparent) }
+.ruler { position: relative; min-width: 760px; height: 176px; margin-inline: 14px }
+.axis { position: absolute; left: 0; right: 0; top: 122px; border-top: 2px solid var(--ink) }
+.tick { position: absolute; bottom: 54px; width: 1px; background: var(--graphite); height: 5px }
+.tick.wk { height: 11px; width: 1.5px }
+.tick.mo { height: 22px; width: 2px; background: var(--ink) }
+.tlabel { position: absolute; top: 128px; transform: translateX(-50%); font-size: 11.5px; color: var(--graphite) }
+.tlabel.mo { transform: none; margin-left: -1px; font-size: 13px; font-weight: 700; color: var(--ink) }
+.now { position: absolute; top: 0; height: 124px; border-left: 2px solid var(--pencil-red); z-index: 1 }
+.now span { position: absolute; top: 150px; left: -4px; white-space: nowrap; font-size: 12.5px; font-weight: 700; color: var(--pencil-red) }
+.pin { position: absolute; z-index: 2; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; border: 0; background: none; padding: 0 6px; cursor: pointer; color: var(--ink) }
+.pin em { font-style: normal; font-size: 12.5px; line-height: 1.3; white-space: nowrap; background: var(--paper); padding: 1px 3px }
+.pin .stem { width: 1px; background: var(--graphite); flex: 1 }
+.pin i { width: 9px; height: 9px; border-radius: 50%; background: var(--paper); border: 2px solid var(--src); margin-bottom: -5px }
+.pin.dim { color: var(--graphite) }
+.pin.dim em { opacity: .7 }
+.pin.on em { font-weight: 700; text-decoration: underline 2px; text-underline-offset: 3px }
 .pin.on i { background: var(--src) }
-.ruler-note { margin: 30px 0 0; font-size: 13px; color: var(--graphite) }
+.src-wiki { --src: var(--wiki) } .src-news { --src: var(--news) } .src-sns { --src: var(--sns) }
 
 /* 두 단 */
 .desk { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr); gap: 28px; align-items: start }
 @media (max-width: 860px) { .desk { grid-template-columns: minmax(0, 1fr) } }
-.col-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--rule) }
-.col-head h2 { font-size: 20px }
-.col-head p { margin: 0; color: var(--graphite); font-size: 13.5px }
-.col-head .btn { margin-left: auto }
+.col-head { display: flex; align-items: baseline; gap: 6px 12px; flex-wrap: wrap; margin-bottom: 10px }
+.col-head h2 { font-size: 21px }
+.col-head p { margin: 0; color: var(--graphite); font-size: 14px }
 
-/* 판단 노트: 공책 줄 위의 주장 */
-.claims { display: flex; flex-direction: column; gap: 14px }
-.claim { background: var(--sheet); border: 1px solid var(--rule); border-radius: 4px; padding: 14px 16px 12px; box-shadow: var(--shadow); cursor: pointer }
-.claim.sel { border-color: var(--ink); box-shadow: 4px 4px 0 var(--ink) }
-.claim h3 { font-size: 18px; line-height: 1.45 }
-.claim h3 .mark { color: var(--mark-ink) }
-.claim-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 8px; font-size: 13px; color: var(--graphite) }
+/* 판단 노트: 공책 한 장 */
+.notebook { background: var(--sheet); border: 1px solid var(--rule); border-radius: 2px; padding: 0; margin: 0; list-style: none; position: relative }
+.notebook::before { content: ""; position: absolute; top: 0; bottom: 0; left: 40px; border-left: 3px double var(--rule); pointer-events: none }
+.claim { display: grid; grid-template-columns: 40px minmax(0, 1fr); border-bottom: 1px solid var(--rule) }
+.claim:last-child { border-bottom: 0 }
+.claim.sel { background: var(--sel) }
+.claim.drop { background: var(--sel); box-shadow: inset 0 0 0 2px var(--ink) }
+.margin { font-family: var(--f-hand); font-size: 30px; line-height: 1; text-align: center; padding-top: 14px; color: var(--ink) }
+.claim-body { padding: 14px 16px 12px 18px; min-width: 0 }
+.claim-title { display: block; width: 100%; text-align: left; border: 0; background: none; padding: 0; cursor: pointer; font-family: var(--f-head); font-weight: 800; font-size: 18px; line-height: 1.55; color: var(--ink) }
+.claim-title:hover .plain { text-decoration: underline 1px; text-underline-offset: 4px }
+.mark { background-image: var(--hl-img); background-repeat: no-repeat; background-size: 100% 100%; -webkit-box-decoration-break: clone; box-decoration-break: clone; padding: .06em .3em .1em; margin-inline: -.2em; color: var(--mark-ink) }
+.mark.draw { animation: draw .5s cubic-bezier(.3, .7, .3, 1) both }
+@keyframes draw { from { background-size: 0% 100% } }
+@media (prefers-reduced-motion: reduce) { .mark.draw { animation: none } }
 .verdicts { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px }
-.vbtn { border: 1px solid var(--rule); background: transparent; border-radius: 999px; padding: 4px 12px 4px 10px; font-size: 13.5px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; color: var(--ink) }
-.vbtn::before { content: ""; width: 14px; height: 9px; border-radius: 2px; background: var(--hl); transform: skewX(-12deg) }
-.vbtn[aria-pressed="true"] { background: var(--hl); border-color: var(--hl); color: var(--mark-ink); font-weight: 700 }
-.vbtn[aria-pressed="true"]::before { background: var(--mark-ink); opacity: .25 }
-.t-true { --hl: var(--hl-true) } .t-false { --hl: var(--hl-false) } .t-open { --hl: var(--hl-open) }
-/* 형광펜 자국: 판정이 난 주장 문장을 칠한다 */
-.mark { background: linear-gradient(100deg, transparent 0 1%, var(--hl) 2% 97%, transparent 99%); box-decoration-break: clone; -webkit-box-decoration-break: clone; padding: 0 3px; border-radius: 2px }
-.note { width: 100%; margin-top: 10px; border: 0; border-top: 1px dashed var(--rule); background:
-  repeating-linear-gradient(transparent 0 29px, var(--rule-soft) 29px 30px); font-family: var(--f-hand); font-size: 23px; line-height: 30px; color: var(--ink); resize: vertical; min-height: 64px; padding: 4px 2px 0 }
-.note::placeholder { color: var(--graphite); opacity: .8 }
-.add-claim { display: flex; gap: 8px; margin-top: 4px }
-.add-claim input { flex: 1; min-width: 0; border: 1px solid var(--rule); background: var(--sheet); border-radius: 4px; padding: 8px 10px; font: inherit; color: var(--ink) }
+/* 판정 단추: 형광펜 촉 모양 견본 + 이름. 누르면 단추 전체에 그 색이 그어진다 */
+.vbtn { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--graphite); background: transparent no-repeat center / 100% 100%; border-radius: 2px; padding: 5px 11px 5px 8px; font-size: 14px; cursor: pointer; color: var(--ink); min-height: 36px }
+.vbtn .nib { width: 22px; height: 11px; background: var(--hl); clip-path: polygon(0 18%, 78% 0, 100% 50%, 78% 100%, 0 82%) }
+.vbtn:hover { border-color: var(--ink) }
+.vbtn[aria-pressed="true"] { background-image: var(--hl-img); border-color: transparent; color: var(--mark-ink); font-weight: 700 }
+.vbtn[aria-pressed="true"] .nib { background: var(--mark-ink); opacity: .3 }
+.claim-meta { margin-top: 8px; font-size: 13.5px; color: var(--graphite) }
+.claim-meta b { color: var(--ink); font-weight: 700 }
+.note { width: 100%; margin-top: 8px; border: 0; background: repeating-linear-gradient(transparent 0 29px, var(--rule-soft) 29px 30px); font-family: var(--f-hand); font-size: 23px; line-height: 30px; color: var(--ink); resize: vertical; min-height: 62px; padding: 2px 2px 0 }
+.note::placeholder { font-family: var(--f-body); font-size: 14px; color: var(--graphite) }
+.add-claim { display: flex; gap: 8px; margin-top: 10px }
+.add-claim input { flex: 1; min-width: 0; border: 1px solid var(--graphite); background: var(--sheet); border-radius: 2px; padding: 8px 10px; color: var(--ink) }
 
 /* 증거함 */
-.filters { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px }
-.fbtn { border: 1px solid var(--rule); background: var(--sheet); border-radius: 999px; padding: 3px 11px; font-size: 13px; cursor: pointer; color: var(--graphite) }
-.fbtn[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink) }
-.evs { display: flex; flex-direction: column; gap: 10px }
-.ev { background: var(--sheet); border: 1px solid var(--rule); border-left: 4px solid var(--src); border-radius: 4px; padding: 10px 12px }
-.ev.linked { box-shadow: inset 0 0 0 1px var(--ink) }
-.ev-top { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--graphite); min-width: 0 }
-.chip { flex-shrink: 0; color: #fff; background: var(--src); border-radius: 3px; padding: 0 7px; font-weight: 700; font-size: 12px; line-height: 20px }
-.ev-from { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1 }
-.ev-date { flex-shrink: 0 }
-.ev p { margin: 6px 0 0; font-size: 14.5px; line-height: 1.6 }
-.ev q { quotes: none }
-.ev-foot { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 8px }
-.check { display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px; color: var(--graphite); border: 1px dashed var(--rule); border-radius: 3px; padding: 1px 7px; cursor: pointer; background: transparent }
-.check[aria-pressed="true"] { border-style: solid; border-color: var(--ink); color: var(--ink) }
-.check[aria-pressed="true"]::before { content: "✓"; font-weight: 700 }
-.ev-foot .btn { margin-left: auto; padding: 3px 10px; font-size: 13px }
-.src-wiki { --src: var(--wiki) } .src-news { --src: var(--news) } .src-sns { --src: var(--sns) }
-.empty { color: var(--graphite); font-size: 14px; border: 1px dashed var(--rule); border-radius: 4px; padding: 14px }
-.sample { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 26px; font-size: 13px; color: var(--graphite) }
+.target { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 8px); z-index: 5; background: var(--paper); border: 1.5px solid var(--ink); border-radius: 2px; padding: 8px 12px; margin-bottom: 12px; font-size: 14px }
+.target small { display: block; color: var(--graphite); font-size: 12.5px }
+.target b { font-family: var(--f-head); font-weight: 800; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden }
+.filters { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 12px; border-bottom: 1px solid var(--rule) }
+.fbtn { border: 0; background: none; padding: 6px 0; font-size: 14px; cursor: pointer; color: var(--graphite); border-bottom: 2px solid transparent; margin-bottom: -1px }
+.fbtn[aria-pressed="true"] { color: var(--ink); font-weight: 700; border-bottom-color: var(--ink) }
+.evs { display: flex; flex-direction: column; gap: 12px }
+.ev { position: relative; padding: 10px 12px; min-width: 0 }
+.ev[draggable="true"] { cursor: grab }
+.ev.linked { outline: 2px solid var(--ink); outline-offset: 2px }
+.ev p { margin: 4px 0 0; font-size: 14.5px; line-height: 1.6 }
+/* 위키 문단 조각 */
+.ev-wiki { background: var(--sheet); border: 1px solid var(--rule) }
+.ev-wiki .head { display: flex; gap: 8px; align-items: baseline; font-size: 12.5px; color: var(--graphite); min-width: 0 }
+.ev-wiki .sec { color: var(--wiki-ink); font-weight: 700; font-size: 13.5px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1 }
+.ev-wiki .cn { color: var(--wiki-ink); font-size: 11px; vertical-align: super }
+/* 신문 오려낸 조각 */
+.ev-news { background: var(--newsprint); border-top: 3px double var(--ink); border-bottom: 1px solid var(--rule) }
+.ev-news .head { display: flex; justify-content: space-between; gap: 8px; font-size: 12.5px; color: var(--graphite); border-bottom: 1px solid var(--rule); padding-bottom: 3px }
+.ev-news .head b { font-family: var(--f-head); font-weight: 800; color: var(--ink); font-size: 14px }
+.ev-news h4 { margin: 6px 0 0; font-family: var(--f-head); font-weight: 800; font-size: 16.5px; line-height: 1.45 }
+/* SNS 게시물 */
+.ev-sns { background: var(--sheet); border: 1px solid var(--rule); border-radius: 12px }
+.ev-sns .head { display: flex; align-items: center; gap: 8px; font-size: 13px; min-width: 0 }
+.ev-sns .av { width: 28px; height: 28px; border-radius: 50%; background: var(--sns); color: var(--sheet); display: grid; place-items: center; font-weight: 700; font-size: 13px; flex-shrink: 0 }
+.ev-sns .who { font-weight: 700; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.ev-sns .when { color: var(--graphite); margin-left: auto; flex-shrink: 0 }
+.from { margin-top: 6px; font-size: 12.5px; color: var(--graphite) }
+.ev-foot { display: flex; align-items: center; gap: 6px 12px; flex-wrap: wrap; margin-top: 8px }
+/* 확인 표시: 네모 칸에 연필 체크 */
+.check { display: inline-flex; align-items: center; gap: 6px; border: 0; background: none; padding: 2px 0; font-size: 13px; color: var(--graphite); cursor: pointer; min-height: 30px }
+.check .box { width: 16px; height: 16px; border: 1.5px solid var(--graphite); border-radius: 1px; display: grid; place-items: center; font-family: var(--f-hand); font-size: 22px; line-height: 0; color: var(--ink) }
+.check[aria-pressed="true"] { color: var(--ink) }
+.check[aria-pressed="true"] .box::after { content: "✓"; transform: translate(1px, -2px) }
+.ev-foot .btn { margin-left: auto; padding: 3px 10px; font-size: 13px; min-height: 30px }
+.linked-tag { font-family: var(--f-hand); font-size: 20px; line-height: 1; color: var(--ink) }
+.empty { color: var(--graphite); font-size: 14px; border: 1px dashed var(--graphite); padding: 14px }
+.sample { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 28px; font-size: 13.5px; color: var(--graphite) }
+
+@media (pointer: coarse) {
+  .vbtn, .btn, .fbtn, .check, .ev-foot .btn { min-height: 44px }
+  .pin { padding-inline: 10px }
+  .pin i { width: 13px; height: 13px; margin-bottom: -7px }
+}
 
 /* 디자인 시스템 탭 */
-.sys { display: grid; gap: 34px; padding-top: 22px }
-.sys section { display: grid; gap: 12px }
+.sys { display: grid; gap: 36px; padding-top: 24px }
+.sys section { display: grid; gap: 12px; min-width: 0 }
 .sys h2 { font-size: 22px }
-.sys > section > p { margin: 0; max-width: 65ch; color: var(--graphite) }
+.sys p.lead { margin: 0; max-width: 66ch; color: var(--graphite) }
 .principles { margin: 0; padding-left: 20px; max-width: 70ch; display: grid; gap: 6px }
-.swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px }
-.sw { background: var(--sheet); border: 1px solid var(--rule); border-radius: 4px; overflow: hidden }
-.sw div { height: 56px; background: var(--c); border-bottom: 1px solid var(--rule) }
-.sw p { margin: 0; padding: 8px 10px; font-size: 13px; line-height: 1.45 }
-.sw b { display: block; font-size: 13.5px }
-.sw code { font-family: var(--f-body); font-variant-numeric: tabular-nums; color: var(--graphite) }
-.group-label { font-weight: 700; font-size: 14px; margin-top: 4px }
+.strip { display: flex; border: 1px solid var(--rule); min-width: 0 }
+.strip > div { flex: 1; min-width: 0 }
+.strip i { display: block; height: 44px; background: var(--c) }
+.strip span { display: block; padding: 6px 8px; font-size: 12.5px; line-height: 1.4; border-top: 1px solid var(--rule); background: var(--sheet) }
+.strip b { display: block; font-size: 13px }
+.strip code { font-family: var(--f-body); font-variant-numeric: tabular-nums; color: var(--graphite) }
+@media (max-width: 640px) { .strip { flex-wrap: wrap } .strip > div { flex: 1 1 33% } }
+.glabel { font-weight: 700; font-size: 14px }
 .type-row { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 16px; align-items: baseline; padding-block: 10px; border-bottom: 1px solid var(--rule-soft) }
 @media (max-width: 600px) { .type-row { grid-template-columns: 1fr; gap: 4px } }
 .type-row small { color: var(--graphite); font-size: 13px; line-height: 1.5 }
-.comp { display: flex; gap: 14px; flex-wrap: wrap; align-items: flex-start }
+.comp { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-start }
 .comp > * { min-width: 0 }
-.dont { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px }
-.dont div { border: 1px solid var(--rule); border-radius: 4px; padding: 10px 12px; background: var(--sheet); font-size: 14px }
-.dont b { display: block; margin-bottom: 2px }
+.mini { flex: 1 1 240px; max-width: 360px }
+.plain-list { margin: 0; padding-left: 20px; display: grid; gap: 6px; max-width: 70ch }
 
-.toast { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 12px); background: var(--ink); color: var(--paper); padding: 9px 14px; border-radius: 4px; font-size: 14px; opacity: 0; pointer-events: none; transition: .2s }
+.toast { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 12px); background: var(--ink); color: var(--paper); padding: 9px 14px; border-radius: 3px; font-size: 14px; opacity: 0; pointer-events: none; transition: .2s; z-index: 20 }
 .toast.show { opacity: 1; transform: translate(-50%, 0) }
 @media (prefers-reduced-motion: reduce) { .toast { transition: none } }
-@media (max-width: 560px) { .brand h1 { font-size: 22px } .case { gap: 10px 12px } }
 </style>
 
 <div class="wrap">
-  <header class="case">
-    <div class="brand"><h1>문영 수사본부</h1><span>이은호 김서진 열애설 사건</span></div>
-    <div class="turn"><b>1턴</b><span class="num">2월 4일 (수) 12:00</span></div>
+  <div class="top">
+    <span class="brand">문영 수사본부</span>
     <nav class="tabs" aria-label="화면">
       <a class="tab" href="#desk" id="tabDesk" aria-current="page">수사 데스크</a>
       <a class="tab" href="#system" id="tabSys">디자인 시스템</a>
     </nav>
     <a class="btn pri" href="https://claude.ai/artifact/JM9iRLeWXGpZZE3h4RTWDV" target="_blank" rel="noopener">문영위키 열기</a>
-  </header>
+  </div>
 
   <main id="desk">
+    <section class="cover" aria-label="사건 파일">
+      <div class="file-no num">사건 파일 2026-02</div>
+      <h1>이은호 김서진 열애설</h1>
+      <dl>
+        <div><dt>현재 시점</dt><dd class="num">1턴, 2월 4일 (수) 12:00</dd></div>
+        <div><dt><label for="team">모둠</label></dt><dd><input id="team" autocomplete="off" placeholder="모둠 이름"></dd></div>
+      </dl>
+    </section>
+
     <section class="ruler-box" aria-labelledby="rulerTitle">
       <div class="ruler-head">
-        <h2 id="rulerTitle">증거 시간자</h2>
-        <p>증거가 일어난 날짜에 꽂힙니다. 주장을 고르면 그 주장에 연결한 증거만 진하게 보입니다.</p>
+        <h2 id="rulerTitle">증거 자</h2>
+        <p id="rulerNote"></p>
+        <span class="swipe-hint" id="swipeHint" hidden>옆으로 밀어 보세요</span>
       </div>
-      <div class="ruler-scroll"><div class="ruler" id="ruler"></div></div>
-      <p class="ruler-note" id="rulerNote"></p>
+      <div class="ruler-scroll" id="rulerScroll"><div class="ruler" id="ruler"></div></div>
     </section>
 
     <div class="desk">
       <section aria-labelledby="claimsTitle">
-        <div class="col-head"><h2 id="claimsTitle">판단 노트</h2><p>떠도는 주장마다 형광펜으로 판정합니다</p></div>
-        <div class="claims" id="claims"></div>
+        <div class="col-head"><h2 id="claimsTitle">판단 노트</h2><p id="claimStat"></p></div>
+        <ol class="notebook" id="claims"></ol>
         <form class="add-claim" id="addClaim">
-          <label class="sr" for="newClaim" hidden>새 주장</label>
+          <label for="newClaim" hidden>새 주장</label>
           <input id="newClaim" placeholder="새로 확인할 주장을 적으세요" autocomplete="off">
           <button class="btn" type="submit">주장 추가</button>
         </form>
       </section>
 
       <section aria-labelledby="evTitle">
-        <div class="col-head"><h2 id="evTitle">증거함</h2><p id="evCount"></p></div>
-        <div class="filters" id="filters"></div>
+        <div class="col-head"><h2 id="evTitle">증거함</h2><p id="evStat"></p></div>
+        <div class="target" id="target" aria-live="polite"></div>
+        <div class="filters" id="filters" role="group" aria-label="출처별로 보기"></div>
         <div class="evs" id="evs"></div>
       </section>
     </div>
 
-    <div class="sample"><span>처음 화면은 예시 기록입니다. 위키에서 스크랩한 증거가 이 증거함으로 들어오게 연결할 예정입니다.</span><button class="btn" type="button" id="reset">예시로 되돌리기</button></div>
+    <div class="sample"><span>연습용 예시가 들어 있습니다. 판정과 메모는 이 기기에만 남습니다.</span><button class="btn" type="button" id="reset">처음 상태로</button></div>
   </main>
 
   <main id="system" class="sys" hidden>
     <section>
       <h2>교정지와 형광펜</h2>
-      <p>학생은 소문을 지어내는 사람이 아니라 확인하는 사람입니다. 그래서 화면은 신문 교정지처럼 조용하고, 판단할 때만 형광펜 색이 나옵니다. 탐정 영화의 어두운 화면과 빨간 실 대신 학생이 실제로 손에 쥐는 공책, 볼펜, 형광펜에서 재료를 가져왔습니다.</p>
+      <p class="lead">학생은 소문을 지어내는 사람이 아니라 확인하는 사람입니다. 그래서 화면은 교정지처럼 조용하고 판단할 때만 형광펜 색이 나옵니다. 재료는 학생이 실제로 손에 쥐는 공책, 볼펜, 형광펜, 자, 신문 스크랩입니다.</p>
       <ol class="principles">
-        <li>색은 판단에만 씁니다. 형광 세 가지는 '사실이다', '사실이 아니다', '아직 모른다' 외에는 어디에도 쓰지 않습니다.</li>
-        <li>출처는 색 띠로 구분합니다. 위키 청록, 기사 파랑, SNS 자홍. 학생이 카드를 읽기 전에 어디서 온 증거인지 보입니다.</li>
-        <li>날짜가 증거입니다. 모든 증거는 날짜를 갖고 증거 시간자에 꽂힙니다. 순서를 따지는 판단(발매일과 메시지 날짜)을 화면이 돕습니다.</li>
-        <li>학생의 생각은 손글씨로 남깁니다. 확정된 정보는 인쇄체, 학생의 추론은 손글씨라서 둘이 섞이지 않습니다.</li>
+        <li>형광 세 가지는 판정에만 씁니다. 사실이다, 사실이 아니다, 아직 모른다.</li>
+        <li>출처는 생김새로 구분합니다. 위키는 위키 문단, 기사는 신문 오려낸 조각, SNS는 게시물 모양입니다.</li>
+        <li>모든 증거는 날짜를 갖고 증거 자에 꽂힙니다. 순서를 따지는 판단을 화면이 돕습니다.</li>
+        <li>확정된 정보는 인쇄체, 학생의 추론은 손글씨입니다.</li>
+        <li>움직임은 판정할 때 형광펜이 그어지는 한 번뿐입니다. 동작 줄이기 설정을 켜면 그것도 멈춥니다.</li>
       </ol>
     </section>
 
     <section>
       <h2>색</h2>
-      <p>밝은 테마 값입니다. 어두운 테마는 같은 역할로 바뀌고, 형광 위의 글자는 어느 테마에서도 잉크색입니다.</p>
-      <div class="group-label">바탕과 글자</div>
-      <div class="swatches">
-        <div class="sw"><div style="--c:#F3F5F2"></div><p><b>종이</b><code>#F3F5F2</code><br>화면 바탕</p></div>
-        <div class="sw"><div style="--c:#FFFFFF"></div><p><b>낱장</b><code>#FFFFFF</code><br>카드, 노트 면</p></div>
-        <div class="sw"><div style="--c:#1D2433"></div><p><b>볼펜 잉크</b><code>#1D2433</code><br>본문, 굵은 선</p></div>
-        <div class="sw"><div style="--c:#5B6472"></div><p><b>연필</b><code>#5B6472</code><br>보조 글자</p></div>
-        <div class="sw"><div style="--c:#C9D3DA"></div><p><b>공책 줄</b><code>#C9D3DA</code><br>구분선, 테두리</p></div>
+      <p class="lead">밝은 테마 값입니다. 어두운 테마는 같은 역할로 바뀌고, 형광 위의 글자는 어느 테마에서도 잉크색입니다.</p>
+      <div class="glabel">바탕과 글자</div>
+      <div class="strip">
+        <div><i style="--c:#F3F5F2"></i><span><b>종이</b><code>#F3F5F2</code></span></div>
+        <div><i style="--c:#FFFFFF"></i><span><b>공책 면</b><code>#FFFFFF</code></span></div>
+        <div><i style="--c:#EEEFEA"></i><span><b>신문 용지</b><code>#EEEFEA</code></span></div>
+        <div><i style="--c:#C9D3DA"></i><span><b>공책 줄</b><code>#C9D3DA</code></span></div>
+        <div><i style="--c:#5B6472"></i><span><b>연필</b><code>#5B6472</code></span></div>
+        <div><i style="--c:#1D2433"></i><span><b>볼펜 잉크</b><code>#1D2433</code></span></div>
       </div>
-      <div class="group-label">출처</div>
-      <div class="swatches">
-        <div class="sw"><div style="--c:#0E9F92"></div><p><b>위키 청록</b><code>#0E9F92</code><br>위키 증거, 누르는 단추</p></div>
-        <div class="sw"><div style="--c:#2F6FB5"></div><p><b>기사 파랑</b><code>#2F6FB5</code><br>문영일보 증거</p></div>
-        <div class="sw"><div style="--c:#C2477F"></div><p><b>SNS 자홍</b><code>#C2477F</code><br>SNS 증거</p></div>
+      <div class="glabel">출처와 단추</div>
+      <div class="strip">
+        <div><i style="--c:#0E9F92"></i><span><b>위키 청록</b><code>#0E9F92</code></span></div>
+        <div><i style="--c:#0A7A70"></i><span><b>위키 글자, 주요 단추</b><code>#0A7A70</code></span></div>
+        <div><i style="--c:#2F6FB5"></i><span><b>기사 파랑</b><code>#2F6FB5</code></span></div>
+        <div><i style="--c:#C2477F"></i><span><b>SNS 자홍</b><code>#C2477F</code></span></div>
+        <div><i style="--c:#C8372D"></i><span><b>빨간 연필 (지금)</b><code>#C8372D</code></span></div>
       </div>
-      <div class="group-label">판단 형광펜</div>
-      <div class="swatches">
-        <div class="sw"><div style="--c:#7FD8F5"></div><p><b>사실이다</b><code>#7FD8F5</code><br>형광 하늘</p></div>
-        <div class="sw"><div style="--c:#FF8FB8"></div><p><b>사실이 아니다</b><code>#FF8FB8</code><br>형광 분홍</p></div>
-        <div class="sw"><div style="--c:#FFE45C"></div><p><b>아직 모른다</b><code>#FFE45C</code><br>형광 노랑</p></div>
+      <div class="glabel">판정 형광펜</div>
+      <div class="strip">
+        <div><i style="--c:#7FD8F5"></i><span><b>사실이다</b><code>#7FD8F5</code></span></div>
+        <div><i style="--c:#FF8FB8"></i><span><b>사실이 아니다</b><code>#FF8FB8</code></span></div>
+        <div><i style="--c:#FFE45C"></i><span><b>아직 모른다</b><code>#FFE45C</code></span></div>
       </div>
+      <p class="lead">대비: 연필 글자 5.98:1, 주요 단추의 흰 글자 5.21:1, 형광 위 잉크 12:1 이상.</p>
     </section>
 
     <section>
       <h2>글꼴</h2>
       <div>
-        <div class="type-row"><small>제목<br>나눔명조 ExtraBold</small><h3 style="font-size:26px">《천천히 말해》는 답장이었을까</h3></div>
-        <div class="type-row"><small>본문과 화면 글자<br>IBM Plex Sans KR</small><p style="margin:0">공개된 캡처에는 이은호가 "요새 연락도 없고"라고 보낸 메시지가 담겨 있었다. 숫자는 <span class="num">2026.02.03 23:41</span>처럼 칸이 맞게 씁니다.</p></div>
-        <div class="type-row"><small>학생의 추론<br>나눔손글씨 펜</small><p style="margin:0;font-family:var(--f-hand);font-size:25px;line-height:1.3">노래가 먼저 나왔는데 답장이라고?</p></div>
+        <div class="type-row"><small>제목, 주장, 기사 제목<br>나눔명조 ExtraBold</small><h3 style="font-size:26px">《천천히 말해》는 답장이었을까</h3></div>
+        <div class="type-row"><small>본문과 화면 글자<br>IBM Plex Sans KR</small><p style="margin:0">공개된 캡처에는 이은호가 "요새 연락도 없고"라고 보낸 메시지가 담겨 있었다. 날짜는 <span class="num">2026.02.03</span>처럼 칸을 맞춥니다.</p></div>
+        <div class="type-row"><small>학생이 쓰는 칸<br>나눔손글씨 펜</small><p style="margin:0;font-family:var(--f-hand);font-size:25px;line-height:1.3">노래가 먼저 나왔는데 답장이라고?</p></div>
       </div>
-      <p>크기 단계는 13, 15, 18, 22, 26px. 제목만 명조, 나머지는 모두 IBM Plex Sans KR입니다. 손글씨는 학생이 쓰는 칸에만 씁니다.</p>
+      <p class="lead">크기 단계 13, 15, 18, 22, 26, 34px. 손글씨는 메모, 모둠 이름, 공책 여백 표시에만 씁니다.</p>
     </section>
 
     <section>
       <h2>요소</h2>
-      <div class="group-label">판정 단추와 형광펜 자국</div>
-      <div class="comp">
-        <div class="verdicts" style="margin:0">
-          <button class="vbtn t-true" type="button" aria-pressed="true">사실이다</button>
-          <button class="vbtn t-false" type="button" aria-pressed="false">사실이 아니다</button>
-          <button class="vbtn t-open" type="button" aria-pressed="false">아직 모른다</button>
-        </div>
+      <div class="glabel">판정 단추와 형광펜 자국</div>
+      <div class="verdicts" style="margin:0">
+        <button class="vbtn t-true" type="button" aria-pressed="true"><span class="nib"></span>사실이다</button>
+        <button class="vbtn t-false" type="button" aria-pressed="false"><span class="nib"></span>사실이 아니다</button>
+        <button class="vbtn t-open" type="button" aria-pressed="false"><span class="nib"></span>아직 모른다</button>
       </div>
-      <div class="comp" style="font-size:17px;font-family:var(--f-head);font-weight:800">
-        <span class="mark t-true" style="color:var(--mark-ink)">사실로 확인된 주장</span>
-        <span class="mark t-false" style="color:var(--mark-ink)">사실이 아닌 주장</span>
-        <span class="mark t-open" style="color:var(--mark-ink)">아직 모르는 주장</span>
+      <div class="comp" style="font-family:var(--f-head);font-weight:800;font-size:17px;line-height:1.8">
+        <span class="mark t-true">사실로 확인된 주장</span>
+        <span class="mark t-false">사실이 아닌 주장</span>
+        <span class="mark t-open">아직 모르는 주장</span>
       </div>
-      <div class="group-label">출처 표와 확인 표시</div>
+      <div class="glabel">출처별 증거 조각</div>
       <div class="comp">
-        <span class="chip src-wiki">위키</span><span class="chip src-news">기사</span><span class="chip src-sns">SNS</span>
-        <button class="check" type="button" aria-pressed="true">출처 있음</button>
-        <button class="check" type="button" aria-pressed="false">원문 확인</button>
+        <article class="ev ev-wiki mini"><div class="head"><span class="sec">6.1 이은호와의 열애설</span><span class="num">2026.02.04</span></div><p>위키 문단은 위키처럼 보입니다.<span class="cn">[출처 필요]</span></p></article>
+        <article class="ev ev-news mini"><div class="head"><b>문영일보</b><span class="num">2026.02.04</span></div><h4>기사는 신문 조각처럼 보입니다</h4></article>
+        <article class="ev ev-sns mini"><div class="head"><span class="av">S</span><span class="who">@seojin_official</span><span class="when num">2025.12.08</span></div><p>SNS는 게시물처럼 보입니다.</p></article>
+      </div>
+      <div class="glabel">확인 표시와 단추</div>
+      <div class="comp" style="align-items:center">
+        <button class="check" type="button" aria-pressed="true"><span class="box"></span>출처 있음</button>
+        <button class="check" type="button" aria-pressed="false"><span class="box"></span>원문 확인</button>
         <a class="btn pri" href="#system">주요 단추</a><a class="btn" href="#system">보조 단추</a>
       </div>
     </section>
 
     <section>
       <h2>쓰지 않는 것</h2>
-      <div class="dont">
-        <div><b>빨간 실, 어두운 탐정 화면</b>학생이 범인을 쫓는 게임으로 읽힙니다. 이 수업은 사람을 쫓지 않고 주장을 확인합니다.</div>
-        <div><b>판단 밖의 형광색</b>장식에 노랑을 쓰면 '아직 모른다'와 헷갈립니다.</div>
-        <div><b>정답 표시</b>화면은 학생이 고른 판정만 보여 줍니다. 맞고 틀림은 마지막 결과 화면에서만.</div>
-      </div>
+      <ul class="plain-list">
+        <li>빨간 실과 어두운 탐정 화면. 사람을 쫓는 게임으로 읽힙니다.</li>
+        <li>판정 밖의 형광색. 장식에 노랑을 쓰면 '아직 모른다'와 헷갈립니다.</li>
+        <li>모든 것을 같은 카드에 담기. 노트는 한 장의 공책, 증거는 출처마다 다른 조각입니다.</li>
+        <li>알약 모양 단추를 모든 곳에. 판정 단추만 눈에 띄게 하고 나머지는 글자와 밑줄로.</li>
+        <li>정답 표시. 화면은 학생이 고른 판정만 보여 줍니다.</li>
+      </ul>
     </section>
   </main>
 </div>
@@ -294,20 +363,22 @@ h1, h2, h3 { font-family: var(--f-head); font-weight: 800; letter-spacing: -.01e
 (() => {
   const $ = s => document.querySelector(s);
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
-  const KEY = 'moonyoung-desk-v1';
-  const SRC = { wiki: '위키', news: '기사', sns: 'SNS' };
+  const KEY = 'moonyoung-desk-v2';
   const VERDICT = { true: '사실이다', false: '사실이 아니다', open: '아직 모른다' };
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const finePointer = matchMedia('(pointer: fine)').matches;
 
   /* 예시 기록: 문영위키 1턴에서 볼 수 있는 내용만 썼다 */
   const SAMPLE = {
+    team: '',
     evidence: [
-      { id: 'e1', src: 'wiki', from: '김서진 6.1 이은호와의 열애설', date: '2026-02-04', short: '가사 해석 문단', text: '열애설이 알려진 뒤에는 2주 전 발매된 《천천히 말해》도 다시 주목받았다. 이은호가 보낸 메시지에 후렴 "천천히 말해 줘 / 나도 천천히 들을게"가 답처럼 들린다는 해석이 퍼졌다. [출처 필요]', checks: { 출처: false, 원문: true } },
-      { id: 'e2', src: 'wiki', from: '김서진 2.2 디지털 싱글 《천천히 말해》', date: '2026-01-22', short: '《천천히 말해》 발매', text: '디지털 싱글 < 천천히 말해 > 2026.01.22 발매. 타이틀곡 작사 김서진.', checks: { 출처: true, 원문: true } },
-      { id: 'e3', src: 'wiki', from: '김서진 6.1 이은호와의 열애설', date: '2026-02-03', short: '스토리 캡처', text: '공개된 캡처에는 이은호가 "요새 연락도 없고", "놀아줘"라고 보낸 뒤 "나 말고 딴 사람 생겼어?"라고 묻는 메시지가 담겨 있었다.', checks: { 출처: true, 원문: false } },
-      { id: 'e4', src: 'news', from: '문영일보 (김서진 문서 각주)', date: '2026-02-04', short: '첫 보도', text: '이은호·김서진, SNS 스토리에 \'비밀 연애\' 메시지 캡처 공개…"나 말고 딴 사람 생겼어?"', checks: { 출처: true, 원문: false } },
-      { id: 'e5', src: 'wiki', from: '김서진 문서 역사', date: '2026-02-04', short: '3분 만에 지워진 편집', text: '11:32 익명 편집 "두 사람은 연습생 때부터 사귀었다." 추가. 11:35 "근거 없는 서술"로 되돌림.', checks: { 출처: false, 원문: true } },
-      { id: 'e6', src: 'news', from: '문영일보 (김서진 문서 각주)', date: '2025-12-21', short: '반창회 모교 방문', text: '예고 동창 케미에 \'훈훈\'…이은호·김서진, \'반창회\'서 모교 방문', checks: { 출처: true, 원문: false } },
-      { id: 'e7', src: 'sns', from: 'SNS (김서진 문서 여담)', date: '2025-12-08', short: '《초점》 데뷔', text: '@seojin_official 데뷔 싱글 《초점》 발매 당일 게시물', checks: { 출처: true, 원문: false } }
+      { id: 'e1', src: 'wiki', sec: '김서진 6.1 이은호와의 열애설', date: '2026-02-04', short: '가사 해석 문단', text: '열애설이 알려진 뒤에는 2주 전 발매된 《천천히 말해》도 다시 주목받았다. 이은호가 보낸 메시지에 후렴 "천천히 말해 줘 / 나도 천천히 들을게"가 답처럼 들린다는 해석이 퍼졌다.', cn: true, checks: { 출처: false, 원문: true } },
+      { id: 'e2', src: 'wiki', sec: '김서진 2.2 디지털 싱글 《천천히 말해》', date: '2026-01-22', short: '《천천히 말해》 발매', text: '디지털 싱글 < 천천히 말해 > 2026.01.22 발매. 타이틀곡 작사 김서진.', checks: { 출처: true, 원문: true } },
+      { id: 'e3', src: 'wiki', sec: '김서진 6.1 이은호와의 열애설', date: '2026-02-03', short: '스토리 캡처', text: '공개된 캡처에는 이은호가 "요새 연락도 없고", "놀아줘"라고 보낸 뒤 "나 말고 딴 사람 생겼어?"라고 묻는 메시지가 담겨 있었다.', checks: { 출처: true, 원문: false } },
+      { id: 'e4', src: 'news', from: '김서진 문서 각주에서', date: '2026-02-04', short: '첫 보도', text: '이은호·김서진, SNS 스토리에 \'비밀 연애\' 메시지 캡처 공개…"나 말고 딴 사람 생겼어?"', checks: { 출처: true, 원문: false } },
+      { id: 'e5', src: 'wiki', sec: '김서진 문서 역사', date: '2026-02-04', short: '3분 만에 지워진 편집', text: '11:32 익명 편집 "두 사람은 연습생 때부터 사귀었다." 추가. 11:35 "근거 없는 서술"로 되돌림.', checks: { 출처: false, 원문: true } },
+      { id: 'e6', src: 'news', from: '김서진 문서 각주에서', date: '2025-12-21', short: '반창회 모교 방문', text: '예고 동창 케미에 \'훈훈\'…이은호·김서진, \'반창회\'서 모교 방문', checks: { 출처: true, 원문: false } },
+      { id: 'e7', src: 'sns', who: '@seojin_official', from: '김서진 문서 여담에서', date: '2025-12-08', short: '《초점》 데뷔', text: '데뷔 싱글 《초점》 발매 당일 게시물', checks: { 출처: true, 원문: false } }
     ],
     claims: [
       { id: 'c1', text: '《천천히 말해》는 이은호의 메시지에 답한 노래다', verdict: 'open', ev: ['e1', 'e2', 'e3'], note: '노래는 1월 22일, 메시지는 2월 3일. 답장이 먼저 나왔다?' },
@@ -324,92 +395,148 @@ h1, h2, h3 { font-family: var(--f-head); font-weight: 800; letter-spacing: -.01e
   const toastEl = $('#toast'); let tt;
   const toast = m => { toastEl.textContent = m; toastEl.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => toastEl.classList.remove('show'), 1800); };
   const selClaim = () => S.claims.find(c => c.id === S.sel);
-  const fmt = d => { const [y, m, dd] = d.split('-'); return `${y}.${m}.${dd}`; };
+  const evById = id => S.evidence.find(x => x.id === id);
+  const fmt = d => d.replace(/-/g, '.');
+  let justJudged = '';
 
-  /* 증거 시간자: 2025.12.01 ~ 2026.02.10 (71일) */
+  /* 증거 자: 2025.12.01 ~ 2026.02.10 */
   const START = Date.UTC(2025, 11, 1), DAYS = 71;
   const xOf = d => { const [y, m, dd] = d.split('-').map(Number); return Math.max(0, Math.min(1, (Date.UTC(y, m - 1, dd) - START) / 864e5 / DAYS)); };
   function renderRuler() {
     const c = selClaim(), linked = new Set(c ? c.ev : []);
-    const months = [['2025-12-01', '2025년 12월'], ['2026-01-01', '2026년 1월'], ['2026-02-01', '2월']];
-    const evs = S.evidence.filter(e => e.date).slice().sort((a, b) => a.date.localeCompare(b.date));
-    const rows = []; /* 겹치지 않게 이름표 높이를 나눈다 */
-    const placed = evs.map(e => {
+    let html = '<div class="axis"></div>';
+    for (let i = 0; i <= DAYS; i++) {
+      const d = new Date(START + i * 864e5), day = d.getUTCDate(), mon = d.getUTCMonth(), x = i / DAYS * 100;
+      const isMo = day === 1, isWk = d.getUTCDay() === 1;
+      html += `<span class="tick${isMo ? ' mo' : isWk ? ' wk' : ''}" style="left:${x}%"></span>`;
+      if (isMo) html += `<span class="tlabel mo" style="left:${x}%">${mon === 11 ? '2025년 12월' : mon === 0 ? '2026년 1월' : '2월'}</span>`;
+      else if (isWk && day > 5) html += `<span class="tlabel num" style="left:${x}%">${day}</span>`;
+    }
+    html += `<div class="now" style="left:${xOf('2026-02-04') * 100}%"><span>지금 1턴</span></div>`;
+    const rows = [];
+    S.evidence.filter(e => e.date).slice().sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id)).forEach(e => {
       const x = xOf(e.date); let r = 0;
-      while (rows[r] !== undefined && x - rows[r] < .13) r++;
-      rows[r] = x; return { e, x, r: Math.min(r, 3) };
+      while (rows[r] !== undefined && x - rows[r] < .15) r++;
+      rows[r] = x;
+      const cls = linked.has(e.id) ? ' on' : linked.size ? ' dim' : '';
+      html += `<button type="button" class="pin src-${e.src}${cls}" data-ev="${e.id}" style="left:${x * 100}%;top:${4 + Math.min(r, 3) * 26}px;bottom:54px" aria-label="${esc(fmt(e.date) + ' ' + e.short)}"><em>${esc(e.short)}</em><span class="stem"></span><i></i></button>`;
     });
-    $('#ruler').innerHTML = months.map(([d, l]) => `<span class="month num" style="left:${xOf(d) * 100}%">${l}</span>`).join('')
-      + `<span class="today" style="left:${xOf('2026-02-04') * 100}%"><span>지금 1턴</span></span>`
-      + placed.map(({ e, x, r }) => `<button type="button" class="pin src-${e.src}${linked.size && !linked.has(e.id) ? ' dim' : ''}${linked.has(e.id) ? ' on' : ''}" data-ev="${e.id}"
-          style="left:${x * 100}%;top:${10 + r * 30}px;bottom:-6px" title="${esc(fmt(e.date) + ' ' + e.short)}"><em>${esc(e.short)}</em><span class="stem"></span><i></i></button>`).join('');
-    $('#rulerNote').textContent = c ? `'${c.text}'에 연결한 증거 ${c.ev.length}개가 진하게 표시됩니다.` : '';
+    $('#ruler').innerHTML = html;
+    $('#rulerNote').textContent = c ? `고른 주장에 연결한 증거 ${c.ev.length}개를 밑줄로 표시했습니다.` : '증거가 일어난 날짜에 꽂혀 있습니다.';
+  }
+  function rulerHint() {
+    const r = $('#rulerScroll'), can = r.scrollWidth > r.clientWidth + 2;
+    r.classList.toggle('scrollable', can); $('#swipeHint').hidden = !can;
   }
 
   function renderClaims() {
-    $('#claims').innerHTML = S.claims.map(c => `
-      <article class="claim${c.id === S.sel ? ' sel' : ''}" data-claim="${c.id}" tabindex="0" aria-label="주장: ${esc(c.text)}">
-        <h3>${c.verdict ? `<span class="mark t-${c.verdict}">${esc(c.text)}</span>` : esc(c.text)}</h3>
-        <div class="verdicts" role="group" aria-label="판정">
-          ${['true', 'false', 'open'].map(v => `<button type="button" class="vbtn t-${v}" data-v="${v}" aria-pressed="${c.verdict === v}">${VERDICT[v]}</button>`).join('')}
+    const judged = S.claims.filter(c => c.verdict && c.verdict !== 'open').length;
+    $('#claimStat').textContent = `판정 ${judged}, 남은 주장 ${S.claims.length - judged}`;
+    $('#claims').innerHTML = S.claims.map(c => {
+      const names = c.ev.map(evById).filter(Boolean).map(e => e.short);
+      return `
+      <li class="claim${c.id === S.sel ? ' sel' : ''}" data-claim="${c.id}">
+        <span class="margin" aria-hidden="true">${c.id === S.sel ? '✓' : ''}</span>
+        <div class="claim-body">
+          <button type="button" class="claim-title" data-pick aria-pressed="${c.id === S.sel}">${c.verdict ? `<span class="mark t-${c.verdict}${c.id === justJudged && !reduce ? ' draw' : ''}">${esc(c.text)}</span>` : `<span class="plain">${esc(c.text)}</span>`}</button>
+          <div class="verdicts" role="group" aria-label="판정">
+            ${['true', 'false', 'open'].map(v => `<button type="button" class="vbtn t-${v}" data-v="${v}" aria-pressed="${c.verdict === v}"><span class="nib"></span>${VERDICT[v]}</button>`).join('')}
+          </div>
+          <div class="claim-meta">${names.length ? `연결한 증거 <b class="num">${names.length}</b>: ${esc(names.join(', '))}` : '아직 연결한 증거가 없습니다'}</div>
+          <label for="note-${c.id}" hidden>내 생각</label>
+          <textarea class="note" id="note-${c.id}" data-note="${c.id}" rows="2" placeholder="왜 그렇게 판단했나요? 어떤 증거 때문인가요?">${esc(c.note)}</textarea>
         </div>
-        <div class="claim-meta"><span>연결한 증거 <b class="num">${c.ev.length}</b>개</span>${c.ev.map(id => { const e = S.evidence.find(x => x.id === id); return e ? `<span class="chip src-${e.src}" title="${esc(e.short)}">${SRC[e.src]}</span>` : ''; }).join('')}</div>
-        <label hidden for="note-${c.id}">내 생각</label>
-        <textarea class="note" id="note-${c.id}" data-note="${c.id}" rows="2" placeholder="내 생각을 적어 두세요">${esc(c.note)}</textarea>
-      </article>`).join('');
+      </li>`;
+    }).join('');
+    justJudged = '';
   }
 
+  function evHtml(e, linked, c) {
+    const foot = `<div class="ev-foot">
+        ${['출처', '원문'].map(k => `<button type="button" class="check" data-check="${k}" data-id="${e.id}" aria-pressed="${!!e.checks[k]}"><span class="box"></span>${k === '출처' ? '출처 있음' : '원문 확인'}</button>`).join('')}
+        ${linked ? '<span class="linked-tag">연결됨</span>' : ''}
+        ${c ? `<button type="button" class="btn" data-link="${e.id}">${linked ? '연결 끊기' : '이 주장에 연결'}</button>` : ''}
+      </div>`;
+    const attrs = `class="ev ev-${e.src}${linked ? ' linked' : ''}" id="ev-${e.id}" tabindex="-1" data-drag="${e.id}" draggable="${finePointer}"`;
+    if (e.src === 'news') return `<article ${attrs}><div class="head"><b>문영일보</b><span class="num">${fmt(e.date)}</span></div><h4>${esc(e.text)}</h4><div class="from">${esc(e.from)}</div>${foot}</article>`;
+    if (e.src === 'sns') return `<article ${attrs}><div class="head"><span class="av" aria-hidden="true">${esc(e.who.replace(/^@/, '').slice(0, 1).toUpperCase())}</span><span class="who">${esc(e.who)}</span><span class="when num">${fmt(e.date)}</span></div><p>${esc(e.text)}</p><div class="from">${esc(e.from)}</div>${foot}</article>`;
+    return `<article ${attrs}><div class="head"><span class="sec">${esc(e.sec)}</span><span class="num">${fmt(e.date)}</span></div><p>${esc(e.text)}${e.cn ? '<span class="cn">[출처 필요]</span>' : ''}</p>${foot}</article>`;
+  }
   function renderEvidence() {
     const c = selClaim(), linked = new Set(c ? c.ev : []);
+    $('#evStat').textContent = `연결 ${linked.size}, 전체 ${S.evidence.length}`;
+    $('#target').innerHTML = c ? `<small>연결 대상</small><b>${esc(c.text)}</b>` : '<small>연결 대상</small>왼쪽 노트에서 주장을 고르세요';
     const counts = { all: S.evidence.length };
     S.evidence.forEach(e => counts[e.src] = (counts[e.src] || 0) + 1);
     $('#filters').innerHTML = [['all', '전체'], ['wiki', '위키'], ['news', '기사'], ['sns', 'SNS']].filter(([k]) => counts[k])
       .map(([k, l]) => `<button type="button" class="fbtn" data-f="${k}" aria-pressed="${S.filter === k}">${l} <span class="num">${counts[k]}</span></button>`).join('');
     const list = S.evidence.filter(e => S.filter === 'all' || e.src === S.filter);
-    $('#evCount').textContent = c ? `고른 주장에 ${c.ev.length}개 연결됨` : '';
-    $('#evs').innerHTML = list.length ? list.map(e => `
-      <article class="ev src-${e.src}${linked.has(e.id) ? ' linked' : ''}" id="ev-${e.id}">
-        <div class="ev-top"><span class="chip">${SRC[e.src]}</span><span class="ev-from" title="${esc(e.from)}">${esc(e.from)}</span><span class="ev-date num">${fmt(e.date)}</span></div>
-        <p>${esc(e.text)}</p>
-        <div class="ev-foot">
-          ${['출처', '원문'].map(k => `<button type="button" class="check" data-check="${k}" data-id="${e.id}" aria-pressed="${!!e.checks[k]}">${k === '출처' ? '출처 있음' : '원문 확인'}</button>`).join('')}
-          ${c ? `<button type="button" class="btn" data-link="${e.id}">${linked.has(e.id) ? '연결 끊기' : '이 주장에 연결'}</button>` : ''}
-        </div>
-      </article>`).join('') : `<p class="empty">이 종류의 증거가 아직 없습니다. 위키에서 스크랩하면 여기에 들어옵니다.</p>`;
+    $('#evs').innerHTML = list.length ? list.map(e => evHtml(e, linked.has(e.id), c)).join('') : `<p class="empty">이 종류의 증거가 아직 없습니다. 위키에서 스크랩하면 여기에 들어옵니다.</p>`;
   }
-  const render = () => { renderRuler(); renderClaims(); renderEvidence(); };
+  /* 메모 칸은 쓴 만큼 늘어난다 */
+  const grow = t => { t.style.height = 'auto'; t.style.height = t.scrollHeight + 2 + 'px'; };
+  const render = () => { renderRuler(); renderClaims(); renderEvidence(); rulerHint(); document.querySelectorAll('.note').forEach(grow); };
+  function toggleLink(claimId, evId, forceOn) {
+    const c = S.claims.find(x => x.id === claimId), i = c.ev.indexOf(evId);
+    if (i >= 0 && forceOn) return 'already';
+    if (i < 0) c.ev.push(evId); else c.ev.splice(i, 1);
+    return i < 0 ? 'on' : 'off';
+  }
 
   document.addEventListener('click', e => {
     const t = e.target;
     const v = t.closest('[data-v]');
-    if (v) { const c = S.claims.find(x => x.id === v.closest('[data-claim]').dataset.claim); c.verdict = c.verdict === v.dataset.v ? '' : v.dataset.v; S.sel = c.id; save(); render(); toast(c.verdict ? `'${VERDICT[c.verdict]}'로 판정했습니다.` : '판정을 지웠습니다.'); return; }
-    const claim = t.closest('[data-claim]');
-    if (claim && !t.closest('textarea')) { if (S.sel !== claim.dataset.claim) { S.sel = claim.dataset.claim; save(); renderRuler(); renderEvidence(); document.querySelectorAll('.claim').forEach(x => x.classList.toggle('sel', x.dataset.claim === S.sel)); } return; }
+    if (v && v.closest('[data-claim]')) {
+      const c = S.claims.find(x => x.id === v.closest('[data-claim]').dataset.claim);
+      c.verdict = c.verdict === v.dataset.v ? '' : v.dataset.v; S.sel = c.id; justJudged = c.verdict ? c.id : '';
+      save(); render(); toast(c.verdict ? `'${VERDICT[c.verdict]}'로 판정했습니다.` : '판정을 지웠습니다.'); return;
+    }
+    const pick = t.closest('[data-pick]'); if (pick) { S.sel = pick.closest('[data-claim]').dataset.claim; save(); render(); return; }
     const f = t.closest('[data-f]'); if (f) { S.filter = f.dataset.f; save(); renderEvidence(); return; }
-    const ck = t.closest('[data-check]'); if (ck) { const ev = S.evidence.find(x => x.id === ck.dataset.id); ev.checks[ck.dataset.check] = !ev.checks[ck.dataset.check]; save(); renderEvidence(); return; }
+    const ck = t.closest('[data-check]'); if (ck && ck.dataset.id) { const ev = evById(ck.dataset.id); ev.checks[ck.dataset.check] = !ev.checks[ck.dataset.check]; save(); renderEvidence(); return; }
     const ln = t.closest('[data-link]');
-    if (ln) { const c = selClaim(), id = ln.dataset.link, i = c.ev.indexOf(id); i < 0 ? c.ev.push(id) : c.ev.splice(i, 1); save(); render(); toast(i < 0 ? '증거를 연결했습니다.' : '연결을 끊었습니다.'); return; }
+    if (ln) { const r = toggleLink(S.sel, ln.dataset.link); save(); render(); toast(r === 'on' ? '증거를 연결했습니다.' : '연결을 끊었습니다.'); return; }
     const pin = t.closest('[data-ev]');
-    if (pin) { S.filter = 'all'; renderEvidence(); const el = document.getElementById('ev-' + pin.dataset.ev); if (el) { el.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' }); el.animate && el.animate([{ outline: '3px solid var(--wiki)' }, { outline: '3px solid transparent' }], 1200); } }
+    if (pin) {
+      if (S.filter !== 'all') { S.filter = 'all'; renderEvidence(); }
+      const el = document.getElementById('ev-' + pin.dataset.ev);
+      if (el) { el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }); el.focus({ preventScroll: true }); }
+    }
   });
-  document.addEventListener('keydown', e => { const c = e.target.closest && e.target.closest('[data-claim]'); if (c && e.target === c && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); c.click(); } });
-  document.addEventListener('input', e => { const n = e.target.dataset && e.target.dataset.note; if (n) { S.claims.find(x => x.id === n).note = e.target.value; save(); } });
+  document.addEventListener('input', e => {
+    const n = e.target.dataset && e.target.dataset.note; if (n) { S.claims.find(x => x.id === n).note = e.target.value; save(); grow(e.target); }
+    if (e.target.id === 'team') { S.team = e.target.value; save(); }
+  });
+
+  /* 컴퓨터에서는 증거 조각을 주장 위로 끌어다 놓아도 연결된다 */
+  document.addEventListener('dragstart', e => { const d = e.target.closest && e.target.closest('[data-drag]'); if (d) { e.dataTransfer.setData('text/plain', d.dataset.drag); e.dataTransfer.effectAllowed = 'link'; } });
+  const claimsEl = $('#claims');
+  claimsEl.addEventListener('dragover', e => { const li = e.target.closest('[data-claim]'); if (!li) return; e.preventDefault(); claimsEl.querySelectorAll('.drop').forEach(x => x !== li && x.classList.remove('drop')); li.classList.add('drop'); });
+  claimsEl.addEventListener('dragleave', e => { const li = e.target.closest('[data-claim]'); if (li && !li.contains(e.relatedTarget)) li.classList.remove('drop'); });
+  claimsEl.addEventListener('drop', e => {
+    const li = e.target.closest('[data-claim]'), id = e.dataTransfer.getData('text/plain'); if (!li || !evById(id)) return;
+    e.preventDefault(); const r = toggleLink(li.dataset.claim, id, true); S.sel = li.dataset.claim; save(); render();
+    toast(r === 'already' ? '이미 연결된 증거입니다.' : '증거를 연결했습니다.');
+  });
+
   $('#addClaim').addEventListener('submit', e => {
     e.preventDefault(); const v = $('#newClaim').value.trim(); if (!v) return;
     const c = { id: 'c' + Date.now().toString(36), text: v, verdict: '', ev: [], note: '' };
     S.claims.push(c); S.sel = c.id; $('#newClaim').value = ''; save(); render(); toast('주장을 추가했습니다. 오른쪽 증거를 연결하세요.');
   });
-  $('#reset').addEventListener('click', () => { S = clone(SAMPLE); save(); render(); toast('예시 기록으로 되돌렸습니다.'); });
+  $('#reset').addEventListener('click', () => { S = clone(SAMPLE); $('#team').value = ''; save(); render(); toast('처음 상태로 되돌렸습니다.'); });
 
-  /* 탭: #desk / #system */
   function route() {
     const sys = location.hash === '#system';
     $('#desk').hidden = sys; $('#system').hidden = !sys;
     $('#tabDesk').setAttribute('aria-current', sys ? 'false' : 'page'); $('#tabSys').setAttribute('aria-current', sys ? 'page' : 'false');
+    if (!sys) rulerHint();
   }
   addEventListener('hashchange', route);
+  addEventListener('resize', rulerHint);
+  $('#team').value = S.team || '';
   route(); render();
-  /* 좁은 화면에서는 시간자를 최근 쪽(오른쪽 끝)부터 보여 준다 */
-  const rs = $('.ruler-scroll'); rs.scrollLeft = rs.scrollWidth;
+  /* 좁은 화면에서는 증거 자를 최근 쪽부터 보여 준다 */
+  const rs = $('#rulerScroll'); rs.scrollLeft = rs.scrollWidth;
 })();
 </script>
