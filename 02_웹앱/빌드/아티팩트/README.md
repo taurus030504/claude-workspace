@@ -4,6 +4,7 @@
 |---|---|---|
 | 문영위키 (인물위키) | https://claude.ai/artifact/JM9iRLeWXGpZZE3h4RTWDV | `02_웹앱/빌드/인물위키.html` |
 | 문영TV (가사 영상, 라디오) | https://claude.ai/artifact/CkW6BpMk5EkZJAYYNVsZC1 | `02_웹앱/빌드/문영TV.html` |
+| 문영 수사본부 (판단 노트, 디자인 시스템) | https://claude.ai/artifact/NcmSp1afrSnTqXDe3Fj1Gz | `02_웹앱/빌드/수사본부.html` (게시 형식 그대로, 변환 없이 바로 게시) |
 | 문영일보 (뉴스) | https://claude.ai/artifact/FB262z41ts6fv9AuVNjSLB | 브랜치 `claude/zen-gauss-smepeo`의 `news-article/index.html` |
 
 - 공유 설정은 각 페이지의 Share 메뉴에서 한다.
@@ -82,3 +83,11 @@
 - 저장: 이 브라우저 localStorage (`moonyoung-wiki-clips`, `moonyoung-wiki-memo`, `moonyoung-wiki-memo-pos`). 다른 기기나 교사 화면으로는 가지 않는다.
 - 게임 웹앱(증거 자료실)에 합칠 때: `window.MOONYOUNG_CLIPS()`로 목록을 읽고, 바뀔 때마다 `moonyoung-clips` 이벤트가 나고 부모 창에는 `postMessage({type:'moonyoung-clips', clips})`가 간다.
 - 상단 바: 최근 변경, 최근 토론, 스크랩. 특수 기능 메뉴는 없앴고 모든 문서, 최근 변경, 시점 바꾸기 (교사)는 화면 맨 아래에 있다. 임의 문서는 검색창 옆 단추.
+
+## 문영 수사본부와 디자인 시스템 (2026-10-09)
+
+- 주소: https://claude.ai/artifact/NcmSp1afrSnTqXDe3Fj1Gz (비공개로 게시됨. 공유는 Share 메뉴에서)
+- 컨셉 '교정지와 형광펜': 종이와 볼펜 잉크 바탕, 판단만 형광펜 세 색(사실이다 #7FD8F5, 사실이 아니다 #FF8FB8, 아직 모른다 #FFE45C), 출처는 색 띠(위키 #0E9F92, 기사 #2F6FB5, SNS #C2477F).
+- 글꼴: 제목 나눔명조 ExtraBold, 본문 IBM Plex Sans KR, 학생 메모 나눔손글씨 펜.
+- 화면: 증거 시간자(날짜 눈금에 증거가 꽂힘), 판단 노트(주장마다 판정과 손글씨 메모, 증거 연결), 증거함(출처 확인 표시). 처음 화면은 예시 기록이고 이 브라우저에만 저장된다.
+- 아직 위키 스크랩과 연결되지 않았다. 합칠 때 위키의 `MOONYOUNG_CLIPS()` 목록을 증거함으로 넣으면 된다.
