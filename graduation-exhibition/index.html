@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>편집점 | 2026 한국문화영상고 졸업작품전</title>
-<meta name="description" content="한국문화영상고등학교 영상콘텐츠과와 디자인콘텐츠과 3학년 졸업작품전 〈편집점〉. 2026년 12월 10일부터 12일까지 본관 시청각실과 2층 디자인 전시실.">
+<title>편집점 | 2026 한국문화영상고 디자인 졸업작품전</title>
+<meta name="description" content="한국문화영상고등학교 디자인콘텐츠과 3학년 디자인 졸업작품전 〈편집점〉. 2026년 12월 10일부터 12일까지 본관 시청각실과 2층 디자인 전시실.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Gasoek+One&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
@@ -61,77 +61,98 @@
   }
   .wrap { width: min(100% - 2 * var(--gutter), 76rem); margin-inline: auto; }
 
-  /* ───────── 히어로: 블루 스크린 ───────── */
+  /* ───────── 히어로 ───────── */
   .hero {
+    --m: clamp(1.75rem, 5vw, 4rem); /* 재단선 = 콘텐츠 경계 */
     position: relative;
     min-height: 100svh;
     background: var(--chroma);
     color: #fff;
     display: grid;
     grid-template-rows: auto 1fr auto;
-    padding: clamp(1.25rem, 5vh, 3rem) var(--gutter);
+    padding: var(--m);
     overflow: hidden;
     isolation: isolate;
   }
   .hero :focus-visible { outline-color: #fff; }
 
-  /* 방송 세이프 가이드: 액션 세이프 93%, 타이틀 세이프 90% */
-  .safe {
-    position: absolute; pointer-events: none; z-index: -1;
-    border: 1px solid rgb(255 255 255 / .28);
-  }
-  .safe--action { inset: 3.5%; }
-  .safe--title { inset: 5%; border-style: dashed; border-color: rgb(255 255 255 / .2); }
-  .crosshair {
-    position: absolute; left: 50%; top: 50%; width: 44px; height: 44px;
-    translate: -50% -50%; z-index: -1; pointer-events: none;
-  }
-  .crosshair::before, .crosshair::after {
-    content: ""; position: absolute; background: rgb(255 255 255 / .35);
-  }
-  .crosshair::before { left: 50%; top: 0; bottom: 0; width: 1px; }
-  .crosshair::after { top: 50%; left: 0; right: 0; height: 1px; }
+  /* 재단 표시: 네 모서리 바깥에만 선을 두고, 모든 텍스트는 이 선이 가리키는 경계에 맞춘다 */
+  .trim { position: absolute; inset: var(--m); pointer-events: none; z-index: -1; }
+  .trim i { position: absolute; width: 0; height: 0; }
+  .trim i::before, .trim i::after { content: ""; position: absolute; background: rgb(255 255 255 / .55); }
+  .trim i::before { width: .75rem; height: 1px; }
+  .trim i::after { width: 1px; height: .75rem; }
+  .trim i:nth-child(1) { left: 0; top: 0; }
+  .trim i:nth-child(2) { right: 0; top: 0; }
+  .trim i:nth-child(3) { left: 0; bottom: 0; }
+  .trim i:nth-child(4) { right: 0; bottom: 0; }
+  .trim i:nth-child(odd)::before { right: .375rem; }
+  .trim i:nth-child(even)::before { left: .375rem; }
+  .trim i:nth-child(-n+2)::after { bottom: .375rem; }
+  .trim i:nth-child(n+3)::after { top: .375rem; }
+  .trim i:nth-child(-n+2)::before { top: 0; }
+  .trim i:nth-child(n+3)::before { bottom: 0; }
+  .trim i:nth-child(odd)::after { left: 0; }
+  .trim i:nth-child(even)::after { right: 0; }
 
   .hero-top {
-    display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+    display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;
     flex-wrap: wrap;
   }
-  .school { font-weight: 700; font-size: var(--t-1); margin: 0; }
+  .school { font-weight: 700; font-size: var(--t-1); margin: 0; line-height: 1.4; }
   .school small { display: block; font-weight: 400; font-size: var(--t-0); opacity: .8; }
-  .hero-nav { display: flex; gap: 1.25rem; flex-wrap: wrap; }
-  .hero-nav a { text-decoration: none; font-weight: 500; padding-block: .25rem; border-bottom: 1px solid transparent; }
+  .hero-nav { display: flex; gap: 1.25rem; flex-wrap: wrap; margin-right: 0; }
+  .hero-nav a { text-decoration: none; font-weight: 500; line-height: 1.4; border-bottom: 1px solid transparent; }
   .hero-nav a:hover { border-bottom-color: #fff; }
 
-  .hero-stage { align-self: center; position: relative; padding-block: 2rem; }
-  .rec {
-    display: inline-flex; align-items: center; gap: .55rem;
-    font-size: var(--t-1); font-weight: 500;
-    background: rgb(0 0 0 / .18); padding: .3rem .75rem .3rem .6rem; border-radius: 2px;
+  .hero-stage { align-self: center; padding-block: 2.5rem; }
+  .hero-title { margin: 0; font-weight: 400; }
+  .hero-name {
+    display: block; font-family: var(--text); font-weight: 700;
+    font-size: var(--t-3); line-height: 1.25; margin-bottom: .35em;
   }
-  .rec::before {
-    content: ""; width: .7rem; height: .7rem; border-radius: 50%;
-    background: var(--tally); box-shadow: 0 0 0 3px rgb(229 36 42 / .3);
+  .hero-mark {
+    display: block; font-family: var(--display);
+    font-size: clamp(5rem, 29vw, 22rem);
+    line-height: .92; letter-spacing: -0.02em;
+    white-space: nowrap;
   }
-  .title-frame { position: relative; display: inline-block; margin-top: 1rem; }
-  .hero-title {
-    font-family: var(--display);
-    font-weight: 400;
-    font-size: clamp(5rem, 31vw, 24rem);
-    line-height: .92;
-    letter-spacing: -0.02em;
-    margin: 0;
-    padding-right: .04em;
+  /* '편집│점': 빨간 안내선에서 끊고, '점'은 조금 밀려난 채 선택된 개체로 둔다 */
+  .cut-a { position: relative; display: inline-block; }
+  .cut-a::after {
+    content: ""; position: absolute; right: -.06em; top: .02em; bottom: .02em;
+    width: 2px; background: var(--tally);
   }
-  .playhead {
-    position: absolute; top: -6%; bottom: -6%; left: 100%;
-    width: 3px; background: var(--tally);
+  .cut-b {
+    position: relative; display: inline-block; margin-left: .12em;
+    transform: translateY(-.07em);
   }
-  .playhead::before {
-    content: ""; position: absolute; top: -10px; left: 50%; translate: -50% 0;
-    border: 8px solid transparent; border-top: 10px solid var(--tally); border-bottom: 0;
+  .sel { position: absolute; inset: .02em -.03em -.02em -.03em; border: 1.5px solid #fff; }
+  .sel b {
+    position: absolute; width: 9px; height: 9px; background: #fff;
+    border: 1.5px solid var(--chroma); translate: -50% -50%;
   }
+  .sel b:nth-child(1) { left: 0; top: 0; }
+  .sel b:nth-child(2) { left: 50%; top: 0; }
+  .sel b:nth-child(3) { left: 100%; top: 0; }
+  .sel b:nth-child(4) { left: 100%; top: 50%; }
+  .sel b:nth-child(5) { left: 100%; top: 100%; }
+  .sel b:nth-child(6) { left: 50%; top: 100%; }
+  .sel b:nth-child(7) { left: 0; top: 100%; }
+  .sel b:nth-child(8) { left: 0; top: 50%; }
+
   .hero-lede {
-    max-width: 30em; font-size: var(--t-2); line-height: 1.5; margin: 1.5rem 0 0;
+    max-width: 30em; font-size: var(--t-2); line-height: 1.5; margin: 1.75rem 0 0;
+  }
+  .hero-lede span { display: block; margin-top: .6em; font-size: var(--t-1); opacity: .85; }
+
+  .status {
+    display: flex; align-items: baseline; gap: .6rem; margin: 2rem 0 0;
+    font-size: var(--t-2); font-weight: 700; line-height: 1.3;
+  }
+  .status::before {
+    content: ""; flex: none; width: .55rem; height: .55rem; background: var(--tally);
+    translate: 0 -.1em;
   }
 
   .hero-meta {
@@ -143,12 +164,15 @@
   .hero-meta dt { font-size: var(--t-0); opacity: .8; }
   .hero-meta dd { margin: 0; font-size: var(--t-2); font-weight: 700; line-height: 1.3; }
 
+  /* 페이지가 열릴 때 한 번: 안내선이 그어지고 '점'이 제자리로 밀려 들어온다 */
   @media (prefers-reduced-motion: no-preference) {
-    .hero-title { animation: cut-in 1.5s cubic-bezier(.6, 0, .2, 1) .3s both; }
-    .playhead { animation: sweep 1.5s cubic-bezier(.6, 0, .2, 1) .3s both; }
+    .cut-a::after { animation: guide .6s cubic-bezier(.4, 0, .2, 1) .2s both; transform-origin: top; }
+    .cut-b { animation: nudge .9s cubic-bezier(.3, 0, .1, 1) .7s both; }
+    .sel { animation: show .2s linear .7s both; }
   }
-  @keyframes cut-in { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
-  @keyframes sweep { from { left: 0; } to { left: 100%; } }
+  @keyframes guide { from { transform: scaleY(0); } }
+  @keyframes nudge { from { transform: translate(.45em, -.07em); } }
+  @keyframes show { from { opacity: 0; } }
 
   /* ───────── 공통 섹션 ───────── */
   section { padding-block: clamp(4rem, 10vw, 7.5rem); }
@@ -363,7 +387,6 @@
     :root { --t-5: 2.6rem; --t-4: 2.1rem; }
     .hero-nav { gap: 1rem; font-size: var(--t-0); }
     .hero-lede { font-size: var(--t-1); }
-    .crosshair { display: none; }
     .deck-grid { --label: 6.25rem; }
     .track-label { padding-left: 1rem; flex-direction: column; align-items: flex-start; justify-content: center; gap: 0; }
     .track-label small { display: none; }
@@ -376,12 +399,10 @@
 <body>
 
 <header class="hero" id="top">
-  <div class="safe safe--action" aria-hidden="true"></div>
-  <div class="safe safe--title" aria-hidden="true"></div>
-  <div class="crosshair" aria-hidden="true"></div>
+  <div class="trim" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
 
   <div class="hero-top">
-    <p class="school">한국문화영상고등학교<small>영상콘텐츠과와 디자인콘텐츠과 3학년</small></p>
+    <p class="school">한국문화영상고등학교<small>디자인콘텐츠과 3학년</small></p>
     <nav class="hero-nav" aria-label="주요 메뉴">
       <a href="#works">상영작</a>
       <a href="#schedule">상영 시간표</a>
@@ -391,14 +412,12 @@
   </div>
 
   <div class="hero-stage">
-    <span class="rec tc" aria-label="타임코드"><span id="hero-tc">00:00:00:00</span></span>
-    <div>
-      <div class="title-frame">
-        <h1 class="hero-title"><span class="visually-hidden">2026 졸업작품전 </span>편집점</h1>
-        <span class="playhead" aria-hidden="true"></span>
-      </div>
-    </div>
-    <p class="hero-lede">한 장면이 끝나고 다음 장면이 시작되는 자리. 3년 동안 찍고, 자르고, 다시 붙인 열다섯 편의 영상과 여덟 점의 디자인을 상영하고 전시합니다.</p>
+    <h1 class="hero-title">
+      <span class="hero-name">2026 디자인 졸업작품전</span>
+      <span class="hero-mark"><span class="cut-a">편집</span><span class="cut-b">점<span class="sel" aria-hidden="true"><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b></span></span></span>
+    </h1>
+    <p class="hero-lede">디자인콘텐츠과 3학년이 만든 포스터, 브랜드 아이덴티티, 패키지, 편집디자인, 앱 화면을 전시합니다.<span>제목 '편집점'은 작업을 고쳐 나가며 디자인을 결정한 순간을 뜻합니다.</span></p>
+    <p class="status tc" id="status" aria-live="off">개막까지 남은 시간을 계산하고 있습니다.</p>
   </div>
 
   <dl class="hero-meta">
@@ -725,17 +744,31 @@ const roll = [
 $("roll").innerHTML = roll.map(([role, names]) =>
   `<dl><dt>${role}</dt><dd class="names">${names.map(n => `<span>${n}</span>`).join("")}</dd></dl>`).join("");
 
-/* ───────── 히어로 타임코드 (30fps) ───────── */
-const heroTc = $("hero-tc");
-if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
-  const t0 = performance.now();
-  const tick = now => {
-    const el = (now - t0) / 1000;
-    heroTc.textContent = tc(el, Math.floor((el % 1) * 30));
-    requestAnimationFrame(tick);
-  };
-  requestAnimationFrame(tick);
+/* ───────── 히어로: 개막까지 남은 시간과 관람 상태 ─────────
+   시각은 모두 한국 시간(+09:00) 기준. 날짜가 바뀌면 OPEN_DAYS 만 고치면 됩니다. */
+const OPEN_DAYS = [
+  { label: "12월 10일", open: "2026-12-10T10:00:00+09:00", close: "2026-12-10T17:00:00+09:00", until: "17:00" },
+  { label: "12월 11일", open: "2026-12-11T10:00:00+09:00", close: "2026-12-11T17:00:00+09:00", until: "17:00" },
+  { label: "12월 12일", open: "2026-12-12T10:00:00+09:00", close: "2026-12-12T15:00:00+09:00", until: "15:00" },
+].map(d => ({ ...d, open: new Date(d.open), close: new Date(d.close) }));
+
+function statusText(now) {
+  const first = OPEN_DAYS[0].open;
+  if (now < first) {
+    const m = Math.floor((first - now) / 60000);
+    const d = Math.floor(m / 1440), h = Math.floor(m / 60) % 24, mm = m % 60;
+    return `개막까지 ${d}일 ${pad(h)}시간 ${pad(mm)}분`;
+  }
+  const today = OPEN_DAYS.find(d => now >= d.open && now < d.close);
+  if (today) return `지금 전시 중입니다. 오늘은 ${today.until}까지 열려요.`;
+  const next = OPEN_DAYS.find(d => now < d.open);
+  if (next) return `다음 관람은 ${next.label} 10:00부터입니다.`;
+  return "전시가 끝났습니다. 찾아 주셔서 고맙습니다.";
 }
+const statusEl = $("status");
+const renderStatus = () => { statusEl.textContent = statusText(new Date()); };
+renderStatus();
+setInterval(renderStatus, 30000);
 </script>
 </body>
 </html>
