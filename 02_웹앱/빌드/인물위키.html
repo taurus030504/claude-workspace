@@ -176,9 +176,8 @@
   .banner-members a:hover{text-decoration:underline}
   .banner-line{height:1px;background:rgba(255,255,255,.55);margin:10px 4px 12px}
   .banner-tabs{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,190px));justify-content:space-evenly;gap:8px 14px}
-  .banner-tabs button{background:var(--b2);border:0;color:inherit;font:inherit;font-weight:700;cursor:pointer;padding:6px 10px;border-radius:7px;transition:filter .15s}
-  .banner-tabs button:hover{filter:brightness(1.08)}
-  .banner-tabs button.on{filter:brightness(1.12)}
+  .banner-tabs button{background:none;border:0;color:inherit;font:inherit;font-weight:700;cursor:pointer;padding:4px 10px}
+  .banner-tabs button:hover,.banner-tabs button.on{text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:2px}
   .banner-tabs button:focus-visible{outline:2px solid #fff;outline-offset:2px}
   .banner-panel{display:none;background:#fff;color:var(--text);border-radius:6px;margin:12px 0 2px;padding:12px;font-size:14px}
   .banner-panel.open{display:block}
@@ -2602,7 +2601,7 @@
     return `<div class="banner" style="--b1:${b1};--b2:${b2 || b1}">
       <div class="banner-head">${head}</div>${members}
       <div class="banner-line"></div>
-      <div class="banner-tabs">${(nb.tabs || []).map((t, i) => `<button type="button" data-tab="${i}">${esc(t.label)}</button>`).join('')}</div>
+      <div class="banner-tabs">${(nb.tabs || []).map((t, i) => `<button type="button" data-tab="${i}">[ ${esc(t.label)} ]</button>`).join('')}</div>
       ${panels.map((p, i) => `<div class="banner-panel${p.cls}" data-panel="${i}">${p.body}</div>`).join('')}
     </div>`;
   }
