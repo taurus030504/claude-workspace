@@ -30,3 +30,10 @@
 | v-eunho-height, v-seojin-short-answers, v-namgung-ending | 삭제 또는 비공개 안내 화면 |
 
 별칭(옛 id): v-eunho-radio-euno, v-seojin-radio-height, v-seojin-webshow-mbti 는 모두 해당 라디오 편으로 연결된다.
+
+## 위키 시점(턴)
+
+- 문영일보와 같은 3턴(10.04 12:00 / 10.05 12:00 / 10.06 23:59). 위쪽 "현재 시점" 줄의 "다음 턴"으로 넘긴다.
+- 교사는 특수 기능 > 시점 바꾸기(교사 학번 1444)로 아무 턴으로나 이동.
+- 턴은 브라우저마다 저장된다. 게임 웹앱에 합칠 때는 `window.MOONYOUNG_TURN` 또는 `setWikiTurn(n)`으로 넘긴다.
+- 시점별 내용과 편집 기록 설계는 `02_웹앱/원본/위키_타임라인_초안.md`.

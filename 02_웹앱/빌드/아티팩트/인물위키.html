@@ -234,10 +234,50 @@
   .toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(20px);background:#333;color:#fff;padding:10px 16px;border-radius:4px;font-size:14px;opacity:0;pointer-events:none;transition:.2s;z-index:80}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
+  /* 게임 시점(턴) 줄 */
+  .turn-bar{max-width:1520px;margin:0 auto;padding:12px 36px 0}
+  .turn-in{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#fff;border:1px solid var(--line-soft);border-left:4px solid var(--top-a);border-radius:4px;padding:8px 10px 8px 14px;font-size:14.5px}
+  .turn-k{color:var(--muted)}
+  .turn-in b{font-size:15.5px}
+  .turn-t{color:#333;font-variant-numeric:tabular-nums}
+  .turn-next{margin-left:auto;border:1px solid var(--top-a);background:var(--top-a);color:#fff;font:inherit;font-weight:700;padding:7px 14px;border-radius:4px;cursor:pointer}
+  .turn-next:hover{filter:brightness(1.05)}
+  .turn-next:disabled{background:#eef1f2;border-color:#d6dbde;color:#888;cursor:default}
+  .turn-next:focus-visible,.m-box button:focus-visible{outline:2px solid #1b6ec2;outline-offset:2px}
+  .t-modal{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.42);display:grid;place-items:center;padding:16px}
+  .t-modal[hidden]{display:none}
+  .m-box{background:#fff;border-radius:6px;max-width:420px;width:100%;padding:20px 22px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+  .m-box h3{margin:0 0 8px;font-size:18px}
+  .m-box p{margin:0 0 12px;color:#444;line-height:1.55}
+  .m-box input{width:100%;font:inherit;font-size:16px;padding:9px 10px;border:1px solid #ccc;border-radius:4px}
+  .m-err{color:#c0392b;min-height:1.2em;margin:6px 0 0!important;font-size:14px}
+  .m-btns{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+  .m-btns button{font:inherit;padding:8px 16px;border-radius:4px;border:1px solid #ccc;background:#fff;cursor:pointer}
+  .m-btns button.pri{background:var(--top-a);border-color:var(--top-a);color:#fff;font-weight:700}
+  .m-turns{display:grid;gap:8px}
+  .m-turns button{display:grid;gap:2px;text-align:left;font:inherit;padding:10px 12px;border:1px solid #d6dbde;border-radius:4px;background:#fff;cursor:pointer}
+  .m-turns button.on{border-color:var(--top-a);background:#eefaf7}
+  .m-turns small{color:#666;font-size:13px}
+  /* 역사, 최근 변경, 출처 필요 */
+  .hist{list-style:disc;padding-left:22px;margin:0 0 24px;font-size:14.5px;line-height:1.9}
+  .hist time{font-variant-numeric:tabular-nums}
+  .hist .acts{color:#555}
+  .hist .who,.recent-table .who{color:#333}
+  .delta{font-weight:400;color:#888}
+  .delta.plus{color:#2b9348}
+  .delta.minus{color:#d00}
+  .note{color:#555}
+  .rc-note{font-size:13px;margin-top:2px}
+  .recent-table .when{white-space:nowrap;font-variant-numeric:tabular-nums;color:#555}
+  .sm-link{font-size:12.5px}
+  .old-rev{background:#fff3cd;border-color:#ffe08a;color:#664d03}
+  .old-rev a{font-weight:700}
+  sup.cn{font-size:.72em;color:var(--link);margin-left:1px;white-space:nowrap}
   @media (max-width:1100px){
     .wrap{grid-template-columns:1fr;padding:12px 16px 0}
     .side{display:none}
     .top-in{padding:0 16px}
+    .turn-bar{padding:12px 16px 0}
     .site-foot{padding:16px}
   }
   @media (max-width:1000px){
@@ -296,12 +336,23 @@
   문단 블록: {"p":…} {"list":[…]} {"table":{head,rows}} {"quote":…,"by":…}
             {"notice":…}(노란 안내 상자) {"detail":"문서이름"}(자세한 내용은 ○○ 문서를 참고하십시오.)
   "locked": [...] 에 넣은 이름은 파란 링크로 보이지만 열면 '열람 권한이 없습니다' 화면이 나온다.
+
+  ▣ 시점(턴)에 따라 바뀌는 내용
+    site.turns  : 문영일보와 같은 턴 목록 [{name, time:"YYYY-MM-DD HH:MM", desc}]. 화면 위 '현재 시점' 줄에 표시.
+                  학생은 '다음 턴'만 누를 수 있다(확인 창). 교사는 특수 기능 > 시점 바꾸기에서 site.teacherCode 학번으로.
+    "since" / "until" : 문단(블록), 문단 제목(섹션), 하위 문단에 붙이면 그 시각부터 보이고 그 시각부터 사라진다.
+    "leadAt"    : [{since, until, text}] 그 시간 동안만 첫 문단(개요 위 소개)을 바꿔 보여 준다(문서 훼손 장면 등).
+    "history"   : 문서 편집 기록 [{t, by, note, d?, revert?, acl?}]. '역사' 버튼 목록과 '최근 변경'에 쓰인다.
+                  d = 글자 수 변화(사건 전 판처럼 내용이 데이터에 없는 판), revert = 되돌린 대상 판의 시각, acl = 권한 변경.
+    site.trendingAt : [{since, list}] 시점별 실시간 검색어.
+    {{출처필요}} → 위 첨자 [출처 필요]
 -->
+
 <script type="application/json" id="wiki-data">
 {
   "site": {
     "name": "문영위키",
-    "today": "2026-10-05",
+    "today": "2026-10-04",
     "newsBase": "https://claude.ai/artifact/FB262z41ts6fv9AuVNjSLB",
     "videoName": "문영TV",
     "videoBase": "https://claude.ai/artifact/CkW6BpMk5EkZJAYYNVsZC1",
@@ -316,7 +367,55 @@
       "문영위키는 이용자가 내용을 편집하는 위키 형식을 재현한 수업용 화면입니다."
     ],
     "showSourceNotes": false,
-    "lockMessage": "사건과 관련된 문서만 열람할 수 있습니다."
+    "lockMessage": "사건과 관련된 문서만 열람할 수 있습니다.",
+    "turns": [
+      {
+        "name": "1턴",
+        "time": "2026-10-04 12:00",
+        "desc": "열애설 기사가 막 올라온 날 낮"
+      },
+      {
+        "name": "2턴",
+        "time": "2026-10-05 12:00",
+        "desc": "하루 지남, 아직 입장 없음"
+      },
+      {
+        "name": "3턴",
+        "time": "2026-10-06 23:59",
+        "desc": "소속사 부인 이후"
+      }
+    ],
+    "teacherCode": [
+      "1444"
+    ],
+    "trendingAt": [
+      {
+        "since": "2026-10-04 09:20",
+        "list": [
+          "이은호",
+          "김서진",
+          "리버노트 엔터테인먼트"
+        ]
+      },
+      {
+        "since": "2026-10-05 08:00",
+        "list": [
+          "김서진",
+          "이은호",
+          "한문예술고등학교",
+          "리버노트 엔터테인먼트"
+        ]
+      },
+      {
+        "since": "2026-10-06 09:35",
+        "list": [
+          "리버노트 엔터테인먼트",
+          "이은호",
+          "김서진",
+          "남궁현"
+        ]
+      }
+    ]
   },
   "aliases": {
     "eunho": "이은호",
@@ -636,25 +735,67 @@
               "title": "김서진과의 열애설",
               "blocks": [
                 {
-                  "notice": "이 문단은 현재 진행 중인 사건을 다루고 있습니다. 확인되지 않은 추측성 서술은 삼가 주시기 바랍니다."
+                  "notice": "이 문단은 현재 진행 중인 사건을 다루고 있습니다. 확인되지 않은 추측성 서술은 삼가 주시기 바랍니다.",
+                  "since": "2026-10-04 09:31"
                 },
                 {
-                  "p": "2026년 10월 3일 밤 두 사람의 예술고 동창이라고 밝힌 SNS 이용자가 자신의 스토리에 메시지 캡처와 함께 \"나 빼고 비밀연애함ㅡㅡ\"이라는 글을 올리면서 [[김서진]]과의 열애설이 불거졌다.((문영일보, {{기사:a1|이은호·김서진, SNS 스토리에 '비밀 연애' 메시지 캡처 공개…\"나 말고 딴 사람 생겼어?\"}}, 2026.10.04.))"
+                  "p": "2026년 10월 3일 밤 두 사람의 예술고 동창이라고 밝힌 SNS 이용자가 자신의 스토리에 메시지 캡처와 함께 \"나 빼고 비밀연애함ㅡㅡ\"이라는 글을 올리면서 [[김서진]]과의 열애설이 불거졌다.((문영일보, {{기사:a1|이은호·김서진, SNS 스토리에 '비밀 연애' 메시지 캡처 공개…\"나 말고 딴 사람 생겼어?\"}}, 2026.10.04.))",
+                  "since": "2026-10-04 09:31"
                 },
                 {
-                  "p": "공개된 캡처에는 [[이은호]]가 \"요새 연락도 없고\", \"놀아줘\"라고 보낸 뒤 \"나 말고 딴 사람 생겼어?\"라고 묻는 메시지가 담겨 있었다. 스토리를 올린 동창이 \"뭐야 둘이 사귐?\"이라며 [[김서진]]을 태그하자 이은호가 \"아 여기 아니네\"라고 답한 부분까지 함께 퍼지면서 다른 사람에게 보낼 메시지를 단체 대화방에 잘못 보낸 것 아니냐는 해석이 나왔다."
+                  "p": "공개된 캡처에는 [[이은호]]가 \"요새 연락도 없고\", \"놀아줘\"라고 보낸 뒤 \"나 말고 딴 사람 생겼어?\"라고 묻는 메시지가 담겨 있었다. 스토리를 올린 동창이 \"뭐야 둘이 사귐?\"이라며 [[김서진]]을 태그하자 이은호가 \"아 여기 아니네\"라고 답한 부분까지 함께 퍼지면서 다른 사람에게 보낼 메시지를 단체 대화방에 잘못 보낸 것 아니냐는 해석이 나왔다.",
+                  "since": "2026-10-04 09:31"
                 },
                 {
-                  "p": "해당 스토리에는 두 사람의 공식 계정이 태그돼 있어 캡처는 게시 직후 온라인 커뮤니티와 SNS로 빠르게 퍼졌다. 다음 날인 4일 오전 언론 보도가 나오면서 열애설이 더 널리 알려졌고 스토리를 올린 동창이 부주의하게 사생활을 노출한 것 아니냐는 비판도 함께 나왔다."
+                  "p": "해당 스토리에는 두 사람의 공식 계정이 태그돼 있어 캡처는 게시 직후 온라인 커뮤니티와 SNS로 빠르게 퍼졌다. 다음 날인 4일 오전 언론 보도가 나오면서 열애설이 더 널리 알려졌고 스토리를 올린 동창이 부주의하게 사생활을 노출한 것 아니냐는 비판도 함께 나왔다.",
+                  "since": "2026-10-04 09:31"
                 },
                 {
-                  "p": "두 사람은 열애설 직전인 9월 예능 '동창회 가는 길'에 함께 출연해 모교 방문((문영일보, {{기사:a3|예고 동창 케미에 '훈훈'…이은호·김서진, '동창회 가는 길'서 모교 방문}}, 2026.09.13.))과 '웃참' 벌칙 장면((문영일보, {{기사:a2|\"웃참 실패\"…이은호·김서진 '동창회 가는 길' 벌칙 장면 짤 확산}}, 2026.09.27.)) 등으로 화제가 된 바 있다."
+                  "p": "두 사람은 열애설 직전인 9월 예능 '동창회 가는 길'에 함께 출연해 모교 방문((문영일보, {{기사:a3|예고 동창 케미에 '훈훈'…이은호·김서진, '동창회 가는 길'서 모교 방문}}, 2026.09.13.))과 '웃참' 벌칙 장면((문영일보, {{기사:a2|\"웃참 실패\"…이은호·김서진 '동창회 가는 길' 벌칙 장면 짤 확산}}, 2026.09.27.)) 등으로 화제가 된 바 있다.",
+                  "since": "2026-10-04 09:31"
                 },
                 {
-                  "p": "같은 날 오후 소속사 [[리버노트 엔터테인먼트]]는 공식 채널을 통해 \"두 사람은 같은 학교와 소속사에서 오랜 시간 함께해 온 동료 사이\"라며 열애설이 사실이 아니라고 밝혔다. 공개된 메시지에 대해서는 \"당사자의 동의 없이 외부로 공개된 사적인 대화\"라며 확인되지 않은 추측의 확산을 자제해 달라고 덧붙였다.((리버노트 엔터테인먼트 공식 채널 공지, 2026.10.04 15:30. 전문은 [[리버노트 엔터테인먼트]] 문서 참고.))"
+                  "p": "캡처 내용으로 볼 때 사실상 열애를 인정한 셈이다.",
+                  "since": "2026-10-04 10:06",
+                  "until": "2026-10-04 10:09"
                 },
                 {
-                  "p": "입장 발표 뒤에도 온라인에서는 \"친구 사이라는 해명으로는 '딴 사람 생겼냐'는 말이 설명되지 않는다\"는 반응과 \"단체 대화방 메시지를 열애 증거로 보는 것은 무리\"라는 반응이 엇갈리고 있다."
+                  "p": "열애설이 퍼진 뒤 일부 누리꾼은 2025년 발표한 《두 번째 창》의 \"아무한테도 말 안 했어 / 거기서 널 처음 봤다는 거\" 같은 가사를 들어 두 사람이 오래전부터 만나 왔다는 해석을 내놓았다.{{출처필요}}",
+                  "since": "2026-10-04 14:17"
+                },
+                {
+                  "p": "다만 이은호는 2025년 8월 라디오에서 이 곡의 '너'가 사람이 아니라 노래를 가리킨다고 직접 설명한 적이 있다.((문영FM '밤의 음악실' 2025년 8월 20일 방송. {{영상:v-eunho-radio-2025|라디오 출연분}}))",
+                  "since": "2026-10-04 19:52"
+                },
+                {
+                  "p": "5일에는 두 사람이 함께 나온 2023년 오디션 프로그램 장면이 '그때부터였다'는 말과 함께 다시 퍼졌다.",
+                  "since": "2026-10-05 08:26"
+                },
+                {
+                  "p": "올해 3월 이은호의 생일 전후로 올라온 사진 속 물건과 옷차림을 근거로 김서진이 그 자리에 함께 있었다는 주장도 나왔다.{{출처필요}}",
+                  "since": "2026-10-05 10:44",
+                  "until": "2026-10-06 10:41"
+                },
+                {
+                  "p": "올해 3월 이은호의 생일 전후로 공개된 사진 속 물건과 옷차림을 두고 김서진이 그 자리에 함께 있었던 것 아니냐는 추측도 이어졌다. 다만 사진만으로 두 사람의 관계를 확인할 수 있는 내용은 공개되지 않았다.((문영일보, {{기사:a8|\"사실무근\" 이은호·김서진 열애설에 소속사 선 그었다…\"친한 동료 사이\"}}, 2026.10.06.))",
+                  "since": "2026-10-06 10:41"
+                },
+                {
+                  "p": "열애설과 관련해 소속사 [[리버노트 엔터테인먼트]]는 아직 공식 입장을 밝히지 않았다.",
+                  "since": "2026-10-04 09:31",
+                  "until": "2026-10-06 09:47"
+                },
+                {
+                  "p": "6일 오전 소속사 [[리버노트 엔터테인먼트]]는 공식 채널을 통해 \"최근 온라인상에서 확산 중인 이은호와 김서진 관련 내용은 사실이 아니다\"라고 밝혔다. 두 사람은 \"오랜 기간 함께 연습해 온 친한 동료 사이\"라고 설명했고 무분별한 해석과 확대 재생산을 자제해 달라고 덧붙였다.((리버노트 엔터테인먼트 공식 채널 공지, 2026.10.06 09:30. 전문은 [[리버노트 엔터테인먼트]] 문서 참고.))",
+                  "since": "2026-10-06 09:47"
+                },
+                {
+                  "p": "같은 날 이은호도 별도의 글을 올려 김서진은 오래 알고 지낸 친구이자 동료라는 취지로 입장을 밝혔다.",
+                  "since": "2026-10-06 10:20"
+                },
+                {
+                  "p": "공식 부인 뒤에도 온라인에서는 \"이제 그만해야 한다\"는 반응과 \"사진 속 정황은 여전히 궁금하다\"는 반응이 엇갈리고 있다. 동료 사이라는 설명으로는 '딴 사람 생겼냐'는 메시지가 풀리지 않는다는 말도 계속 나온다.",
+                  "since": "2026-10-06 13:30"
                 }
               ]
             }
@@ -675,6 +816,13 @@
                 "사진첩에 사람 사진보다 간판이나 창문 사진이 많다.",
                 "대기실에 물건을 잘 두고 나온다. 이어폰과 충전 케이블은 매니저가 먼저 챙긴다."
               ]
+            },
+            {
+              "list": [
+                "김서진과 비밀 연애 중이라는 말이 SNS에 돌고 있다."
+              ],
+              "since": "2026-10-03 23:58",
+              "until": "2026-10-04 00:21"
             }
           ]
         }
@@ -720,6 +868,141 @@
       "banners": [
         "이은호",
         "리버노트 엔터테인먼트"
+      ],
+      "leadAt": [
+        {
+          "since": "2026-10-05 21:15",
+          "until": "2026-10-05 21:18",
+          "text": "'''이은호'''는 [[리버노트 엔터테인먼트]] 소속 가수이다. 2023년 보컬 오디션 프로그램 출연 뒤 디지털 싱글 '''《파란선》'''으로 데뷔했다. 라이브가 탄탄하고 무대 매너가 편안하다는 평을 듣는다. 데뷔 이후 꾸준히 음원과 방송 활동을 이어가고 있다. [[김서진]]의 연인이다."
+        }
+      ],
+      "history": [
+        {
+          "t": "2023-09-14 21:40",
+          "by": "새벽세시반",
+          "note": "새 문서",
+          "d": 2814
+        },
+        {
+          "t": "2024-04-18 23:02",
+          "by": "paperplane22",
+          "note": "미니 1집 추가",
+          "d": 612
+        },
+        {
+          "t": "2025-03-20 19:15",
+          "by": "203.0.113.140",
+          "note": "",
+          "d": 88
+        },
+        {
+          "t": "2025-08-14 18:33",
+          "by": "도토리묵",
+          "note": "미니 2집 《두 번째 창》",
+          "d": 540
+        },
+        {
+          "t": "2025-08-21 01:12",
+          "by": "구름과자",
+          "note": "여담에 라디오 일화 추가",
+          "d": 231
+        },
+        {
+          "t": "2026-09-13 22:47",
+          "by": "lumen_k",
+          "note": "예능 출연 추가",
+          "d": 402
+        },
+        {
+          "t": "2026-09-27 23:10",
+          "by": "paperplane22",
+          "note": "예능 벌칙 장면 추가",
+          "d": 188
+        },
+        {
+          "t": "2026-10-03 23:58",
+          "by": "198.51.100.24",
+          "note": ""
+        },
+        {
+          "t": "2026-10-04 00:21",
+          "by": "도토리묵",
+          "note": "출처 없는 서술 삭제",
+          "revert": "2026-09-27 23:10"
+        },
+        {
+          "t": "2026-10-04 09:31",
+          "by": "lumen_k",
+          "note": "사건 사고에 열애설 문단 추가"
+        },
+        {
+          "t": "2026-10-04 10:06",
+          "by": "203.0.113.77",
+          "note": ""
+        },
+        {
+          "t": "2026-10-04 10:09",
+          "by": "도토리묵",
+          "note": "확인되지 않은 단정 서술",
+          "revert": "2026-10-04 09:31"
+        },
+        {
+          "t": "2026-10-04 14:17",
+          "by": "paperplane22",
+          "note": "가사 해석 내용 추가"
+        },
+        {
+          "t": "2026-10-04 19:52",
+          "by": "구름과자",
+          "note": "가사 관련 반론과 라디오 출처 추가"
+        },
+        {
+          "t": "2026-10-05 08:26",
+          "by": "lumen_k",
+          "note": "오디션 장면 재조명"
+        },
+        {
+          "t": "2026-10-05 10:44",
+          "by": "198.51.100.24",
+          "note": ""
+        },
+        {
+          "t": "2026-10-05 21:15",
+          "by": "203.0.113.77",
+          "note": ""
+        },
+        {
+          "t": "2026-10-05 21:18",
+          "by": "도토리묵",
+          "note": "반달 복구",
+          "revert": "2026-10-05 10:44"
+        },
+        {
+          "t": "2026-10-05 21:26",
+          "by": "관리자",
+          "note": "편집 권한 변경: 반복 훼손으로 10월 12일까지 로그인 사용자만",
+          "acl": true
+        },
+        {
+          "t": "2026-10-06 09:47",
+          "by": "lumen_k",
+          "note": "소속사 공식 입장 추가"
+        },
+        {
+          "t": "2026-10-06 10:20",
+          "by": "구름과자",
+          "note": "본인 입장 추가"
+        },
+        {
+          "t": "2026-10-06 10:41",
+          "by": "lumen_k",
+          "note": "생일 사진 문단 출처 보강"
+        },
+        {
+          "t": "2026-10-06 13:30",
+          "by": "새벽세시반",
+          "note": "반응 문단 정리"
+        }
       ]
     },
     "김서진": {
@@ -1038,25 +1321,46 @@
               "title": "이은호와의 열애설",
               "blocks": [
                 {
-                  "notice": "이 문단은 현재 진행 중인 사건을 다루고 있습니다. 확인되지 않은 추측성 서술은 삼가 주시기 바랍니다."
+                  "notice": "이 문단은 현재 진행 중인 사건을 다루고 있습니다. 확인되지 않은 추측성 서술은 삼가 주시기 바랍니다.",
+                  "since": "2026-10-04 09:48"
                 },
                 {
-                  "p": "2026년 10월 3일 밤 두 사람의 예술고 동창이라고 밝힌 SNS 이용자가 자신의 스토리에 메시지 캡처와 함께 \"나 빼고 비밀연애함ㅡㅡ\"이라는 글을 올리면서 [[이은호]]와의 열애설이 불거졌다.((문영일보, {{기사:a1|이은호·김서진, SNS 스토리에 '비밀 연애' 메시지 캡처 공개…\"나 말고 딴 사람 생겼어?\"}}, 2026.10.04.))"
+                  "p": "2026년 10월 3일 밤 두 사람의 예술고 동창이라고 밝힌 SNS 이용자가 자신의 스토리에 메시지 캡처와 함께 \"나 빼고 비밀연애함ㅡㅡ\"이라는 글을 올리면서 [[이은호]]와의 열애설이 불거졌다.((문영일보, {{기사:a1|이은호·김서진, SNS 스토리에 '비밀 연애' 메시지 캡처 공개…\"나 말고 딴 사람 생겼어?\"}}, 2026.10.04.))",
+                  "since": "2026-10-04 09:48"
                 },
                 {
-                  "p": "공개된 캡처에는 [[이은호]]가 \"요새 연락도 없고\", \"놀아줘\"라고 보낸 뒤 \"나 말고 딴 사람 생겼어?\"라고 묻는 메시지가 담겨 있었다. 스토리를 올린 동창이 \"뭐야 둘이 사귐?\"이라며 [[김서진]]을 태그하자 이은호가 \"아 여기 아니네\"라고 답한 부분까지 함께 퍼지면서 다른 사람에게 보낼 메시지를 단체 대화방에 잘못 보낸 것 아니냐는 해석이 나왔다."
+                  "p": "공개된 캡처에는 [[이은호]]가 \"요새 연락도 없고\", \"놀아줘\"라고 보낸 뒤 \"나 말고 딴 사람 생겼어?\"라고 묻는 메시지가 담겨 있었다. 스토리를 올린 동창이 \"뭐야 둘이 사귐?\"이라며 [[김서진]]을 태그하자 이은호가 \"아 여기 아니네\"라고 답한 부분까지 함께 퍼지면서 다른 사람에게 보낼 메시지를 단체 대화방에 잘못 보낸 것 아니냐는 해석이 나왔다.",
+                  "since": "2026-10-04 09:48"
                 },
                 {
-                  "p": "해당 스토리에는 두 사람의 공식 계정이 태그돼 있어 캡처는 게시 직후 온라인 커뮤니티와 SNS로 빠르게 퍼졌다. 다음 날인 4일 오전 언론 보도가 나오면서 열애설이 더 널리 알려졌고 스토리를 올린 동창이 부주의하게 사생활을 노출한 것 아니냐는 비판도 함께 나왔다."
+                  "p": "해당 스토리에는 두 사람의 공식 계정이 태그돼 있어 캡처는 게시 직후 온라인 커뮤니티와 SNS로 빠르게 퍼졌다. 다음 날인 4일 오전 언론 보도가 나오면서 열애설이 더 널리 알려졌고 스토리를 올린 동창이 부주의하게 사생활을 노출한 것 아니냐는 비판도 함께 나왔다.",
+                  "since": "2026-10-04 09:48"
                 },
                 {
-                  "p": "두 사람은 열애설 직전인 9월 예능 '동창회 가는 길'에 함께 출연해 모교 방문((문영일보, {{기사:a3|예고 동창 케미에 '훈훈'…이은호·김서진, '동창회 가는 길'서 모교 방문}}, 2026.09.13.))과 '웃참' 벌칙 장면((문영일보, {{기사:a2|\"웃참 실패\"…이은호·김서진 '동창회 가는 길' 벌칙 장면 짤 확산}}, 2026.09.27.)) 등으로 화제가 된 바 있다."
+                  "p": "두 사람은 열애설 직전인 9월 예능 '동창회 가는 길'에 함께 출연해 모교 방문((문영일보, {{기사:a3|예고 동창 케미에 '훈훈'…이은호·김서진, '동창회 가는 길'서 모교 방문}}, 2026.09.13.))과 '웃참' 벌칙 장면((문영일보, {{기사:a2|\"웃참 실패\"…이은호·김서진 '동창회 가는 길' 벌칙 장면 짤 확산}}, 2026.09.27.)) 등으로 화제가 된 바 있다.",
+                  "since": "2026-10-04 09:48"
                 },
                 {
-                  "p": "같은 날 오후 소속사 [[리버노트 엔터테인먼트]]는 공식 채널을 통해 \"두 사람은 같은 학교와 소속사에서 오랜 시간 함께해 온 동료 사이\"라며 열애설이 사실이 아니라고 밝혔다. 공개된 메시지에 대해서는 \"당사자의 동의 없이 외부로 공개된 사적인 대화\"라며 확인되지 않은 추측의 확산을 자제해 달라고 덧붙였다.((리버노트 엔터테인먼트 공식 채널 공지, 2026.10.04 15:30. 전문은 [[리버노트 엔터테인먼트]] 문서 참고.))"
+                  "p": "두 사람은 연습생 때부터 사귀었다.",
+                  "since": "2026-10-04 11:32",
+                  "until": "2026-10-04 11:35"
                 },
                 {
-                  "p": "입장 발표 뒤에도 온라인에서는 \"친구 사이라는 해명으로는 '딴 사람 생겼냐'는 말이 설명되지 않는다\"는 반응과 \"단체 대화방 메시지를 열애 증거로 보는 것은 무리\"라는 반응이 엇갈리고 있다."
+                  "p": "5일에는 두 사람이 함께 나온 2023년 오디션 프로그램 장면이 '그때부터였다'는 말과 함께 다시 퍼졌다. 이은호의 노래 가사와 생일 사진을 두고 나온 이야기는 [[이은호]] 문서의 사건 사고 문단 참고.",
+                  "since": "2026-10-05 08:31"
+                },
+                {
+                  "p": "열애설과 관련해 소속사 [[리버노트 엔터테인먼트]]는 아직 공식 입장을 밝히지 않았다.",
+                  "since": "2026-10-04 09:48",
+                  "until": "2026-10-06 09:55"
+                },
+                {
+                  "p": "6일 오전 소속사 [[리버노트 엔터테인먼트]]는 공식 채널을 통해 열애설이 사실이 아니라고 밝혔다. 두 사람은 \"오랜 기간 함께 연습해 온 친한 동료 사이\"라고 설명했다.((리버노트 엔터테인먼트 공식 채널 공지, 2026.10.06 09:30. 전문은 [[리버노트 엔터테인먼트]] 문서 참고.))",
+                  "since": "2026-10-06 09:55"
+                },
+                {
+                  "p": "공식 부인 뒤에도 온라인에서는 \"이제 그만해야 한다\"는 반응과 \"사진 속 정황은 여전히 궁금하다\"는 반응이 엇갈리고 있다.((문영일보, {{기사:a8|\"사실무근\" 이은호·김서진 열애설에 소속사 선 그었다…\"친한 동료 사이\"}}, 2026.10.06.))",
+                  "since": "2026-10-06 13:34"
                 }
               ]
             }
@@ -1113,6 +1417,57 @@
       "banners": [
         "김서진",
         "리버노트 엔터테인먼트"
+      ],
+      "history": [
+        {
+          "t": "2025-12-08 20:05",
+          "by": "lumen_k",
+          "note": "새 문서",
+          "d": 2960
+        },
+        {
+          "t": "2026-05-21 18:40",
+          "by": "paperplane22",
+          "note": "디지털 싱글 《천천히 말해》 추가",
+          "d": 214
+        },
+        {
+          "t": "2026-09-13 22:52",
+          "by": "lumen_k",
+          "note": "예능 출연 추가",
+          "d": 377
+        },
+        {
+          "t": "2026-10-04 09:48",
+          "by": "lumen_k",
+          "note": "사건 사고에 열애설 문단 추가"
+        },
+        {
+          "t": "2026-10-04 11:32",
+          "by": "203.0.113.77",
+          "note": ""
+        },
+        {
+          "t": "2026-10-04 11:35",
+          "by": "도토리묵",
+          "note": "근거 없는 서술",
+          "revert": "2026-10-04 09:48"
+        },
+        {
+          "t": "2026-10-05 08:31",
+          "by": "lumen_k",
+          "note": "오디션 장면 재조명"
+        },
+        {
+          "t": "2026-10-06 09:55",
+          "by": "lumen_k",
+          "note": "소속사 공식 입장 추가"
+        },
+        {
+          "t": "2026-10-06 13:34",
+          "by": "새벽세시반",
+          "note": "반응 문단 정리"
+        }
       ]
     },
     "리버노트 엔터테인먼트": {
@@ -1407,23 +1762,45 @@
         },
         {
           "title": "사건 사고",
-          "blocks": [],
+          "blocks": [
+            {
+              "p": "소속 아티스트와 관련해 알려진 큰 사건 사고는 없다.",
+              "until": "2026-10-04 13:05"
+            }
+          ],
           "children": [
             {
-              "title": "소속 가수 열애설 부인",
+              "title": "소속 가수 열애설",
+              "since": "2026-10-04 13:05",
+              "until": "2026-10-06 09:44",
               "blocks": [
                 {
                   "notice": "이 문단은 현재 진행 중인 사건을 다루고 있습니다. 확인되지 않은 추측성 서술은 삼가 주시기 바랍니다."
                 },
                 {
-                  "p": "2026년 10월 3일 밤 소속 가수 [[이은호]]와 [[김서진]]의 메시지 캡처가 SNS에 올라오고 다음 날 오전 언론 보도가 이어지자 회사는 4일 오후 3시 30분 공식 채널을 통해 다음과 같은 입장을 냈다."
+                  "p": "2026년 10월 3일 밤 소속 가수 [[이은호]]와 [[김서진]]의 메시지 캡처가 SNS에 올라오고 다음 날 오전 언론 보도가 이어졌다.((문영일보, {{기사:a1|이은호·김서진, SNS 스토리에 '비밀 연애' 메시지 캡처 공개…\"나 말고 딴 사람 생겼어?\"}}, 2026.10.04.)) 회사는 아직 공식 입장을 내지 않았다."
                 },
                 {
-                  "quote": "안녕하세요. 리버노트 엔터테인먼트입니다.[br][br]금일 보도된 소속 아티스트 이은호, 김서진의 열애설은 사실이 아님을 알려드립니다. 두 사람은 같은 학교와 소속사에서 오랜 시간 함께해 온 동료 사이입니다.[br][br]온라인에 게시된 메시지는 당사자의 동의 없이 외부로 공개된 사적인 대화이며, 이를 근거로 확인되지 않은 추측이 확산되는 것에 깊은 유감을 표합니다. 아티스트 보호를 위해 근거 없는 내용의 확산에는 단호하게 대응하겠습니다.[br][br]확인되지 않은 내용의 추측과 확산을 자제해 주시기를 부탁드립니다. 감사합니다.",
-                  "by": "리버노트 엔터테인먼트 공식 입장 전문, 2026.10.04"
+                  "p": "열애설의 경위는 [[이은호]]와 [[김서진]] 문서의 사건 사고 문단을 참고."
+                }
+              ]
+            },
+            {
+              "title": "소속 가수 열애설 부인",
+              "since": "2026-10-06 09:44",
+              "blocks": [
+                {
+                  "notice": "이 문단은 현재 진행 중인 사건을 다루고 있습니다. 확인되지 않은 추측성 서술은 삼가 주시기 바랍니다."
                 },
                 {
-                  "p": "입장문은 회사 명의로 발표됐으며 두 사람의 활동 일정은 예정대로 진행한다고 밝혔다. 열애설의 경위는 [[이은호]]와 [[김서진]] 문서의 사건 사고 문단을 참고."
+                  "p": "2026년 10월 3일 밤 소속 가수 [[이은호]]와 [[김서진]]의 메시지 캡처가 SNS에 올라오고 다음 날 오전 언론 보도가 이어졌다. 회사는 이틀 동안 입장을 내지 않다가 6일 오전 9시 30분 공식 채널을 통해 다음과 같은 입장을 냈다."
+                },
+                {
+                  "quote": "안녕하세요. 리버노트 엔터테인먼트입니다.[br][br]최근 온라인상에서 확산 중인 이은호와 김서진 관련 내용은 사실이 아닙니다. 두 사람은 오랜 기간 함께 연습해 온 친한 동료 사이입니다.[br][br]일부 게시물과 사진을 근거로 확인되지 않은 추측이 이어지고 있습니다. 아티스트의 사생활과 관련한 무분별한 해석과 확대 재생산을 자제해 주시기를 부탁드립니다.[br][br]감사합니다.",
+                  "by": "리버노트 엔터테인먼트 공식 입장 전문, 2026.10.06"
+                },
+                {
+                  "p": "입장문은 회사 명의로 발표됐다.((문영일보, {{기사:a8|\"사실무근\" 이은호·김서진 열애설에 소속사 선 그었다…\"친한 동료 사이\"}}, 2026.10.06.)) 열애설의 경위는 [[이은호]]와 [[김서진]] 문서의 사건 사고 문단을 참고."
                 }
               ]
             }
@@ -1499,6 +1876,36 @@
       },
       "banners": [
         "리버노트 엔터테인먼트"
+      ],
+      "history": [
+        {
+          "t": "2019-02-11 14:20",
+          "by": "도토리묵",
+          "note": "새 문서",
+          "d": 3102
+        },
+        {
+          "t": "2023-09-15 10:02",
+          "by": "lumen_k",
+          "note": "소속 아티스트 갱신",
+          "d": 41
+        },
+        {
+          "t": "2025-12-08 21:00",
+          "by": "lumen_k",
+          "note": "소속 아티스트 갱신",
+          "d": 96
+        },
+        {
+          "t": "2026-10-04 13:05",
+          "by": "lumen_k",
+          "note": "사건 사고 문단 추가"
+        },
+        {
+          "t": "2026-10-06 09:44",
+          "by": "lumen_k",
+          "note": "공식 입장 전문 추가"
+        }
       ]
     },
     "한문예술고등학교": {
@@ -1743,7 +2150,27 @@
           ]
         }
       ],
-      "source": "수업용 가상 학교 설정입니다."
+      "source": "수업용 가상 학교 설정입니다.",
+      "history": [
+        {
+          "t": "2015-05-02 11:30",
+          "by": "도토리묵",
+          "note": "새 문서",
+          "d": 2420
+        },
+        {
+          "t": "2022-02-10 19:05",
+          "by": "구름과자",
+          "note": "출신 인물 추가",
+          "d": 120
+        },
+        {
+          "t": "2026-09-14 10:12",
+          "by": "lumen_k",
+          "note": "예능 촬영 내용 추가",
+          "d": 205
+        }
+      ]
     },
     "남궁현": {
       "updated": "2026-10-04 17:40",
@@ -1916,7 +2343,12 @@
           "title": "사건 사고",
           "blocks": [
             {
-              "p": "2026년 10월 소속 가수 [[이은호]]와 [[김서진]]의 열애설이 보도되자 회사는 같은 달 4일 공식 채널을 통해 열애설을 부인하는 입장문을 냈다. 입장문은 회사 명의로 발표됐다. 자세한 내용은 [[리버노트 엔터테인먼트]] 문서 참고."
+              "p": "대표 개인과 관련해 알려진 사건 사고는 없다.",
+              "until": "2026-10-06 09:58"
+            },
+            {
+              "p": "2026년 10월 소속 가수 [[이은호]]와 [[김서진]]의 열애설이 퍼지자 회사는 같은 달 6일 공식 채널을 통해 열애설을 부인하는 입장문을 냈다. 입장문은 회사 명의로 발표됐다. 자세한 내용은 [[리버노트 엔터테인먼트]] 문서 참고.",
+              "since": "2026-10-06 09:58"
             }
           ]
         },
@@ -1934,7 +2366,32 @@
           ]
         }
       ],
-      "source": "수업용 가상 인물 설정입니다."
+      "source": "수업용 가상 인물 설정입니다.",
+      "history": [
+        {
+          "t": "2021-06-02 16:44",
+          "by": "도토리묵",
+          "note": "새 문서",
+          "d": 1890
+        },
+        {
+          "t": "2024-11-30 12:10",
+          "by": "paperplane22",
+          "note": "트레이닝 방식 추가",
+          "d": 540
+        },
+        {
+          "t": "2026-03-12 22:30",
+          "by": "구름과자",
+          "note": "인터뷰 내용 추가",
+          "d": 318
+        },
+        {
+          "t": "2026-10-06 09:58",
+          "by": "lumen_k",
+          "note": "사건 사고 갱신"
+        }
+      ]
     }
   },
   "locked": [
@@ -1973,6 +2430,7 @@
         <a href="#/all">모든 문서</a>
         <a href="#/recent">최근 변경</a>
         <a href="#" data-random>임의 문서로</a>
+        <a href="#" id="teacherTurn">시점 바꾸기 (교사)</a>
       </div>
     </div>
     <div class="top-right">
@@ -1988,6 +2446,7 @@
   </div>
 </header>
 
+<div class="turn-bar" id="turnBar"></div>
 <div class="wrap">
   <main class="card article" id="article"></main>
   <aside class="side">
@@ -2015,6 +2474,7 @@
 </div>
 <div class="fn-pop" id="fnPop"></div>
 <div class="toast" id="toast"></div>
+<div class="t-modal" id="turnModal" hidden></div>
 
 <script>
 (() => {
@@ -2048,8 +2508,35 @@
   };
 
 
-  /* 기준일: 데이터의 site.today (없으면 오늘). 만 나이와 데뷔 경과를 여기서 계산한다 */
-  const TODAY = (() => { const t = SITE.today ? new Date(SITE.today + 'T00:00:00') : new Date(); return isNaN(t) ? new Date() : t; })();
+  /* ── 게임 시점: site.turns (문영일보와 같은 턴). 문단의 since/until과 문서 history를 이 시각으로 거른다 ──
+     턴은 이 브라우저에 저장(학생은 앞으로만). 게임 웹앱에 합칠 때는 window.MOONYOUNG_TURN 또는 setWikiTurn(n)으로 넘긴다. */
+  const TURNS = SITE.turns || [];
+  const TURN_KEY = 'moonyoung-wiki-turn', TEACHER_KEY = 'moonyoung-wiki-teacher';
+  const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
+  let TURN = (() => {
+    const v = +(window.MOONYOUNG_TURN || store.get(TURN_KEY) || SITE.startTurn || 1);
+    return TURNS.length ? Math.min(Math.max(1, v || 1), TURNS.length) : 0;
+  })();
+  const nowT = () => TURNS.length ? TURNS[TURN - 1].time : '9999-12-31 23:59';
+  const shown = (x, T) => !x || typeof x !== 'object' || ((!x.since || x.since <= T) && (!x.until || T < x.until));
+  /* 문서 편집 기록: 시각순, r번호는 1부터 */
+  const revs = doc => (doc.history || []).slice().sort((a, b) => a.t.localeCompare(b.t)).map((r, i) => ({ ...r, r: i + 1 }));
+  /* 시각 T에 보이던 문서 */
+  function docAt(doc, T) {
+    const secs = arr => (arr || []).filter(x => shown(x, T)).map(x => ({ ...x, blocks: (x.blocks || []).filter(b => shown(b, T)), children: secs(x.children) }));
+    const lead = (doc.leadAt || []).find(x => shown(x, T));
+    const h = revs(doc).filter(r => r.t <= T);
+    return { ...doc, lead: lead ? lead.text : doc.lead, sections: secs(doc.sections), notices: (doc.notices || []).filter(x => shown(x, T)),
+      updated: h.length ? h[h.length - 1].t : doc.updated, rev: h.length ? h[h.length - 1].r : 0 };
+  }
+  /* 기록 표시용 초: 같은 분 안에서 그럴듯하게 (데이터에는 분까지만 적는다) */
+  const sec2 = t => String([...t].reduce((a, c) => (a * 31 + c.charCodeAt(0)) % 997, 7) % 60).padStart(2, '0');
+  const fullT = t => `${t}:${sec2(t)}`;
+
+  /* 기준일: 현재 시점의 날짜. 만 나이와 데뷔 경과를 여기서 계산한다 */
+  let TODAY;
+  const setToday = () => { const t = TURNS.length ? new Date(nowT().slice(0, 10) + 'T00:00:00') : (SITE.today ? new Date(SITE.today + 'T00:00:00') : new Date()); TODAY = isNaN(t) ? new Date() : t; };
+  setToday();
   const manAge = (y, mo, da) => TODAY.getFullYear() - y - ((TODAY.getMonth() + 1 < mo || (TODAY.getMonth() + 1 === mo && TODAY.getDate() < da)) ? 1 : 0);
   const sinceText = (y, mo, da) => {
     const years = manAge(y, mo, da);
@@ -2103,6 +2590,7 @@
     s = s.replace(/\{\{영상:([\w-]+)\|(.+?)\}\}/g, (_, id, t) => SITE.videoBase
       ? `<a class="vid" href="${esc(SITE.videoBase)}#${id}" target="_blank" rel="noopener">${t}</a>`
       : `<a class="vid" href="#" data-vid="${id}">${t}</a>`);
+    s = s.replace(/\{\{출처필요\}\}/g, '<sup class="cn">[출처 필요]</sup>');
     s = s.replace(/\{\{배지:(.+?)\}\}/g, '<span class="bdg-o">$1</span>');
     s = s.replace(/\{\{앨범:(.+?)\}\}/g, '<span class="bdg-d">$1</span>');
     return s;
@@ -2153,8 +2641,8 @@
       <path d="M70 340c8-80 62-122 130-122s122 42 130 122z" fill="#cfd3d7"/></svg>`;
   }
 
-  function renderDoc(name) {
-    const doc = DOCS[name];
+  function renderDoc(name, rev) {
+    const doc = docAt(DOCS[name], rev ? rev.t : nowT());
     const fns = [];
     setColors(doc);
     const ib = doc.infobox;
@@ -2193,8 +2681,8 @@
     const source = doc.source && SITE.showSourceNotes ? `<div class="source-box"><span class="ico">i</span><div>${markup(doc.source, [])}</div></div>` : '';
 
     article.innerHTML = `
-      ${header(name, { doc: name, updated: doc.updated })}
-      <div class="ad-space"></div>
+      ${header(name, { doc: name, updated: doc.updated, small: rev ? `r${rev.r} 판` : '' })}
+      ${rev ? `<div class="alert old-rev"><b>[주의!]</b> 문서의 이전 버전(${esc(fullT(rev.t))}에 수정)을 보고 있습니다. <a href="${href(name)}">최신 버전으로 이동</a></div>` : '<div class="ad-space"></div>'}
       <div class="cat-bar" id="catBar"><span>분류:</span><div class="cat-items">${doc.categories.map(c => `<a href="#/search/${encodeURIComponent(c)}">${esc(c)}</a>`).join('')}</div><button type="button" class="cat-more">더 보기</button></div>
       ${(doc.notices || []).map(n => `<div class="notice"><span class="ico">${ICON.info}</span><div>${markup(n, fns)}</div></div>`).join('')}
       ${(doc.banners || []).map(banner).join('')}
@@ -2268,7 +2756,7 @@
   }
 
   function renderSearch(q) {
-    const hits = Object.entries(DOCS).filter(([n, d]) => n.includes(q) || JSON.stringify(d).includes(q));
+    const hits = Object.entries(DOCS).map(([n, d]) => [n, docAt(d, nowT())]).filter(([n, d]) => n.includes(q) || JSON.stringify([d.lead, d.sections, d.infobox]).includes(q));
     const plain = s => s.replace(/\[\[(.+?)(?:\|(.+?))?\]\]/g, (_, n, l) => l || n).replace(/'''|\(\(.+?\)\)|\{\{외부:|\}\}/g, '');
     const body = `<p>${DOCS[q] ? `${link(q)} 문서로 바로 가기` : `'${esc(q)}' 문서는 아직 없습니다. ${link(q, '문서 확인')}`}</p>
       <p style="color:#555">'${esc(q)}'에 대한 검색 결과 ${hits.length}건</p>
@@ -2276,10 +2764,50 @@
     renderSimple('검색', body);
   }
 
+  /* 판마다 글자 수 변화: 앞 판과 비교. 사건 전 판처럼 내용 차이를 데이터로만 적은 판은 d 값을 쓴다 */
+  function sizeOf(doc, t) { const x = docAt(doc, t); return JSON.stringify([x.lead, x.sections]).replace(/[{}\[\]",:]|"(p|list|notice|quote|by|title|blocks|children|since|until)"/g, '').length; }
+  function withDelta(doc) {
+    const list = revs(doc);
+    return list.map((r, i) => {
+      if (typeof r.d === 'number') return { ...r, delta: r.d };
+      if (r.acl) return { ...r, delta: 0 };
+      const prev = i ? list[i - 1].t : null;
+      return { ...r, delta: prev ? sizeOf(doc, r.t) - sizeOf(doc, prev) : 0 };
+    });
+  }
+  const deltaHtml = d => `<span class="delta ${d > 0 ? 'plus' : d < 0 ? 'minus' : ''}">(${d > 0 ? '+' : ''}${d.toLocaleString('ko-KR')})</span>`;
+  const revNote = (doc, r) => {
+    const back = r.revert ? revs(doc).find(x => x.t === r.revert) : null;
+    const parts = [back ? `r${back.r}으로 되돌림` : '', r.note || ''].filter(Boolean);
+    return parts.length ? `<span class="note">(${esc(parts.join(': '))})</span>` : '';
+  };
+  function allRevs() {
+    const T = nowT();
+    return Object.entries(DOCS).flatMap(([n, d]) => withDelta(d).filter(r => r.t <= T).map(r => ({ ...r, name: n })))
+      .sort((a, b) => b.t.localeCompare(a.t) || b.r - a.r);
+  }
+
   function renderRecent() {
-    const rows = Object.entries(DOCS).sort((a, b) => (b[1].updated || '').localeCompare(a[1].updated || ''));
-    renderSimple('최근 변경내역', `<table class="list-table"><tr><th>항목</th><th>시간</th></tr>
-      ${rows.map(([n, d]) => `<tr><td>${link(n)}</td><td>${esc(d.updated || '')}</td></tr>`).join('')}</table>`);
+    const rows = allRevs().slice(0, 40);
+    renderSimple('최근 변경내역', `<table class="list-table recent-table"><tr><th>항목</th><th>수정자</th><th>수정 시간</th></tr>
+      ${rows.map(r => `<tr><td>${link(r.name)} <a class="sm-link" href="#/history/${encodeURIComponent(r.name)}">[역사]</a> ${deltaHtml(r.delta)}${r.note || r.revert ? `<div class="rc-note">${revNote(DOCS[r.name], r)}</div>` : ''}</td>
+        <td class="who">${esc(r.by)}</td><td class="when">${esc(fullT(r.t))}</td></tr>`).join('')}</table>`);
+  }
+
+  function renderHistory(name) {
+    const doc = DOCS[name], T = nowT();
+    const rows = withDelta(doc).filter(r => r.t <= T).reverse();
+    renderSimple(name, `<ul class="hist">${rows.map(r => `<li>
+        <time>${esc(fullT(r.t))}</time>
+        <span class="acts">(<a href="#/rev/${encodeURIComponent(name)}/${r.r}">보기</a> | <a href="#" data-unsupported="RAW">RAW</a> | <a href="#" data-unsupported="비교">비교</a>)</span>
+        <b>r${r.r}</b> ${deltaHtml(r.delta)} <span class="who">${esc(r.by)}</span> ${revNote(doc, r)}</li>`).join('')}</ul>`,
+      { doc: name, small: '역사', mode: 'history' });
+  }
+
+  function renderRev(name, n) {
+    const r = revs(DOCS[name]).find(x => x.r === n);
+    if (!r || r.t > nowT()) { renderSimple(name, `<div class="alert"><b>[오류!]</b> 해당 리비전이 존재하지 않습니다.</div><p>${link(name, '← 문서로 돌아가기')}</p>`, { doc: name, small: '역사', mode: 'history' }); return; }
+    renderDoc(name, r);
   }
 
   function renderAll() {
@@ -2314,7 +2842,9 @@
     } else if ((m = h.match(/^\/search\/(.+)$/))) renderSearch(m[1]);
     else if (h === '/recent') renderRecent();
     else if (h === '/all') renderAll();
-    else if ((m = h.match(/^\/(edit|discuss|history)\/(.+)$/))) renderLocked(m[1], resolve(m[2]));
+    else if ((m = h.match(/^\/history\/(.+)$/))) { const n = resolve(m[1]); DOCS[n] ? renderHistory(n) : isLocked(n) ? renderNoAccess(n) : renderMissing(m[1]); }
+    else if ((m = h.match(/^\/rev\/(.+)\/(\d+)$/))) { const n = resolve(m[1]); DOCS[n] ? renderRev(n, +m[2]) : renderMissing(m[1]); }
+    else if ((m = h.match(/^\/(edit|discuss)\/(.+)$/))) renderLocked(m[1], resolve(m[2]));
     else renderMissing(h.replace(/^\//, ''));
     try { window.scrollTo(0, 0); } catch (e) {}
   }
@@ -2341,10 +2871,29 @@
 
   /* ── 사이드바·푸터 ── */
   $('#siteName').textContent = SITE.name;
-  $('#trend').innerHTML = (SITE.trending || []).map((n, i) => `<div><span>${i + 1}</span>${link(n)}</div>`).join('');
-  $('#recentList').innerHTML = Object.entries(DOCS)
-    .sort((a, b) => (b[1].updated || '').localeCompare(a[1].updated || ''))
-    .map(([n, d]) => `<div>${link(n)}<time>${esc(d.updated || '')}</time></div>`).join('');
+  const WEEK = '일월화수목금토';
+  const turnLabel = t => { const [d, hm] = t.split(' '); const x = new Date(d + 'T00:00:00'); return `${x.getMonth() + 1}월 ${x.getDate()}일 (${WEEK[x.getDay()]}) ${hm}`; };
+  function paintSide() {
+    const T = nowT();
+    const tr = (SITE.trendingAt || []).filter(x => x.since <= T).pop();
+    $('#trend').innerHTML = ((tr && tr.list) || SITE.trending || []).map((n, i) => `<div><span>${i + 1}</span>${link(n)}</div>`).join('');
+    const seen = new Set();
+    $('#recentList').innerHTML = allRevs().filter(r => !seen.has(r.name) && seen.add(r.name)).slice(0, 5)
+      .map(r => `<div>${link(r.name)}<time>${esc(r.t)}</time></div>`).join('');
+    const bar = $('#turnBar');
+    if (!TURNS.length) { bar.hidden = true; return; }
+    const last = TURN >= TURNS.length;
+    bar.innerHTML = `<div class="turn-in"><span class="turn-k">현재 시점</span><b>${esc(TURNS[TURN - 1].name)}</b><span class="turn-t">${esc(turnLabel(T))}</span>
+      <button type="button" class="turn-next" id="turnNext" ${last ? 'disabled' : ''}>${last ? '마지막 턴' : '다음 턴 ›'}</button></div>`;
+  }
+  function setTurn(n) {
+    TURN = Math.min(Math.max(1, n), TURNS.length);
+    store.set(TURN_KEY, String(TURN));
+    setToday(); paintSide();
+    if (current) route(current);
+  }
+  window.setWikiTurn = setTurn;
+  paintSide();
   $('#siteFoot').innerHTML = `${esc(SITE.name)} <span style="color:#999;margin:0 6px">|</span> 수업용 가상 위키 화면 <a href="#/all">모든 문서</a><a href="#/recent">최근 변경</a><br>
     <span style="color:#777">실제 서비스와 관련이 없으며 외부로 연결되지 않습니다.</span>`;
 
@@ -2396,6 +2945,43 @@
       article.querySelector(`[data-sec="${body.dataset.body}"]`).classList.remove('closed');
     }
   }
+
+  /* 턴 창: 학생은 다음 턴만(확인 한 번), 교사는 학번 확인 뒤 아무 턴으로 */
+  const modal = $('#turnModal');
+  const openModal = html => { modal.innerHTML = `<div class="m-box" role="dialog" aria-modal="true">${html}</div>`; modal.hidden = false; };
+  const closeModal = () => { modal.hidden = true; modal.innerHTML = ''; };
+  const isTeacher = () => store.get(TEACHER_KEY) === '1';
+  function teacherPanel() {
+    openModal(`<h3>시점 바꾸기</h3><p>교사용입니다. 이 브라우저의 위키 시점만 바뀝니다.</p>
+      <div class="m-turns">${TURNS.map((t, i) => `<button type="button" data-goturn="${i + 1}" class="${i + 1 === TURN ? 'on' : ''}"><b>${esc(t.name)}</b><small>${esc(turnLabel(t.time))}</small><small>${esc(t.desc || '')}</small></button>`).join('')}</div>
+      <div class="m-btns"><button type="button" data-mclose>닫기</button></div>`);
+  }
+  modal.addEventListener('click', e => {
+    const t = e.target.closest('button');
+    if (e.target === modal || (t && t.matches('[data-mclose]'))) { closeModal(); return; }
+    if (!t) return;
+    if (t.matches('[data-turnok]')) { closeModal(); setTurn(TURN + 1); toast(`${TURNS[TURN - 1].name}으로 넘어갔습니다.`); return; }
+    if (t.matches('[data-goturn]')) { closeModal(); setTurn(+t.dataset.goturn); toast(`${TURNS[TURN - 1].name}으로 바꿨습니다.`); return; }
+    if (t.matches('[data-tcheck]')) {
+      const v = (modal.querySelector('#tcode').value || '').trim();
+      if ((SITE.teacherCode || []).includes(v)) { store.set(TEACHER_KEY, '1'); teacherPanel(); }
+      else { const er = modal.querySelector('.m-err'); er.textContent = '교사 학번이 아닙니다.'; }
+    }
+  });
+  modal.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); if (e.key === 'Enter' && e.target.id === 'tcode') { e.preventDefault(); modal.querySelector('[data-tcheck]').click(); } });
+  $('#turnBar').addEventListener('click', e => {
+    if (!e.target.closest('#turnNext') || TURN >= TURNS.length) return;
+    const nx = TURNS[TURN];
+    openModal(`<h3>${esc(nx.name)}으로 넘길까요?</h3><p>선생님이 다음 턴이라고 알려 주셨을 때만 누르세요. 한 번 넘기면 되돌릴 수 없습니다.</p>
+      <div class="m-btns"><button type="button" data-mclose>취소</button><button type="button" class="pri" data-turnok>넘기기</button></div>`);
+  });
+  $('#teacherTurn').addEventListener('click', e => {
+    e.preventDefault(); closeMenus();
+    if (isTeacher()) { teacherPanel(); return; }
+    openModal(`<h3>교사 확인</h3><p>교사 학번을 입력하세요.</p><input id="tcode" inputmode="numeric" autocomplete="off" aria-label="교사 학번">
+      <p class="m-err" aria-live="polite"></p><div class="m-btns"><button type="button" data-mclose>취소</button><button type="button" class="pri" data-tcheck>확인</button></div>`);
+    setTimeout(() => { const i = modal.querySelector('#tcode'); if (i) i.focus(); }, 0);
+  });
 
   /* 각주 미리보기 */
   const pop = $('#fnPop');
