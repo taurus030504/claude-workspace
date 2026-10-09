@@ -4,26 +4,26 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>편집점 | 2026 한국문화영상고 디자인 졸업작품전</title>
-<meta name="description" content="한국문화영상고등학교 디자인콘텐츠과 3학년 디자인 졸업작품전 〈편집점〉. 2026년 12월 10일부터 12일까지 본관 시청각실과 2층 디자인 전시실.">
+<meta name="description" content="한국문화영상고등학교 디자인콘텐츠과 3학년 디자인 졸업작품전 〈편집점〉 온라인 전시. 작품마다 시안이 바뀐 순간과 그 이유를 함께 볼 수 있습니다.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Gasoek+One&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    /* 스튜디오 크로마키 블루, 카메라 탈리 램프, 스튜디오 회백색, 남색 잉크 */
-    --chroma: #1F3FD1;
-    --tally: #E5242A;
+    --blue: #1F3FD1;
+    --guide: #E5242A;   /* 디자인 프로그램의 안내선 빨강. 편집점 표시에만 쓴다 */
     --paper: #ECEEF1;
     --ink: #16214F;
     --deck: #0F1A45;
     --rule: #C7CBD6;
     --muted: #535C80;
 
-    /* 트랙(클립) 색 */
-    --clip-film: #F4BC4C;
-    --clip-docu: #6CC3AE;
-    --clip-mv: #F29BB5;
-    --clip-motion: #A9B4FF;
+    /* 매체 색 */
+    --m-poster: #F4BC4C;
+    --m-brand: #6CC3AE;
+    --m-package: #F29BB5;
+    --m-editorial: #A9B4FF;
+    --m-ui: #B9E06E;
 
     --display: "Gasoek One", "IBM Plex Sans KR", sans-serif;
     --text: "IBM Plex Sans KR", system-ui, sans-serif;
@@ -53,20 +53,18 @@
     overflow-wrap: break-word;
   }
   a { color: inherit; }
-  :focus-visible { outline: 3px solid var(--tally); outline-offset: 3px; }
-  .tc { font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1; }
-  .visually-hidden {
-    position: absolute; width: 1px; height: 1px; overflow: hidden;
-    clip: rect(0 0 0 0); white-space: nowrap;
-  }
+  button { font: inherit; color: inherit; }
+  :focus-visible { outline: 3px solid var(--guide); outline-offset: 3px; }
+  [hidden] { display: none !important; }
+  .tn { font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1; }
   .wrap { width: min(100% - 2 * var(--gutter), 76rem); margin-inline: auto; }
 
-  /* ───────── 히어로 ───────── */
+  /* ───────── 첫 화면 ───────── */
   .hero {
     --m: clamp(1.75rem, 5vw, 4rem); /* 재단선 = 콘텐츠 경계 */
     position: relative;
     min-height: 100svh;
-    background: var(--chroma);
+    background: var(--blue);
     color: #fff;
     display: grid;
     grid-template-rows: auto 1fr auto;
@@ -101,9 +99,9 @@
   }
   .school { font-weight: 700; font-size: var(--t-1); margin: 0; line-height: 1.4; }
   .school small { display: block; font-weight: 400; font-size: var(--t-0); opacity: .8; }
-  .hero-nav { display: flex; gap: 1.25rem; flex-wrap: wrap; margin-right: 0; }
-  .hero-nav a { text-decoration: none; font-weight: 500; line-height: 1.4; border-bottom: 1px solid transparent; }
-  .hero-nav a:hover { border-bottom-color: #fff; }
+  .site-nav { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+  .site-nav a { text-decoration: none; font-weight: 500; line-height: 1.4; border-bottom: 1px solid transparent; }
+  .site-nav a:hover { border-bottom-color: currentColor; }
 
   .hero-stage { align-self: center; padding-block: 2.5rem; }
   .hero-title { margin: 0; font-weight: 400; }
@@ -121,7 +119,7 @@
   .cut-a { position: relative; display: inline-block; }
   .cut-a::after {
     content: ""; position: absolute; right: -.06em; top: .02em; bottom: .02em;
-    width: 2px; background: var(--tally);
+    width: 2px; background: var(--guide);
   }
   .cut-b {
     position: relative; display: inline-block; margin-left: .12em;
@@ -130,7 +128,7 @@
   .sel { position: absolute; inset: .02em -.03em -.02em -.03em; border: 1.5px solid #fff; }
   .sel b {
     position: absolute; width: 9px; height: 9px; background: #fff;
-    border: 1.5px solid var(--chroma); translate: -50% -50%;
+    border: 1.5px solid var(--blue); translate: -50% -50%;
   }
   .sel b:nth-child(1) { left: 0; top: 0; }
   .sel b:nth-child(2) { left: 50%; top: 0; }
@@ -151,7 +149,7 @@
     font-size: var(--t-2); font-weight: 700; line-height: 1.3;
   }
   .status::before {
-    content: ""; flex: none; width: .55rem; height: .55rem; background: var(--tally);
+    content: ""; flex: none; width: .55rem; height: .55rem; background: var(--guide);
     translate: 0 -.1em;
   }
 
@@ -175,175 +173,128 @@
   @keyframes show { from { opacity: 0; } }
 
   /* ───────── 공통 섹션 ───────── */
-  section { padding-block: clamp(4rem, 10vw, 7.5rem); }
-  .sec-head { max-width: var(--measure); margin-bottom: clamp(2rem, 5vw, 3.5rem); }
-  .sec-head h2 {
+  .sec { padding-block: clamp(4rem, 10vw, 7.5rem); }
+  .sec-title {
     font-family: var(--display); font-weight: 400;
-    font-size: var(--t-5); line-height: 1.05; margin: 0 0 1rem; letter-spacing: -0.01em;
-  }
-  .sec-head p { margin: 0; color: var(--muted); }
-
-  /* ───────── 상영작: 모니터 + 타임라인 ───────── */
-  .works { background: var(--paper); }
-  .monitor {
-    display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
-    gap: clamp(1.5rem, 4vw, 3rem); align-items: start;
-    margin-bottom: 2rem;
-  }
-  .screen {
-    position: relative; aspect-ratio: 16 / 9; background: #000;
-    overflow: hidden; border-radius: 3px;
-  }
-  .card {
-    position: absolute; inset: 9% 0; /* 2.39:1 레터박스 느낌 */
-    background: var(--clip, var(--clip-film));
-    display: grid; place-items: center; padding: 0 8%;
-    transition: background-color .35s ease;
-  }
-  .card-title {
-    font-family: var(--display); font-weight: 400; color: var(--ink);
-    font-size: clamp(1.75rem, 5.2vw, 4.25rem); line-height: 1.05; margin: 0; text-align: center;
-  }
-  .card-still { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .subtitle {
-    position: absolute; left: 6%; right: 6%; bottom: 3%;
-    margin: 0; text-align: center; color: #fff;
-    font-size: clamp(.8rem, 1.5vw, 1.05rem); font-weight: 500; line-height: 1.45;
-    text-shadow: 0 0 3px #000, 0 1px 2px #000, 0 0 1px #000;
-  }
-  .screen-tc {
-    position: absolute; top: 2.5%; right: 2.5%; color: #fff;
-    font-size: var(--t-0); font-weight: 500; opacity: .85;
+    font-size: var(--t-5); line-height: 1.05; margin: 0; letter-spacing: -0.01em;
   }
 
-  .info { min-width: 0; }
-  .info-track {
-    display: inline-flex; align-items: center; gap: .5rem;
-    font-size: var(--t-0); font-weight: 500; color: var(--muted); margin: 0 0 .5rem;
+  /* ───────── 작품 ───────── */
+  .works-head {
+    display: flex; justify-content: space-between; align-items: flex-end; gap: 1.5rem 2rem;
+    flex-wrap: wrap; margin-bottom: 1.5rem;
   }
-  .info-track i {
-    width: .8rem; height: .8rem; border-radius: 2px; background: var(--clip); display: inline-block;
+  .works-head p { margin: .75rem 0 0; color: var(--muted); max-width: 32em; }
+  .views { display: inline-flex; border: 1.5px solid var(--ink); border-radius: 3px; }
+  .views button {
+    border: 0; background: none; padding: .5rem .9rem; cursor: pointer; font-weight: 500;
   }
-  .info h3 {
-    font-family: var(--display); font-weight: 400; font-size: var(--t-4);
-    line-height: 1.1; margin: 0 0 1.25rem;
-  }
-  .info dl {
-    display: grid; grid-template-columns: auto 1fr; gap: .45rem 1.25rem; margin: 0 0 1.25rem;
-  }
-  .info dt { color: var(--muted); font-size: var(--t-0); padding-top: .2em; }
-  .info dd { margin: 0; font-weight: 500; }
-  .info .logline { margin: 0; max-width: var(--measure); }
+  .views button[aria-pressed="true"] { background: var(--ink); color: #fff; }
 
-  /* 타임라인 */
-  .deck {
-    background: var(--deck); color: #DDE2F5; border-radius: 4px;
-    padding: 1rem 0 1.25rem;
+  .filters {
+    display: flex; flex-wrap: wrap; gap: .5rem; margin: 0 0 2.25rem; padding: 0; list-style: none;
   }
+  .filters button {
+    display: inline-flex; align-items: center; gap: .45rem;
+    border: 1px solid var(--rule); background: #fff; border-radius: 999px;
+    padding: .35rem .85rem; font-size: var(--t-0); cursor: pointer;
+  }
+  .filters button i { width: .6rem; height: .6rem; border-radius: 50%; background: var(--c); }
+  .filters button span { color: var(--muted); }
+  .filters button[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: #fff; }
+  .filters button[aria-pressed="true"] span { color: rgb(255 255 255 / .7); }
+
+  /* 모아 보기: 매체마다 실제 판형 비율을 그대로 쓴다 */
+  .grid { columns: 15rem 4; column-gap: clamp(1rem, 2.5vw, 2rem); }
+  .item {
+    display: block; break-inside: avoid; margin-bottom: 2.25rem; text-decoration: none;
+  }
+  .thumb {
+    position: relative; aspect-ratio: var(--ratio); background: var(--c);
+    border-radius: 2px; overflow: hidden;
+    display: flex; align-items: flex-end; padding: 1rem;
+  }
+  .thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .ph { font-size: var(--t-0); line-height: 1.45; color: rgb(22 33 79 / .7); }
+  .item h3 { margin: .7rem 0 0; font-size: var(--t-1); line-height: 1.4; }
+  .item:hover h3 { text-decoration: underline; text-underline-offset: 3px; }
+  .item-meta {
+    display: flex; justify-content: space-between; gap: 1rem; margin-top: .15rem;
+    font-size: var(--t-0); color: var(--muted);
+  }
+  .edits-count { color: var(--guide); font-weight: 500; white-space: nowrap; }
+
+  /* 작업 기간 보기 */
+  .deck { background: var(--deck); color: #DDE2F5; border-radius: 4px; padding: 1rem 0 1.25rem; }
   .deck-bar {
-    display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;
-    padding: 0 1.25rem .75rem; flex-wrap: wrap;
+    display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+    padding: 0 1.25rem .9rem; font-size: var(--t-0); color: #9EA8D0;
   }
-  .deck-bar p { margin: 0; font-size: var(--t-0); color: #9EA8D0; }
   .deck-bar strong { color: #fff; font-weight: 500; }
+  .key { display: inline-flex; align-items: center; gap: .45rem; }
+  .key::before { content: ""; width: 2px; height: .9rem; background: var(--guide); }
   .deck-scroll { overflow-x: auto; overscroll-behavior-x: contain; }
-  .deck-grid {
-    --label: 8.5rem;
-    min-width: 62rem; position: relative;
-    padding-right: 1.25rem;
-  }
+  .deck-grid { --label: 8rem; min-width: 56rem; padding-right: 1.25rem; }
   .ruler, .track { display: grid; grid-template-columns: var(--label) 1fr; }
-  .ruler { height: 1.75rem; }
-  .ruler-label { position: sticky; left: 0; background: var(--deck); z-index: 3; }
+  .ruler { height: 1.9rem; }
+  .sticky { position: sticky; left: 0; z-index: 2; background: var(--deck); }
   .ruler-lane { position: relative; border-bottom: 1px solid #2B3770; }
-  .tick {
-    position: absolute; bottom: 0; height: .5rem; border-left: 1px solid #4A578F;
-  }
+  .tick { position: absolute; bottom: 0; height: .35rem; border-left: 1px solid #4A578F; }
+  .tick--month { height: .6rem; border-left-color: #8B95C2; }
   .tick span {
-    position: absolute; bottom: .55rem; left: 0; translate: -50% 0;
-    font-size: .6875rem; color: #8B95C2; white-space: nowrap;
+    position: absolute; bottom: .7rem; left: 4px; white-space: nowrap;
+    font-size: .6875rem; color: #A9B1D6;
   }
-  .tick--minor { height: .3rem; }
-  .tick:first-child span { translate: 0 0; left: 4px; }
-  .track { min-height: 3.5rem; border-bottom: 1px solid #22306A; }
+  .track { border-bottom: 1px solid #22306A; }
   .track-label {
-    position: sticky; left: 0; z-index: 3; background: var(--deck);
-    display: flex; align-items: center; gap: .6rem; padding: 0 .75rem 0 1.25rem;
-    font-size: var(--t-0); line-height: 1.3;
+    display: flex; align-items: center; gap: .55rem; padding: .75rem .75rem .75rem 1.25rem;
+    font-size: var(--t-0); line-height: 1.3; color: #fff;
   }
-  .track-label b { color: #fff; font-weight: 700; min-width: 1.6rem; }
-  .track-label small { display: block; color: #8B95C2; }
-  .lane { position: relative; }
+  .track-label i { flex: none; width: .6rem; height: .6rem; border-radius: 50%; background: var(--c); }
+  .lanes { padding-block: .45rem; }
+  .lane { position: relative; height: 3rem; margin-block: .25rem; }
   .clip {
-    position: absolute; top: .45rem; bottom: .45rem;
-    min-width: 1.5rem;
-    background: var(--clip); color: var(--ink);
-    border: 0; border-radius: 3px; padding: .3rem .5rem;
-    font: inherit; font-size: var(--t-0); text-align: left; line-height: 1.25;
-    cursor: pointer; overflow: hidden;
-    container-type: inline-size;
+    position: absolute; top: 0; bottom: 0; min-width: 2rem;
+    background: var(--c); color: var(--ink); text-decoration: none;
+    border-radius: 3px; padding: .3rem .55rem; overflow: hidden;
     display: flex; flex-direction: column; justify-content: center;
-    box-shadow: inset 0 0 0 1px rgb(0 0 0 / .12);
+    font-size: var(--t-0); line-height: 1.25;
   }
   .clip:hover { filter: brightness(1.07); }
-  .clip:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
-  .clip[aria-pressed="true"] { box-shadow: inset 0 0 0 3px var(--tally); }
-  .clip-name { font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .clip-dur { white-space: nowrap; opacity: .75; }
-  @container (max-width: 2.25rem) { .clip-name, .clip-dur { display: none; } }
-  .deck-playhead {
-    position: absolute; top: 0; bottom: 0; width: 2px; background: var(--tally);
-    z-index: 2; pointer-events: none;
-  }
-  .deck-playhead::before {
-    content: ""; position: absolute; top: 0; left: 50%; translate: -50% 0;
-    border: 7px solid transparent; border-top: 9px solid var(--tally); border-bottom: 0;
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    .deck-playhead { transition: left .3s cubic-bezier(.4, 0, .2, 1); }
-  }
-  .deck-hint { margin: .9rem 1.25rem 0; font-size: var(--t-0); color: #8B95C2; }
+  .clip:focus-visible { outline-color: #fff; outline-offset: 2px; }
+  .clip b, .clip span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; position: relative; z-index: 1; }
+  .clip span { opacity: .75; }
+  .mark { position: absolute; bottom: 0; top: 55%; width: 2px; background: var(--guide); }
+  .deck-note { margin: .9rem 1.25rem 0; font-size: var(--t-0); color: #8B95C2; }
 
-  /* ───────── 상영 시간표 ───────── */
-  .schedule { background: #fff; }
-  .days { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 clamp(1.5rem, 3vw, 2.5rem); }
-  .day h3 {
-    margin: 0; padding-bottom: .75rem; border-bottom: 3px solid var(--ink);
-    font-size: var(--t-2); line-height: 1.3;
-  }
-  .day h3 span { font-weight: 400; color: var(--muted); font-size: var(--t-1); margin-left: .35rem; }
-  .day ol { list-style: none; margin: 0; padding: 0; }
-  .day li {
-    display: grid; grid-template-columns: 4.25rem 1fr; gap: 1rem;
-    padding: 1rem 0; border-bottom: 1px solid var(--rule);
-  }
-  .day time { font-weight: 700; font-size: var(--t-2); line-height: 1.2; }
-  .day li p { margin: 0; }
-  .day .prog { font-weight: 700; }
-  .day .sub { font-size: var(--t-0); color: var(--muted); }
-  .day .gv .prog::after {
-    content: "감독 참석"; margin-left: .5rem; font-size: .75rem; font-weight: 500;
-    color: #fff; background: var(--tally); padding: .1rem .4rem; border-radius: 2px;
-    vertical-align: .1em;
-  }
+  .empty { padding: 2rem 0; color: var(--muted); }
 
-  /* ───────── 디자인 전시실 ───────── */
-  .gallery { background: var(--paper); }
-  .gallery-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: clamp(2rem, 6vw, 5rem); align-items: start; }
-  .gallery .sec-head { margin-bottom: 0; }
-  .exhibits { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); }
-  .exhibits li {
-    display: grid; grid-template-columns: 7.5rem minmax(0, 1fr) auto; gap: .5rem 1.25rem;
-    padding: 1.05rem 0; border-bottom: 1px solid var(--rule); align-items: baseline;
+  /* ───────── 디자이너 ───────── */
+  .designers { background: #fff; }
+  .designers .sec-title { margin-bottom: clamp(2rem, 5vw, 3rem); }
+  .people { columns: 14rem 4; column-gap: 2rem; margin: 0; padding: 0; list-style: none; }
+  .people li { break-inside: avoid; padding: .9rem 0; border-top: 1px solid var(--rule); }
+  .people strong { display: block; font-size: var(--t-1); }
+  .people a { display: block; font-size: var(--t-0); color: var(--muted); text-underline-offset: 3px; }
+  .people a:hover { color: var(--ink); }
+
+  /* ───────── 전시 소개 ───────── */
+  .about-grid {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+    gap: clamp(2rem, 6vw, 5rem); align-items: start;
   }
-  .exhibits .medium { font-size: var(--t-0); color: var(--muted); }
-  .exhibits .w { font-weight: 700; font-size: var(--t-1); }
-  .exhibits .by { font-size: var(--t-0); color: var(--muted); text-align: right; white-space: nowrap; }
+  .about-text p { margin: 1.25rem 0 0; max-width: var(--measure); }
+  .about-text p:first-of-type { font-size: var(--t-2); line-height: 1.5; }
+  .credits-list { margin: 0; display: grid; gap: 1.1rem; border-top: 1px solid var(--ink); padding-top: 1.25rem; }
+  .credits-list div { display: grid; grid-template-columns: 7.5rem 1fr; gap: 1rem; }
+  .credits-list dt { color: var(--muted); font-size: var(--t-0); padding-top: .2em; }
+  .credits-list dd { margin: 0; }
 
   /* ───────── 관람 안내 ───────── */
-  .visit { background: var(--chroma); color: #fff; }
+  .visit { background: var(--blue); color: #fff; }
   .visit :focus-visible { outline-color: #fff; }
-  .visit .sec-head p { color: rgb(255 255 255 / .82); }
+  .visit .sec-title { margin-bottom: .75rem; }
+  .visit-lede { margin: 0 0 2.5rem; color: rgb(255 255 255 / .85); max-width: var(--measure); }
   .visit-grid {
     display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 2rem; margin: 0;
@@ -357,56 +308,123 @@
     display: inline-block; text-decoration: none; font-weight: 700;
     padding: .8rem 1.3rem; border-radius: 3px; border: 2px solid #fff;
   }
-  .btn--solid { background: #fff; color: var(--chroma); }
+  .btn--solid { background: #fff; color: var(--blue); }
   .btn--line:hover { background: rgb(255 255 255 / .12); }
 
-  /* ───────── 엔딩 크레디트 ───────── */
-  .credits {
-    background: #000; color: #fff; text-align: center;
-    padding-block: clamp(5rem, 12vw, 9rem) 3rem;
+  /* ───────── 판권 ───────── */
+  .colophon { background: var(--ink); color: #C9CEE4; padding-block: 3.5rem; font-size: var(--t-0); }
+  .colophon-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) repeat(3, minmax(0, 1fr)); gap: 2rem; }
+  .colophon h2 { font-family: var(--display); font-weight: 400; font-size: var(--t-3); color: #fff; margin: 0 0 .5rem; line-height: 1.1; }
+  .colophon p { margin: 0; line-height: 1.7; }
+  .colophon dt { color: #8B95C2; }
+  .colophon dd { margin: 0 0 .75rem; color: #fff; }
+  .colophon dl { margin: 0; }
+
+  /* ───────── 작품 상세 ───────── */
+  .detail-bar {
+    display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;
+    padding: 1.1rem var(--gutter); background: var(--blue); color: #fff;
   }
-  .credits h2 {
-    font-family: var(--display); font-weight: 400; font-size: var(--t-4); margin: 0 0 3rem;
+  .detail-bar :focus-visible { outline-color: #fff; }
+  .detail-bar .home { text-decoration: none; font-weight: 700; }
+  .detail-bar .home b { font-family: var(--display); font-weight: 400; font-size: var(--t-2); margin-right: .5rem; }
+  .detail { padding-block: clamp(2.5rem, 6vw, 4.5rem) clamp(4rem, 10vw, 7rem); }
+  .crumbs { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 2.5rem; font-size: var(--t-0); }
+  .crumbs a { text-underline-offset: 3px; }
+  .crumbs nav { display: flex; gap: 1.25rem; }
+  .medium { display: inline-flex; align-items: center; gap: .5rem; font-size: var(--t-0); color: var(--muted); margin: 0 0 .6rem; }
+  .medium i { width: .7rem; height: .7rem; border-radius: 50%; background: var(--c); }
+  .detail h1 {
+    font-family: var(--display); font-weight: 400; margin: 0;
+    font-size: clamp(2.6rem, 7vw, 5.5rem); line-height: 1.02; letter-spacing: -0.01em;
   }
-  .roll { display: grid; gap: 2.5rem; max-width: 34rem; margin: 0 auto; }
-  .roll dl { margin: 0; display: grid; gap: .35rem; }
-  .roll dt { font-size: var(--t-0); color: #A5A9B8; }
-  .roll dd { margin: 0; font-weight: 500; line-height: 1.75; }
-  .roll .names { display: flex; flex-wrap: wrap; justify-content: center; gap: .1rem 1.25rem; }
-  .fin { margin: 5rem 0 0; font-size: var(--t-0); color: #A5A9B8; }
-  .fin a { text-underline-offset: 3px; }
+  .detail .sub { font-size: var(--t-2); margin: .75rem 0 0; max-width: 28em; line-height: 1.45; }
+  .board {
+    margin: clamp(2rem, 5vw, 3rem) 0; background: #fff; border-radius: 3px;
+    display: grid; place-items: center; padding: clamp(1rem, 4vw, 3rem);
+  }
+  .board .thumb { width: min(100%, var(--maxw, 100%)); padding: clamp(1rem, 3vw, 2rem); }
+  .detail-body {
+    display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    gap: clamp(2rem, 6vw, 5rem); align-items: start;
+  }
+  .detail-body h2, .edits-head h2 { font-size: var(--t-2); margin: 0 0 .75rem; }
+  .detail-body p { margin: 0 0 1rem; max-width: var(--measure); }
+  .facts { margin: 0; display: grid; gap: .9rem; border-top: 1px solid var(--ink); padding-top: 1.1rem; }
+  .facts div { display: grid; grid-template-columns: 5.5rem 1fr; gap: 1rem; }
+  .facts dt { color: var(--muted); font-size: var(--t-0); padding-top: .2em; }
+  .facts dd { margin: 0; font-weight: 500; }
+
+  .edits-sec { margin-top: clamp(3rem, 8vw, 5rem); }
+  .edits-head { display: flex; align-items: baseline; gap: .75rem; flex-wrap: wrap; }
+  .edits-head p { margin: 0 0 .75rem; color: var(--muted); font-size: var(--t-0); }
+  .edits { list-style: none; margin: 1rem 0 0; padding: 0; counter-reset: e; }
+  .edits li {
+    counter-increment: e;
+    display: grid; grid-template-columns: 6.5rem 9rem minmax(0, 1fr); gap: 1.5rem;
+    padding: 1.5rem 0; border-top: 1px solid var(--rule); align-items: start;
+  }
+  .edits li:last-child { border-bottom: 1px solid var(--rule); }
+  .edit-when { font-size: var(--t-0); color: var(--muted); line-height: 1.4; }
+  .edit-when::before {
+    content: "편집점 " counter(e); display: block; color: var(--guide); font-weight: 700; font-size: var(--t-1);
+  }
+  .edit-thumb {
+    aspect-ratio: var(--ratio); background: color-mix(in srgb, var(--c) 45%, #fff);
+    border-radius: 2px; display: grid; place-items: center; overflow: hidden; position: relative;
+    font-size: var(--t-0); color: var(--ink);
+  }
+  .edit-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .edits h3 { margin: 0 0 .35rem; font-size: var(--t-1); line-height: 1.45; }
+  .edits p { margin: 0; color: var(--muted); max-width: var(--measure); }
+
+  .pager {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: clamp(3rem, 8vw, 5rem);
+    border-top: 1.5px solid var(--ink); padding-top: 1.25rem;
+  }
+  .pager a { text-decoration: none; display: block; }
+  .pager a:hover strong { text-decoration: underline; text-underline-offset: 3px; }
+  .pager small { display: block; color: var(--muted); font-size: var(--t-0); }
+  .pager strong { font-size: var(--t-2); line-height: 1.3; }
+  .pager .next { text-align: right; }
 
   /* ───────── 반응형 ───────── */
   @media (max-width: 960px) {
-    .monitor { grid-template-columns: 1fr; }
-    .days { grid-template-columns: 1fr; gap: 2.5rem; }
-    .gallery-grid { grid-template-columns: 1fr; }
+    .about-grid, .detail-body { grid-template-columns: 1fr; }
     .visit-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .colophon-grid { grid-template-columns: 1fr 1fr; }
   }
-  @media (max-width: 560px) {
+  @media (max-width: 600px) {
     :root { --t-5: 2.6rem; --t-4: 2.1rem; }
-    .hero-nav { gap: 1rem; font-size: var(--t-0); }
+    .site-nav { gap: 1rem; font-size: var(--t-0); }
     .hero-lede { font-size: var(--t-1); }
-    .deck-grid { --label: 6.25rem; }
-    .track-label { padding-left: 1rem; flex-direction: column; align-items: flex-start; justify-content: center; gap: 0; }
-    .track-label small { display: none; }
-    .exhibits li { grid-template-columns: 1fr auto; }
-    .exhibits .medium { grid-column: 1 / -1; }
+    .deck-grid { --label: 6rem; }
+    .grid { columns: 2; column-gap: .9rem; }
+    .item { margin-bottom: 1.5rem; }
+    .item-meta { flex-direction: column; gap: 0; }
+    .thumb { padding: .6rem; }
+    .track-label { padding-left: 1rem; }
     .visit-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    .edits li { grid-template-columns: 1fr 7rem; gap: .75rem 1rem; }
+    .edits li > div:last-child { grid-column: 1 / -1; }
+    .credits-list div { grid-template-columns: 1fr; gap: .1rem; }
+    .colophon-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
 
+<!-- ═════════ 메인 ═════════ -->
+<div id="home">
 <header class="hero" id="top">
   <div class="trim" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
 
   <div class="hero-top">
     <p class="school">한국문화영상고등학교<small>디자인콘텐츠과 3학년</small></p>
-    <nav class="hero-nav" aria-label="주요 메뉴">
-      <a href="#works">상영작</a>
-      <a href="#schedule">상영 시간표</a>
-      <a href="#gallery">디자인 전시실</a>
+    <nav class="site-nav" aria-label="주요 메뉴">
+      <a href="#works">작품</a>
+      <a href="#designers">디자이너</a>
+      <a href="#about">전시 소개</a>
       <a href="#visit">관람 안내</a>
     </nav>
   </div>
@@ -417,334 +435,419 @@
       <span class="hero-mark"><span class="cut-a">편집</span><span class="cut-b">점<span class="sel" aria-hidden="true"><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b></span></span></span>
     </h1>
     <p class="hero-lede">디자인콘텐츠과 3학년이 만든 포스터, 브랜드 아이덴티티, 패키지, 편집디자인, 앱 화면을 전시합니다.<span>제목 '편집점'은 작업을 고쳐 나가며 디자인을 결정한 순간을 뜻합니다.</span></p>
-    <p class="status tc" id="status" aria-live="off">개막까지 남은 시간을 계산하고 있습니다.</p>
+    <p class="status tn" id="status">개막까지 남은 시간을 계산하고 있습니다.</p>
   </div>
 
   <dl class="hero-meta">
-    <div><dt>기간</dt><dd class="tc">2026. 12. 10 목 – 12. 12 토</dd></div>
-    <div><dt>장소</dt><dd>본관 시청각실, 2층 디자인 전시실</dd></div>
-    <div><dt>관람</dt><dd>누구나 무료</dd></div>
+    <div><dt>기간</dt><dd class="tn">2026. 12. 10 목 – 12. 12 토</dd></div>
+    <div><dt>장소</dt><dd>본관 2층 디자인 전시실</dd></div>
+    <div><dt>관람</dt><dd>누구나 무료, 온라인 상시</dd></div>
   </dl>
 </header>
 
 <main>
-  <section class="works" id="works" aria-labelledby="works-h">
+  <section class="sec" id="works" aria-labelledby="works-h">
     <div class="wrap">
-      <div class="sec-head">
-        <h2 id="works-h">상영작</h2>
-        <p>타임라인의 클립 길이는 실제 러닝타임에 비례합니다. 클립을 누르면 모니터에서 작품 정보를 볼 수 있어요.</p>
-      </div>
-
-      <div class="monitor" aria-live="polite">
-        <div class="screen" id="screen">
-          <div class="card" id="card"><p class="card-title" id="card-title"></p></div>
-          <span class="screen-tc tc" id="screen-tc" aria-hidden="true"></span>
-          <p class="subtitle" id="subtitle"></p>
+      <div class="works-head">
+        <div>
+          <h2 class="sec-title" id="works-h">작품</h2>
+          <p>작품을 누르면 완성작과 함께, 작업 중에 방향을 바꾼 순간들을 학생이 직접 적은 기록으로 볼 수 있어요.</p>
         </div>
-        <div class="info">
-          <p class="info-track"><i id="info-swatch"></i><span id="info-track"></span></p>
-          <h3 id="info-title"></h3>
-          <dl>
-            <dt>연출</dt><dd id="info-by"></dd>
-            <dt>러닝타임</dt><dd class="tc" id="info-dur"></dd>
-            <dt>상영</dt><dd id="info-slot"></dd>
-          </dl>
-          <p class="logline" id="info-log"></p>
+        <div class="views" role="group" aria-label="보기 방식">
+          <button type="button" data-view="grid" aria-pressed="true">모아 보기</button>
+          <button type="button" data-view="deck" aria-pressed="false">작업 기간으로 보기</button>
         </div>
       </div>
-
-      <div class="deck">
+      <ul class="filters" id="filters" aria-label="매체로 거르기"></ul>
+      <div id="grid" class="grid"></div>
+      <div id="deck" class="deck" hidden>
         <div class="deck-bar">
-          <p><strong>졸업작품전 2026</strong> 시퀀스</p>
-          <p class="tc" id="deck-total"></p>
+          <span><strong>2학기 작업 기간</strong> 9월 1주부터 11월 4주까지</span>
+          <span class="key">편집점</span>
         </div>
-        <div class="deck-scroll" tabindex="-1">
-          <div class="deck-grid" id="deck-grid">
-            <div class="ruler" aria-hidden="true">
-              <div class="ruler-label"></div>
-              <div class="ruler-lane" id="ruler"></div>
-            </div>
+        <div class="deck-scroll">
+          <div class="deck-grid">
+            <div class="ruler" aria-hidden="true"><div class="sticky"></div><div class="ruler-lane" id="ruler"></div></div>
             <div id="tracks"></div>
           </div>
         </div>
-        <p class="deck-hint">좌우 방향키로 이전·다음 작품으로 이동할 수 있습니다.</p>
+        <p class="deck-note">막대 하나가 작품 하나입니다. 길이는 리서치부터 완성까지 걸린 기간이고, 빨간 눈금은 방향을 바꾼 주입니다.</p>
       </div>
+      <p class="empty" id="empty" hidden>이 매체의 작품이 아직 없습니다. 다른 매체를 골라 보세요.</p>
     </div>
   </section>
 
-  <section class="schedule" id="schedule" aria-labelledby="schedule-h">
+  <section class="sec designers" id="designers" aria-labelledby="designers-h">
     <div class="wrap">
-      <div class="sec-head">
-        <h2 id="schedule-h">상영 시간표</h2>
-        <p>모든 상영은 본관 시청각실에서 열립니다. 상영 중에는 입장이 제한되니 시작 5분 전까지 자리에 앉아 주세요.</p>
-      </div>
-      <div class="days" id="days"></div>
+      <h2 class="sec-title" id="designers-h">디자이너</h2>
+      <ul class="people" id="people"></ul>
     </div>
   </section>
 
-  <section class="gallery" id="gallery" aria-labelledby="gallery-h">
-    <div class="wrap gallery-grid">
-      <div class="sec-head">
-        <h2 id="gallery-h">2층 디자인 전시실</h2>
-        <p>디자인콘텐츠과 학생들이 지역과 학교에서 찾은 문제를 포스터, 브랜드, 패키지, 앱 화면으로 풀었습니다. 전시 기간 내내 자유롭게 둘러볼 수 있고, 작가가 자리에 있을 때는 작업 과정을 직접 들을 수 있어요.</p>
+  <section class="sec" id="about" aria-labelledby="about-h">
+    <div class="wrap about-grid">
+      <div class="about-text">
+        <h2 class="sec-title" id="about-h">전시 소개</h2>
+        <p>졸업작품 한 점에는 버린 시안이 열 장쯤 들어 있습니다. 이번 전시는 그 버린 시안도 함께 보여 드립니다.</p>
+        <p>학생들은 2학기 석 달 동안 지역 가게, 학교 생활, 동두천 거리에서 문제를 찾고 디자인으로 풀었습니다. 중간 발표에서 친구와 선생님의 피드백을 받고, 실제 사용자에게 시제품을 보여 주며 몇 번씩 방향을 바꿨습니다.</p>
+        <p>작품마다 실린 '편집점'은 그렇게 방향이 바뀐 순간의 기록입니다. 무엇을 바꿨는지, 왜 바꿨는지를 학생이 직접 적었습니다.</p>
       </div>
-      <ul class="exhibits" id="exhibits"></ul>
+      <dl class="credits-list" id="credits"></dl>
     </div>
   </section>
 
-  <section class="visit" id="visit" aria-labelledby="visit-h">
+  <section class="sec visit" id="visit" aria-labelledby="visit-h">
     <div class="wrap">
-      <div class="sec-head">
-        <h2 id="visit-h">관람 안내</h2>
-        <p>재학생 가족, 중학생과 학부모, 지역 주민 모두 예약 없이 관람할 수 있습니다.</p>
-      </div>
+      <h2 class="sec-title" id="visit-h">관람 안내</h2>
+      <p class="visit-lede">온라인 전시는 언제든 볼 수 있고, 학교 전시실에서는 실물 포스터와 패키지를 직접 만져 볼 수 있습니다. 예약 없이 오세요.</p>
       <dl class="visit-grid">
-        <div><dt>운영 시간</dt><dd class="tc">10:00 – 17:00<small>토요일은 15:00까지, 마지막 입장은 종료 30분 전</small></dd></div>
-        <div><dt>장소</dt><dd>한국문화영상고등학교 본관<small>경기도 동두천시. 정문에서 안내 표지를 따라오세요.</small></dd></div>
-        <div><dt>관람료</dt><dd>없음<small>단체 관람은 미리 연락 주시면 해설을 함께 준비합니다.</small></dd></div>
-        <div><dt>문의</dt><dd class="tc"><a href="tel:0318607300">031-860-7300</a><small>평일 09:00 – 16:30, 교무실</small></dd></div>
+        <div><dt>운영 시간</dt><dd class="tn">10:00 – 17:00<small>토요일은 15:00까지, 마지막 입장은 종료 30분 전</small></dd></div>
+        <div><dt>장소</dt><dd>본관 2층 디자인 전시실<small>경기도 동두천시 한국문화영상고등학교. 정문에서 안내 표지를 따라오세요.</small></dd></div>
+        <div><dt>관람료</dt><dd>없음<small>단체 관람은 미리 연락 주시면 학생 해설을 함께 준비합니다.</small></dd></div>
+        <div><dt>문의</dt><dd class="tn"><a href="tel:0318607300">031-860-7300</a><small>학교 대표번호</small></dd></div>
       </dl>
       <div class="visit-actions">
         <a class="btn btn--solid" href="https://kcm-h.goedy.kr/" target="_blank" rel="noopener">학교 홈페이지에서 오시는 길 보기</a>
-        <a class="btn btn--line" href="#schedule">상영 시간표 다시 보기</a>
+        <a class="btn btn--line" href="#works">온라인으로 작품 보기</a>
       </div>
     </div>
   </section>
 </main>
+</div>
 
-<footer class="credits" aria-labelledby="credits-h">
-  <h2 id="credits-h">만든 사람들</h2>
-  <div class="roll" id="roll"></div>
-  <p class="fin">© 2026 한국문화영상고등학교. <a href="#top">처음으로 돌아가기</a></p>
+<!-- ═════════ 작품 상세 ═════════ -->
+<div id="detail-view" hidden>
+  <header class="detail-bar">
+    <a class="home" href="#works"><b>편집점</b>2026 디자인 졸업작품전</a>
+    <nav class="site-nav" aria-label="주요 메뉴">
+      <a href="#works">작품</a>
+      <a href="#designers">디자이너</a>
+      <a href="#about">전시 소개</a>
+      <a href="#visit">관람 안내</a>
+    </nav>
+  </header>
+  <main class="detail wrap" id="detail" tabindex="-1"></main>
+</div>
+
+<footer class="colophon">
+  <div class="wrap colophon-grid">
+    <div>
+      <h2>편집점</h2>
+      <p>한국문화영상고등학교 디자인콘텐츠과<br>2026 디자인 졸업작품전</p>
+    </div>
+    <dl><dt>전시 기간</dt><dd class="tn">2026. 12. 10 – 12. 12</dd><dt>장소</dt><dd>본관 2층 디자인 전시실</dd></dl>
+    <dl><dt>서체</dt><dd>Gasoek One, IBM Plex Sans KR</dd><dt>웹사이트</dt><dd>졸업작품전 준비위원회 웹팀</dd></dl>
+    <dl><dt>문의</dt><dd class="tn">031-860-7300</dd><dt>학교 홈페이지</dt><dd><a href="https://kcm-h.goedy.kr/" target="_blank" rel="noopener">kcm-h.goedy.kr</a></dd></dl>
+  </div>
 </footer>
 
 <script>
-/* ─────────────────────────────────────────────
-   작품 데이터 — 실제 작품 정보로 이 부분만 바꾸면 됩니다.
-   runtime 은 초 단위. still 에 이미지 경로를 넣으면 모니터에 스틸컷이 나옵니다.
-   (아래 작품과 학생 이름은 모두 예시입니다.)
-   ───────────────────────────────────────────── */
-const TRACKS = [
-  { id: "V4", name: "모션그래픽", dept: "디자인콘텐츠과", color: "var(--clip-motion)" },
-  { id: "V3", name: "뮤직비디오", dept: "영상콘텐츠과", color: "var(--clip-mv)" },
-  { id: "V2", name: "다큐멘터리", dept: "영상콘텐츠과", color: "var(--clip-docu)" },
-  { id: "V1", name: "단편영화", dept: "영상콘텐츠과", color: "var(--clip-film)" },
+/* ═════════════════════════════════════════════
+   전시 데이터 — 실제 내용으로 이 부분만 바꾸면 됩니다.
+   · 아래 작품, 학생 이름, 기록은 모두 예시입니다.
+   · image 에 경로를 넣으면 썸네일과 상세 보드에 실제 이미지가 나옵니다.
+   · weeks 는 2학기 주차(1 = 9월 1주, 13 = 11월 4주).
+   · edits 는 방향을 바꾼 순간. week, 무엇을 바꿨나(what), 왜(why), 시안 이미지(image).
+   ═════════════════════════════════════════════ */
+const MEDIA = [
+  { id: "poster",    name: "포스터·그래픽", color: "var(--m-poster)",    ratio: "3 / 4" },
+  { id: "brand",     name: "브랜딩",       color: "var(--m-brand)",     ratio: "4 / 3" },
+  { id: "package",   name: "패키지",       color: "var(--m-package)",   ratio: "1 / 1" },
+  { id: "editorial", name: "편집디자인",    color: "var(--m-editorial)", ratio: "3 / 2" },
+  { id: "ui",        name: "UI/UX",       color: "var(--m-ui)",        ratio: "4 / 5" },
 ];
 
 const WORKS = [
-  { track: "V1", title: "마지막 버스", by: "김서윤", runtime: 860,
-    log: "보산역 막차를 놓친 두 친구가 첫차가 올 때까지 동두천을 가로질러 걷는다. 서로에게 하지 못한 말이 한 정거장씩 늦게 도착한다." },
-  { track: "V1", title: "반쪽 리허설", by: "박도현, 정유나", runtime: 665,
-    log: "졸업 공연 하루 전, 대사를 모두 잊어버린 주연과 대본을 통째로 외운 대역이 같은 무대에 선다." },
-  { track: "V1", title: "빈 교실의 소리", by: "이하린", runtime: 580,
-    log: "방학 중인 학교에서 혼자 녹음 실습을 하던 음향 담당이 아무도 없는 교실에서 들려오는 소리를 따라간다." },
-  { track: "V1", title: "우리 집 막내는 고양이다", by: "최민재", runtime: 450,
-    log: "이사를 앞둔 가족이 고양이의 거취를 두고 가족회의를 연다. 회의의 의장은 고양이다." },
-
-  { track: "V2", title: "소요산 아래 세탁소", by: "윤지호", runtime: 750,
-    log: "40년 동안 같은 자리에서 다림질을 해 온 부부의 마지막 겨울을 석 달 동안 기록했다." },
-  { track: "V2", title: "보산동, 밤 9시", by: "한서진", runtime: 530,
-    log: "골목의 가게들이 하나둘 문을 닫는 시간, 이 거리를 지켜 온 세 사람의 이야기를 들었다." },
-  { track: "V2", title: "우리가 쓰던 말", by: "오세린, 강태윤", runtime: 615,
-    log: "3년 동안 교실에서 생겨나고 사라진 말들을 학생 마흔두 명의 인터뷰로 모았다." },
-
-  { track: "V3", title: "흰 운동화", by: "장예준", runtime: 228,
-    log: "교내 밴드 '두 번째 교시'의 자작곡. 운동장 한 바퀴를 끊지 않고 한 테이크로 찍었다." },
-  { track: "V3", title: "열일곱의 여름", by: "임하은", runtime: 192,
-    log: "학교 옥상과 소요산 계곡에서 촬영하고, 색 보정으로 오래된 필름의 질감을 만들었다." },
-  { track: "V3", title: "정전", by: "송지안", runtime: 245,
-    log: "불이 꺼진 아파트 단지에서 손전등 하나로 모든 조명을 대신했다." },
-  { track: "V3", title: "신호등", by: "문현우", runtime: 178,
-    log: "건널목 신호가 바뀌는 30초를 열두 가지 방식으로 다시 찍어 한 곡으로 엮었다." },
-
-  { track: "V4", title: "동두천 글자 산책", by: "배수아", runtime: 90,
-    log: "동두천 거리 간판에서 모은 글자 214개를 움직이는 타이포그래피로 다시 짰다." },
-  { track: "V4", title: "수요일의 날씨", by: "권나연", runtime: 65,
-    log: "가상의 지역 방송국 날씨 코너를 위한 오프닝 타이틀과 그래픽 패키지." },
-  { track: "V4", title: "분리수거 설명서", by: "서도윤", runtime: 130,
-    log: "매번 헷갈리는 분리수거 규칙 일곱 가지를 인포그래픽 애니메이션으로 풀었다." },
-  { track: "V4", title: "45초 예고편", by: "유채원", runtime: 45,
-    log: "이번 졸업작품전을 알리는 45초 티저. 가로 버전과 SNS용 세로 버전을 함께 만들었다." },
+  { id: "sosan-autumn", medium: "poster", title: "소요산 단풍 축제 포스터", by: ["김다인"],
+    sub: "버스 정류장 건너편에서도 읽히는 축제 포스터 세 장", tools: "Illustrator, Photoshop", weeks: [1, 9],
+    desc: ["매년 붙는 소요산 단풍 축제 포스터는 단풍 사진 위에 글자를 얹은 모양이라, 다른 지역 축제와 구별이 잘 되지 않았습니다.", "사진 대신 소요산 단풍잎의 잎맥을 그래픽 패턴으로 만들고, 날짜와 장소를 가장 크게 놓았습니다."],
+    edits: [
+      { week: 3, what: "단풍 사진을 빼고 잎맥 패턴으로 바꿨다", why: "중간 발표에서 '다른 축제 포스터랑 똑같아 보인다'는 말을 다섯 명에게 들었다." },
+      { week: 6, what: "제목 서체를 손글씨에서 굵은 고딕으로 바꿨다", why: "실제 정류장에 출력물을 붙이고 길 건너에서 찍어 보니 손글씨 제목이 읽히지 않았다." },
+      { week: 8, what: "네 장 시리즈를 세 장으로 줄였다", why: "네 번째 장은 정보가 겹쳐서 빼도 아무도 모를 것 같았다." },
+    ] },
+  { id: "bosan-bakery", medium: "brand", title: "보산동 빵집 다시 만들기", by: ["이준서"],
+    sub: "40년 된 동네 빵집의 간판, 봉투, 스티커", tools: "Illustrator, Figma", weeks: [2, 12],
+    desc: ["학교 앞 빵집은 40년째 같은 자리에 있지만 간판이 낡아 처음 오는 사람은 빵집인지 알기 어렵습니다.", "사장님 인터뷰를 세 번 하고, 가게에서 가장 오래된 물건인 오븐 문 모양으로 로고를 만들었습니다."],
+    edits: [
+      { week: 4, what: "로고에서 밀 이삭을 뺐다", why: "사장님이 '빵집 로고는 다 밀 이삭'이라며 우리 가게만의 것을 원하셨다. 그래서 오븐 문 모양을 찾았다." },
+      { week: 7, what: "주색을 갈색에서 남색으로 바꿨다", why: "가게 오븐 철판이 남색이었고, 주변 가게 간판 중 남색이 하나도 없었다." },
+      { week: 10, what: "간판 글자를 1.5배 키웠다", why: "가게 사진에 시안을 합성해 보니 버스 안에서 보이지 않았다." },
+    ] },
+  { id: "rice-cake-box", medium: "package", title: "동두천 떡 선물 상자", by: ["박서연"],
+    sub: "풀 없이 접어서 3초 만에 포장하는 떡 상자", tools: "Illustrator, 칼선 작업, 시제품 제작", weeks: [3, 11],
+    desc: ["명절에 떡집을 도와드리다가 상자 접는 데 시간이 가장 오래 걸린다는 걸 알았습니다.", "풀이 필요 없는 끼움 구조로 상자를 다시 설계하고, 떡 종류는 띠지 색으로 구분했습니다."],
+    edits: [
+      { week: 5, what: "접착식 상자를 끼움 구조로 바꿨다", why: "떡집 사장님이 포장 시간을 줄이고 싶어 하셨다. 시제품 접기 시간을 재 보니 12초에서 3초로 줄었다." },
+      { week: 8, what: "떡 이름을 인쇄하지 않고 띠지 색으로 구분했다", why: "떡 종류가 날마다 바뀌어서 상자마다 인쇄할 수 없었다." },
+      { week: 10, what: "상자 안쪽 크기를 5mm 줄였다", why: "실제 떡을 넣어 보니 상자 안에서 흔들렸다." },
+    ] },
+  { id: "lunch-yearbook", medium: "editorial", title: "우리 학교 급식 연감", by: ["최윤아"],
+    sub: "1년 치 급식표를 한 권의 책으로", tools: "InDesign, Illustrator", weeks: [1, 13],
+    desc: ["매달 버려지는 급식표를 모으면 우리 학교의 1년이 보일 거라고 생각했습니다.", "190일 치 메뉴를 분류하고, 영양사 선생님의 손글씨 메모를 함께 실었습니다."],
+    edits: [
+      { week: 3, what: "날짜순 구성을 메뉴 종류순으로 바꿨다", why: "날짜순으로 넣었더니 그냥 급식표 묶음이었다. '카레가 나온 날' 같은 묶음이 더 재미있었다." },
+      { week: 7, what: "음식 사진을 빼고 손글씨 메모를 넣었다", why: "급식 사진은 다 비슷해 보였고, 영양사 선생님 메모에 이야기가 있었다." },
+      { week: 11, what: "판형을 A4에서 B5로 줄였다", why: "친구들에게 들고 다니며 보여 주기에 A4는 너무 컸다." },
+    ] },
+  { id: "classroom-font", medium: "poster", title: "교실체", by: ["정하준"],
+    sub: "반 친구 31명의 손글씨를 모아 만든 폰트", tools: "Glyphs, Illustrator", weeks: [2, 13],
+    desc: ["졸업하면 친구들 글씨를 다시 볼 일이 없겠다는 생각에서 시작했습니다.", "31명이 쓴 같은 문장을 모아 공통된 습관을 찾고, 그것을 기준으로 한글 1,000자를 그렸습니다."],
+    edits: [
+      { week: 4, what: "글자 모양 기준을 '받침 크기'로 정했다", why: "31명의 글씨를 겹쳐 보니 받침을 작게 쓰는 습관이 가장 많이 겹쳤다." },
+      { week: 8, what: "2,350자 목표를 1,000자로 줄였다", why: "남은 기간에 2,350자를 다 그리면 품질이 떨어질 것 같았다. 자주 쓰는 글자부터 완성하기로 했다." },
+    ] },
+  { id: "bus-window", medium: "editorial", title: "통학 버스 창밖 30일", by: ["한지우"],
+    sub: "매일 같은 자리에서 그린 창밖 풍경 30장", tools: "Procreate, InDesign", weeks: [4, 12],
+    desc: ["통학 버스 왼쪽 세 번째 자리에서 한 달 동안 매일 창밖을 그렸습니다.", "같은 길인데 날씨와 계절에 따라 달라지는 색을 한 권에 모았습니다."],
+    edits: [
+      { week: 6, what: "그림 순서를 날짜순에서 색순으로 바꿨다", why: "날짜순으로 넘기니 지루했고, 색순으로 놓으니 계절이 바뀌는 게 한눈에 보였다." },
+      { week: 9, what: "그림 옆 글을 모두 뺐다", why: "글이 있으니 그림을 안 보고 글만 읽는다는 피드백을 받았다." },
+    ] },
+  { id: "lost-found", medium: "ui", title: "찾았다", by: ["강민서"],
+    sub: "학교 분실물을 사진으로 찾는 앱", tools: "Figma, 사용성 테스트", weeks: [1, 10],
+    desc: ["행정실에 분실물이 한 상자 가득 쌓여 있는데, 학생 대부분은 그 상자가 있는 줄도 모릅니다.", "잃어버린 물건을 등록하는 앱이 아니라, 이미 주운 물건을 먼저 보여 주는 앱으로 만들었습니다."],
+    edits: [
+      { week: 3, what: "첫 화면을 '분실 등록'에서 '주운 물건 보기'로 바꿨다", why: "설문에 답한 62명 중 48명이 분실물 상자가 있는 걸 몰랐다." },
+      { week: 6, what: "사진 첨부를 필수에서 선택으로 바꿨다", why: "물건을 주운 친구가 사진 찍기 귀찮아서 등록을 안 한다고 했다." },
+      { week: 9, what: "버튼 문구 네 개를 고쳤다", why: "5명에게 테스트했더니 '접수'라는 말을 아무도 이해하지 못했다." },
+    ] },
+  { id: "canteen-line", medium: "ui", title: "매점 줄 알림", by: ["서도윤"],
+    sub: "쉬는 시간 매점 줄 길이를 알려 주는 화면", tools: "Figma, ProtoPie", weeks: [5, 12],
+    desc: ["쉬는 시간 10분 중 7분을 매점 줄에서 보낸다는 친구들의 불만에서 시작했습니다.", "복도 화면과 휴대폰에서 지금 줄 길이를 세 단계로 보여 줍니다."],
+    edits: [
+      { week: 7, what: "숫자 대신 세 단계 색으로 보여 주기로 했다", why: "'대기 14명'을 보고 몇 분 걸리는지 아는 사람이 없었다." },
+      { week: 10, what: "휴대폰 앱보다 복도 화면을 먼저 만들었다", why: "쉬는 시간에는 휴대폰을 꺼내기 전에 이미 매점으로 걷고 있었다." },
+    ] },
+  { id: "show-identity", medium: "brand", title: "졸업작품전 〈편집점〉 아이덴티티", by: ["유채원", "권나연"],
+    sub: "이 전시의 이름, 포스터, 웹사이트 첫 화면", tools: "Illustrator, Figma", weeks: [6, 13],
+    desc: ["전시 이름을 정하는 데만 3주가 걸렸습니다. 후보 40개 중에서 학과 전체 투표로 '편집점'을 골랐습니다.", "디자인 프로그램에서 글자를 옮기다 멈춘 순간을 전시의 얼굴로 삼았습니다."],
+    edits: [
+      { week: 8, what: "전시 이름을 '마침표'에서 '편집점'으로 바꿨다", why: "'마침표'는 끝났다는 느낌이라, 계속 고쳐 왔다는 우리 이야기와 맞지 않았다." },
+      { week: 11, what: "포스터의 사진을 모두 빼고 글자만 남겼다", why: "학생 작품 사진을 넣으면 특정 작품만 눈에 띄었다." },
+    ] },
+  { id: "city-tour-map", medium: "poster", title: "동두천 걷는 지도", by: ["배수아"],
+    sub: "역에서 소요산까지 걸어서 가는 그림 지도", tools: "Illustrator", weeks: [5, 11],
+    desc: ["동두천에 처음 온 사람에게 길을 알려 줄 일이 많은데, 쓸 만한 지도가 없었습니다.", "건물 대신 길에서 눈에 띄는 간판과 나무를 표시해 걸으면서 맞춰 볼 수 있게 했습니다."],
+    edits: [
+      { week: 7, what: "건물 이름 대신 눈에 띄는 간판을 표시했다", why: "직접 걸어 보니 건물 이름은 잘 안 보이고 간판이 먼저 보였다." },
+      { week: 9, what: "지도 방향을 북쪽 위에서 '걷는 방향 위'로 돌렸다", why: "테스트한 친구 셋이 모두 지도를 돌려 들고 걸었다." },
+    ] },
+  { id: "sikhye", medium: "package", title: "할머니 식혜", by: ["오세린"],
+    sub: "시장 식혜 가게의 첫 병 라벨", tools: "Illustrator, Photoshop", weeks: [4, 10],
+    desc: ["시장에서 페트병에 이름 스티커만 붙여 팔던 식혜에 라벨을 만들었습니다.", "할머니가 직접 쓰신 '식혜' 두 글자를 그대로 로고로 썼습니다."],
+    edits: [
+      { week: 6, what: "제가 만든 로고 대신 할머니 손글씨를 썼다", why: "시안 세 개를 보여 드렸더니 할머니가 직접 쓰신 글씨를 가장 좋아하셨다." },
+      { week: 8, what: "라벨을 병 전체에서 목 띠로 줄였다", why: "식혜 색이 보여야 맛있어 보인다는 손님 의견이 많았다." },
+    ] },
+  { id: "recycle-sticker", medium: "poster", title: "버리는 법 스티커", by: ["문현우"],
+    sub: "교실 분리수거함에 붙이는 안내 스티커 일곱 장", tools: "Illustrator", weeks: [7, 12],
+    desc: ["교실 분리수거함 앞에서 매번 헷갈리는 일곱 가지를 그림 스티커로 만들었습니다."],
+    edits: [
+      { week: 9, what: "글 설명을 빼고 그림만 남겼다", why: "쉬는 시간에 스티커 앞에 멈추는 시간이 평균 2초였다." },
+      { week: 11, what: "스티커 크기를 두 배로 키웠다", why: "분리수거함 뚜껑에 붙였더니 손에 가려졌다." },
+    ] },
+  { id: "library-identity", medium: "brand", title: "도서관 다시 보기", by: ["임하은"],
+    sub: "학교 도서관의 이름, 표지판, 대출 카드", tools: "Illustrator, InDesign", weeks: [3, 9],
+    desc: ["학교 도서관은 이름도 표지판도 없이 '3층 끝 방'으로 불립니다.", "학생 투표로 이름을 정하고, 표지판과 대출 카드를 같은 모양으로 맞췄습니다."],
+    edits: [
+      { week: 5, what: "직접 지은 이름 대신 학생 투표로 이름을 정했다", why: "내가 지은 이름은 나만 좋아했다. 투표에 140명이 참여했다." },
+      { week: 7, what: "표지판 화살표를 바닥 스티커로 옮겼다", why: "3층 복도 벽에는 이미 게시물이 너무 많았다." },
+    ] },
+  { id: "plant-kit", medium: "package", title: "책상 위 화분 키트", by: ["장예준"],
+    sub: "교실 창가에서 키우는 반려식물 키트 포장", tools: "Illustrator, 시제품 제작", weeks: [6, 12],
+    desc: ["교실 창가 화분이 방학마다 말라 죽는 게 안타까워 시작했습니다.", "상자를 펼치면 그대로 물받침이 되도록 설계했습니다."],
+    edits: [
+      { week: 8, what: "상자를 펼쳐서 물받침으로 쓰게 바꿨다", why: "다 쓴 상자가 바로 쓰레기가 되는 게 마음에 걸렸다." },
+      { week: 10, what: "물 주는 날을 그림 달력으로 넣었다", why: "글로 쓴 설명서는 아무도 읽지 않았다." },
+    ] },
 ];
 
-const EXHIBITS = [
-  { medium: "포스터", title: "소요산 단풍 축제 포스터 시리즈", by: "김다인" },
-  { medium: "브랜드 아이덴티티", title: "보산동 빵집 다시 만들기", by: "이준서" },
-  { medium: "패키지", title: "동두천 떡 선물 상자", by: "박서연" },
-  { medium: "편집디자인", title: "우리 학교 급식 연감", by: "최윤아" },
-  { medium: "타이포그래피", title: "손글씨 폰트, 교실체", by: "정하준" },
-  { medium: "일러스트레이션", title: "통학 버스 창밖 30일", by: "한지우" },
-  { medium: "UI 디자인", title: "분실물 찾기 앱", by: "강민서" },
-  { medium: "굿즈", title: "졸업작품전 공식 굿즈", by: "3학년 공동" },
-];
-
-/* 상영 회차: 어떤 트랙을 상영하는지만 적으면 러닝타임은 자동 계산 */
-const DAYS = [
-  { date: "12. 10", dow: "목", sessions: [
-    { time: "10:00", tracks: ["V1"], name: "단편영화" },
-    { time: "13:30", tracks: ["V2"], name: "다큐멘터리" },
-    { time: "15:30", tracks: ["V3", "V4"], name: "뮤직비디오와 모션그래픽" },
-  ]},
-  { date: "12. 11", dow: "금", sessions: [
-    { time: "10:00", tracks: ["V2"], name: "다큐멘터리" },
-    { time: "13:00", tracks: ["V3", "V4"], name: "뮤직비디오와 모션그래픽" },
-    { time: "15:00", tracks: ["V1"], name: "단편영화" },
-  ]},
-  { date: "12. 12", dow: "토", sessions: [
-    { time: "10:30", tracks: ["V1", "V2", "V3", "V4"], name: "전 작품 연속 상영" },
-    { time: "13:00", tracks: [], name: "관객과의 대화", gv: true,
-      note: "단편영화와 다큐멘터리 감독이 관객 질문에 답합니다. 약 60분." },
-  ]},
+/* 전시를 만든 사람들 */
+const CREDITS = [
+  ["지도", ["디자인콘텐츠과 교사진"]],
+  ["준비위원장", ["최윤아"]],
+  ["아이덴티티", ["유채원", "권나연"]],
+  ["웹사이트", ["강민서", "서도윤"]],
+  ["공간 설치", ["박서연", "장예준", "문현우"]],
+  ["홍보", ["김다인", "배수아"]],
 ];
 
 /* ───────── 유틸 ───────── */
-const pad = n => String(n).padStart(2, "0");
-const mmss = s => `${Math.floor(s / 60)}분 ${pad(s % 60)}초`;
-const tc = (sec, f = 0) => `${pad(Math.floor(sec / 3600))}:${pad(Math.floor(sec / 60) % 60)}:${pad(Math.floor(sec % 60))}:${pad(f)}`;
-const trackOf = id => TRACKS.find(t => t.id === id);
 const $ = id => document.getElementById(id);
+const pad = n => String(n).padStart(2, "0");
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const mediumOf = id => MEDIA.find(m => m.id === id);
+const TERM_START = new Date(2026, 8, 1); // 2학기 1주 = 9월 1일이 있는 주
+function weekLabel(w) {
+  const d = new Date(TERM_START); d.setDate(d.getDate() + (w - 1) * 7);
+  return `${d.getMonth() + 1}월 ${Math.ceil(d.getDate() / 7)}주`;
+}
+const WEEKS = 13;
+const byLine = w => w.by.join(", ");
 
-/* 트랙별 시작점 계산 */
-TRACKS.forEach(t => {
-  let at = 0;
-  WORKS.filter(w => w.track === t.id).forEach(w => { w.start = at; at += w.runtime; });
-  t.total = at;
+/* ───────── 작품: 필터 ───────── */
+let filter = "all";
+let view = "grid";
+const filtersEl = $("filters");
+filtersEl.innerHTML = [{ id: "all", name: "전체" }, ...MEDIA].map(m => {
+  const n = m.id === "all" ? WORKS.length : WORKS.filter(w => w.medium === m.id).length;
+  const dot = m.color ? `<i style="--c:${m.color}"></i>` : "";
+  return `<li><button type="button" data-filter="${m.id}" aria-pressed="${m.id === "all"}">${dot}${m.name} <span class="tn">${n}</span></button></li>`;
+}).join("");
+filtersEl.addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  filter = b.dataset.filter;
+  filtersEl.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b));
+  renderWorks();
 });
-const MAX = Math.max(...TRACKS.map(t => t.total));
-const SPAN = Math.ceil(MAX / 300) * 300; // 5분 단위로 올림
-const pct = s => (s / SPAN) * 100;
+document.querySelector(".views").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  view = b.dataset.view;
+  document.querySelectorAll(".views button").forEach(x => x.setAttribute("aria-pressed", x === b));
+  renderWorks();
+});
 
-/* 상영 회차 문자열 */
-function slotFor(work) {
-  const out = [];
-  DAYS.forEach(d => d.sessions.forEach(s => {
-    if (s.tracks.includes(work.track) && s.tracks.length < TRACKS.length) out.push(`${d.date} ${s.time}`);
-  }));
-  return out.join(", ") + " 시청각실";
+function thumb(w, extraStyle = "") {
+  const m = mediumOf(w.medium);
+  const img = w.image ? `<img src="${esc(w.image)}" alt="">` : "";
+  const ph = `<span class="ph">${m.name} ${m.ratio.replace(" / ", ":")}<br>작품 이미지 들어갈 자리</span>`;
+  return `<div class="thumb" style="--c:${m.color};--ratio:${m.ratio};${extraStyle}">${img || ph}</div>`;
 }
 
-/* ───────── 타임라인 그리기 ───────── */
+/* ───────── 작품: 모아 보기 ───────── */
+function renderGrid(list) {
+  $("grid").innerHTML = list.map(w => `
+    <a class="item" href="#/w/${w.id}">
+      ${thumb(w)}
+      <h3>${esc(w.title)}</h3>
+      <div class="item-meta"><span>${esc(byLine(w))}</span><span class="edits-count">편집점 ${w.edits.length}</span></div>
+    </a>`).join("");
+}
+
+/* ───────── 작품: 작업 기간으로 보기 ───────── */
 const ruler = $("ruler");
-for (let s = 0; s <= SPAN; s += 60) {
-  const major = s % 300 === 0;
-  const t = document.createElement("span");
-  t.className = "tick" + (major ? "" : " tick--minor");
-  t.style.left = pct(s) + "%";
-  if (major) t.innerHTML = `<span class="tc">${tc(s).slice(3, 8)}</span>`;
-  ruler.appendChild(t);
+for (let w = 1; w <= WEEKS; w++) {
+  const label = weekLabel(w);
+  const monthStart = label.endsWith(" 1주");
+  ruler.insertAdjacentHTML("beforeend",
+    `<span class="tick${monthStart ? " tick--month" : ""}" style="left:${(w - 1) / WEEKS * 100}%">${monthStart || w === 1 ? `<span>${label.split(" ")[0]}</span>` : ""}</span>`);
+}
+function renderDeck(list) {
+  $("tracks").innerHTML = MEDIA.filter(m => list.some(w => w.medium === m.id)).map(m => {
+    // 겹치는 기간은 아래 줄로 내린다
+    const lanes = [];
+    list.filter(w => w.medium === m.id).sort((a, b) => a.weeks[0] - b.weeks[0]).forEach(w => {
+      const lane = lanes.find(l => l.at(-1).weeks[1] < w.weeks[0]);
+      lane ? lane.push(w) : lanes.push([w]);
+    });
+    return `<div class="track" role="group" aria-label="${m.name}">
+      <div class="track-label sticky"><i style="--c:${m.color}"></i>${m.name}</div>
+      <div class="lanes">${lanes.map(l => `<div class="lane">${l.map(w => {
+        const [s, e] = w.weeks, span = e - s + 1;
+        const marks = w.edits.map(x => `<i class="mark" style="left:${(x.week - s + .5) / span * 100}%"></i>`).join("");
+        return `<a class="clip" href="#/w/${w.id}" style="--c:${m.color};left:calc(${(s - 1) / WEEKS * 100}% + 1px);width:calc(${span / WEEKS * 100}% - 2px)"
+          aria-label="${esc(w.title)}, ${esc(byLine(w))}, ${weekLabel(s)}부터 ${weekLabel(e)}까지, 편집점 ${w.edits.length}번">
+          <b>${esc(w.title)}</b><span>${esc(byLine(w))}</span>${marks}</a>`;
+      }).join("")}</div>`).join("")}</div>
+    </div>`;
+  }).join("");
 }
 
-const tracksEl = $("tracks");
-const order = []; // 시간순 키보드 이동용
-TRACKS.forEach(t => {
-  const row = document.createElement("div");
-  row.className = "track";
-  row.setAttribute("role", "group");
-  row.setAttribute("aria-label", `${t.id} ${t.name}`);
-  row.innerHTML = `<div class="track-label"><b>${t.id}</b><span>${t.name}<small>${t.dept}</small></span></div><div class="lane"></div>`;
-  const lane = row.querySelector(".lane");
-  WORKS.filter(w => w.track === t.id).forEach(w => {
-    const b = document.createElement("button");
-    b.type = "button";
-    b.className = "clip";
-    b.style.setProperty("--clip", t.color);
-    b.style.left = `calc(${pct(w.start)}% + 1px)`;
-    b.style.width = `calc(${pct(w.runtime)}% - 2px)`;
-    b.setAttribute("aria-pressed", "false");
-    b.setAttribute("aria-label", `${w.title}, ${t.name}, ${mmss(w.runtime)}`);
-    b.innerHTML = `<span class="clip-name">${w.title}</span><span class="clip-dur tc">${tc(w.runtime).slice(3, 8)}</span>`;
-    b.addEventListener("click", () => select(w));
-    w.el = b;
-    lane.appendChild(b);
-  });
-  tracksEl.appendChild(row);
-});
-WORKS.slice().sort((a, b) => a.start - b.start || a.track.localeCompare(b.track)).forEach(w => order.push(w));
+function renderWorks() {
+  const list = WORKS.filter(w => filter === "all" || w.medium === filter);
+  $("grid").hidden = view !== "grid";
+  $("deck").hidden = view !== "deck";
+  $("empty").hidden = list.length > 0;
+  if (view === "grid") renderGrid(list); else renderDeck(list);
+}
+renderWorks();
 
-const playhead = document.createElement("div");
-playhead.className = "deck-playhead";
-playhead.setAttribute("aria-hidden", "true");
-$("deck-grid").appendChild(playhead);
+/* ───────── 디자이너 ───────── */
+const people = {};
+WORKS.forEach(w => w.by.forEach(n => (people[n] ||= []).push(w)));
+$("people").innerHTML = Object.keys(people).sort((a, b) => a.localeCompare(b, "ko")).map(n =>
+  `<li><strong>${esc(n)}</strong>${people[n].map(w => `<a href="#/w/${w.id}">${esc(w.title)}</a>`).join("")}</li>`).join("");
 
-const totalSec = WORKS.reduce((a, w) => a + w.runtime, 0);
-$("deck-total").textContent = `${WORKS.length}편, 총 ${Math.floor(totalSec / 60)}분 ${pad(totalSec % 60)}초`;
+/* ───────── 전시 소개: 만든 사람들 ───────── */
+$("credits").innerHTML = CREDITS.map(([role, names]) =>
+  `<div><dt>${role}</dt><dd>${names.map(esc).join(", ")}</dd></div>`).join("");
 
-let current = null;
-function select(w, focus = false) {
-  const t = trackOf(w.track);
-  if (current) current.el.setAttribute("aria-pressed", "false");
-  current = w;
-  w.el.setAttribute("aria-pressed", "true");
-  if (focus) { w.el.focus(); w.el.scrollIntoView({ block: "nearest", inline: "nearest" }); }
+/* ───────── 작품 상세 ───────── */
+function renderDetail(w) {
+  const m = mediumOf(w.medium);
+  const i = WORKS.indexOf(w);
+  const prev = WORKS[(i - 1 + WORKS.length) % WORKS.length];
+  const next = WORKS[(i + 1) % WORKS.length];
+  // 세로로 긴 판형은 보드 안에서 너무 커지지 않게
+  const [rw, rh] = m.ratio.split("/").map(Number);
+  const maxw = rh > rw ? `--maxw:${Math.round(34 * rw / rh)}rem` : "--maxw:60rem";
+  $("detail").innerHTML = `
+    <div class="crumbs">
+      <a href="#works">작품 목록으로</a>
+      <nav aria-label="다른 작품"><a href="#/w/${prev.id}">이전 작품</a><a href="#/w/${next.id}">다음 작품</a></nav>
+    </div>
+    <p class="medium"><i style="--c:${m.color}"></i>${m.name}</p>
+    <h1>${esc(w.title)}</h1>
+    <p class="sub">${esc(w.sub)}</p>
+    <div class="board">${thumb(w, maxw)}</div>
+    <div class="detail-body">
+      <div>
+        <h2>기획 의도</h2>
+        ${w.desc.map(p => `<p>${esc(p)}</p>`).join("")}
+      </div>
+      <dl class="facts">
+        <div><dt>디자이너</dt><dd>${esc(byLine(w))}</dd></div>
+        <div><dt>사용 도구</dt><dd>${esc(w.tools)}</dd></div>
+        <div><dt>작업 기간</dt><dd>${weekLabel(w.weeks[0])} – ${weekLabel(w.weeks[1])}</dd></div>
+        <div><dt>편집점</dt><dd>${w.edits.length}번</dd></div>
+      </dl>
+    </div>
+    <section class="edits-sec" aria-labelledby="edits-h">
+      <div class="edits-head">
+        <h2 id="edits-h">편집점</h2>
+        <p>이 작업의 방향이 바뀐 순간들. 학생이 직접 적었습니다.</p>
+      </div>
+      <ol class="edits">${w.edits.map((x, k) => `
+        <li>
+          <p class="edit-when">${weekLabel(x.week)}</p>
+          <div class="edit-thumb" style="--c:${m.color};--ratio:${m.ratio}">${x.image ? `<img src="${esc(x.image)}" alt="${esc(x.what)} 시안">` : `시안 ${k + 1}`}</div>
+          <div><h3>${esc(x.what)}</h3><p>${esc(x.why)}</p></div>
+        </li>`).join("")}
+      </ol>
+    </section>
+    <nav class="pager" aria-label="다른 작품">
+      <a href="#/w/${prev.id}"><small>이전 작품</small><strong>${esc(prev.title)}</strong></a>
+      <a class="next" href="#/w/${next.id}"><small>다음 작품</small><strong>${esc(next.title)}</strong></a>
+    </nav>`;
+}
 
-  // 플레이헤드: 라벨 열 + 레인 내 위치
-  const grid = $("deck-grid");
-  const label = parseFloat(getComputedStyle(grid).getPropertyValue("--label")) *
-                parseFloat(getComputedStyle(document.documentElement).fontSize);
-  const laneW = grid.clientWidth - label - parseFloat(getComputedStyle(grid).paddingRight);
-  playhead.style.left = (label + laneW * pct(w.start) / 100) + "px";
-
-  // 모니터
-  const screen = $("screen");
-  screen.style.setProperty("--clip", t.color);
-  const card = $("card");
-  card.querySelector("img")?.remove();
-  if (w.still) {
-    const img = document.createElement("img");
-    img.className = "card-still"; img.src = w.still; img.alt = "";
-    card.appendChild(img);
+/* ───────── 화면 전환 (#/w/작품id) ───────── */
+const home = $("home"), detailView = $("detail-view");
+let homeScroll = 0;
+function route() {
+  const m = location.hash.match(/^#\/w\/([\w-]+)$/);
+  const work = m && WORKS.find(w => w.id === m[1]);
+  if (work) {
+    if (!home.hidden) homeScroll = scrollY;
+    home.hidden = true; detailView.hidden = false;
+    renderDetail(work);
+    document.title = `${work.title} | 편집점 2026 디자인 졸업작품전`;
+    scrollTo(0, 0);
+    $("detail").focus({ preventScroll: true });
+    return;
   }
-  $("card-title").textContent = w.title;
-  $("subtitle").textContent = w.log.split(/(?<=다\.)\s/)[0];
-  $("screen-tc").textContent = `${t.id}  ${tc(w.start)}`;
-
-  $("info-swatch").style.setProperty("--clip", t.color);
-  $("info-track").textContent = `${t.id} ${t.name}, ${t.dept}`;
-  $("info-title").textContent = w.title;
-  $("info-by").textContent = w.by;
-  $("info-dur").textContent = mmss(w.runtime);
-  $("info-slot").textContent = slotFor(w);
-  $("info-log").textContent = w.log;
+  const wasDetail = home.hidden;
+  home.hidden = false; detailView.hidden = true;
+  document.title = "편집점 | 2026 한국문화영상고 디자인 졸업작품전";
+  const target = location.hash && document.getElementById(location.hash.slice(1));
+  if (target) target.scrollIntoView();
+  else if (wasDetail) scrollTo(0, homeScroll);
 }
+addEventListener("hashchange", route);
+route();
 
-$("tracks").addEventListener("keydown", e => {
-  if (!current || !["ArrowLeft", "ArrowRight"].includes(e.key)) return;
-  e.preventDefault();
-  const i = order.indexOf(current) + (e.key === "ArrowRight" ? 1 : -1);
-  select(order[(i + order.length) % order.length], true);
-});
-window.addEventListener("resize", () => current && select(current));
-select(WORKS[0]);
-
-/* ───────── 상영 시간표 ───────── */
-$("days").innerHTML = DAYS.map(d => `
-  <div class="day">
-    <h3 class="tc">${d.date}<span>${d.dow}요일</span></h3>
-    <ol>${d.sessions.map(s => {
-      const ws = WORKS.filter(w => s.tracks.includes(w.track));
-      const sum = ws.reduce((a, w) => a + w.runtime, 0);
-      const sub = s.gv ? s.note : `${ws.length}편, 약 ${Math.round(sum / 60)}분`;
-      return `<li class="${s.gv ? "gv" : ""}"><time class="tc">${s.time}</time><div><p class="prog">${s.name}</p><p class="sub">${sub}</p></div></li>`;
-    }).join("")}</ol>
-  </div>`).join("");
-
-/* ───────── 디자인 전시실 ───────── */
-$("exhibits").innerHTML = EXHIBITS.map(x =>
-  `<li><span class="medium">${x.medium}</span><span class="w">${x.title}</span><span class="by">${x.by}</span></li>`).join("");
-
-/* ───────── 엔딩 크레디트 ───────── */
-const people = list => [...new Set(list.flatMap(x => x.by.split(/,\s*/)))].filter(n => !n.includes("공동"));
-const roll = [
-  ["주최", ["한국문화영상고등학교"]],
-  ["주관", ["영상콘텐츠과", "디자인콘텐츠과"]],
-  ...TRACKS.slice().reverse().map(t => [`${t.name} 연출`, people(WORKS.filter(w => w.track === t.id))]),
-  ["디자인 전시", people(EXHIBITS)],
-  ["전시 기획", ["3학년 졸업작품전 준비위원회"]],
-];
-$("roll").innerHTML = roll.map(([role, names]) =>
-  `<dl><dt>${role}</dt><dd class="names">${names.map(n => `<span>${n}</span>`).join("")}</dd></dl>`).join("");
-
-/* ───────── 히어로: 개막까지 남은 시간과 관람 상태 ─────────
+/* ───────── 첫 화면: 개막까지 남은 시간과 관람 상태 ─────────
    시각은 모두 한국 시간(+09:00) 기준. 날짜가 바뀌면 OPEN_DAYS 만 고치면 됩니다. */
 const OPEN_DAYS = [
   { label: "12월 10일", open: "2026-12-10T10:00:00+09:00", close: "2026-12-10T17:00:00+09:00", until: "17:00" },
@@ -763,10 +866,9 @@ function statusText(now) {
   if (today) return `지금 전시 중입니다. 오늘은 ${today.until}까지 열려요.`;
   const next = OPEN_DAYS.find(d => now < d.open);
   if (next) return `다음 관람은 ${next.label} 10:00부터입니다.`;
-  return "전시가 끝났습니다. 찾아 주셔서 고맙습니다.";
+  return "전시실 관람은 끝났습니다. 온라인 전시는 계속 열려 있어요.";
 }
-const statusEl = $("status");
-const renderStatus = () => { statusEl.textContent = statusText(new Date()); };
+const renderStatus = () => { $("status").textContent = statusText(new Date()); };
 renderStatus();
 setInterval(renderStatus, 30000);
 </script>
