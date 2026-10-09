@@ -1,0 +1,741 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>편집점 | 2026 한국문화영상고 졸업작품전</title>
+<meta name="description" content="한국문화영상고등학교 영상콘텐츠과와 디자인콘텐츠과 3학년 졸업작품전 〈편집점〉. 2026년 12월 10일부터 12일까지 본관 시청각실과 2층 디자인 전시실.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gasoek+One&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* 스튜디오 크로마키 블루, 카메라 탈리 램프, 스튜디오 회백색, 남색 잉크 */
+    --chroma: #1F3FD1;
+    --tally: #E5242A;
+    --paper: #ECEEF1;
+    --ink: #16214F;
+    --deck: #0F1A45;
+    --rule: #C7CBD6;
+    --muted: #535C80;
+
+    /* 트랙(클립) 색 */
+    --clip-film: #F4BC4C;
+    --clip-docu: #6CC3AE;
+    --clip-mv: #F29BB5;
+    --clip-motion: #A9B4FF;
+
+    --display: "Gasoek One", "IBM Plex Sans KR", sans-serif;
+    --text: "IBM Plex Sans KR", system-ui, sans-serif;
+
+    /* 1.333 비율 타입 스케일 */
+    --t-0: 0.8125rem;
+    --t-1: 1.0625rem;
+    --t-2: 1.4167rem;
+    --t-3: 1.8889rem;
+    --t-4: 2.5185rem;
+    --t-5: 3.358rem;
+
+    --gutter: clamp(1rem, 4vw, 3rem);
+    --measure: 36em;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--text);
+    font-size: var(--t-1);
+    line-height: 1.6;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--tally); outline-offset: 3px; }
+  .tc { font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1; }
+  .visually-hidden {
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap;
+  }
+  .wrap { width: min(100% - 2 * var(--gutter), 76rem); margin-inline: auto; }
+
+  /* ───────── 히어로: 블루 스크린 ───────── */
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    background: var(--chroma);
+    color: #fff;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: clamp(1.25rem, 5vh, 3rem) var(--gutter);
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .hero :focus-visible { outline-color: #fff; }
+
+  /* 방송 세이프 가이드: 액션 세이프 93%, 타이틀 세이프 90% */
+  .safe {
+    position: absolute; pointer-events: none; z-index: -1;
+    border: 1px solid rgb(255 255 255 / .28);
+  }
+  .safe--action { inset: 3.5%; }
+  .safe--title { inset: 5%; border-style: dashed; border-color: rgb(255 255 255 / .2); }
+  .crosshair {
+    position: absolute; left: 50%; top: 50%; width: 44px; height: 44px;
+    translate: -50% -50%; z-index: -1; pointer-events: none;
+  }
+  .crosshair::before, .crosshair::after {
+    content: ""; position: absolute; background: rgb(255 255 255 / .35);
+  }
+  .crosshair::before { left: 50%; top: 0; bottom: 0; width: 1px; }
+  .crosshair::after { top: 50%; left: 0; right: 0; height: 1px; }
+
+  .hero-top {
+    display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .school { font-weight: 700; font-size: var(--t-1); margin: 0; }
+  .school small { display: block; font-weight: 400; font-size: var(--t-0); opacity: .8; }
+  .hero-nav { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+  .hero-nav a { text-decoration: none; font-weight: 500; padding-block: .25rem; border-bottom: 1px solid transparent; }
+  .hero-nav a:hover { border-bottom-color: #fff; }
+
+  .hero-stage { align-self: center; position: relative; padding-block: 2rem; }
+  .rec {
+    display: inline-flex; align-items: center; gap: .55rem;
+    font-size: var(--t-1); font-weight: 500;
+    background: rgb(0 0 0 / .18); padding: .3rem .75rem .3rem .6rem; border-radius: 2px;
+  }
+  .rec::before {
+    content: ""; width: .7rem; height: .7rem; border-radius: 50%;
+    background: var(--tally); box-shadow: 0 0 0 3px rgb(229 36 42 / .3);
+  }
+  .title-frame { position: relative; display: inline-block; margin-top: 1rem; }
+  .hero-title {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(5rem, 31vw, 24rem);
+    line-height: .92;
+    letter-spacing: -0.02em;
+    margin: 0;
+    padding-right: .04em;
+  }
+  .playhead {
+    position: absolute; top: -6%; bottom: -6%; left: 100%;
+    width: 3px; background: var(--tally);
+  }
+  .playhead::before {
+    content: ""; position: absolute; top: -10px; left: 50%; translate: -50% 0;
+    border: 8px solid transparent; border-top: 10px solid var(--tally); border-bottom: 0;
+  }
+  .hero-lede {
+    max-width: 30em; font-size: var(--t-2); line-height: 1.5; margin: 1.5rem 0 0;
+  }
+
+  .hero-meta {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    gap: 1rem 2rem; margin: 0; padding-top: 1.25rem;
+    border-top: 1px solid rgb(255 255 255 / .4);
+  }
+  .hero-meta div { min-width: 0; }
+  .hero-meta dt { font-size: var(--t-0); opacity: .8; }
+  .hero-meta dd { margin: 0; font-size: var(--t-2); font-weight: 700; line-height: 1.3; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-title { animation: cut-in 1.5s cubic-bezier(.6, 0, .2, 1) .3s both; }
+    .playhead { animation: sweep 1.5s cubic-bezier(.6, 0, .2, 1) .3s both; }
+  }
+  @keyframes cut-in { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+  @keyframes sweep { from { left: 0; } to { left: 100%; } }
+
+  /* ───────── 공통 섹션 ───────── */
+  section { padding-block: clamp(4rem, 10vw, 7.5rem); }
+  .sec-head { max-width: var(--measure); margin-bottom: clamp(2rem, 5vw, 3.5rem); }
+  .sec-head h2 {
+    font-family: var(--display); font-weight: 400;
+    font-size: var(--t-5); line-height: 1.05; margin: 0 0 1rem; letter-spacing: -0.01em;
+  }
+  .sec-head p { margin: 0; color: var(--muted); }
+
+  /* ───────── 상영작: 모니터 + 타임라인 ───────── */
+  .works { background: var(--paper); }
+  .monitor {
+    display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+    gap: clamp(1.5rem, 4vw, 3rem); align-items: start;
+    margin-bottom: 2rem;
+  }
+  .screen {
+    position: relative; aspect-ratio: 16 / 9; background: #000;
+    overflow: hidden; border-radius: 3px;
+  }
+  .card {
+    position: absolute; inset: 9% 0; /* 2.39:1 레터박스 느낌 */
+    background: var(--clip, var(--clip-film));
+    display: grid; place-items: center; padding: 0 8%;
+    transition: background-color .35s ease;
+  }
+  .card-title {
+    font-family: var(--display); font-weight: 400; color: var(--ink);
+    font-size: clamp(1.75rem, 5.2vw, 4.25rem); line-height: 1.05; margin: 0; text-align: center;
+  }
+  .card-still { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .subtitle {
+    position: absolute; left: 6%; right: 6%; bottom: 3%;
+    margin: 0; text-align: center; color: #fff;
+    font-size: clamp(.8rem, 1.5vw, 1.05rem); font-weight: 500; line-height: 1.45;
+    text-shadow: 0 0 3px #000, 0 1px 2px #000, 0 0 1px #000;
+  }
+  .screen-tc {
+    position: absolute; top: 2.5%; right: 2.5%; color: #fff;
+    font-size: var(--t-0); font-weight: 500; opacity: .85;
+  }
+
+  .info { min-width: 0; }
+  .info-track {
+    display: inline-flex; align-items: center; gap: .5rem;
+    font-size: var(--t-0); font-weight: 500; color: var(--muted); margin: 0 0 .5rem;
+  }
+  .info-track i {
+    width: .8rem; height: .8rem; border-radius: 2px; background: var(--clip); display: inline-block;
+  }
+  .info h3 {
+    font-family: var(--display); font-weight: 400; font-size: var(--t-4);
+    line-height: 1.1; margin: 0 0 1.25rem;
+  }
+  .info dl {
+    display: grid; grid-template-columns: auto 1fr; gap: .45rem 1.25rem; margin: 0 0 1.25rem;
+  }
+  .info dt { color: var(--muted); font-size: var(--t-0); padding-top: .2em; }
+  .info dd { margin: 0; font-weight: 500; }
+  .info .logline { margin: 0; max-width: var(--measure); }
+
+  /* 타임라인 */
+  .deck {
+    background: var(--deck); color: #DDE2F5; border-radius: 4px;
+    padding: 1rem 0 1.25rem;
+  }
+  .deck-bar {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;
+    padding: 0 1.25rem .75rem; flex-wrap: wrap;
+  }
+  .deck-bar p { margin: 0; font-size: var(--t-0); color: #9EA8D0; }
+  .deck-bar strong { color: #fff; font-weight: 500; }
+  .deck-scroll { overflow-x: auto; overscroll-behavior-x: contain; }
+  .deck-grid {
+    --label: 8.5rem;
+    min-width: 62rem; position: relative;
+    padding-right: 1.25rem;
+  }
+  .ruler, .track { display: grid; grid-template-columns: var(--label) 1fr; }
+  .ruler { height: 1.75rem; }
+  .ruler-label { position: sticky; left: 0; background: var(--deck); z-index: 3; }
+  .ruler-lane { position: relative; border-bottom: 1px solid #2B3770; }
+  .tick {
+    position: absolute; bottom: 0; height: .5rem; border-left: 1px solid #4A578F;
+  }
+  .tick span {
+    position: absolute; bottom: .55rem; left: 0; translate: -50% 0;
+    font-size: .6875rem; color: #8B95C2; white-space: nowrap;
+  }
+  .tick--minor { height: .3rem; }
+  .tick:first-child span { translate: 0 0; left: 4px; }
+  .track { min-height: 3.5rem; border-bottom: 1px solid #22306A; }
+  .track-label {
+    position: sticky; left: 0; z-index: 3; background: var(--deck);
+    display: flex; align-items: center; gap: .6rem; padding: 0 .75rem 0 1.25rem;
+    font-size: var(--t-0); line-height: 1.3;
+  }
+  .track-label b { color: #fff; font-weight: 700; min-width: 1.6rem; }
+  .track-label small { display: block; color: #8B95C2; }
+  .lane { position: relative; }
+  .clip {
+    position: absolute; top: .45rem; bottom: .45rem;
+    min-width: 1.5rem;
+    background: var(--clip); color: var(--ink);
+    border: 0; border-radius: 3px; padding: .3rem .5rem;
+    font: inherit; font-size: var(--t-0); text-align: left; line-height: 1.25;
+    cursor: pointer; overflow: hidden;
+    container-type: inline-size;
+    display: flex; flex-direction: column; justify-content: center;
+    box-shadow: inset 0 0 0 1px rgb(0 0 0 / .12);
+  }
+  .clip:hover { filter: brightness(1.07); }
+  .clip:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+  .clip[aria-pressed="true"] { box-shadow: inset 0 0 0 3px var(--tally); }
+  .clip-name { font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .clip-dur { white-space: nowrap; opacity: .75; }
+  @container (max-width: 2.25rem) { .clip-name, .clip-dur { display: none; } }
+  .deck-playhead {
+    position: absolute; top: 0; bottom: 0; width: 2px; background: var(--tally);
+    z-index: 2; pointer-events: none;
+  }
+  .deck-playhead::before {
+    content: ""; position: absolute; top: 0; left: 50%; translate: -50% 0;
+    border: 7px solid transparent; border-top: 9px solid var(--tally); border-bottom: 0;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .deck-playhead { transition: left .3s cubic-bezier(.4, 0, .2, 1); }
+  }
+  .deck-hint { margin: .9rem 1.25rem 0; font-size: var(--t-0); color: #8B95C2; }
+
+  /* ───────── 상영 시간표 ───────── */
+  .schedule { background: #fff; }
+  .days { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 clamp(1.5rem, 3vw, 2.5rem); }
+  .day h3 {
+    margin: 0; padding-bottom: .75rem; border-bottom: 3px solid var(--ink);
+    font-size: var(--t-2); line-height: 1.3;
+  }
+  .day h3 span { font-weight: 400; color: var(--muted); font-size: var(--t-1); margin-left: .35rem; }
+  .day ol { list-style: none; margin: 0; padding: 0; }
+  .day li {
+    display: grid; grid-template-columns: 4.25rem 1fr; gap: 1rem;
+    padding: 1rem 0; border-bottom: 1px solid var(--rule);
+  }
+  .day time { font-weight: 700; font-size: var(--t-2); line-height: 1.2; }
+  .day li p { margin: 0; }
+  .day .prog { font-weight: 700; }
+  .day .sub { font-size: var(--t-0); color: var(--muted); }
+  .day .gv .prog::after {
+    content: "감독 참석"; margin-left: .5rem; font-size: .75rem; font-weight: 500;
+    color: #fff; background: var(--tally); padding: .1rem .4rem; border-radius: 2px;
+    vertical-align: .1em;
+  }
+
+  /* ───────── 디자인 전시실 ───────── */
+  .gallery { background: var(--paper); }
+  .gallery-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: clamp(2rem, 6vw, 5rem); align-items: start; }
+  .gallery .sec-head { margin-bottom: 0; }
+  .exhibits { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); }
+  .exhibits li {
+    display: grid; grid-template-columns: 7.5rem minmax(0, 1fr) auto; gap: .5rem 1.25rem;
+    padding: 1.05rem 0; border-bottom: 1px solid var(--rule); align-items: baseline;
+  }
+  .exhibits .medium { font-size: var(--t-0); color: var(--muted); }
+  .exhibits .w { font-weight: 700; font-size: var(--t-1); }
+  .exhibits .by { font-size: var(--t-0); color: var(--muted); text-align: right; white-space: nowrap; }
+
+  /* ───────── 관람 안내 ───────── */
+  .visit { background: var(--chroma); color: #fff; }
+  .visit :focus-visible { outline-color: #fff; }
+  .visit .sec-head p { color: rgb(255 255 255 / .82); }
+  .visit-grid {
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 2rem; margin: 0;
+    border-top: 1px solid rgb(255 255 255 / .45); padding-top: 1.5rem;
+  }
+  .visit-grid dt { font-size: var(--t-0); opacity: .8; margin-bottom: .35rem; }
+  .visit-grid dd { margin: 0; font-size: var(--t-2); font-weight: 700; line-height: 1.35; }
+  .visit-grid dd small { display: block; font-size: var(--t-0); font-weight: 400; opacity: .85; margin-top: .4rem; line-height: 1.5; }
+  .visit-actions { display: flex; gap: .75rem; flex-wrap: wrap; margin-top: 2.5rem; }
+  .btn {
+    display: inline-block; text-decoration: none; font-weight: 700;
+    padding: .8rem 1.3rem; border-radius: 3px; border: 2px solid #fff;
+  }
+  .btn--solid { background: #fff; color: var(--chroma); }
+  .btn--line:hover { background: rgb(255 255 255 / .12); }
+
+  /* ───────── 엔딩 크레디트 ───────── */
+  .credits {
+    background: #000; color: #fff; text-align: center;
+    padding-block: clamp(5rem, 12vw, 9rem) 3rem;
+  }
+  .credits h2 {
+    font-family: var(--display); font-weight: 400; font-size: var(--t-4); margin: 0 0 3rem;
+  }
+  .roll { display: grid; gap: 2.5rem; max-width: 34rem; margin: 0 auto; }
+  .roll dl { margin: 0; display: grid; gap: .35rem; }
+  .roll dt { font-size: var(--t-0); color: #A5A9B8; }
+  .roll dd { margin: 0; font-weight: 500; line-height: 1.75; }
+  .roll .names { display: flex; flex-wrap: wrap; justify-content: center; gap: .1rem 1.25rem; }
+  .fin { margin: 5rem 0 0; font-size: var(--t-0); color: #A5A9B8; }
+  .fin a { text-underline-offset: 3px; }
+
+  /* ───────── 반응형 ───────── */
+  @media (max-width: 960px) {
+    .monitor { grid-template-columns: 1fr; }
+    .days { grid-template-columns: 1fr; gap: 2.5rem; }
+    .gallery-grid { grid-template-columns: 1fr; }
+    .visit-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 560px) {
+    :root { --t-5: 2.6rem; --t-4: 2.1rem; }
+    .hero-nav { gap: 1rem; font-size: var(--t-0); }
+    .hero-lede { font-size: var(--t-1); }
+    .crosshair { display: none; }
+    .deck-grid { --label: 6.25rem; }
+    .track-label { padding-left: 1rem; flex-direction: column; align-items: flex-start; justify-content: center; gap: 0; }
+    .track-label small { display: none; }
+    .exhibits li { grid-template-columns: 1fr auto; }
+    .exhibits .medium { grid-column: 1 / -1; }
+    .visit-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero" id="top">
+  <div class="safe safe--action" aria-hidden="true"></div>
+  <div class="safe safe--title" aria-hidden="true"></div>
+  <div class="crosshair" aria-hidden="true"></div>
+
+  <div class="hero-top">
+    <p class="school">한국문화영상고등학교<small>영상콘텐츠과와 디자인콘텐츠과 3학년</small></p>
+    <nav class="hero-nav" aria-label="주요 메뉴">
+      <a href="#works">상영작</a>
+      <a href="#schedule">상영 시간표</a>
+      <a href="#gallery">디자인 전시실</a>
+      <a href="#visit">관람 안내</a>
+    </nav>
+  </div>
+
+  <div class="hero-stage">
+    <span class="rec tc" aria-label="타임코드"><span id="hero-tc">00:00:00:00</span></span>
+    <div>
+      <div class="title-frame">
+        <h1 class="hero-title"><span class="visually-hidden">2026 졸업작품전 </span>편집점</h1>
+        <span class="playhead" aria-hidden="true"></span>
+      </div>
+    </div>
+    <p class="hero-lede">한 장면이 끝나고 다음 장면이 시작되는 자리. 3년 동안 찍고, 자르고, 다시 붙인 열다섯 편의 영상과 여덟 점의 디자인을 상영하고 전시합니다.</p>
+  </div>
+
+  <dl class="hero-meta">
+    <div><dt>기간</dt><dd class="tc">2026. 12. 10 목 – 12. 12 토</dd></div>
+    <div><dt>장소</dt><dd>본관 시청각실, 2층 디자인 전시실</dd></div>
+    <div><dt>관람</dt><dd>누구나 무료</dd></div>
+  </dl>
+</header>
+
+<main>
+  <section class="works" id="works" aria-labelledby="works-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="works-h">상영작</h2>
+        <p>타임라인의 클립 길이는 실제 러닝타임에 비례합니다. 클립을 누르면 모니터에서 작품 정보를 볼 수 있어요.</p>
+      </div>
+
+      <div class="monitor" aria-live="polite">
+        <div class="screen" id="screen">
+          <div class="card" id="card"><p class="card-title" id="card-title"></p></div>
+          <span class="screen-tc tc" id="screen-tc" aria-hidden="true"></span>
+          <p class="subtitle" id="subtitle"></p>
+        </div>
+        <div class="info">
+          <p class="info-track"><i id="info-swatch"></i><span id="info-track"></span></p>
+          <h3 id="info-title"></h3>
+          <dl>
+            <dt>연출</dt><dd id="info-by"></dd>
+            <dt>러닝타임</dt><dd class="tc" id="info-dur"></dd>
+            <dt>상영</dt><dd id="info-slot"></dd>
+          </dl>
+          <p class="logline" id="info-log"></p>
+        </div>
+      </div>
+
+      <div class="deck">
+        <div class="deck-bar">
+          <p><strong>졸업작품전 2026</strong> 시퀀스</p>
+          <p class="tc" id="deck-total"></p>
+        </div>
+        <div class="deck-scroll" tabindex="-1">
+          <div class="deck-grid" id="deck-grid">
+            <div class="ruler" aria-hidden="true">
+              <div class="ruler-label"></div>
+              <div class="ruler-lane" id="ruler"></div>
+            </div>
+            <div id="tracks"></div>
+          </div>
+        </div>
+        <p class="deck-hint">좌우 방향키로 이전·다음 작품으로 이동할 수 있습니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="schedule" id="schedule" aria-labelledby="schedule-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="schedule-h">상영 시간표</h2>
+        <p>모든 상영은 본관 시청각실에서 열립니다. 상영 중에는 입장이 제한되니 시작 5분 전까지 자리에 앉아 주세요.</p>
+      </div>
+      <div class="days" id="days"></div>
+    </div>
+  </section>
+
+  <section class="gallery" id="gallery" aria-labelledby="gallery-h">
+    <div class="wrap gallery-grid">
+      <div class="sec-head">
+        <h2 id="gallery-h">2층 디자인 전시실</h2>
+        <p>디자인콘텐츠과 학생들이 지역과 학교에서 찾은 문제를 포스터, 브랜드, 패키지, 앱 화면으로 풀었습니다. 전시 기간 내내 자유롭게 둘러볼 수 있고, 작가가 자리에 있을 때는 작업 과정을 직접 들을 수 있어요.</p>
+      </div>
+      <ul class="exhibits" id="exhibits"></ul>
+    </div>
+  </section>
+
+  <section class="visit" id="visit" aria-labelledby="visit-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="visit-h">관람 안내</h2>
+        <p>재학생 가족, 중학생과 학부모, 지역 주민 모두 예약 없이 관람할 수 있습니다.</p>
+      </div>
+      <dl class="visit-grid">
+        <div><dt>운영 시간</dt><dd class="tc">10:00 – 17:00<small>토요일은 15:00까지, 마지막 입장은 종료 30분 전</small></dd></div>
+        <div><dt>장소</dt><dd>한국문화영상고등학교 본관<small>경기도 동두천시. 정문에서 안내 표지를 따라오세요.</small></dd></div>
+        <div><dt>관람료</dt><dd>없음<small>단체 관람은 미리 연락 주시면 해설을 함께 준비합니다.</small></dd></div>
+        <div><dt>문의</dt><dd class="tc"><a href="tel:0318607300">031-860-7300</a><small>평일 09:00 – 16:30, 교무실</small></dd></div>
+      </dl>
+      <div class="visit-actions">
+        <a class="btn btn--solid" href="https://kcm-h.goedy.kr/" target="_blank" rel="noopener">학교 홈페이지에서 오시는 길 보기</a>
+        <a class="btn btn--line" href="#schedule">상영 시간표 다시 보기</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="credits" aria-labelledby="credits-h">
+  <h2 id="credits-h">만든 사람들</h2>
+  <div class="roll" id="roll"></div>
+  <p class="fin">© 2026 한국문화영상고등학교. <a href="#top">처음으로 돌아가기</a></p>
+</footer>
+
+<script>
+/* ─────────────────────────────────────────────
+   작품 데이터 — 실제 작품 정보로 이 부분만 바꾸면 됩니다.
+   runtime 은 초 단위. still 에 이미지 경로를 넣으면 모니터에 스틸컷이 나옵니다.
+   (아래 작품과 학생 이름은 모두 예시입니다.)
+   ───────────────────────────────────────────── */
+const TRACKS = [
+  { id: "V4", name: "모션그래픽", dept: "디자인콘텐츠과", color: "var(--clip-motion)" },
+  { id: "V3", name: "뮤직비디오", dept: "영상콘텐츠과", color: "var(--clip-mv)" },
+  { id: "V2", name: "다큐멘터리", dept: "영상콘텐츠과", color: "var(--clip-docu)" },
+  { id: "V1", name: "단편영화", dept: "영상콘텐츠과", color: "var(--clip-film)" },
+];
+
+const WORKS = [
+  { track: "V1", title: "마지막 버스", by: "김서윤", runtime: 860,
+    log: "보산역 막차를 놓친 두 친구가 첫차가 올 때까지 동두천을 가로질러 걷는다. 서로에게 하지 못한 말이 한 정거장씩 늦게 도착한다." },
+  { track: "V1", title: "반쪽 리허설", by: "박도현, 정유나", runtime: 665,
+    log: "졸업 공연 하루 전, 대사를 모두 잊어버린 주연과 대본을 통째로 외운 대역이 같은 무대에 선다." },
+  { track: "V1", title: "빈 교실의 소리", by: "이하린", runtime: 580,
+    log: "방학 중인 학교에서 혼자 녹음 실습을 하던 음향 담당이 아무도 없는 교실에서 들려오는 소리를 따라간다." },
+  { track: "V1", title: "우리 집 막내는 고양이다", by: "최민재", runtime: 450,
+    log: "이사를 앞둔 가족이 고양이의 거취를 두고 가족회의를 연다. 회의의 의장은 고양이다." },
+
+  { track: "V2", title: "소요산 아래 세탁소", by: "윤지호", runtime: 750,
+    log: "40년 동안 같은 자리에서 다림질을 해 온 부부의 마지막 겨울을 석 달 동안 기록했다." },
+  { track: "V2", title: "보산동, 밤 9시", by: "한서진", runtime: 530,
+    log: "골목의 가게들이 하나둘 문을 닫는 시간, 이 거리를 지켜 온 세 사람의 이야기를 들었다." },
+  { track: "V2", title: "우리가 쓰던 말", by: "오세린, 강태윤", runtime: 615,
+    log: "3년 동안 교실에서 생겨나고 사라진 말들을 학생 마흔두 명의 인터뷰로 모았다." },
+
+  { track: "V3", title: "흰 운동화", by: "장예준", runtime: 228,
+    log: "교내 밴드 '두 번째 교시'의 자작곡. 운동장 한 바퀴를 끊지 않고 한 테이크로 찍었다." },
+  { track: "V3", title: "열일곱의 여름", by: "임하은", runtime: 192,
+    log: "학교 옥상과 소요산 계곡에서 촬영하고, 색 보정으로 오래된 필름의 질감을 만들었다." },
+  { track: "V3", title: "정전", by: "송지안", runtime: 245,
+    log: "불이 꺼진 아파트 단지에서 손전등 하나로 모든 조명을 대신했다." },
+  { track: "V3", title: "신호등", by: "문현우", runtime: 178,
+    log: "건널목 신호가 바뀌는 30초를 열두 가지 방식으로 다시 찍어 한 곡으로 엮었다." },
+
+  { track: "V4", title: "동두천 글자 산책", by: "배수아", runtime: 90,
+    log: "동두천 거리 간판에서 모은 글자 214개를 움직이는 타이포그래피로 다시 짰다." },
+  { track: "V4", title: "수요일의 날씨", by: "권나연", runtime: 65,
+    log: "가상의 지역 방송국 날씨 코너를 위한 오프닝 타이틀과 그래픽 패키지." },
+  { track: "V4", title: "분리수거 설명서", by: "서도윤", runtime: 130,
+    log: "매번 헷갈리는 분리수거 규칙 일곱 가지를 인포그래픽 애니메이션으로 풀었다." },
+  { track: "V4", title: "45초 예고편", by: "유채원", runtime: 45,
+    log: "이번 졸업작품전을 알리는 45초 티저. 가로 버전과 SNS용 세로 버전을 함께 만들었다." },
+];
+
+const EXHIBITS = [
+  { medium: "포스터", title: "소요산 단풍 축제 포스터 시리즈", by: "김다인" },
+  { medium: "브랜드 아이덴티티", title: "보산동 빵집 다시 만들기", by: "이준서" },
+  { medium: "패키지", title: "동두천 떡 선물 상자", by: "박서연" },
+  { medium: "편집디자인", title: "우리 학교 급식 연감", by: "최윤아" },
+  { medium: "타이포그래피", title: "손글씨 폰트, 교실체", by: "정하준" },
+  { medium: "일러스트레이션", title: "통학 버스 창밖 30일", by: "한지우" },
+  { medium: "UI 디자인", title: "분실물 찾기 앱", by: "강민서" },
+  { medium: "굿즈", title: "졸업작품전 공식 굿즈", by: "3학년 공동" },
+];
+
+/* 상영 회차: 어떤 트랙을 상영하는지만 적으면 러닝타임은 자동 계산 */
+const DAYS = [
+  { date: "12. 10", dow: "목", sessions: [
+    { time: "10:00", tracks: ["V1"], name: "단편영화" },
+    { time: "13:30", tracks: ["V2"], name: "다큐멘터리" },
+    { time: "15:30", tracks: ["V3", "V4"], name: "뮤직비디오와 모션그래픽" },
+  ]},
+  { date: "12. 11", dow: "금", sessions: [
+    { time: "10:00", tracks: ["V2"], name: "다큐멘터리" },
+    { time: "13:00", tracks: ["V3", "V4"], name: "뮤직비디오와 모션그래픽" },
+    { time: "15:00", tracks: ["V1"], name: "단편영화" },
+  ]},
+  { date: "12. 12", dow: "토", sessions: [
+    { time: "10:30", tracks: ["V1", "V2", "V3", "V4"], name: "전 작품 연속 상영" },
+    { time: "13:00", tracks: [], name: "관객과의 대화", gv: true,
+      note: "단편영화와 다큐멘터리 감독이 관객 질문에 답합니다. 약 60분." },
+  ]},
+];
+
+/* ───────── 유틸 ───────── */
+const pad = n => String(n).padStart(2, "0");
+const mmss = s => `${Math.floor(s / 60)}분 ${pad(s % 60)}초`;
+const tc = (sec, f = 0) => `${pad(Math.floor(sec / 3600))}:${pad(Math.floor(sec / 60) % 60)}:${pad(Math.floor(sec % 60))}:${pad(f)}`;
+const trackOf = id => TRACKS.find(t => t.id === id);
+const $ = id => document.getElementById(id);
+
+/* 트랙별 시작점 계산 */
+TRACKS.forEach(t => {
+  let at = 0;
+  WORKS.filter(w => w.track === t.id).forEach(w => { w.start = at; at += w.runtime; });
+  t.total = at;
+});
+const MAX = Math.max(...TRACKS.map(t => t.total));
+const SPAN = Math.ceil(MAX / 300) * 300; // 5분 단위로 올림
+const pct = s => (s / SPAN) * 100;
+
+/* 상영 회차 문자열 */
+function slotFor(work) {
+  const out = [];
+  DAYS.forEach(d => d.sessions.forEach(s => {
+    if (s.tracks.includes(work.track) && s.tracks.length < TRACKS.length) out.push(`${d.date} ${s.time}`);
+  }));
+  return out.join(", ") + " 시청각실";
+}
+
+/* ───────── 타임라인 그리기 ───────── */
+const ruler = $("ruler");
+for (let s = 0; s <= SPAN; s += 60) {
+  const major = s % 300 === 0;
+  const t = document.createElement("span");
+  t.className = "tick" + (major ? "" : " tick--minor");
+  t.style.left = pct(s) + "%";
+  if (major) t.innerHTML = `<span class="tc">${tc(s).slice(3, 8)}</span>`;
+  ruler.appendChild(t);
+}
+
+const tracksEl = $("tracks");
+const order = []; // 시간순 키보드 이동용
+TRACKS.forEach(t => {
+  const row = document.createElement("div");
+  row.className = "track";
+  row.setAttribute("role", "group");
+  row.setAttribute("aria-label", `${t.id} ${t.name}`);
+  row.innerHTML = `<div class="track-label"><b>${t.id}</b><span>${t.name}<small>${t.dept}</small></span></div><div class="lane"></div>`;
+  const lane = row.querySelector(".lane");
+  WORKS.filter(w => w.track === t.id).forEach(w => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "clip";
+    b.style.setProperty("--clip", t.color);
+    b.style.left = `calc(${pct(w.start)}% + 1px)`;
+    b.style.width = `calc(${pct(w.runtime)}% - 2px)`;
+    b.setAttribute("aria-pressed", "false");
+    b.setAttribute("aria-label", `${w.title}, ${t.name}, ${mmss(w.runtime)}`);
+    b.innerHTML = `<span class="clip-name">${w.title}</span><span class="clip-dur tc">${tc(w.runtime).slice(3, 8)}</span>`;
+    b.addEventListener("click", () => select(w));
+    w.el = b;
+    lane.appendChild(b);
+  });
+  tracksEl.appendChild(row);
+});
+WORKS.slice().sort((a, b) => a.start - b.start || a.track.localeCompare(b.track)).forEach(w => order.push(w));
+
+const playhead = document.createElement("div");
+playhead.className = "deck-playhead";
+playhead.setAttribute("aria-hidden", "true");
+$("deck-grid").appendChild(playhead);
+
+const totalSec = WORKS.reduce((a, w) => a + w.runtime, 0);
+$("deck-total").textContent = `${WORKS.length}편, 총 ${Math.floor(totalSec / 60)}분 ${pad(totalSec % 60)}초`;
+
+let current = null;
+function select(w, focus = false) {
+  const t = trackOf(w.track);
+  if (current) current.el.setAttribute("aria-pressed", "false");
+  current = w;
+  w.el.setAttribute("aria-pressed", "true");
+  if (focus) { w.el.focus(); w.el.scrollIntoView({ block: "nearest", inline: "nearest" }); }
+
+  // 플레이헤드: 라벨 열 + 레인 내 위치
+  const grid = $("deck-grid");
+  const label = parseFloat(getComputedStyle(grid).getPropertyValue("--label")) *
+                parseFloat(getComputedStyle(document.documentElement).fontSize);
+  const laneW = grid.clientWidth - label - parseFloat(getComputedStyle(grid).paddingRight);
+  playhead.style.left = (label + laneW * pct(w.start) / 100) + "px";
+
+  // 모니터
+  const screen = $("screen");
+  screen.style.setProperty("--clip", t.color);
+  const card = $("card");
+  card.querySelector("img")?.remove();
+  if (w.still) {
+    const img = document.createElement("img");
+    img.className = "card-still"; img.src = w.still; img.alt = "";
+    card.appendChild(img);
+  }
+  $("card-title").textContent = w.title;
+  $("subtitle").textContent = w.log.split(/(?<=다\.)\s/)[0];
+  $("screen-tc").textContent = `${t.id}  ${tc(w.start)}`;
+
+  $("info-swatch").style.setProperty("--clip", t.color);
+  $("info-track").textContent = `${t.id} ${t.name}, ${t.dept}`;
+  $("info-title").textContent = w.title;
+  $("info-by").textContent = w.by;
+  $("info-dur").textContent = mmss(w.runtime);
+  $("info-slot").textContent = slotFor(w);
+  $("info-log").textContent = w.log;
+}
+
+$("tracks").addEventListener("keydown", e => {
+  if (!current || !["ArrowLeft", "ArrowRight"].includes(e.key)) return;
+  e.preventDefault();
+  const i = order.indexOf(current) + (e.key === "ArrowRight" ? 1 : -1);
+  select(order[(i + order.length) % order.length], true);
+});
+window.addEventListener("resize", () => current && select(current));
+select(WORKS[0]);
+
+/* ───────── 상영 시간표 ───────── */
+$("days").innerHTML = DAYS.map(d => `
+  <div class="day">
+    <h3 class="tc">${d.date}<span>${d.dow}요일</span></h3>
+    <ol>${d.sessions.map(s => {
+      const ws = WORKS.filter(w => s.tracks.includes(w.track));
+      const sum = ws.reduce((a, w) => a + w.runtime, 0);
+      const sub = s.gv ? s.note : `${ws.length}편, 약 ${Math.round(sum / 60)}분`;
+      return `<li class="${s.gv ? "gv" : ""}"><time class="tc">${s.time}</time><div><p class="prog">${s.name}</p><p class="sub">${sub}</p></div></li>`;
+    }).join("")}</ol>
+  </div>`).join("");
+
+/* ───────── 디자인 전시실 ───────── */
+$("exhibits").innerHTML = EXHIBITS.map(x =>
+  `<li><span class="medium">${x.medium}</span><span class="w">${x.title}</span><span class="by">${x.by}</span></li>`).join("");
+
+/* ───────── 엔딩 크레디트 ───────── */
+const people = list => [...new Set(list.flatMap(x => x.by.split(/,\s*/)))].filter(n => !n.includes("공동"));
+const roll = [
+  ["주최", ["한국문화영상고등학교"]],
+  ["주관", ["영상콘텐츠과", "디자인콘텐츠과"]],
+  ...TRACKS.slice().reverse().map(t => [`${t.name} 연출`, people(WORKS.filter(w => w.track === t.id))]),
+  ["디자인 전시", people(EXHIBITS)],
+  ["전시 기획", ["3학년 졸업작품전 준비위원회"]],
+];
+$("roll").innerHTML = roll.map(([role, names]) =>
+  `<dl><dt>${role}</dt><dd class="names">${names.map(n => `<span>${n}</span>`).join("")}</dd></dl>`).join("");
+
+/* ───────── 히어로 타임코드 (30fps) ───────── */
+const heroTc = $("hero-tc");
+if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  const t0 = performance.now();
+  const tick = now => {
+    const el = (now - t0) / 1000;
+    heroTc.textContent = tc(el, Math.floor((el % 1) * 30));
+    requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+}
+</script>
+</body>
+</html>
