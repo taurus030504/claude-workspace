@@ -273,6 +273,26 @@
   .m-turns{display:grid;gap:8px}
   .m-turns button{display:grid;gap:2px;text-align:left;font:inherit;padding:10px 12px;border:1px solid #d6dbde;border-radius:4px;background:#fff;cursor:pointer}
   .m-turns button.on{border-color:var(--top-a);background:#eefaf7}
+  /* 메모장: 읽으면서 쓰도록 화면 오른쪽 아래에 떠 있는 창. 이 브라우저에만 저장 */
+  .memo{position:fixed;right:96px;bottom:36px;width:340px;height:min(440px,70vh);z-index:70;display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-top:4px solid var(--top-a);border-radius:6px;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+  .memo[hidden]{display:none}
+  .memo.min{height:auto}
+  .memo.min .memo-body,.memo.min .memo-foot{display:none}
+  .memo-head{display:flex;align-items:center;gap:8px;padding:8px 8px 8px 14px;border-bottom:1px solid var(--line-soft)}
+  .memo-head b{font-size:15px}
+  .memo-head small{color:#888;font-size:12px}
+  .memo-head .sp{flex:1}
+  .memo-head button{width:30px;height:30px;border:0;background:none;color:#555;border-radius:4px;cursor:pointer;display:grid;place-items:center}
+  .memo-head button:hover{background:#f2f2f2}
+  .memo-body{flex:1;display:flex;min-height:0}
+  .memo-body textarea{flex:1;border:0;resize:none;padding:12px 14px;font:inherit;font-size:15px;line-height:1.6;color:var(--text);outline:none}
+  .memo-foot{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:8px 10px;border-top:1px solid var(--line-soft)}
+  .memo-foot button{font:inherit;font-size:13px;padding:6px 10px;border:1px solid #ccc;border-radius:4px;background:#fff;cursor:pointer}
+  .memo-foot button.pri{border-color:var(--top-a);color:var(--top-a);font-weight:700}
+  .memo-foot button.warn{border-color:#d9534f;color:#d9534f}
+  .memo-foot .st{margin-left:auto;color:#888;font-size:12px}
+  .memo button:focus-visible,.memo textarea:focus-visible{outline:2px solid #1b6ec2;outline-offset:-2px}
+  @media (max-width:768px){.memo{left:8px;right:8px;bottom:8px;width:auto;height:55vh}}
   .m-turns small{color:#666;font-size:13px}
   /* 역사, 최근 변경, 출처 필요 */
   .hist{list-style:disc;padding-left:22px;margin:0 0 24px;font-size:14.5px;line-height:1.9}
@@ -2877,6 +2897,7 @@
         <a href="#/all">모든 문서</a>
         <a href="#/recent">최근 변경</a>
         <a href="#" data-random>임의 문서로</a>
+        <a href="#" id="memoOpen">메모장</a>
         <a href="#" id="teacherTurn">시점 바꾸기 (교사)</a>
       </div>
     </div>
@@ -2922,6 +2943,14 @@
 <div class="fn-pop" id="fnPop"></div>
 <div class="toast" id="toast"></div>
 <div class="t-modal" id="turnModal" hidden></div>
+<section class="memo" id="memo" hidden aria-label="메모장">
+  <div class="memo-head"><b>메모장</b><small>이 기기에만 저장됩니다</small><span class="sp"></span>
+    <button type="button" id="memoMin" title="접기" aria-label="접기"><svg class="i" viewBox="0 0 24 24"><path d="M5 11h14v2H5z"/></svg></button>
+    <button type="button" id="memoClose" title="닫기" aria-label="닫기"><svg class="i" viewBox="0 0 24 24"><path d="M6.4 5 12 10.6 17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6L6.4 19 5 17.6l5.6-5.6L5 6.4z"/></svg></button>
+  </div>
+  <div class="memo-body"><textarea id="memoText" placeholder="알게 된 것, 의심스러운 것, 확인할 것을 적어 두세요.&#10;문서에서 글을 드래그한 뒤 [출처 넣기]를 누르면 그 글과 문서 이름이 함께 들어갑니다." aria-label="메모 내용"></textarea></div>
+  <div class="memo-foot"><button type="button" class="pri" id="memoCite">출처 넣기</button><button type="button" id="memoClear">지우기</button><span class="st" id="memoSt"></span></div>
+</section>
 
 <script>
 (() => {
@@ -3449,6 +3478,50 @@
     openModal(`<h3>교사 확인</h3><p>교사 학번을 입력하세요.</p><input id="tcode" inputmode="numeric" autocomplete="off" aria-label="교사 학번">
       <p class="m-err" aria-live="polite"></p><div class="m-btns"><button type="button" data-mclose>취소</button><button type="button" class="pri" data-tcheck>확인</button></div>`);
     setTimeout(() => { const i = modal.querySelector('#tcode'); if (i) i.focus(); }, 0);
+  });
+
+  /* 메모장: 특수 기능 > 메모장. 내용은 localStorage(이 브라우저)에 바로 저장.
+     [출처 넣기]는 문서에서 드래그한 글을 "글" (문서, n턴) 꼴로, 선택이 없으면 [문서, n턴]만 넣는다. */
+  const MEMO_KEY = 'moonyoung-wiki-memo';
+  const memo = $('#memo'), memoText = $('#memoText'), memoSt = $('#memoSt'), memoClear = $('#memoClear');
+  let memoT, lastSel = '', clearArm = false;
+  const memoCount = () => `${memoText.value.length}자`;
+  memoText.value = store.get(MEMO_KEY) || '';
+  /* 문서 글을 드래그하면 입력칸의 커서 위치가 흐려지므로 마지막 커서 위치를 따로 기억한다 */
+  let memoCaret = [memoText.value.length, memoText.value.length];
+  ['keyup', 'click', 'select', 'input'].forEach(ev => memoText.addEventListener(ev, () => { memoCaret = [memoText.selectionStart, memoText.selectionEnd]; }));
+  memoSt.textContent = memoCount();
+  memoText.addEventListener('input', () => {
+    memoSt.textContent = '저장 중';
+    clearTimeout(memoT);
+    memoT = setTimeout(() => { store.set(MEMO_KEY, memoText.value); const d = new Date(); memoSt.textContent = `저장됨 ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')} / ${memoCount()}`; }, 400);
+  });
+  document.addEventListener('selectionchange', () => {
+    const sel = document.getSelection(), t = sel && String(sel).trim();
+    if (t && sel.anchorNode && article.contains(sel.anchorNode)) lastSel = t.replace(/\s+/g, ' ').slice(0, 300);
+  });
+  function memoInsert(txt) {
+    const v = memoText.value, a = Math.min(memoCaret[0], v.length), b = Math.min(memoCaret[1], v.length);
+    const pre = a > 0 && v[a - 1] !== '\n' ? '\n' : '';
+    memoText.value = v.slice(0, a) + pre + txt + v.slice(b);
+    const p = a + pre.length + txt.length; memoText.focus(); memoText.setSelectionRange(p, p); memoCaret = [p, p];
+    memoText.dispatchEvent(new Event('input'));
+  }
+  function openMemo() { memo.hidden = false; memo.classList.remove('min'); memoText.focus(); }
+  $('#memoOpen').addEventListener('click', e => { e.preventDefault(); closeMenus(); openMemo(); });
+  $('#memoClose').addEventListener('click', () => { memo.hidden = true; });
+  $('#memoMin').addEventListener('click', () => { memo.classList.toggle('min'); });
+  $('#memoCite').addEventListener('mousedown', e => e.preventDefault());
+  $('#memoCite').addEventListener('click', () => {
+    const h = article.querySelector('h1'), doc = h ? h.textContent.replace(/\s+/g, ' ').trim() : '';
+    const src = `${doc}${doc ? ', ' : ''}${TURNS[TURN - 1] ? TURNS[TURN - 1].name : ''}`;
+    memoInsert(lastSel ? `"${lastSel}" (${src})\n` : `[${src}] `);
+    lastSel = ''; try { document.getSelection().removeAllRanges(); } catch (e) {}
+  });
+  memoClear.addEventListener('click', () => {
+    if (!clearArm) { clearArm = true; memoClear.classList.add('warn'); memoClear.textContent = '정말 지우기'; setTimeout(() => { clearArm = false; memoClear.classList.remove('warn'); memoClear.textContent = '지우기'; }, 3000); return; }
+    clearArm = false; memoClear.classList.remove('warn'); memoClear.textContent = '지우기';
+    memoText.value = ''; memoText.dispatchEvent(new Event('input')); toast('메모를 지웠습니다.');
   });
 
   /* 각주 미리보기 */
