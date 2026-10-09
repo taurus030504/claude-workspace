@@ -278,7 +278,14 @@
   .memo[hidden]{display:none}
   .memo.min{height:auto}
   .memo.min .memo-body,.memo.min .memo-foot{display:none}
-  .memo-head{display:flex;align-items:center;gap:8px;padding:8px 8px 8px 14px;border-bottom:1px solid var(--line-soft)}
+  .memo-head{display:flex;align-items:center;gap:8px;padding:8px 8px 8px 14px;border-bottom:1px solid var(--line-soft);cursor:move;touch-action:none;user-select:none}
+  .memo.drag{opacity:.92;box-shadow:0 12px 32px rgba(0,0,0,.28)}
+  .memo-head button{cursor:pointer}
+  /* 문서 글을 드래그하면 그 위에 뜨는 [메모에 담기] 단추 */
+  .clip-bub{position:fixed;z-index:75;display:none;align-items:center;gap:6px;transform:translate(-50%,-100%);margin-top:-8px;background:#222;color:#fff;border:0;border-radius:4px;padding:7px 12px;font:inherit;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.25);white-space:nowrap}
+  .clip-bub.show{display:flex}
+  .clip-bub::after{content:"";position:absolute;left:50%;bottom:-5px;margin-left:-5px;border:5px solid transparent;border-bottom:0;border-top-color:#222}
+  .clip-bub:focus-visible{outline:2px solid #1b6ec2;outline-offset:2px}
   .memo-head b{font-size:15px}
   .memo-head small{color:#888;font-size:12px}
   .memo-head .sp{flex:1}
@@ -2944,13 +2951,14 @@
 <div class="toast" id="toast"></div>
 <div class="t-modal" id="turnModal" hidden></div>
 <section class="memo" id="memo" hidden aria-label="메모장">
-  <div class="memo-head"><b>메모장</b><small>이 기기에만 저장됩니다</small><span class="sp"></span>
+  <div class="memo-head" id="memoHead" title="끌어서 옮기기 (두 번 누르면 제자리)"><b>메모장</b><small>이 기기에만 저장됩니다</small><span class="sp"></span>
     <button type="button" id="memoMin" title="접기" aria-label="접기"><svg class="i" viewBox="0 0 24 24"><path d="M5 11h14v2H5z"/></svg></button>
     <button type="button" id="memoClose" title="닫기" aria-label="닫기"><svg class="i" viewBox="0 0 24 24"><path d="M6.4 5 12 10.6 17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6L6.4 19 5 17.6l5.6-5.6L5 6.4z"/></svg></button>
   </div>
   <div class="memo-body"><textarea id="memoText" placeholder="알게 된 것, 의심스러운 것, 확인할 것을 적어 두세요.&#10;문서에서 글을 드래그한 뒤 [출처 넣기]를 누르면 그 글과 문서 이름이 함께 들어갑니다." aria-label="메모 내용"></textarea></div>
   <div class="memo-foot"><button type="button" class="pri" id="memoCite">출처 넣기</button><button type="button" id="memoClear">지우기</button><span class="st" id="memoSt"></span></div>
 </section>
+<button type="button" class="clip-bub" id="clipBub"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.5 6.5v10a4.5 4.5 0 0 1-9 0V5a3 3 0 0 1 6 0v10.5a1.5 1.5 0 0 1-3 0V6.5H9v9a3 3 0 0 0 6 0V5a4.5 4.5 0 0 0-9 0v11.5a6 6 0 0 0 12 0v-10z"/></svg>메모에 담기</button>
 
 <script>
 (() => {
@@ -3498,7 +3506,7 @@
   });
   document.addEventListener('selectionchange', () => {
     const sel = document.getSelection(), t = sel && String(sel).trim();
-    if (t && sel.anchorNode && article.contains(sel.anchorNode)) lastSel = t.replace(/\s+/g, ' ').slice(0, 300);
+    if (t && sel.anchorNode && article.contains(sel.anchorNode)) { lastSel = t.replace(/\s+/g, ' ').slice(0, 300); lastNode = sel.anchorNode; }
   });
   function memoInsert(txt) {
     const v = memoText.value, a = Math.min(memoCaret[0], v.length), b = Math.min(memoCaret[1], v.length);
@@ -3507,17 +3515,85 @@
     const p = a + pre.length + txt.length; memoText.focus(); memoText.setSelectionRange(p, p); memoCaret = [p, p];
     memoText.dispatchEvent(new Event('input'));
   }
-  function openMemo() { memo.hidden = false; memo.classList.remove('min'); memoText.focus(); }
+  function openMemo() { memo.hidden = false; memo.classList.remove('min'); restoreMemoPos(); memoText.focus(); }
   $('#memoOpen').addEventListener('click', e => { e.preventDefault(); closeMenus(); openMemo(); });
   $('#memoClose').addEventListener('click', () => { memo.hidden = true; });
   $('#memoMin').addEventListener('click', () => { memo.classList.toggle('min'); });
+  /* 출처 표시: 문서 이름 + 문단 번호와 제목 + 턴. 예) 김서진 6.1 이은호와의 열애설, 1턴 */
+  function memoSource(node) {
+    const h = article.querySelector('h1'), doc = h ? h.textContent.replace(/\s+/g, ' ').trim() : '';
+    let sec = '';
+    const el = node && (node.nodeType === 1 ? node : node.parentElement), body = el && el.closest('.sec-body');
+    const head = body && article.querySelector(`[data-sec="${body.dataset.body}"]`);
+    if (head) sec = head.textContent.replace(/\[편집\]/g, '').replace(/\s+/g, ' ').trim().replace(/^(\d+(?:\.\d+)*)\.\s*/, '$1 ');
+    return [doc + (sec ? ' ' + sec : ''), TURNS[TURN - 1] ? TURNS[TURN - 1].name : ''].filter(Boolean).join(', ');
+  }
+  let lastNode = null;
   $('#memoCite').addEventListener('mousedown', e => e.preventDefault());
   $('#memoCite').addEventListener('click', () => {
-    const h = article.querySelector('h1'), doc = h ? h.textContent.replace(/\s+/g, ' ').trim() : '';
-    const src = `${doc}${doc ? ', ' : ''}${TURNS[TURN - 1] ? TURNS[TURN - 1].name : ''}`;
+    const src = memoSource(lastSel ? lastNode : null);
     memoInsert(lastSel ? `"${lastSel}" (${src})\n` : `[${src}] `);
     lastSel = ''; try { document.getSelection().removeAllRanges(); } catch (e) {}
   });
+
+  /* [메모에 담기]: 문서에서 글을 고르면 바로 위에 뜬다. 누르면 메모 맨 끝에 붙고 메모장이 열린다 */
+  const bub = $('#clipBub');
+  let bubT;
+  function placeBubble() {
+    const sel = document.getSelection();
+    const t = sel && sel.rangeCount ? String(sel).trim() : '';
+    if (!t || !sel.anchorNode || !article.contains(sel.anchorNode)) { bub.classList.remove('show'); return; }
+    const r = sel.getRangeAt(0).getBoundingClientRect();
+    if (!r.width && !r.height) { bub.classList.remove('show'); return; }
+    const top = r.top < 70 ? r.bottom + 44 : r.top;
+    bub.style.left = Math.max(70, Math.min(innerWidth - 70, r.left + r.width / 2)) + 'px';
+    bub.style.top = top + 'px';
+    bub.classList.add('show');
+  }
+  document.addEventListener('selectionchange', () => { clearTimeout(bubT); bubT = setTimeout(placeBubble, 250); });
+  addEventListener('scroll', () => bub.classList.remove('show'), { passive: true });
+  bub.addEventListener('mousedown', e => e.preventDefault());
+  bub.addEventListener('click', () => {
+    if (!lastSel) return;
+    const wasHidden = memo.hidden;
+    memo.hidden = false;
+    const v = memoText.value; memoCaret = [v.length, v.length];
+    memoInsert(`"${lastSel}" (${memoSource(lastNode)})\n`);
+    if (!wasHidden && memo.classList.contains('min')) memoText.blur();
+    lastSel = ''; bub.classList.remove('show');
+    try { document.getSelection().removeAllRanges(); } catch (e) {}
+    toast('메모장에 담았습니다.');
+  });
+
+  /* 메모장 끌어 옮기기: 머리줄을 잡고 끈다. 위치는 이 브라우저에 기억, 두 번 누르면 제자리 */
+  const POS_KEY = 'moonyoung-wiki-memo-pos', head = $('#memoHead');
+  function clampMemo(x, y) {
+    const w = memo.offsetWidth, hh = head.offsetHeight;
+    x = Math.max(4, Math.min(innerWidth - w - 4, x));
+    y = Math.max(4, Math.min(innerHeight - hh - 4, y));
+    Object.assign(memo.style, { left: x + 'px', top: y + 'px', right: 'auto', bottom: 'auto', width: w + 'px' });
+    return [x, y];
+  }
+  function resetMemoPos() { ['left', 'top', 'right', 'bottom', 'width'].forEach(k => memo.style[k] = ''); store.set(POS_KEY, ''); }
+  function restoreMemoPos() {
+    try { const p = JSON.parse(store.get(POS_KEY) || 'null'); if (p) clampMemo(p[0], p[1]); } catch (e) {}
+  }
+  let drag = null;
+  head.addEventListener('pointerdown', e => {
+    if (e.target.closest('button') || e.button > 0) return;
+    const r = memo.getBoundingClientRect();
+    drag = { dx: e.clientX - r.left, dy: e.clientY - r.top, id: e.pointerId };
+    head.setPointerCapture(e.pointerId); memo.classList.add('drag'); e.preventDefault();
+  });
+  head.addEventListener('pointermove', e => { if (drag && e.pointerId === drag.id) clampMemo(e.clientX - drag.dx, e.clientY - drag.dy); });
+  const endDrag = e => {
+    if (!drag || e.pointerId !== drag.id) return;
+    drag = null; memo.classList.remove('drag');
+    store.set(POS_KEY, JSON.stringify([parseFloat(memo.style.left), parseFloat(memo.style.top)]));
+  };
+  head.addEventListener('pointerup', endDrag); head.addEventListener('pointercancel', endDrag);
+  head.addEventListener('dblclick', e => { if (!e.target.closest('button')) resetMemoPos(); });
+  addEventListener('resize', () => { if (!memo.hidden && memo.style.left) clampMemo(parseFloat(memo.style.left), parseFloat(memo.style.top)); });
   memoClear.addEventListener('click', () => {
     if (!clearArm) { clearArm = true; memoClear.classList.add('warn'); memoClear.textContent = '정말 지우기'; setTimeout(() => { clearArm = false; memoClear.classList.remove('warn'); memoClear.textContent = '지우기'; }, 3000); return; }
     clearArm = false; memoClear.classList.remove('warn'); memoClear.textContent = '지우기';
