@@ -341,8 +341,6 @@
   .nav-badge.bump{animation:bump .45s}
   @keyframes bump{40%{transform:scale(1.35)}}
   @media (max-width:768px){.nav-badge{position:absolute;top:2px;right:0}}
-  /* 좁은 휴대폰: 스크랩 단추 자리를 위해 수업에서 쓰지 않는 '최근 토론'을 숨긴다 */
-  @media (max-width:480px){.nav-item[data-unsupported="최근 토론"]{display:none}}
   /* 문서 글을 드래그하면 그 위에 뜨는 [스크랩] 단추 */
   .clip-bub{position:fixed;z-index:75;display:none;align-items:center;gap:6px;transform:translate(-50%,-100%);margin-top:-8px;background:#222;color:#fff;border:0;border-radius:4px;padding:7px 12px;font:inherit;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.25);white-space:nowrap}
   .clip-bub.show{display:flex}
@@ -441,7 +439,7 @@
 
   ▣ 시점(턴)에 따라 바뀌는 내용
     site.turns  : 문영일보와 같은 턴 목록 [{name, time:"YYYY-MM-DD HH:MM", desc}]. 화면 위 '현재 시점' 줄에 표시.
-                  학생은 '다음 턴'만 누를 수 있다(확인 창). 교사는 특수 기능 > 시점 바꾸기에서 site.teacherCode 학번으로.
+                  학생은 '다음 턴'만 누를 수 있다(확인 창). 교사는 맨 아래 '시점 바꾸기 (교사)'에서 site.teacherCode 학번으로.
     "since" / "until" : 문단(블록), 문단 제목(섹션), 하위 문단에 붙이면 그 시각부터 보이고 그 시각부터 사라진다.
     "leadAt"    : [{since, until, text}] 그 시간 동안만 첫 문단(개요 위 소개)을 바꿔 보여 준다(문서 훼손 장면 등).
     "history"   : 문서 편집 기록 [{t, by, note, d?, revert?, acl?}]. '역사' 버튼 목록과 '최근 변경'에 쓰인다.
@@ -2947,16 +2945,6 @@
     </a>
     <a class="nav-item" href="#/recent"><svg class="i" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10h-10z"/><path d="M14 0v10h10A10 10 0 0 0 14 0z" opacity=".7"/></svg><span class="lbl">최근 변경</span></a>
     <button class="nav-item" type="button" data-unsupported="최근 토론"><svg class="i" viewBox="0 0 24 24"><path d="M3 4h12a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H8l-4 3v-3H3a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="M19 8h2a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-1v3l-4-3h-5a2 2 0 0 1-2-2v-1h6a3 3 0 0 0 3-3z" opacity=".8"/></svg><span class="lbl">최근 토론</span></button>
-    <div style="position:relative">
-      <button class="nav-item" type="button" id="specialBtn"><svg class="i" viewBox="0 0 24 24"><path d="M9 3h6a2 2 0 0 1 2 2v2h4a1 1 0 0 1 1 1v4H2V8a1 1 0 0 1 1-1h4V5a2 2 0 0 1 2-2zm0 2v2h6V5zM2 14h8v2h4v-2h8v6a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/></svg><span class="lbl">특수 기능</span><span class="caret"></span></button>
-      <div class="dropdown" id="specialMenu">
-        <a href="#/all">모든 문서</a>
-        <a href="#/recent">최근 변경</a>
-        <a href="#" data-random>임의 문서로</a>
-        <a href="#" id="memoOpen">스크랩과 메모</a>
-        <a href="#" id="teacherTurn">시점 바꾸기 (교사)</a>
-      </div>
-    </div>
     <button class="nav-item" type="button" id="clipBtn" title="스크랩한 증거 보기"><svg class="i" viewBox="0 0 24 24"><path d="M6 2h12a2 2 0 0 1 2 2v18l-8-4.5L4 22V4a2 2 0 0 1 2-2z"/></svg><span class="lbl">스크랩</span><span class="nav-badge" id="clipBadge"></span></button>
     <div class="top-right">
       <button class="sq-btn rand" type="button" title="임의 문서로" data-random><svg class="i" viewBox="0 0 24 24"><path d="M17 3l4 4-4 4V8h-2.2l-8 9H2v-2h3.9l8-9H17zM2 7h4.8l2.4 2.7-1.3 1.5L5.9 9H2zm15 6l4 4-4 4v-3h-3.8l-2.4-2.7 1.3-1.5 1.9 2.2H17z"/></svg></button>
@@ -3450,18 +3438,17 @@
   }
   window.setWikiTurn = setTurn;
   paintSide();
-  $('#siteFoot').innerHTML = `${esc(SITE.name)} <span style="color:#999;margin:0 6px">|</span> 수업용 가상 위키 화면 <a href="#/all">모든 문서</a><a href="#/recent">최근 변경</a><br>
+  $('#siteFoot').innerHTML = `${esc(SITE.name)} <span style="color:#999;margin:0 6px">|</span> 수업용 가상 위키 화면 <a href="#/all">모든 문서</a><a href="#/recent">최근 변경</a><a href="#" id="teacherTurn">시점 바꾸기 (교사)</a><br>
     <span style="color:#777">실제 서비스와 관련이 없으며 외부로 연결되지 않습니다.</span>`;
 
   /* ── 상호작용 ── */
   const toastEl = $('#toast'); let toastT;
   function toast(msg) { toastEl.textContent = msg; toastEl.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => toastEl.classList.remove('show'), 1800); }
-  function closeMenus() { $('#specialMenu').classList.remove('open'); $('#suggest').classList.remove('open'); }
+  function closeMenus() { $('#suggest').classList.remove('open'); }
 
   document.addEventListener('click', e => {
     const t = e.target.closest('a,button,.sec-h,.toc-head');
     if (!t) { closeMenus(); return; }
-    if (t.id === 'specialBtn') { e.stopPropagation(); $('#specialMenu').classList.toggle('open'); return; }
     if (t.matches('[data-home]')) { e.preventDefault(); go(SITE.home); return; }
     if (t.matches('[data-random]')) { e.preventDefault(); const k = Object.keys(DOCS); go(k[Math.floor(Math.random() * k.length)]); return; }
     if (t.matches('[data-tab]')) {
@@ -3707,7 +3694,6 @@
     const p = a + pre.length + txt.length; memoText.focus(); memoText.setSelectionRange(p, p); memoCaret = [p, p];
     memoText.dispatchEvent(new Event('input'));
   }
-  $('#memoOpen').addEventListener('click', e => { e.preventDefault(); closeMenus(); openMemo(); });
   $('#clipBtn').addEventListener('click', e => { e.stopPropagation(); closeMenus(); if (!memo.hidden && pane === 'clips' && !memo.classList.contains('min')) memo.hidden = true; else openMemo('clips'); });
   $('#memoClose').addEventListener('click', () => { memo.hidden = true; });
   $('#memoMin').addEventListener('click', () => { memo.classList.toggle('min'); });
