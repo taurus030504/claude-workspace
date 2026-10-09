@@ -105,6 +105,8 @@
   }
   .gnb .updated { font-size: 14px; color: #222; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
   .gnb .updated b { font-weight: 700; }
+  .gnb .updated .next-turn { border: 1px solid #ccc; background: #fff; font-size: 12px; padding: 3px 9px; border-radius: 3px; color: #333; margin-left: 4px; }
+  .gnb .updated .next-turn:hover { border-color: #555; }
   .turns { display: flex; gap: 6px; flex-wrap: wrap; }
   .turns button { border: 1px solid #ccc; background: #fff; padding: 8px 12px; font-size: 13px; color: #111; border-radius: 4px; display: grid; gap: 2px; }
   .turns button small { font-size: 11px; color: var(--text-muted); }
@@ -744,8 +746,6 @@
     "교사 학번": [
       "1444"
     ],
-    "현재 턴": 0,
-    "턴 시작 시각": {},
     "턴": [
       {
         "이름": "1턴",
@@ -4479,27 +4479,6 @@
 
 <script>
 (function () {
-  // ---------- 공유 링크(아티팩트) 안에서 열렸는지 ----------
-  // 링크 안에서는 매체 "현재 턴"이 반 전체의 기준이고, 교사가 턴을 바꾸면 이 페이지를 새 버전으로 다시 게시한다.
-  // 그러려면 페이지 원본이 필요하므로, 화면을 그리기 전에 body 내용을 그대로 떠 둔다.
-  var CENTRAL = !!(window.claude && typeof window.claude.use === 'function');
-  var SELF_SRC = (function () {
-    var me = document.currentScript, out = { ok: false, before: '', data: '', after: '', reset: '' }, seen = false, part = 'before';
-    if (!CENTRAL || !me || !document.body) return out;
-    var txt = function (v) { return v.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/ /g, '&nbsp;'); };
-    for (var n = document.body.firstChild; n; n = n.nextSibling) {
-      if (n.nodeType === 1 && n.id === 'site-data') {
-        out.before += '<' + 'script type="application/json" id="site-data">'; out.data = n.textContent; out.after = '<' + '/script>'; part = 'after'; continue;
-      }
-      if (n.nodeType === 1 && n.tagName === 'SCRIPT' && n !== me) continue;   // 화면을 띄우는 쪽이 끼워 넣은 스크립트는 빼고
-      out[part] += n.nodeType === 1 ? n.outerHTML : n.nodeType === 3 ? txt(n.nodeValue) : n.nodeType === 8 ? '<' + '!--' + n.nodeValue + '--' + '>' : '';
-      if (n === me) { seen = true; break; }
-    }
-    var st = document.head && document.head.querySelector('style');
-    out.reset = st ? st.textContent : ':root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}';
-    out.ok = seen && /"현재 턴":\s*\d+/.test(out.data) && /"턴 시작 시각":\s*\{[^}]*\}/.test(out.data);
-    return out;
-  })();
   // ================= 데이터 =================
   var DATA = JSON.parse(document.getElementById('site-data').textContent);
   var OUTLET = DATA['매체']['이름'];
@@ -4617,12 +4596,10 @@
   function getReports(id) { return store.get('reports:' + id, []); }     // 이 브라우저에서 한 신고 [{id, nick, reason, detail, time}]
   function getModeration(id) { return store.get('moderation:' + id, {}); }   // 교사가 처리한 결과 { 댓글아이디: {status, reason} }
   function isReported(aid, cid) { return getReports(aid).some(function (r) { return r.id === cid; }); }
-  // ---------- 날짜는 시나리오 날짜 그대로. "현재 시점"(턴)은 교사만 바꾼다 ----------
-  // 공유 링크 안: 데이터의 "현재 턴"이 모두의 기준. 링크 밖(파일로 연 경우): 이 브라우저에서만 미리 본다
+  // ---------- 날짜는 시나리오 날짜 그대로. "현재 시점"(턴)은 교사가 구두로 알리고 화면에서 넘긴다 ----------
   var DAY_MS = 24 * 60 * 60 * 1000;
   var TURNS = (DATA['매체']['턴'] || []).map(function (t) { return { name: t['이름'], ts: toTs(t['시각']), time: t['시각'], note: t['설명'] || '' }; });
-  var CENTRAL_TURN = DATA['매체']['현재 턴'] | 0, TURN_START = DATA['매체']['턴 시작 시각'] || {};
-  function turnIndex() { var i = CENTRAL ? CENTRAL_TURN : store.get('turn', CENTRAL_TURN); return Math.max(0, Math.min(TURNS.length - 1, i | 0)); }
+  function turnIndex() { var i = store.get('turn', 0); return Math.max(0, Math.min(TURNS.length - 1, i | 0)); }
   function gameNow() { return TURNS.length ? TURNS[turnIndex()].ts : Date.now(); }   // 현재 시점. 이보다 늦은 기사·댓글은 아직 없는 것
   // 기사는 (1) 현재 시점보다 먼저 쓰였고 (2) 데이터 "공개 턴"에 도달했을 때만 보인다. 공개 턴이 비었거나 숫자가 아니면 1턴
   function openTurn(a) { var n = parseInt(a['공개 턴'], 10); return n > 0 ? n : 1; }
@@ -4637,53 +4614,18 @@
     return Math.round(n * (1 - Math.exp(-age / GROW_TAU)));
   }
   function VIS() { return ARTICLES.filter(visible); }
-  function setTurn(i) {   // 링크 밖 미리보기 전용
+  function setTurn(i) {
     var ta = store.get('rx:turnAt', {}) || {};
     if (i > turnIndex() || !ta[i]) { ta[i] = Date.now(); store.set('rx:turnAt', ta); }
     store.set('turn', i);
     renderClock();
     route();
   }
-  // 링크 안에서 턴 바꾸기: 페이지를 새 버전으로 게시하면 열려 있는 모든 화면이 저절로 새로고침된다
-  var turnBusy = false;
-  function pageWithTurn(i) {
-    if (!SELF_SRC.ok) throw { code: 'no_source' };
-    var map = {};
-    Object.keys(TURN_START).forEach(function (k) { map[k] = TURN_START[k]; });
-    if (i > turnIndex() || !map[i]) map[i] = Date.now();
-    var data = SELF_SRC.data.replace(/("현재 턴":\s*)\d+/, '$1' + i).replace(/("턴 시작 시각":\s*)\{[^}]*\}/, '$1' + JSON.stringify(map));
-    return '<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>' + SELF_SRC.reset +
-      '</style></head><body>' + SELF_SRC.before + data + SELF_SRC.after + '</body></html>';
-  }
-  function changeTurn(i) {
-    if (!CENTRAL) { setTurn(i); toast(TURNS[i].name + '으로 맞췄습니다. 파일로 연 화면이라 이 브라우저에서만 바뀝니다.'); return; }
-    if (i === turnIndex()) { toast('지금이 ' + TURNS[i].name + '입니다.'); return; }
-    if (turnBusy) return;
-    turnBusy = true;
-    toast(TURNS[i].name + '으로 바꾸는 중입니다. 잠시 뒤 모든 화면이 새로고침됩니다.');
-    window.claude.use('artifact').then(function (art) {
-      if (!art) throw { code: 'not_granted' };
-      return art.publish(pageWithTurn(i));
-    }).then(function () {}, function (err) {
-      turnBusy = false;
-      var c = err && err.code;
-      if (c === 'conflict') return;   // 그사이 다른 버전이 올라왔다. 곧 그 버전으로 새로고침된다
-      if (c === 'rate_limited') toast('너무 자주 바꿨습니다. 잠시 뒤에 다시 눌러 주세요.');
-      else if (['not_writer', 'not_granted', 'consent_required', 'capability_disabled', 'capability_removed', 'not_declared'].indexOf(c) >= 0) toast('턴은 링크를 만든 교사 계정으로 로그인한 화면에서만 바꿀 수 있습니다.');
-      else toast('턴을 바꾸지 못했습니다. 잠시 뒤에 다시 눌러 주세요.');
-    });
-  }
-  function askChangeTurn(i) {
-    var tn = TURNS[i];
-    if (!CENTRAL || i === turnIndex()) { closeModal(); changeTurn(i); return; }
-    openModal({ title: tn.name + '(으)로 바꿀까요?', ok: '바꾸기', cancel: '취소',
-      body: '이 링크를 연 모든 학생 화면이 <b>' + esc(tn.time) + '</b> ' + esc(tn.note) + ' 시점으로 바뀌고 저절로 새로고침됩니다. 이미 올린 댓글과 추천은 그대로 남습니다.',
-      onOk: function () { changeTurn(i); } });
-  }
   function renderClock() {
     var el = document.getElementById('updated'); if (!el || !TURNS.length) return;
     var i = turnIndex(), t = TURNS[i], d = new Date(t.ts), days = ['일', '월', '화', '수', '목', '금', '토'];
-    el.innerHTML = '현재 시점 <b>' + esc(t.name) + '</b> ' + d.getFullYear() + '.' + pad(d.getMonth() + 1) + '.' + pad(d.getDate()) + ' (' + days[d.getDay()] + ') ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+    el.innerHTML = '현재 시점 <b>' + esc(t.name) + '</b> ' + d.getFullYear() + '.' + pad(d.getMonth() + 1) + '.' + pad(d.getDate()) + ' (' + days[d.getDay()] + ') ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) +
+      (i < TURNS.length - 1 ? ' <button type="button" class="next-turn" data-next-turn>다음 턴 ›</button>' : '');
   }
   function toTs(s) {
     var m = String(s).match(/(\d{4})\.(\d{2})\.(\d{2})\s+(\d{2}):(\d{2})/);
@@ -4821,7 +4763,7 @@
     });
     return { up: up, down: down, stepAt: stepAt, replies: replies, v: v };
   }
-  function turnAt(j) { return CENTRAL ? (TURN_START[j] || 0) : (store.get('rx:turnAt', {}) || {})[j] || 0; }
+  function turnAt(j) { return (store.get('rx:turnAt', {}) || {})[j] || 0; }
   // 내 댓글 c 의 지금까지 도착한 반응. preview 가 있으면 시간과 상관없이 전부 도착한 것으로 계산
   function rxFor(aid, c, opt) {
     var out = { up: 0, down: 0, replies: [], next: 0, v: c.v || '', turns: [] };
@@ -5440,20 +5382,11 @@
     else if ((m = h.match(/^article-([^/]+)(?:\/(comments|comment-(.+)))?$/)) && articleById[m[1]] && !visible(articleById[m[1]])) { renderList(); toast('아직 볼 수 없는 기사입니다.'); }
     else if (m && articleById[m[1]] && !isCase(articleById[m[1]])) { if (!current) renderList(); lockedNotice(); return; }
     else if (m && articleById[m[1]]) {
-      if (current !== m[1]) { renderArticle(m[1]); restoreDraft(); }
+      if (current !== m[1]) renderArticle(m[1]);
       if (m[2]) { jumpToComment(m[3] ? decodeURIComponent(m[3]) : ''); return; }
     }
-    else renderList();
+    else renderArticle((VIS()[0] || ARTICLES[ARTICLES.length - 1])['아이디']);
     window.scrollTo(0, 0);
-  }
-
-  // 턴이 바뀌면 화면이 통째로 새로고침되므로, 쓰던 댓글은 이 탭에 잠깐 맡겨 두었다가 같은 기사를 다시 열면 되돌린다
-  function saveDraft(v) { try { if (current) sessionStorage.setItem('munyoung:draft', JSON.stringify({ a: current, v: v })); } catch (err) {} }
-  function restoreDraft() {
-    try {
-      var dr = JSON.parse(sessionStorage.getItem('munyoung:draft') || 'null'), ta = document.getElementById('cmtText');
-      if (dr && dr.v && ta && dr.a === current && !ta.value) { ta.value = dr.v; document.getElementById('cmtLen').textContent = dr.v.length; }
-    } catch (err) {}
   }
 
   // ================= 클릭·입력 처리 =================
@@ -5477,7 +5410,13 @@
     var ah = t.getAttribute && t.getAttribute('href'), am = ah && ah.match(/^#article-(.+)$/);
     if (am && articleById[am[1]] && !isCase(articleById[am[1]])) { e.preventDefault(); lockedNotice(); return; }
     if (t.hasAttribute('data-tools')) { askTeacher(openToolsModal); return; }
-    if (t.hasAttribute('data-set-turn')) { askChangeTurn(+t.getAttribute('data-set-turn')); return; }
+    if (t.hasAttribute('data-next-turn')) {
+      var ni = turnIndex() + 1; if (ni >= TURNS.length) return;
+      openModal({ title: TURNS[ni].name + '(으)로 넘길까요?', body: '선생님이 알려 주셨을 때만 넘기세요.<br><b>' + esc(TURNS[ni].time) + '</b> ' + esc(TURNS[ni].note), ok: '넘기기', cancel: '아직',
+        onOk: function () { setTurn(ni); toast(TURNS[ni].name + '이 되었습니다.'); } });
+      return;
+    }
+    if (t.hasAttribute('data-set-turn')) { var ti = +t.getAttribute('data-set-turn'); closeModal(); setTurn(ti); toast(TURNS[ti].name + '으로 맞췄습니다.'); return; }
     if (t.hasAttribute('data-closed')) { e.preventDefault(); toast('수업용 페이지에서는 열리지 않는 메뉴입니다.'); return; }
     if (t.hasAttribute('data-toast')) { e.preventDefault(); toast(t.getAttribute('data-toast')); return; }
     if (t.hasAttribute('data-share')) { toast('수업용 페이지에서는 공유 기능이 동작하지 않습니다.'); return; }
@@ -5692,7 +5631,6 @@
     }
     document.getElementById('cmtText').value = '';
     document.getElementById('cmtLen').textContent = '0';
-    saveDraft('');
     sortMode = 'new';
     toast(anon ? '익명 댓글을 등록했습니다.' : '댓글을 등록했습니다.');
     refreshReactions();
@@ -5742,7 +5680,7 @@
   });
 
   document.addEventListener('input', function (e) {
-    if (e.target.id === 'cmtText') { document.getElementById('cmtLen').textContent = e.target.value.length; saveDraft(e.target.value); }
+    if (e.target.id === 'cmtText') document.getElementById('cmtLen').textContent = e.target.value.length;
   });
 
   // ================= 시작 화면 (학번이름·닉네임) =================
@@ -5889,7 +5827,7 @@
     openModal({
       title: '교사 도구',
       wide: true, single: true, ok: '닫기',
-      body: '<h6 class="tools-h">현재 시점 <small>' + (CENTRAL ? '바꾸면 모든 학생 화면에 바로 반영' : '파일로 연 화면: 이 브라우저에서만 미리보기') + '</small></h6><div class="turns">' + TURNS.map(function (tn, i) {
+      body: '<h6 class="tools-h">현재 시점</h6><div class="turns">' + TURNS.map(function (tn, i) {
           return '<button type="button" data-set-turn="' + i + '"' + (i === turnIndex() ? ' class="on"' : '') + '>' + esc(tn.name) + '<small>' + esc(tn.time) + '</small></button>';
         }).join('') + '</div>' +
         '<h6 class="tools-h">댓글 반응 <small>이 브라우저 설정</small></h6>' + rxToolsHTML() +
@@ -6093,11 +6031,6 @@
   window.addEventListener('hashchange', route);
   route();
   if (!profile() && location.hash !== '#reset') showGate();
-  else if (CENTRAL) {
-    var seenTurn = store.get('seenTurn', null);
-    if (seenTurn !== null && seenTurn !== turnIndex()) toast('선생님이 ' + TURNS[turnIndex()].name + '(' + TURNS[turnIndex()].time + ')으로 바꿨습니다.');
-  }
-  if (CENTRAL) store.set('seenTurn', turnIndex());
 })();
 </script>
 </body>
