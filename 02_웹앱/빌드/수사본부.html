@@ -101,7 +101,6 @@ h1, h2, h3 { font-family: var(--f-head); font-weight: 800; letter-spacing: -.01e
 .pin .stem { width: 1px; background: var(--graphite); flex: 1 }
 .pin i { width: 9px; height: 9px; border-radius: 50%; background: var(--paper); border: 2px solid var(--src); margin-bottom: -5px }
 .pin.dim { color: var(--graphite) }
-.pin.dim em { opacity: .7 }
 .pin.on em { font-weight: 700; text-decoration: underline 2px; text-underline-offset: 3px }
 .pin.on i { background: var(--src) }
 .src-wiki { --src: var(--wiki) } .src-news { --src: var(--news) } .src-sns { --src: var(--sns) }
@@ -163,7 +162,7 @@ h1, h2, h3 { font-family: var(--f-head); font-weight: 800; letter-spacing: -.01e
 .ev-news { background: var(--newsprint); border-top: 3px double var(--ink); border-bottom: 1px solid var(--rule) }
 .ev-news .head { display: flex; justify-content: space-between; gap: 8px; font-size: 12.5px; color: var(--graphite); border-bottom: 1px solid var(--rule); padding-bottom: 3px }
 .ev-news .head b { font-family: var(--f-head); font-weight: 800; color: var(--ink); font-size: 14px }
-.ev-news h4 { margin: 6px 0 0; font-family: var(--f-head); font-weight: 800; font-size: 16.5px; line-height: 1.45 }
+.ev-news .hl { margin: 6px 0 0; font-family: var(--f-head); font-weight: 800; font-size: 16.5px; line-height: 1.45 }
 /* SNS 게시물 */
 .ev-sns { background: var(--sheet); border: 1px solid var(--rule); border-radius: 12px }
 .ev-sns .head { display: flex; align-items: center; gap: 8px; font-size: 13px; min-width: 0 }
@@ -192,6 +191,7 @@ h1, h2, h3 { font-family: var(--f-head); font-weight: 800; letter-spacing: -.01e
 .sys { display: grid; gap: 36px; padding-top: 24px }
 .sys section { display: grid; gap: 12px; min-width: 0 }
 .sys h2 { font-size: 22px }
+.sys-title { font-size: clamp(24px, 4vw, 34px); border-top: 3px solid var(--ink); padding-top: 14px }
 .sys p.lead { margin: 0; max-width: 66ch; color: var(--graphite) }
 .principles { margin: 0; padding-left: 20px; max-width: 70ch; display: grid; gap: 6px }
 .strip { display: flex; border: 1px solid var(--rule); min-width: 0 }
@@ -216,14 +216,14 @@ h1, h2, h3 { font-family: var(--f-head); font-weight: 800; letter-spacing: -.01e
 </style>
 
 <div class="wrap">
-  <div class="top">
+  <header class="top">
     <span class="brand">문영 수사본부</span>
     <nav class="tabs" aria-label="화면">
       <a class="tab" href="#desk" id="tabDesk" aria-current="page">수사 데스크</a>
       <a class="tab" href="#system" id="tabSys">디자인 시스템</a>
     </nav>
     <a class="btn pri" href="https://claude.ai/artifact/JM9iRLeWXGpZZE3h4RTWDV" target="_blank" rel="noopener">문영위키 열기</a>
-  </div>
+  </header>
 
   <main id="desk">
     <section class="cover" aria-label="사건 파일">
@@ -267,6 +267,7 @@ h1, h2, h3 { font-family: var(--f-head); font-weight: 800; letter-spacing: -.01e
   </main>
 
   <main id="system" class="sys" hidden>
+    <h1 class="sys-title">디자인 시스템</h1>
     <section>
       <h2>교정지와 형광펜</h2>
       <p class="lead">학생은 소문을 지어내는 사람이 아니라 확인하는 사람입니다. 그래서 화면은 교정지처럼 조용하고 판단할 때만 형광펜 색이 나옵니다. 재료는 학생이 실제로 손에 쥐는 공책, 볼펜, 형광펜, 자, 신문 스크랩입니다.</p>
@@ -334,7 +335,7 @@ h1, h2, h3 { font-family: var(--f-head); font-weight: 800; letter-spacing: -.01e
       <div class="glabel">출처별 증거 조각</div>
       <div class="comp">
         <article class="ev ev-wiki mini"><div class="head"><span class="sec">6.1 이은호와의 열애설</span><span class="num">2026.02.04</span></div><p>위키 문단은 위키처럼 보입니다.<span class="cn">[출처 필요]</span></p></article>
-        <article class="ev ev-news mini"><div class="head"><b>문영일보</b><span class="num">2026.02.04</span></div><h4>기사는 신문 조각처럼 보입니다</h4></article>
+        <article class="ev ev-news mini"><div class="head"><b>문영일보</b><span class="num">2026.02.04</span></div><p class="hl">기사는 신문 조각처럼 보입니다</p></article>
         <article class="ev ev-sns mini"><div class="head"><span class="av">S</span><span class="who">@seojin_official</span><span class="when num">2025.12.08</span></div><p>SNS는 게시물처럼 보입니다.</p></article>
       </div>
       <div class="glabel">확인 표시와 단추</div>
@@ -458,7 +459,7 @@ h1, h2, h3 { font-family: var(--f-head); font-weight: 800; letter-spacing: -.01e
         ${c ? `<button type="button" class="btn" data-link="${e.id}">${linked ? '연결 끊기' : '이 주장에 연결'}</button>` : ''}
       </div>`;
     const attrs = `class="ev ev-${e.src}${linked ? ' linked' : ''}" id="ev-${e.id}" tabindex="-1" data-drag="${e.id}" draggable="${finePointer}"`;
-    if (e.src === 'news') return `<article ${attrs}><div class="head"><b>문영일보</b><span class="num">${fmt(e.date)}</span></div><h4>${esc(e.text)}</h4><div class="from">${esc(e.from)}</div>${foot}</article>`;
+    if (e.src === 'news') return `<article ${attrs}><div class="head"><b>문영일보</b><span class="num">${fmt(e.date)}</span></div><p class="hl">${esc(e.text)}</p><div class="from">${esc(e.from)}</div>${foot}</article>`;
     if (e.src === 'sns') return `<article ${attrs}><div class="head"><span class="av" aria-hidden="true">${esc(e.who.replace(/^@/, '').slice(0, 1).toUpperCase())}</span><span class="who">${esc(e.who)}</span><span class="when num">${fmt(e.date)}</span></div><p>${esc(e.text)}</p><div class="from">${esc(e.from)}</div>${foot}</article>`;
     return `<article ${attrs}><div class="head"><span class="sec">${esc(e.sec)}</span><span class="num">${fmt(e.date)}</span></div><p>${esc(e.text)}${e.cn ? '<span class="cn">[출처 필요]</span>' : ''}</p>${foot}</article>`;
   }
