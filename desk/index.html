@@ -6,317 +6,416 @@
 <title>문영 수사본부</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gothic+A1:wght@400;600;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap">
 <style>
+/* 문영위키(나무위키 양식)와 같은 화면 언어. 값은 문영위키에서 가져왔다. */
 :root {
-  --sign: #18233A;        /* 안내판 남색: 상단 바, 본문 글자, '사실이다' */
-  --sign-2: #24324F;      /* 상단 바 안의 입력칸 */
-  --on-sign: #FFFFFF;
-  --on-sign-soft: #C3CCDB;
-  --ground: #EDF0F4;      /* 승강장 회색 */
-  --panel: #FFFFFF;       /* 흰 판 */
-  --panel-2: #F5F7FA;
-  --ink: #18233A;
-  --muted: #556074;
-  --rule: #D3D9E2;
-  --rule-strong: #A9B3C2;
-  --sel: #E3E9F3;
-  --wiki: #009D74; --wiki-pill: #00805F;
-  --news: #2156C2; --news-pill: #2156C2;
-  --sns: #CC3A7A;  --sns-pill: #B8306B;
-  --now: #FFC93C;         /* 지금 노랑: 현재 위치, '아직 모른다' */
-  --on-now: #18233A;
-  --false: #D2352B;       /* '사실이 아니다' */
-  --false-text: #B92D24;
-  --on-false: #FFFFFF;
-  --true: #18233A;
-  --future: #8590A2;
-  --focus: #2156C2;
-  --pri: #18233A; --on-pri: #FFFFFF; --pri-hover: #24324F;
-  --shadow: 0 1px 2px rgba(24, 35, 58, .08), 0 4px 14px rgba(24, 35, 58, .06);
-  --f-head: "Do Hyeon", "Gothic A1", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
-  --f-body: "Gothic A1", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", system-ui, sans-serif;
+  --top-a: #08857A;        /* 상단 바 왼쪽: 흰 글자 4.5:1 이상 */
+  --top-b: #2CB27C;        /* 상단 바 오른쪽 끝: 문영위키와 같은 초록 */
+  --bg: #F5F5F5;
+  --card: #FFFFFF;
+  --line: #CCCCCC;
+  --line-soft: #DDDDDD;
+  --hover: #F2F2F2;
+  --text: #212529;
+  --muted: #666666;
+  --link: #0275D8;
+  --link-ext: #008000;
+  --accent: #0E9F92;       /* 문영위키 청록: 목차 표시, 시점 줄 */
+  --accent-ink: #0A7A70;
+  --th: #0B7D73;           /* 표 머리, 정보상자 칸 */
+  --ibox-a: #0E9F92; --ibox-b: #2CB27C;
+  --wiki: #0A7A70; --news: #2F6FB5; --sns: #C2477F;   /* 문영위키 스크랩 색 */
+  --v-true: #212529; --on-true: #FFFFFF;
+  --v-false: #C0392B; --on-false: #FFFFFF;
+  --v-open: #E0A800; --on-open: #212529;
+  --notice-bg: #FFFBEA; --notice-line: #E8D48B;
+  --flash: #FFF3B0;
+  --sel: #EEFAF7;
+  --tip: #222222; --on-tip: #FFFFFF;
+  --f: "Pretendard JP", "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --sign: #0B1222; --sign-2: #1A2540; --on-sign: #F2F5FA; --on-sign-soft: #A9B5C8;
-    --ground: #0F1522; --panel: #182132; --panel-2: #1D2839; --ink: #E7ECF3; --muted: #9AA6B8;
-    --rule: #2C3850; --rule-strong: #47556F; --sel: #243453;
-    --wiki: #2FC79B; --wiki-pill: #0E7A5F; --news: #6C9BF0; --news-pill: #3F72D6; --sns: #EE6FA6; --sns-pill: #C2477F;
-    --false: #FF6B5E; --false-text: #FF8A7F; --on-false: #0F1522; --true: #E7ECF3; --future: #6B7890; --focus: #8CB3FF; --pri: #E7ECF3; --on-pri: #0F1522; --pri-hover: #C9D3E2;
-    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 4px 14px rgba(0, 0, 0, .25);
+    --top-a: #06665E; --top-b: #1C7D58; --bg: #1C1D1F; --card: #27292D; --line: #43464C; --line-soft: #383B40; --hover: #303338;
+    --text: #E0E0E0; --muted: #A0A4A8; --link: #6CB2FF; --link-ext: #5FCB6E; --accent: #2CC3B3; --accent-ink: #5FD9CB; --th: #0B6E66;
+    --ibox-a: #0B7D73; --ibox-b: #1C8A5E; --wiki: #2FB3A6; --news: #6FA2E6; --sns: #E07AAA;
+    --v-true: #E0E0E0; --on-true: #1C1D1F; --v-false: #FF7B6E; --on-false: #1C1D1F; --v-open: #F0C23C; --on-open: #1C1D1F;
+    --notice-bg: #3A3420; --notice-line: #6B5D2A; --flash: #5A4E1C; --sel: #1F3A37; --tip: #E0E0E0; --on-tip: #1C1D1F;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --sign: #0B1222; --sign-2: #1A2540; --on-sign: #F2F5FA; --on-sign-soft: #A9B5C8;
-  --ground: #0F1522; --panel: #182132; --panel-2: #1D2839; --ink: #E7ECF3; --muted: #9AA6B8;
-  --rule: #2C3850; --rule-strong: #47556F; --sel: #243453;
-  --wiki: #2FC79B; --wiki-pill: #0E7A5F; --news: #6C9BF0; --news-pill: #3F72D6; --sns: #EE6FA6; --sns-pill: #C2477F;
-  --false: #FF6B5E; --false-text: #FF8A7F; --on-false: #0F1522; --true: #E7ECF3; --future: #6B7890; --focus: #8CB3FF; --pri: #E7ECF3; --on-pri: #0F1522; --pri-hover: #C9D3E2;
-  --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 4px 14px rgba(0, 0, 0, .25);
+  --top-a: #06665E; --top-b: #1C7D58; --bg: #1C1D1F; --card: #27292D; --line: #43464C; --line-soft: #383B40; --hover: #303338;
+  --text: #E0E0E0; --muted: #A0A4A8; --link: #6CB2FF; --link-ext: #5FCB6E; --accent: #2CC3B3; --accent-ink: #5FD9CB; --th: #0B6E66;
+  --ibox-a: #0B7D73; --ibox-b: #1C8A5E; --wiki: #2FB3A6; --news: #6FA2E6; --sns: #E07AAA;
+  --v-true: #E0E0E0; --on-true: #1C1D1F; --v-false: #FF7B6E; --on-false: #1C1D1F; --v-open: #F0C23C; --on-open: #1C1D1F;
+  --notice-bg: #3A3420; --notice-line: #6B5D2A; --flash: #5A4E1C; --sel: #1F3A37; --tip: #E0E0E0; --on-tip: #1C1D1F;
   color-scheme: dark;
 }
 
 * { box-sizing: border-box }
 [hidden] { display: none !important }
-html { background: var(--ground); scrollbar-color: var(--rule-strong) transparent }
-body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; caret-color: var(--news); padding-bottom: env(safe-area-inset-bottom, 0px) }
-::selection { background: var(--now); color: var(--on-now) }
+html { background: var(--bg); scroll-behavior: smooth; scrollbar-color: var(--line) transparent }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--f); font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; word-break: keep-all; overflow-wrap: anywhere; caret-color: var(--link) }
+::selection { background: var(--flash); color: var(--text) }
+a { color: var(--link); text-decoration: none }
+a:hover { text-decoration: underline }
 button, input, select, textarea { font: inherit; color: inherit }
 button { cursor: pointer }
-:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px }
+:focus-visible { outline: 2px solid #1B6EC2; outline-offset: 2px }
 .num { font-variant-numeric: tabular-nums }
-h1, h2, h3 { margin: 0; text-wrap: balance }
-h2 { font-family: var(--f-head); font-weight: 400; font-size: 22px; line-height: 1.3; letter-spacing: -.005em }
-h3 { font-size: 15px; font-weight: 800; line-height: 1.4 }
-.wrap { max-width: 1440px; margin: 0 auto; padding-inline: 16px }
+svg.i { width: 1em; height: 1em; vertical-align: -.125em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round }
 
-/* 상단 바: 안내판 */
-.bar { background: var(--sign); color: var(--on-sign); padding-top: env(safe-area-inset-top, 0px) }
-.bar .wrap { display: flex; align-items: center; gap: 10px 20px; flex-wrap: wrap; min-height: 60px; padding-block: 8px }
-.brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 14px; color: var(--on-sign-soft); white-space: nowrap }
-.brand svg { width: 26px; height: 26px; flex-shrink: 0 }
-.bar h1 { font-family: var(--f-head); font-weight: 400; font-size: 24px; line-height: 1.2; margin-right: auto; display: flex; align-items: center; flex-wrap: wrap; gap: 4px 10px }
-.fic { font-family: var(--f-body); font-size: 12.5px; font-weight: 600; color: var(--on-sign-soft); border: 1px solid var(--on-sign-soft); border-radius: 4px; padding: 1px 7px; line-height: 1.5 }
-.bar-tools { display: flex; align-items: center; gap: 8px 14px; flex-wrap: wrap }
-.field-dark { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--on-sign-soft); white-space: nowrap }
-.field-dark input, .field-dark select { background: var(--sign-2); border: 1px solid transparent; border-radius: 6px; color: var(--on-sign); height: 36px; padding: 0 10px }
-.field-dark input { width: 9.5em }
-.field-dark input::placeholder { color: var(--on-sign-soft) }
-.field-dark input:hover, .field-dark select:hover { border-color: var(--on-sign-soft) }
-.now-select select { background: var(--now); color: var(--on-now); font-weight: 800; padding-right: 6px }
-.now-select select:hover { border-color: var(--on-now) }
-.bar :focus-visible { outline-color: var(--now) }
-.bar-link { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px; border-radius: 6px; border: 1px solid var(--on-sign-soft); color: var(--on-sign); text-decoration: none; font-size: 14px; font-weight: 600; white-space: nowrap }
-.bar-link:hover { background: var(--sign-2) }
-.bar-link svg { width: 14px; height: 14px }
+/* 상단 바 */
+.top { position: sticky; top: 0; z-index: 50; background: linear-gradient(90deg, var(--top-a) 0%, var(--top-a) 35%, var(--top-b) 100%); color: #fff; padding-top: env(safe-area-inset-top, 0px) }
+.top-in { display: flex; align-items: center; gap: 6px; min-height: 56px; padding: 0 36px; max-width: 1520px; margin: 0 auto }
+.logo { display: flex; align-items: center; gap: 8px; color: #fff; font-weight: 800; font-size: 21px; letter-spacing: -.04em; margin-right: 14px; white-space: nowrap }
+.logo:hover { text-decoration: none }
+.logo svg { width: 34px; height: 34px }
+.nav-item { display: flex; align-items: center; gap: 8px; color: #fff; font-size: 16px; padding: 8px 12px; border-radius: 4px; white-space: nowrap }
+.nav-item:hover { background: rgba(255, 255, 255, .14); text-decoration: none }
+.nav-item svg.i { font-size: 20px }
+.top-right { margin-left: auto; display: flex; align-items: center; gap: 8px }
+.team-box { display: flex; align-items: center; width: 250px; height: 40px; background: #fff; border-radius: 3px; color: #333 }
+.team-box:focus-within { box-shadow: inset 0 0 0 2px #1B6EC2 }
+.team-box svg.i { font-size: 19px; margin-left: 11px; color: #555; flex-shrink: 0 }
+.team-box input { flex: 1; min-width: 0; height: 100%; border: 0; outline: 0; padding: 0 10px; background: transparent; color: #212529; font-size: 14px }
+.team-box input::placeholder { color: #6B6B6B }
 
-/* 노선도 */
-.map-sec { margin-top: 16px; background: var(--panel); border-radius: 10px; box-shadow: var(--shadow); padding: 16px 0 10px }
-.map-head { display: flex; align-items: baseline; gap: 4px 14px; flex-wrap: wrap; padding-inline: 20px }
-.map-head p { margin: 0; color: var(--muted); font-size: 14px }
-.map-frame { position: relative; margin-top: 4px; padding-left: 84px }
-.map-frame .pills { position: absolute; inset: 0 auto 0 0; width: 84px; z-index: 5; pointer-events: none }
-.map-scroll { overflow-x: auto; overscroll-behavior-x: contain }
-.map-scroll.clipped { -webkit-mask-image: linear-gradient(90deg, transparent, #000 18px); mask-image: linear-gradient(90deg, transparent, #000 18px) }
-.map { position: relative; height: 268px; min-width: 980px }
-.map svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible }
-.line-pill { position: absolute; left: 18px; transform: translateY(-50%); min-width: 52px; height: 28px; padding: 0 10px; border-radius: 14px; display: grid; place-items: center; color: #fff; font-weight: 800; font-size: 13.5px; z-index: 2 }
-.pill-wiki { background: var(--wiki-pill) } .pill-news { background: var(--news-pill) } .pill-sns { background: var(--sns-pill) }
-.src-wiki { --src: var(--wiki) } .src-news { --src: var(--news) } .src-sns { --src: var(--sns) }
+/* 시점 줄 (문영위키와 같은 모양) */
+.turn-bar { max-width: 1520px; margin: 0 auto; padding: 12px 36px 0 }
+.turn-in { display: flex; align-items: center; gap: 6px 12px; flex-wrap: wrap; background: var(--card); border: 1px solid var(--line-soft); border-left: 4px solid var(--accent); border-radius: 4px; padding: 8px 10px 8px 14px; font-size: 14.5px }
+.turn-in .k { color: var(--muted) }
+.turn-in b { font-size: 15.5px }
+.turn-in .d { color: var(--muted) }
+.turn-pick { margin-left: auto; display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--muted) }
+.turn-pick select { height: 36px; border: 1px solid var(--accent-ink); background: var(--accent-ink); color: #fff; font-weight: 700; border-radius: 4px; padding: 0 8px }
+:root[data-theme="dark"] .turn-pick select { color: #1C1D1F }
 
-.st { position: absolute; z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 6px; border: 0; background: none; padding: 0 2px; transform: translate(-50%, calc(-100% + 9px)); color: var(--ink); transition: opacity .2s }
-.st .lab { font-size: 13px; font-weight: 600; line-height: 1.3; text-align: center; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; word-break: keep-all; overflow-wrap: anywhere; background: var(--panel); padding: 0 3px; border-radius: 3px }
-.st .dot { width: 18px; height: 18px; border-radius: 50%; background: var(--panel); border: 4px solid var(--src); flex-shrink: 0; transition: transform .18s, border-color .18s }
-.st:hover .dot { transform: scale(1.15) }
-.st:hover .lab { text-decoration: underline; text-underline-offset: 3px }
-.st.linked .dot { border: 5px solid var(--ink); box-shadow: 0 0 0 3px var(--src) }
-.st.linked .lab { font-weight: 800 }
-.st.dim .lab { color: var(--muted); font-weight: 400 }
-.st.dim .dot { border-color: color-mix(in srgb, var(--src) 45%, var(--panel)) }
-.st.dim:hover .lab { color: var(--ink) }
-.st.cur .lab { background: var(--now); color: var(--on-now) }
+/* 본문 틀: 문서 + 오른쪽 사이드바 */
+.wrap { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 16px; padding: 16px 36px 0; max-width: 1520px; margin: 0 auto }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 5px }
+.article { padding: 24px 24px 0; min-width: 0 }
+.head { display: flex; align-items: flex-start; gap: 16px }
+.head h1 { margin: 0; font-size: 36px; font-weight: 600; line-height: 1.25; letter-spacing: -.02em }
+.actions { margin-left: auto; display: flex; flex-shrink: 0; padding-top: 4px }
+.btn-group { display: flex; border: 1px solid var(--line); border-radius: 4px; background: var(--card) }
+.btn-group button { display: flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px; border: 0; border-left: 1px solid var(--line); background: none; color: var(--text); font-size: 14px; white-space: nowrap }
+.btn-group > :first-child { border-left: 0; border-radius: 3px 0 0 3px }
+.btn-group > :last-child { border-radius: 0 3px 3px 0 }
+.btn-group button:hover { background: var(--hover) }
+.btn-group button svg.i { font-size: 16px; color: var(--muted) }
+.btn-group button.warn { color: var(--v-false) }
+.updated { margin: 4px 0 0; font-size: 14px; color: var(--muted) }
+.cat-bar { display: flex; flex-wrap: wrap; gap: 0 4px; border: 1px solid var(--line); border-radius: 4px; padding: 4px 8px; font-size: 14px; margin: 22px 0 10px }
+.cat-bar span:not(:first-child):not(:last-child)::after { content: ""; display: inline-block; width: 1px; height: 11px; background: #BBB; margin: 0 6px; vertical-align: -1px }
+.notice { display: flex; align-items: flex-start; gap: 8px; margin: 10px 0; font-size: 15px }
+.notice .ico { flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%; background: #16A085; color: #fff; display: grid; place-items: center; margin-top: 1px }
+.notice .ico svg.i { font-size: 12px; stroke-width: 3 }
+
+.wiki { font-size: 15px; line-height: 1.6; padding-bottom: 28px }
+.wiki p { margin: 0 0 15px }
+.infobox { float: right; width: 360px; max-width: 100%; margin: 6px 0 16px 20px; border: 2px solid var(--ibox-a); background: var(--card); font-size: 14.5px }
+.ibox-title { background: linear-gradient(90deg, var(--ibox-a), var(--ibox-b)); color: #fff; text-align: center; padding: 9px 10px 8px; line-height: 1.3 }
+.ibox-title b { display: block; font-size: 19px; font-weight: 700 }
+.ibox-title span { font-size: 13.5px; font-weight: 600; opacity: .92 }
+.infobox table { width: 100%; border-collapse: collapse }
+.infobox th { width: 92px; background: var(--th); color: #fff; font-weight: 700; text-align: center; padding: 7px 6px; border-top: 1px solid rgba(255, 255, 255, .25) }
+.infobox td { padding: 6px 10px; border-top: 1px solid var(--line-soft); line-height: 1.55 }
+.toc { display: inline-block; min-width: 220px; max-width: 100%; border: 1px solid var(--line); padding: 12px 16px 14px; margin: 6px 0 10px }
+.toc-head { display: flex; align-items: center; justify-content: space-between; gap: 30px; font-size: 18px; width: 100%; border: 0; background: none; padding: 0; text-align: left }
+.toc-head svg.i { color: var(--muted); transition: transform .15s }
+.toc.closed .toc-head svg.i { transform: rotate(-90deg) }
+.toc.closed .toc-list { display: none }
+.toc-list { margin-top: 10px; line-height: 1.55 }
+.toc-list div { padding-left: 6px }
+.toc-list .lv2 { padding-left: 26px }
+
+.sec-h { clear: both; display: flex; align-items: center; gap: 6px; margin: 30px 0 14px; padding-bottom: 8px; border-bottom: 1px solid var(--line); scroll-margin-top: 70px }
+.sec-h h2, .sec-h h3 { margin: 0; font-size: 27px; font-weight: 700; letter-spacing: -.02em; line-height: 1.3 }
+.sec-h.lv2 { margin-top: 24px; clear: none }
+.sec-h.lv2 h3 { font-size: 21px; font-weight: 700 }
+.sec-h .n { color: var(--link) }
+.sec-h .fold { color: var(--muted); width: 24px; height: 24px; display: grid; place-items: center; border: 0; background: none; padding: 0; border-radius: 3px; flex-shrink: 0; transition: transform .15s }
+.sec-h .fold:hover { background: var(--hover) }
+.sec-h.closed .fold { transform: rotate(-90deg) }
+.sec-h .tail { margin-left: auto; align-self: center; font-size: 13px; color: var(--muted); font-weight: 400; white-space: nowrap }
+.sec-body.closed { display: none }
+
+/* 2. 증거 시간선 */
+.tl-box { border: 1px solid var(--line); border-radius: 4px; overflow: hidden }
+.tl-frame { position: relative; padding-left: 76px }
+.tl-frame .pills { position: absolute; inset: 0 auto 0 0; width: 76px; z-index: 5; pointer-events: none; background: var(--card); border-right: 1px solid var(--line-soft) }
+.tl-scroll { overflow-x: auto; overscroll-behavior-x: contain }
+.tl-scroll.clipped { -webkit-mask-image: linear-gradient(90deg, transparent, #000 16px); mask-image: linear-gradient(90deg, transparent, #000 16px) }
+.map { position: relative; height: 290px; min-width: 780px }
+.map svg { position: absolute; inset: 0; width: 100%; height: 100% }
+.line-tag { position: absolute; left: 12px; transform: translateY(-50%); min-width: 50px; height: 24px; padding: 0 8px; border-radius: 3px; display: grid; place-items: center; color: #fff; font-weight: 800; font-size: 12.5px }
+.t-wiki { background: var(--wiki) } .t-news { background: var(--news) } .t-sns { background: var(--sns) }
+:root[data-theme="dark"] .line-tag, :root[data-theme="dark"] .src-tag { color: #1C1D1F }
+.s-wiki { --src: var(--wiki) } .s-news { --src: var(--news) } .s-sns { --src: var(--sns) }
+.st { position: absolute; z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 5px; border: 0; background: none; padding: 0 2px; transform: translate(-50%, calc(-100% + 8px)); color: var(--text) }
+.st .lab { font-size: 13px; line-height: 1.3; text-align: center; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; background: var(--card); padding: 0 3px }
+.st .dot { width: 16px; height: 16px; border-radius: 50%; background: var(--card); border: 4px solid var(--src); flex-shrink: 0 }
+.st:hover .lab { color: var(--link); text-decoration: underline }
+.st.on .lab { font-weight: 700; color: var(--text) }
+.st.on .dot { background: var(--src); box-shadow: 0 0 0 2px var(--card), 0 0 0 4px var(--text) }
+.st.off .lab { color: var(--muted) }
+.st.cur .lab { background: var(--flash) }
 .dl { position: absolute; transform: translateX(-50%); font-size: 12.5px; color: var(--muted); white-space: nowrap; z-index: 2 }
-.dl b { color: var(--ink); font-weight: 800 }
-.dl small { font-size: 12px }
-.day-span { position: absolute; height: 6px; border: 1.5px solid var(--rule-strong); border-top: 0; border-radius: 0 0 3px 3px; z-index: 1 }
-.tm { position: absolute; top: 6px; transform: translateX(-50%); z-index: 4; height: 28px; padding: 0 11px; border-radius: 14px; display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 800; white-space: nowrap; border: 2px solid var(--rule-strong); background: var(--panel); color: var(--muted) }
-.tm small { font-size: 12px; font-weight: 600 }
-.tm.past { border-color: var(--ink); color: var(--ink) }
-.tm.now { background: var(--now); border-color: var(--now); color: var(--on-now) }
+.dl b { color: var(--text) }
+.day-span { position: absolute; height: 6px; border: 1px solid var(--line); border-top: 0; z-index: 1 }
+.tm { position: absolute; top: 8px; transform: translateX(-50%); z-index: 4; height: 26px; padding: 0 9px; border-radius: 3px; display: flex; align-items: center; gap: 5px; font-size: 12.5px; white-space: nowrap; border: 1px solid var(--line); background: var(--card); color: var(--muted) }
+.tm.now { background: var(--tip); border-color: var(--tip); color: var(--on-tip); font-weight: 700 }
+.tm.past { color: var(--text) }
 .tm.future { border-style: dashed }
 .future-note { position: absolute; z-index: 2; font-size: 12.5px; color: var(--muted); transform: translateX(-50%); white-space: nowrap }
+.tl-foot { display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 8px 12px; border-top: 1px solid var(--line-soft); font-size: 13.5px; color: var(--muted); background: var(--card) }
 
-/* 작업 영역 */
-.work { display: grid; grid-template-columns: minmax(300px, 380px) minmax(0, 1fr); gap: 16px; margin-top: 16px; align-items: start }
-.panel { background: var(--panel); border-radius: 10px; box-shadow: var(--shadow) }
-.panel-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 16px 18px 10px }
-.panel-head p { margin: 0; color: var(--muted); font-size: 13.5px }
-
-/* 주장 목록 */
-.claims { list-style: none; margin: 0; padding: 0 8px }
-.claim { display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 4px 10px; align-items: start; width: 100%; text-align: left; border: 0; background: none; border-radius: 8px; padding: 12px 10px; color: var(--ink) }
-.claim:hover { background: var(--panel-2) }
-.claim[aria-current="true"] { background: var(--sel) }
-.claim-text { font-weight: 600; line-height: 1.5 }
-.claim[aria-current="true"] .claim-text { font-weight: 800 }
-.claim-meta { grid-column: 2; font-size: 13px; color: var(--muted) }
-.trail { display: block; width: 58px; height: 18px; margin-top: 3px }
-.claims li + li { border-top: 1px solid var(--rule) }
-.claims li:has(+ li > [aria-current="true"]), .claims li:has([aria-current="true"]) { border-color: transparent }
-.claims li:has([aria-current="true"]) + li { border-color: transparent }
-.add { display: flex; gap: 8px; padding: 12px 18px 18px; border-top: 1px solid var(--rule); margin-top: 6px }
-.input { width: 100%; min-width: 0; height: 40px; border: 1px solid var(--rule-strong); background: var(--panel); border-radius: 6px; padding: 0 12px }
-.input:hover { border-color: var(--muted) }
-textarea.input { height: auto; min-height: 92px; padding: 10px 12px; line-height: 1.6; resize: vertical }
+/* 3. 판단할 주장 */
+.claim-sec { scroll-margin-top: 70px }
+.claim-sec.sel > .sec-h h3 .t { background: linear-gradient(transparent 62%, var(--flash) 62%) }
+.vrow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-bottom: 12px }
+.vgroup { display: flex; border: 1px solid var(--line); border-radius: 4px; background: var(--card) }
+.vbtn { display: flex; align-items: center; gap: 7px; height: 38px; padding: 0 14px; border: 0; border-left: 1px solid var(--line); background: none; color: var(--text); font-size: 14.5px; font-weight: 500 }
+.vbtn:first-child { border-left: 0; border-radius: 3px 0 0 3px }
+.vbtn:last-child { border-radius: 0 3px 3px 0 }
+.vbtn:hover { background: var(--hover) }
+.vbtn svg { width: 18px; height: 18px; flex-shrink: 0; color: var(--vm) }
+.v-true { --vm: var(--v-true); --vm-on: var(--card) }
+.v-false { --vm: var(--v-false); --vm-on: var(--on-false) }
+.v-open { --vm: var(--v-open); --vm-on: var(--on-open) }
+.vbtn.v-true[aria-pressed="true"] { background: var(--v-true); color: var(--on-true); font-weight: 700; --vm: var(--on-true); --vm-on: var(--v-true) }
+.vbtn.v-false[aria-pressed="true"] { background: var(--v-false); color: var(--on-false); font-weight: 700; --vm: var(--on-false); --vm-on: var(--v-false) }
+.vbtn.v-open[aria-pressed="true"] { background: var(--v-open); color: var(--on-open); font-weight: 700; --vm: var(--on-open); --vm-on: var(--v-open) }
+.history { font-size: 13.5px; color: var(--muted); display: flex; align-items: center; gap: 8px }
+.history b { color: var(--text); font-weight: 500 }
+.trail { width: 58px; height: 18px; flex-shrink: 0 }
+.field-l { display: block; font-weight: 700; margin: 4px 0 6px; font-size: 14.5px }
+.field-l span { font-weight: 400; color: var(--muted); font-size: 13.5px; margin-left: 6px }
+.input { width: 100%; min-width: 0; height: 38px; border: 1px solid var(--line); background: var(--card); border-radius: 4px; padding: 0 10px; color: var(--text) }
+.input:hover { border-color: #999 }
+textarea.input { height: auto; min-height: 76px; padding: 8px 10px; line-height: 1.6; resize: vertical }
 .input::placeholder { color: var(--muted) }
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 40px; padding: 0 14px; border-radius: 6px; border: 1px solid var(--rule-strong); background: var(--panel); color: var(--ink); font-weight: 600; font-size: 14px; white-space: nowrap }
-.btn:hover { border-color: var(--ink) }
-.btn:active { transform: translateY(1px) }
-.btn.pri { background: var(--pri); border-color: var(--pri); color: var(--on-pri) }
-.btn.pri:hover { background: var(--pri-hover); border-color: var(--pri-hover) }
-.btn.sm { height: 34px; padding: 0 11px; font-size: 13.5px }
-.btn.warn { border-color: var(--false); color: var(--false-text) }
-.btn:disabled { opacity: .5; cursor: default; transform: none }
+.wiki-list { margin: 0 0 12px; padding-left: 1.4em }
+.wiki-list li { margin: 6px 0; line-height: 1.6 }
+.src-tag { display: inline-block; font-size: 12px; font-weight: 800; color: #fff; border-radius: 3px; padding: 0 6px; margin-right: 6px; vertical-align: 1px; line-height: 1.6 }
+.ev-date { color: var(--muted); font-size: 13.5px; margin-right: 4px }
+.ev-from { color: var(--muted); font-size: 13px }
+.cn { font-size: .72em; color: var(--link); margin-left: 1px; vertical-align: super; white-space: nowrap }
+.lnk { border: 0; background: none; padding: 0 2px; color: var(--link); font-size: 13.5px }
+.lnk:hover { text-decoration: underline }
+.lnk.del { color: var(--muted) }
+.btn { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px; border: 1px solid var(--line); border-radius: 4px; background: var(--card); color: var(--text); font-size: 14px; white-space: nowrap }
+.btn:hover { background: var(--hover) }
+.btn.pri { border-color: var(--accent-ink); color: var(--accent-ink); font-weight: 700 }
+.btn svg.i { font-size: 15px }
+.picker { border: 1px solid var(--line); border-radius: 4px; margin: 8px 0 4px; max-height: 300px; overflow: auto; background: var(--card) }
+.picker-row { display: flex; align-items: flex-start; gap: 10px; padding: 8px 10px; border-top: 1px solid var(--line-soft) }
+.picker-row:first-child { border-top: 0 }
+.picker-row > div { flex: 1; min-width: 0; font-size: 14px }
+.picker-empty { margin: 0; padding: 10px; color: var(--muted); font-size: 14px }
+.add-claim { display: flex; gap: 8px; margin-top: 22px; clear: both }
 
-/* 선택한 주장 */
-.detail { padding: 18px 22px 22px }
-.detail-q { font-family: var(--f-body); font-size: 21px; font-weight: 800; line-height: 1.45; margin: 0 0 4px; text-wrap: pretty }
-.detail-sub { margin: 0; color: var(--muted); font-size: 14px }
-.block { margin-top: 22px }
-.block > h3 { margin-bottom: 8px; display: flex; align-items: baseline; gap: 10px }
-.block > h3 span { font-weight: 400; color: var(--muted); font-size: 13.5px }
-.verdicts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px }
-.vbtn { display: flex; align-items: center; justify-content: center; gap: 9px; min-height: 48px; padding: 6px 12px; border-radius: 8px; border: 1.5px solid var(--rule-strong); background: var(--panel); color: var(--ink); font-weight: 800; font-size: 15px; transition: background-color .18s, border-color .18s, color .18s }
-.vbtn svg { width: 20px; height: 20px; flex-shrink: 0; color: var(--vm) }
-.v-true { --vm: var(--true); --vm-on: var(--panel) }
-.v-false { --vm: var(--false); --vm-on: #fff }
-.v-open { --vm: var(--now); --vm-on: var(--on-now) }
-.v-open svg circle:first-child { stroke: var(--on-now); stroke-width: 1.2 }
-.vbtn:hover { border-color: var(--ink) }
-.vbtn.v-true[aria-pressed="true"] { background: var(--pri); border-color: var(--pri); color: var(--on-pri); --vm: var(--on-pri); --vm-on: var(--pri) }
-.vbtn.v-false[aria-pressed="true"] { background: var(--false); border-color: var(--false); color: var(--on-false); --vm: var(--on-false); --vm-on: var(--false) }
-.vbtn.v-open[aria-pressed="true"] { background: var(--now); border-color: var(--now); color: var(--on-now); --vm: var(--on-now); --vm-on: var(--now) }
-.history { margin: 10px 0 0; font-size: 13.5px; color: var(--muted) }
-.history b { color: var(--ink) }
+/* 4. 증거함 */
+.filters { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px }
+.filters button { font-size: 13px; height: 30px; padding: 0 12px; border: 1px solid var(--line); border-radius: 15px; background: var(--card); color: var(--muted) }
+.filters button:hover { color: var(--text) }
+.filters button[aria-pressed="true"] { background: var(--text); border-color: var(--text); color: var(--card) }
+.wiki-table-wrap { overflow-x: auto; margin: 0 0 15px }
+.wiki-table { border-collapse: collapse; width: 100%; min-width: 720px }
+.wiki-table th, .wiki-table td { border: 1px solid var(--line); padding: 6px 10px; vertical-align: middle }
+.wiki-table th { background: var(--th); color: #fff; font-weight: 700; text-align: center; white-space: nowrap }
+.wiki-table td.c { text-align: center; white-space: nowrap }
+.wiki-table tr.flash td { background: var(--flash) }
+.wiki-table td { transition: background-color 1.2s }
+.ev-cell b { font-weight: 700 }
+.ev-cell p { margin: 2px 0 0; font-size: 14px }
+.chk { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border: 0; background: none; padding: 0 }
+.chk .box { width: 18px; height: 18px; border: 1.5px solid #999; border-radius: 3px; display: grid; place-items: center; background: var(--card) }
+.chk .box svg { width: 12px; height: 12px; opacity: 0 }
+.chk[aria-pressed="true"] .box { background: var(--accent-ink); border-color: var(--accent-ink) }
+.chk[aria-pressed="true"] .box svg { opacity: 1 }
+.used a { margin-right: 6px }
 
-/* 증거 줄 */
-.evs { display: grid; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule) }
-.evs > .ev + .ev { border-top: 1px solid var(--rule) }
-.evs:has(> .empty) { border: 0 }
-.ev { display: grid; grid-template-columns: 60px minmax(0, 1fr); gap: 2px 12px; padding: 14px 0; background: var(--panel); scroll-margin: 90px; transition: background-color .25s, box-shadow .25s }
-.ev.flash { background: color-mix(in srgb, var(--now) 24%, var(--panel)); box-shadow: 0 0 0 8px color-mix(in srgb, var(--now) 24%, var(--panel)) }
-.ev .line-tag { grid-row: 1 / span 3; align-self: start; height: 26px; border-radius: 13px; display: grid; place-items: center; color: #fff; font-weight: 800; font-size: 13px }
-.ev-top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; font-size: 13px; color: var(--muted) }
-.ev-top b { font-size: 15px; color: var(--ink); font-weight: 800 }
-.ev p { margin: 2px 0 0; font-size: 14.5px; line-height: 1.6; max-width: 72ch }
-.ev .from { color: var(--muted); font-size: 13px; margin-top: 2px }
-.cn { display: inline-block; font-size: 12px; font-weight: 600; color: var(--false-text); border: 1px solid currentColor; border-radius: 4px; padding: 0 5px; margin-left: 4px; vertical-align: 1px; line-height: 1.5 }
-.ev-foot { grid-column: 2; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; margin-top: 8px }
-.ev-foot .btn { margin-left: auto }
-.check { display: inline-flex; align-items: center; gap: 7px; border: 0; background: none; padding: 4px 0; font-size: 13.5px; color: var(--muted); min-height: 32px }
-.check .box { width: 18px; height: 18px; border: 1.5px solid var(--rule-strong); border-radius: 4px; display: grid; place-items: center; background: var(--panel) }
-.check .box svg { width: 12px; height: 12px; opacity: 0 }
-.check[aria-pressed="true"] { color: var(--ink) }
-.check[aria-pressed="true"] .box { background: var(--pri); border-color: var(--pri) }
-.check[aria-pressed="true"] .box svg { opacity: 1 }
-.check:hover .box { border-color: var(--ink) }
-.empty { margin: 0; padding: 14px 16px; border: 1.5px dashed var(--rule-strong); border-radius: 8px; color: var(--muted); font-size: 14px }
-.tabs { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 10px }
-.tab { display: inline-flex; align-items: center; gap: 7px; height: 34px; padding: 0 12px; border-radius: 17px; border: 1px solid var(--rule); background: var(--panel); font-size: 13.5px; font-weight: 600; color: var(--muted) }
-.tab i { width: 10px; height: 10px; border-radius: 50%; background: var(--src, var(--ink)) }
-.tab:hover { border-color: var(--rule-strong); color: var(--ink) }
-.tab[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--panel) }
-
-/* 증거 직접 추가 */
-details.addev { margin-top: 12px; border: 1px solid var(--rule); border-radius: 8px }
-details.addev summary { cursor: pointer; padding: 10px 14px; font-weight: 600; font-size: 14px; list-style: none; display: flex; align-items: center; gap: 8px }
-details.addev summary::-webkit-details-marker { display: none }
-details.addev summary svg { width: 14px; height: 14px; transition: transform .18s }
-details.addev[open] summary svg { transform: rotate(90deg) }
-details.addev summary:hover { background: var(--panel-2) }
-.addev-form { display: grid; grid-template-columns: 140px 170px minmax(0, 1fr); gap: 10px 12px; padding: 4px 14px 14px }
-.addev-form label { display: grid; gap: 4px; font-size: 13px; color: var(--muted); font-weight: 600 }
+/* 5. 증거 직접 추가 */
+.addev-form { display: grid; grid-template-columns: 120px 170px minmax(0, 1fr); gap: 10px 12px; max-width: 860px }
+.addev-form label { display: grid; gap: 4px; font-size: 13.5px; color: var(--muted); font-weight: 500 }
 .addev-form .full { grid-column: 1 / -1 }
 .addev-form .row-end { grid-column: 1 / -1; display: flex; align-items: center; gap: 12px }
-.err { color: var(--false-text); font-size: 13.5px; margin: 0 }
-select.input { padding-right: 6px }
-
-/* 바닥 */
-.foot { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px; margin: 18px 0 28px; font-size: 13.5px; color: var(--muted) }
-.foot span { margin-right: auto }
-.copy-out { margin-bottom: 28px }
-.copy-out p { margin: 0 0 6px; font-size: 14px }
+.err { color: var(--v-false); font-size: 13.5px; margin: 0 }
+.copy-out { margin: 0 0 20px }
 .copy-out textarea { min-height: 180px; font-size: 14px }
 
-.toast { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 10px); background: var(--sign); color: var(--on-sign); padding: 10px 16px; border-radius: 8px; font-size: 14px; font-weight: 600; opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; z-index: 20; max-width: calc(100vw - 32px); box-shadow: var(--shadow) }
-.toast.show { opacity: 1; transform: translate(-50%, 0) }
+.license { clear: both; border-top: 1px solid var(--line); margin: 0 -24px; padding: 20px 24px; text-align: right; font-size: 14px; color: var(--muted); line-height: 1.6 }
+.license p { margin: 0 }
 
-@media (min-width: 1001px) {
-  .work > .panel:first-child { position: sticky; top: 16px; max-height: calc(100vh - 32px); overflow-y: auto }
+/* 오른쪽 사이드바 */
+.side { display: flex; flex-direction: column; gap: 16px; align-self: start; position: sticky; top: 72px }
+.side .card { padding: 16px 20px }
+.side-h { display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 700; margin: 0 0 10px }
+.side-h svg.i { color: #999; font-size: 20px }
+.stat-list { margin: 0; padding: 0; list-style: none; font-size: 15px }
+.stat-list li { display: flex; gap: 10px; align-items: baseline; padding: 4px 0 4px 2px }
+.stat-list .k { color: var(--text); width: 26px; flex-shrink: 0; font-variant-numeric: tabular-nums }
+.stat-list a { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.badge { flex-shrink: 0; font-size: 12px; font-weight: 700; padding: 0 6px; border-radius: 3px; line-height: 1.6 }
+.b-true { background: var(--v-true); color: var(--on-true) }
+.b-false { background: var(--v-false); color: var(--on-false) }
+.b-open { background: var(--v-open); color: var(--on-open) }
+.b-none { border: 1px solid var(--line); color: var(--muted); font-weight: 500 }
+.recent { border-top: 5px solid #E3E3E3; margin: -16px -20px 0; padding: 16px 20px }
+:root[data-theme="dark"] .recent { border-top-color: var(--line-soft) }
+.recent ul { margin: 0; padding: 0; list-style: none; font-size: 15px }
+.recent li { display: flex; justify-content: space-between; gap: 10px; padding: 3px 0 }
+.recent li a { overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.recent time { font-size: 12px; color: var(--text); white-space: nowrap }
+.recent .empty { color: var(--muted); font-size: 14px }
+
+.floating { position: fixed; right: 40px; bottom: 36px; display: flex; flex-direction: column; gap: 12px; z-index: 40 }
+.floating .grp { display: flex; flex-direction: column; background: var(--card); border: 1px solid var(--line); border-radius: 5px; box-shadow: 0 2px 6px rgba(0, 0, 0, .12); overflow: hidden }
+.floating button { width: 40px; height: 40px; border: 0; background: var(--card); color: var(--text); display: grid; place-items: center; font-size: 18px }
+.floating .grp button + button { border-top: 1px solid var(--line-soft) }
+.floating button:hover { background: var(--hover) }
+.toast { position: fixed; left: 50%; bottom: 30px; transform: translateX(-50%) translateY(20px); background: #333; color: #fff; padding: 10px 16px; border-radius: 4px; font-size: 14px; opacity: 0; pointer-events: none; transition: .2s; z-index: 80; max-width: calc(100vw - 32px) }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0) }
+.site-foot { max-width: 1520px; margin: 16px auto 0; border-top: 1px solid var(--line); padding: 16px 36px 22px; font-size: 13px; color: var(--muted); line-height: 1.7 }
+
+@media (max-width: 1100px) {
+  .wrap { grid-template-columns: minmax(0, 1fr); padding: 12px 16px 0 }
+  .side { position: static; display: grid; grid-template-columns: 1fr 1fr; gap: 12px }
+  .top-in { padding: 0 16px }
+  .turn-bar { padding: 12px 16px 0 }
+  .site-foot { padding: 16px }
 }
-@media (max-width: 1000px) {
-  .work { grid-template-columns: minmax(0, 1fr) }
-}
-@media (max-width: 640px) {
-  .map-frame { padding-left: 70px }
-  .map-frame .pills { width: 70px }
-  .line-pill { left: 12px; min-width: 48px; padding: 0 8px }
-  .bar h1 { font-size: 21px; flex-basis: 100% }
-  .bar-tools { width: 100% }
-  .field-dark { flex: 1 1 auto }
-  .field-dark input { width: 100% }
-  .detail { padding: 16px }
-  .verdicts { grid-template-columns: minmax(0, 1fr) }
-  .vbtn { justify-content: flex-start }
-  .ev { grid-template-columns: minmax(0, 1fr) }
-  .ev .line-tag { grid-row: auto; justify-self: start; padding: 0 10px }
-  .ev-foot { grid-column: 1 }
+@media (max-width: 1000px) { .nav-item .lbl { display: none } }
+@media (max-width: 768px) {
+  .addev-form label { grid-column: auto !important }
+  .top-in { flex-wrap: wrap; min-height: 0; padding: 0 }
+  .logo { height: 48px; margin: 0 4px 0 12px; font-size: 19px }
+  .logo svg { width: 30px; height: 30px }
+  .top-right { flex-basis: 100%; order: 3; margin: 0 }
+  .team-box { width: 100%; border-radius: 0; border-bottom: 1px solid var(--line-soft) }
+  .wrap { padding: 0; gap: 0 }
+  .turn-bar { padding: 10px 12px }
+  .card.article { border: 0; border-radius: 0; padding: 12px 16px 0 }
+  .license { margin: 0 -16px; padding: 18px 16px }
+  .head { flex-direction: column; gap: 8px }
+  .head h1 { font-size: 28px }
+  .actions { align-self: flex-end; padding-top: 0 }
+  .infobox { float: none; width: 100%; margin: 6px 0 16px }
+  .sec-h h2 { font-size: 23px }
+  .sec-h.lv2 h3 { font-size: 18.5px }
+  .side { grid-template-columns: minmax(0, 1fr); padding: 12px }
   .addev-form { grid-template-columns: minmax(0, 1fr) }
+  .floating { right: 12px; bottom: 16px }
+  .floating .grp { opacity: .85 }
+  .floating .grp:first-child { display: none }
+  .vgroup { width: 100% }
+  .vbtn { flex: 1; justify-content: center; padding: 0 6px; font-size: 14px }
+  .tl-frame { padding-left: 64px }
+  .tl-frame .pills { width: 64px }
+  .line-tag { left: 8px; min-width: 46px }
 }
 @media (pointer: coarse) {
-  .check { min-height: 44px }
-  .btn.sm, .tab { min-height: 44px }
+  .vbtn, .btn, .btn-group button { min-height: 44px }
+  .chk { width: 44px; height: 44px }
 }
 @media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto }
   *, *::before, *::after { transition-duration: 0s !important; animation-duration: 0s !important }
 }
 </style>
 </head>
 <body>
-<header class="bar">
-  <div class="wrap">
-    <span class="brand">
-      <svg viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="10" fill="none" stroke="#FFC93C" stroke-width="4"/><circle cx="13" cy="13" r="4" fill="#FFFFFF"/></svg>
+<span id="top"></span>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5"/><path d="M8 7h7"/></symbol>
+  <symbol id="i-news" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h10M7 12h10M7 16h6"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6.5 6.5 0 0 1 3.5 6"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></symbol>
+  <symbol id="i-undo" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><path d="M12 11v6M12 7.5v.01"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M21 20H3"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></symbol>
+  <symbol id="i-dn" viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+</svg>
+
+<header class="top">
+  <div class="top-in">
+    <a class="logo" href="#top" aria-label="문영 수사본부 맨 위로">
+      <svg viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="16" fill="#fff"/><circle cx="15" cy="15" r="6.5" fill="none" stroke="#08857A" stroke-width="3"/><path d="M19.8 19.8 25 25" stroke="#08857A" stroke-width="3.4" stroke-linecap="round"/></svg>
       문영 수사본부
-    </span>
-    <h1>이은호 김서진 열애설 <span class="fic">수업용 가상 사건</span></h1>
-    <div class="bar-tools">
-      <label class="field-dark" for="team">모둠 <input id="team" autocomplete="off" placeholder="모둠 이름"></label>
-      <label class="field-dark now-select" for="turn">지금 시점 <select id="turn"></select></label>
-      <a class="bar-link" href="https://claude.ai/artifact/JM9iRLeWXGpZZE3h4RTWDV" target="_blank" rel="noopener">문영위키 열기
-        <svg viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h4v4M13 3 7.5 8.5M12 9.5V13H3V4h3.5"/></svg>
-      </a>
+    </a>
+    <a class="nav-item" href="https://claude.ai/artifact/JM9iRLeWXGpZZE3h4RTWDV" target="_blank" rel="noopener"><svg class="i"><use href="#i-book"/></svg><span class="lbl">문영위키</span></a>
+    <a class="nav-item" href="https://claude.ai/artifact/FB262z41ts6fv9AuVNjSLB" target="_blank" rel="noopener"><svg class="i"><use href="#i-news"/></svg><span class="lbl">문영일보</span></a>
+    <div class="top-right">
+      <label class="team-box" for="team"><svg class="i" aria-hidden="true"><use href="#i-users"/></svg><span hidden>모둠 이름</span><input id="team" autocomplete="off" placeholder="모둠 이름을 적으세요"></label>
     </div>
   </div>
 </header>
 
-<main class="wrap">
-  <section class="map-sec" aria-labelledby="mapTitle">
-    <div class="map-head">
-      <h2 id="mapTitle">증거 노선도</h2>
-      <p id="mapNote"></p>
+<div class="turn-bar">
+  <div class="turn-in">
+    <span class="k">현재 시점</span><b id="turnName"></b><span class="num" id="turnTime"></span><span class="d" id="turnDesc"></span>
+    <label class="turn-pick" for="turn">선생님이 알려 준 턴 <select id="turn"></select></label>
+  </div>
+</div>
+
+<div class="wrap">
+  <main class="card article">
+    <div class="head">
+      <h1>수사:이은호 김서진 열애설</h1>
+      <div class="actions">
+        <div class="btn-group">
+          <button type="button" id="copy"><svg class="i"><use href="#i-copy"/></svg>기록 복사</button>
+          <button type="button" id="reset"><svg class="i"><use href="#i-undo"/></svg><span>처음 상태로</span></button>
+        </div>
+      </div>
     </div>
-    <div class="map-frame"><div class="pills" id="pills"></div><div class="map-scroll" id="mapScroll"><div class="map" id="map"></div></div></div>
-  </section>
+    <p class="updated num" id="saved"></p>
+    <div class="copy-out" id="copyOut" hidden>
+      <p class="notice">복사가 막혀 있습니다. 아래 글을 모두 선택해 직접 복사하세요.</p>
+      <label for="copyText" hidden>내 기록</label>
+      <textarea class="input" id="copyText" readonly></textarea>
+    </div>
+    <div class="cat-bar" id="cats"></div>
+    <div class="notice"><span class="ico"><svg class="i"><use href="#i-info"/></svg></span><span>이 문서는 모둠의 <b>수사 기록</b>입니다. 문영위키 문서가 아니며, 판정과 근거는 이 기기에만 저장됩니다.</span></div>
 
-  <div class="work">
-    <section class="panel" aria-labelledby="claimsTitle">
-      <div class="panel-head"><h2 id="claimsTitle">판단할 주장</h2><p id="claimStat" class="num"></p></div>
-      <ul class="claims" id="claims"></ul>
-      <form class="add" id="addClaim">
-        <label for="newClaim" hidden>새 주장</label>
-        <input class="input" id="newClaim" autocomplete="off" placeholder="확인할 주장을 한 문장으로">
-        <button class="btn" type="submit">주장 추가</button>
-      </form>
+    <div class="wiki" id="doc"></div>
+
+    <div class="license"><p>이 화면은 수업용으로 만든 가상 사건의 수사 기록장입니다.<br>인물, 기획사, 음반, 매체는 모두 가상 설정입니다.</p></div>
+  </main>
+
+  <aside class="side" aria-label="요약">
+    <section class="card">
+      <h2 class="side-h"><svg class="i" aria-hidden="true"><use href="#i-chart"/></svg>판정 현황</h2>
+      <ol class="stat-list" id="stat"></ol>
     </section>
+    <section class="card">
+      <div class="recent">
+        <h2 class="side-h"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>최근 기록</h2>
+        <ul id="log"></ul>
+      </div>
+    </section>
+  </aside>
+</div>
+<footer class="site-foot">문영 수사본부는 사실 확인 수업에서 쓰는 수사 기록장입니다. 증거는 문영위키와 문영일보에서 찾아 옮겨 적습니다.</footer>
 
-    <section class="panel detail" id="detail" aria-label="고른 주장"></section>
+<div class="floating">
+  <div class="grp"><button type="button" id="toToc" aria-label="목차로"><svg class="i"><use href="#i-list"/></svg></button></div>
+  <div class="grp">
+    <button type="button" id="toTop" aria-label="맨 위로"><svg class="i"><use href="#i-up"/></svg></button>
+    <button type="button" id="toEnd" aria-label="맨 아래로"><svg class="i"><use href="#i-dn"/></svg></button>
   </div>
-
-  <div class="foot">
-    <span>연습용 예시가 들어 있습니다. 판정과 근거는 이 기기에만 저장됩니다.</span>
-    <button class="btn sm" type="button" id="copy">내 기록 복사</button>
-    <button class="btn sm" type="button" id="reset">처음 상태로</button>
-  </div>
-  <div class="copy-out" id="copyOut" hidden>
-    <p>복사가 막혀 있습니다. 아래 글을 모두 선택해 직접 복사하세요.</p>
-    <label for="copyText" hidden>내 기록</label>
-    <textarea class="input" id="copyText" readonly></textarea>
-  </div>
-</main>
+</div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -325,22 +424,23 @@ select.input { padding-right: 6px }
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
   const KEY = 'munyeong-desk-v3';
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const icon = (id, cls = 'i') => `<svg class="${cls}" aria-hidden="true"><use href="#i-${id}"/></svg>`;
 
   const SRC = { wiki: '위키', news: '기사', sns: 'SNS' };
   const LINES = ['wiki', 'news', 'sns'];
   const VERDICT = { true: '사실이다', false: '사실이 아니다', open: '아직 모른다' };
-  /* 문영위키의 턴과 같은 시각 */
+  /* 문영위키의 턴과 같은 시각과 설명 */
   const TURNS = [
-    { n: 1, at: '2026-02-04T12:00', label: '2월 4일 (수) 12:00', short: '2월 4일' },
-    { n: 2, at: '2026-03-06T12:00', label: '3월 6일 (금) 12:00', short: '3월 6일' },
-    { n: 3, at: '2026-03-08T20:00', label: '3월 8일 (일) 20:00', short: '3월 8일' }
+    { n: 1, at: '2026-02-04T12:00', label: '2026-02-04 12:00', short: '2월 4일', desc: '열애설 기사가 막 올라온 날 낮' },
+    { n: 2, at: '2026-03-06T12:00', label: '2026-03-06 12:00', short: '3월 6일', desc: '한 달 뒤, 생일 사진까지 번졌지만 소속사는 아직 말이 없음' },
+    { n: 3, at: '2026-03-08T20:00', label: '2026-03-08 20:00', short: '3월 8일', desc: '소속사 부인 공지와 기사 이후' }
   ];
   const ms = s => { const [d, t = '00:00'] = s.split('T'); const [y, m, dd] = d.split('-').map(Number); const [h, mi] = t.split(':').map(Number); return Date.UTC(y, m - 1, dd, h, mi); };
   TURNS.forEach(t => t.ms = ms(t.at));
 
   /* 1턴 예시: 문영위키 1턴에서 볼 수 있는 내용만 */
   const SAMPLE = {
-    team: '', turn: 1, sel: 'c1', focus: null, filter: 'all',
+    team: '', turn: 1, sel: 'c1', focus: null, filter: 'all', log: [], saved: null, closed: {},
     evidence: [
       { id: 'e7', src: 'sns', date: '2025-12-08', found: 1, short: '《초점》 데뷔 게시물', text: '데뷔 싱글 《초점》 발매 당일 올린 게시물.', from: '@seojin_official, 김서진 문서 여담에서', checks: { src: true, orig: false } },
       { id: 'e6', src: 'news', date: '2025-12-21', found: 1, short: '반창회 모교 방문', text: '예고 동창 케미에 \'훈훈\'…이은호·김서진, \'반창회\'서 모교 방문', from: '문영일보, 이은호 문서 각주에서', checks: { src: true, orig: false } },
@@ -360,49 +460,163 @@ select.input { padding-right: 6px }
   const clone = o => JSON.parse(JSON.stringify(o));
   let S;
   try { S = JSON.parse(localStorage.getItem(KEY)) || clone(SAMPLE); } catch (e) { S = clone(SAMPLE); }
-  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+  S.log = S.log || []; S.closed = S.closed || {};
+  const stamp = () => { const d = new Date(), p = n => String(n).padStart(2, '0'); return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`; };
+  const save = () => { S.saved = stamp(); try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} const el = $('#saved'); if (el) el.textContent = `최근 저장 시각: ${S.saved}`; };
+  const logIt = (text, cid) => { S.log.unshift({ t: Date.now(), text, cid }); S.log = S.log.slice(0, 10); };
 
   const toastEl = $('#toast'); let tt;
   const toast = m => { toastEl.textContent = m; toastEl.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => toastEl.classList.remove('show'), 2200); };
   const claim = () => S.claims.find(c => c.id === S.sel);
   const evById = id => S.evidence.find(x => x.id === id);
-  const fmtDate = d => { const [y, m, dd] = d.split('-'); return `${y}.${m}.${dd}`; };
+  const fmtDate = d => d.replace(/-/g, '.');
   const sortEv = list => list.slice().sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
   const turnOf = n => TURNS[n - 1];
+  const cnum = c => `3.${S.claims.indexOf(c) + 1}`;
 
-  /* 판정 표시: 모양으로도 구분한다 (색만 보고 판단하지 않도록) */
-  function mark(v, size = 20) {
-    const r = size / 2;
-    if (v === 'true') return `<svg viewBox="0 0 20 20" width="${size}" height="${size}" aria-hidden="true"><circle cx="10" cy="10" r="9" fill="currentColor"/><path d="M5.6 10.3l3 3 5.8-6.4" fill="none" stroke="var(--vm-on, #fff)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-    if (v === 'false') return `<svg viewBox="0 0 20 20" width="${size}" height="${size}" aria-hidden="true"><circle cx="10" cy="10" r="9" fill="currentColor"/><path d="M6 14L14 6" stroke="var(--vm-on, #fff)" stroke-width="2.6" stroke-linecap="round"/></svg>`;
-    if (v === 'open') return `<svg viewBox="0 0 20 20" width="${size}" height="${size}" aria-hidden="true"><circle cx="10" cy="10" r="9" fill="currentColor"/><circle cx="6" cy="10" r="1.6" fill="var(--vm-on, #18233A)"/><circle cx="10" cy="10" r="1.6" fill="var(--vm-on, #18233A)"/><circle cx="14" cy="10" r="1.6" fill="var(--vm-on, #18233A)"/></svg>`;
-    return `<svg viewBox="0 0 20 20" width="${size}" height="${size}" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="3 3"/></svg>`;
+  /* 판정 표시: 색과 함께 모양으로도 구분한다 */
+  function mark(v) {
+    if (v === 'true') return `<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="9" fill="currentColor"/><path d="M5.6 10.3l3 3 5.8-6.4" fill="none" stroke="var(--vm-on)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    if (v === 'false') return `<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="9" fill="currentColor"/><path d="M6 14L14 6" stroke="var(--vm-on)" stroke-width="2.6" stroke-linecap="round"/></svg>`;
+    return `<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="9" fill="currentColor"/><circle cx="6" cy="10" r="1.6" fill="var(--vm-on)"/><circle cx="10" cy="10" r="1.6" fill="var(--vm-on)"/><circle cx="14" cy="10" r="1.6" fill="var(--vm-on)"/></svg>`;
   }
-  const vColor = v => v === 'true' ? 'var(--true)' : v === 'false' ? 'var(--false)' : v === 'open' ? 'var(--now)' : 'var(--rule-strong)';
-
-  /* 주장마다 턴별 판정을 작은 노선으로 그린다 */
+  const vColor = v => v === 'true' ? 'var(--v-true)' : v === 'false' ? 'var(--v-false)' : 'var(--v-open)';
   function trail(c) {
     const xs = [8, 29, 50];
-    let s = `<svg class="trail" viewBox="0 0 58 18" aria-hidden="true">`;
-    s += `<path d="M8 9H${xs[S.turn - 1]}" stroke="var(--rule-strong)" stroke-width="3"/>`;
-    if (S.turn < 3) s += `<path d="M${xs[S.turn - 1]} 9H50" stroke="var(--rule-strong)" stroke-width="2.5" stroke-dasharray="3 3"/>`;
+    let s = `<svg class="trail" viewBox="0 0 58 18" aria-hidden="true"><path d="M8 9H${xs[S.turn - 1]}" stroke="var(--muted)" stroke-width="2.5"/>`;
+    if (S.turn < 3) s += `<path d="M${xs[S.turn - 1]} 9H50" stroke="var(--line)" stroke-width="2.5" stroke-dasharray="3 3"/>`;
     TURNS.forEach((t, i) => {
       const v = c.v[t.n];
-      if (t.n > S.turn) s += `<circle cx="${xs[i]}" cy="9" r="5.5" fill="var(--panel)" stroke="var(--muted)" stroke-width="2" stroke-dasharray="2.5 2"/>`;
-      else if (!v) s += `<circle cx="${xs[i]}" cy="9" r="6" fill="var(--panel)" stroke="var(--muted)" stroke-width="2"/>`;
-      else s += `<circle cx="${xs[i]}" cy="9" r="7" fill="${vColor(v)}"${v === 'open' ? ' stroke="var(--on-now)" stroke-width="1.2"' : ''}/>`;
+      if (t.n > S.turn) s += `<circle cx="${xs[i]}" cy="9" r="5.5" fill="var(--card)" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="2.5 2"/>`;
+      else if (!v) s += `<circle cx="${xs[i]}" cy="9" r="6" fill="var(--card)" stroke="var(--muted)" stroke-width="2"/>`;
+      else s += `<circle cx="${xs[i]}" cy="9" r="7" fill="${vColor(v)}"${v === 'open' ? ' stroke="var(--on-open)" stroke-width="1"' : ''}/>`;
     });
     return s + '</svg>';
   }
   const trailText = c => TURNS.filter(t => t.n <= S.turn).map(t => `${t.n}턴 ${c.v[t.n] ? VERDICT[c.v[t.n]] : '판정 전'}`).join(', ');
+  const badge = v => v ? `<span class="badge b-${v}">${VERDICT[v]}</span>` : `<span class="badge b-none">판정 전</span>`;
 
-  /* ── 노선도 ── */
-  const mapEl = $('#map'), scrollEl = $('#mapScroll');
-  const G = 26, R = 36, TOP = 0, LINE_Y = [84, 146, 208], AXIS_Y = 236;
+  /* ── 문단 제목 (나무위키처럼 번호, 접기) ── */
+  function secHead(id, n, title, lv = 1, tail = '') {
+    const closed = !!S.closed[id];
+    const tag = lv === 1 ? 'h2' : 'h3';
+    return `<div class="sec-h${lv === 2 ? ' lv2' : ''}${closed ? ' closed' : ''}" id="s-${id}">
+      <button type="button" class="fold" data-fold="${id}" aria-expanded="${!closed}" aria-controls="b-${id}" aria-label="${esc(title)} ${closed ? '펼치기' : '접기'}">${icon('down')}</button>
+      <${tag}><a class="n" href="#s-${id}">${n}.</a> <span class="t">${esc(title)}</span></${tag}>${tail ? `<span class="tail">${tail}</span>` : ''}
+    </div>`;
+  }
+  const body = (id, html) => `<div class="sec-body${S.closed[id] ? ' closed' : ''}" id="b-${id}">${html}</div>`;
+
+  /* ── 문서 본문 ── */
+  function renderDoc() {
+    const t = turnOf(S.turn);
+    const judged = S.claims.filter(c => c.v[S.turn]).length;
+    const cnt = { wiki: 0, news: 0, sns: 0 }; S.evidence.forEach(e => cnt[e.src]++);
+    const toc = [['ov', '1', '개요'], ['tl', '2', '증거 시간선'], ['cl', '3', '판단할 주장'], ...S.claims.map(c => [`c-${c.id}`, cnum(c), c.text, 2]), ['box', '4', '증거함'], ['add', '5', '증거 직접 추가']];
+    let h = `
+      <div class="infobox">
+        <div class="ibox-title"><b>이은호 김서진 열애설</b><span>사건 파일 2026-02</span></div>
+        <table><tbody>
+          <tr><th>현재 시점</th><td class="num">${S.turn}턴, ${t.label}</td></tr>
+          <tr><th>모둠</th><td>${S.team ? esc(S.team) : '<span style="color:var(--muted)">이름 없음</span>'}</td></tr>
+          <tr><th>판단할 주장</th><td class="num">${S.claims.length}개 중 ${judged}개 판정</td></tr>
+          <tr><th>모은 증거</th><td class="num">${S.evidence.length}개 (위키 ${cnt.wiki}, 기사 ${cnt.news}, SNS ${cnt.sns})</td></tr>
+          <tr><th>자료</th><td><a href="https://claude.ai/artifact/JM9iRLeWXGpZZE3h4RTWDV" target="_blank" rel="noopener">문영위키</a>, <a href="https://claude.ai/artifact/FB262z41ts6fv9AuVNjSLB" target="_blank" rel="noopener">문영일보</a></td></tr>
+        </tbody></table>
+      </div>
+      <p>'''이은호 김서진 열애설''' 사건을 확인하는 모둠의 수사 기록이다. 지금은 <b>${S.turn}턴</b>(${t.label}), ${esc(t.desc)}이다.</p>
+      <p>주장마다 증거를 연결하고, 판정과 그렇게 판단한 근거를 적는다. 판정에는 정답 표시가 없다. 새 턴이 열리면 새 증거를 찾아 다시 판정한다.</p>
+      <div class="toc" id="toc">
+        <button type="button" class="toc-head" id="tocHead" aria-expanded="true">목차 ${icon('down')}</button>
+        <div class="toc-list">${toc.map(([id, n, label, lv]) => `<div${lv === 2 ? ' class="lv2"' : ''}><a href="#s-${id}">${n}.</a> ${esc(label)}</div>`).join('')}</div>
+      </div>`;
+    h = h.replace("'''이은호 김서진 열애설'''", '<b>이은호 김서진 열애설</b>');
+
+    h += secHead('ov', 1, '개요') + body('ov', `
+      <p>${S.turn}턴 시점까지 모은 증거는 ${S.evidence.length}개, 판단할 주장은 ${S.claims.length}개이다. 판정이 끝나지 않은 주장은 오른쪽 <b>판정 현황</b>에서 바로 찾아갈 수 있다.</p>`);
+
+    h += secHead('tl', 2, '증거 시간선') + body('tl', `
+      <p id="tlNote"></p>
+      <div class="tl-box">
+        <div class="tl-frame"><div class="pills" id="pills"></div><div class="tl-scroll" id="tlScroll"><div class="map" id="map"></div></div></div>
+        <div class="tl-foot"><span>점은 증거, 줄은 출처입니다.</span><span>검은 표시가 지금 시점이고, 그 오른쪽 점선은 아직 오지 않은 시간입니다.</span></div>
+      </div>`);
+
+    h += secHead('cl', 3, '판단할 주장', 1, `${S.turn}턴 판정 ${judged} / ${S.claims.length}`) + body('cl', S.claims.map(claimSec).join('') + `
+      <form class="add-claim" id="addClaim">
+        <label for="newClaim" hidden>새 주장</label>
+        <input class="input" id="newClaim" autocomplete="off" placeholder="새로 확인할 주장을 한 문장으로 적으세요">
+        <button class="btn" type="submit">${icon('plus')}주장 추가</button>
+      </form>`);
+
+    h += secHead('box', 4, '증거함') + body('box', boxHtml());
+    h += secHead('add', 5, '증거 직접 추가') + body('add', addHtml());
+    $('#doc').innerHTML = h;
+  }
+
+  function claimSec(c) {
+    const v = c.v[S.turn] || '';
+    const linked = sortEv(c.ev.map(evById).filter(Boolean));
+    const past = TURNS.filter(t => t.n < S.turn && c.v[t.n]);
+    const open = S.pick === c.id;
+    const rest = sortEv(S.evidence.filter(e => !c.ev.includes(e.id)));
+    return `<section class="claim-sec${c.id === S.sel ? ' sel' : ''}" data-claim="${c.id}">
+      ${secHead(`c-${c.id}`, cnum(c), c.text, 2)}
+      ${body(`c-${c.id}`, `
+        <div class="vrow">
+          <div class="vgroup" role="group" aria-label="${S.turn}턴 판정">
+            ${['true', 'false', 'open'].map(k => `<button type="button" class="vbtn v-${k}" data-v="${k}" aria-pressed="${v === k}">${mark(k)}${VERDICT[k]}</button>`).join('')}
+          </div>
+          <span class="history">${trail(c)}<span>${past.length ? `이전 판정: ${past.map(t => `${t.n}턴 <b>${VERDICT[c.v[t.n]]}</b>`).join(', ')}` : `${S.turn}턴 판정 ${v ? '완료' : '전'}`}</span></span>
+        </div>
+        <label class="field-l" for="note-${c.id}">근거<span>어떤 증거 때문에 그렇게 판단했나요?</span></label>
+        <textarea class="input" id="note-${c.id}" data-note="${c.id}" rows="2" placeholder="예: 노래가 메시지보다 먼저 나왔으므로 답장일 수 없다">${esc(c.note)}</textarea>
+        <p class="field-l" style="margin-top:14px">연결한 증거<span class="num">${linked.length}개</span></p>
+        ${linked.length ? `<ul class="wiki-list">${linked.map(e => `<li>${srcTag(e.src)}<span class="ev-date num">${fmtDate(e.date)}</span><b>${esc(e.short)}</b>${e.cn ? '<span class="cn">[출처 필요]</span>' : ''} <span class="ev-from">${esc(e.from || '')}</span> <button type="button" class="lnk del" data-unlink="${e.id}">연결 끊기</button></li>`).join('')}</ul>` : '<p style="color:var(--muted)">아직 연결한 증거가 없습니다. 아래 단추로 증거함에서 골라 연결하세요.</p>'}
+        <button type="button" class="btn pri" data-pickfor="${c.id}" aria-expanded="${open}">${icon('plus')}증거 연결</button>
+        ${open ? `<div class="picker">${rest.length ? rest.map(e => `<div class="picker-row"><div>${srcTag(e.src)}<span class="ev-date num">${fmtDate(e.date)}</span><b>${esc(e.short)}</b><br><span class="ev-from">${esc(e.text)}</span></div><button type="button" class="btn" data-link="${e.id}">연결</button></div>`).join('') : '<p class="picker-empty">연결할 증거가 더 없습니다. 5. 증거 직접 추가에서 새 증거를 넣으세요.</p>'}</div>` : ''}
+      `)}
+    </section>`;
+  }
+  const srcTag = s => `<span class="src-tag t-${s}">${SRC[s]}</span>`;
+
+  function boxHtml() {
+    const counts = { all: S.evidence.length }; S.evidence.forEach(e => counts[e.src] = (counts[e.src] || 0) + 1);
+    const list = sortEv(S.evidence.filter(e => S.filter === 'all' || e.src === S.filter));
+    return `<div class="filters" role="group" aria-label="출처별로 보기">${[['all', '전체'], ...LINES.map(l => [l, SRC[l]])].map(([k, l]) => `<button type="button" data-f="${k}" aria-pressed="${S.filter === k}">${l} <span class="num">${counts[k] || 0}</span></button>`).join('')}</div>
+      <div class="wiki-table-wrap"><table class="wiki-table">
+        <thead><tr><th>출처</th><th>날짜</th><th>증거</th><th>출처 있음</th><th>원문 확인</th><th>연결한 주장</th></tr></thead>
+        <tbody>${list.length ? list.map(e => {
+          const used = S.claims.filter(c => c.ev.includes(e.id));
+          return `<tr id="ev-${e.id}" tabindex="-1">
+            <td class="c">${srcTag(e.src)}</td>
+            <td class="c num">${fmtDate(e.date)}<br><span class="ev-from">${e.found}턴에 찾음</span></td>
+            <td class="ev-cell"><b>${esc(e.short)}</b>${e.cn ? '<span class="cn">[출처 필요]</span>' : ''}<p>${esc(e.text)}</p><span class="ev-from">${esc(e.from || '')}</span></td>
+            ${['src', 'orig'].map(k => `<td class="c"><button type="button" class="chk" data-check="${k}" data-id="${e.id}" aria-pressed="${!!e.checks[k]}" aria-label="${esc(e.short)} ${k === 'src' ? '출처 있음' : '원문 확인함'}"><span class="box"><svg viewBox="0 0 12 12"><path d="M2 6.2l2.6 2.6L10 3.4" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button></td>`).join('')}
+            <td class="c used">${used.length ? used.map(c => `<a href="#s-c-${c.id}" data-go="${c.id}">${cnum(c)}</a>`).join('') : '<span class="ev-from">없음</span>'}</td>
+          </tr>`; }).join('') : `<tr><td colspan="6" style="color:var(--muted)">${SRC[S.filter]} 증거가 아직 없습니다. 5. 증거 직접 추가에서 넣으세요.</td></tr>`}</tbody>
+      </table></div>`;
+  }
+
+  function addHtml() {
+    return `<p>문영위키나 문영일보에서 새로 찾은 내용을 옮겨 적습니다. ${S.turn}턴 시점보다 뒤의 날짜는 넣을 수 없습니다.</p>
+      <form class="addev-form" id="addEvForm" novalidate>
+        <label>출처<select class="input" name="src">${LINES.map(l => `<option value="${l}">${SRC[l]}</option>`).join('')}</select></label>
+        <label>날짜<input class="input" type="date" name="date" min="2020-01-01" max="2026-12-31"></label>
+        <label>짧은 이름<input class="input" name="short" maxlength="20" placeholder="시간선에 보일 이름"></label>
+        <label class="full">내용<textarea class="input" name="text" placeholder="찾은 문장을 그대로 옮겨 적으세요"></textarea></label>
+        <label style="grid-column:span 2">어디서 찾았나요<input class="input" name="from" placeholder="예: 문영위키 이은호 문서 각주 3"></label>
+        <label>연결할 주장<select class="input" name="claim"><option value="">나중에 연결</option>${S.claims.map(c => `<option value="${c.id}"${c.id === S.sel ? ' selected' : ''}>${cnum(c)} ${esc(c.text)}</option>`).join('')}</select></label>
+        <div class="row-end"><button class="btn pri" type="submit">${icon('plus')}증거 추가</button><p class="err" id="evErr" role="alert"></p></div>
+      </form>`;
+  }
+
+  /* ── 2. 증거 시간선 ── */
+  const G = 24, R = 36, LINE_Y = [104, 168, 232], AXIS_Y = 260;
   let lastNowX = null, animFrom = null;
   function layout(width) {
     const items = sortEv(S.evidence);
-    const seg = it => TURNS.filter(t => ms(it.date) >= t.ms).length; // 0: 1턴 전, 1: 1턴~2턴 ...
+    const seg = it => TURNS.filter(t => ms(it.date) >= t.ms).length;
     const groups = [[], [], [], []];
     items.forEach(it => groups[seg(it)].push(it));
     const w = groups.map((g, k) => Math.max(g.length, k === 0 ? 2 : k === 3 ? 0.8 : 1.3));
@@ -411,255 +625,157 @@ select.input { padding-right: 6px }
     const bx = []; let acc = G;
     segW.forEach((sw, k) => { acc += sw; if (k < 3) bx.push(acc); });
     const pos = {};
-    groups.forEach((g, k) => {
-      const start = k === 0 ? G : bx[k - 1];
-      g.forEach((it, i) => { pos[it.id] = start + (i + 0.5) * segW[k] / g.length; });
-    });
-    return { items, pos, bx, col: segW[0] / Math.max(1, groups[0].length) };
+    groups.forEach((g, k) => { const start = k === 0 ? G : bx[k - 1]; g.forEach((it, i) => { pos[it.id] = start + (i + 0.5) * segW[k] / g.length; }); });
+    return { items, pos, bx };
   }
   function renderMap() {
+    const mapEl = $('#map'); if (!mapEl) return;
     const width = Math.max(mapEl.clientWidth, 600);
     const L = layout(width), c = claim(), linked = new Set(c ? c.ev : []);
     const nowX = L.bx[S.turn - 1], endX = width - R + 12;
-    let svg = `<svg viewBox="0 0 ${width} 268" aria-hidden="true">`;
-    // 턴 경계
-    L.bx.forEach((x, i) => { svg += `<path d="M${x} 34V${AXIS_Y - 12}" stroke="${i + 1 === S.turn ? 'var(--now)' : 'var(--rule)'}" stroke-width="${i + 1 === S.turn ? 4 : 1.5}" ${i + 1 === S.turn ? 'class="now-line"' : 'stroke-dasharray="4 5"'}/>`; });
-    // 노선: 지금까지는 실선, 그 뒤는 아직 열리지 않은 구간(점선)
+    let svg = `<svg viewBox="0 0 ${width} 290" aria-hidden="true">`;
+    L.bx.forEach((x, i) => { const now = i + 1 === S.turn; svg += `<path d="M${x} 34V${AXIS_Y - 12}" stroke="${now ? 'var(--tip)' : 'var(--line)'}" stroke-width="${now ? 3 : 1}" ${now ? 'class="now-line"' : 'stroke-dasharray="4 4"'}/>`; });
     LINES.forEach((ln, i) => {
       const y = LINE_Y[i];
       const solidEnd = animFrom !== null && nowX > animFrom ? animFrom : nowX;
-      svg += `<path d="M0 ${y}H${solidEnd}" stroke="var(--${ln})" stroke-width="7" stroke-linecap="round" data-solid="${ln}"/>`;
-      svg += `<path d="M${nowX + 8} ${y}H${endX}" stroke="var(--${ln})" stroke-width="5" stroke-dasharray="10 8" opacity=".38"/>`;
-      if (animFrom !== null && nowX > animFrom) svg += `<path class="opening" d="M${animFrom} ${y}H${nowX}" stroke="var(--${ln})" stroke-width="7" stroke-linecap="round"/>`;
+      svg += `<path d="M0 ${y}H${solidEnd}" stroke="var(--${ln})" stroke-width="5" stroke-linecap="round"/>`;
+      svg += `<path d="M${nowX + 6} ${y}H${endX}" stroke="var(--${ln})" stroke-width="4" stroke-dasharray="8 7" opacity=".35"/>`;
+      if (animFrom !== null && nowX > animFrom) svg += `<path class="opening" d="M${animFrom} ${y}H${nowX}" stroke="var(--${ln})" stroke-width="5" stroke-linecap="round"/>`;
     });
     svg += '</svg>';
-
     let html = svg;
-    $('#pills').innerHTML = LINES.map((ln, i) => `<span class="line-pill pill-${ln}" style="top:${LINE_Y[i]}px">${SRC[ln]}</span>`).join('');
-    // 턴 표시
+    $('#pills').innerHTML = LINES.map((ln, i) => `<span class="line-tag t-${ln}" style="top:${LINE_Y[i]}px">${SRC[ln]}</span>`).join('');
     TURNS.forEach((t, i) => {
       const cls = t.n < S.turn ? 'past' : t.n === S.turn ? 'now' : 'future';
-      html += `<span class="tm ${cls}" style="left:${L.bx[i]}px">${t.n === S.turn ? '지금 ' : ''}${t.n}턴 <small class="num">${t.short}</small></span>`;
+      html += `<span class="tm ${cls}" style="left:${L.bx[i]}px">${t.n === S.turn ? '지금 ' : ''}${t.n}턴 <span class="num">${t.short}</span></span>`;
     });
-    if (S.turn < 3) {
-      const fx = (nowX + endX) / 2;
-      html += `<span class="future-note" style="left:${fx}px;top:${AXIS_Y - 2}px">다음 턴에 열리는 구간</span>`;
-    }
-    // 역과 날짜
-    let prevMonth = '';
-    const days = [];
+    if (S.turn < 3) html += `<span class="future-note" style="left:${(nowX + endX) / 2}px;top:${AXIS_Y - 2}px">다음 턴에 열리는 구간</span>`;
+    let prevMonth = ''; const days = [];
     L.items.forEach(it => { const last = days[days.length - 1]; if (last && last.date === it.date) last.xs.push(L.pos[it.id]); else days.push({ date: it.date, xs: [L.pos[it.id]] }); });
     days.forEach(dg => {
-      const [, m, d] = dg.date.split('-').map(Number), mk = dg.date.slice(0, 7);
-      const x0 = dg.xs[0], x1 = dg.xs[dg.xs.length - 1], mid = (x0 + x1) / 2;
+      const [, m, d] = dg.date.split('-').map(Number), mk = dg.date.slice(0, 7), x0 = dg.xs[0], x1 = dg.xs[dg.xs.length - 1];
       if (dg.xs.length > 1) html += `<span class="day-span" style="left:${x0}px;width:${x1 - x0}px;top:${AXIS_Y - 8}px"></span>`;
-      html += `<span class="dl num" style="left:${mid}px;top:${AXIS_Y - 2}px">${mk !== prevMonth ? `<b>${m}월</b> ${d}일` : `${d}일`}${dg.xs.length > 1 ? ` <small>같은 날 ${dg.xs.length}건</small>` : ''}</span>`;
+      html += `<span class="dl num" style="left:${(x0 + x1) / 2}px;top:${AXIS_Y - 2}px">${mk !== prevMonth ? `<b>${m}월</b> ${d}일` : `${d}일`}${dg.xs.length > 1 ? ` 같은 날 ${dg.xs.length}건` : ''}</span>`;
       prevMonth = mk;
     });
     L.items.forEach(it => {
-      const x = L.pos[it.id], li = LINES.indexOf(it.src), y = LINE_Y[li];
-      const sameLine = L.items.filter(o => o !== it && o.src === it.src).map(o => Math.abs(L.pos[o.id] - x));
-      let room = Math.min(170, ...sameLine.map(d => d - 10));
-      const wall = L.bx.find(bx => bx > x);
-      if (wall !== undefined) room = Math.min(room, (wall - x) * 2 - 14);
-      const cls = [`src-${it.src}`, linked.has(it.id) ? 'linked' : (linked.size ? 'dim' : ''), S.focus === it.id ? 'cur' : ''].join(' ');
-      const say = `${fmtDate(it.date)} ${SRC[it.src]} ${it.short}${linked.has(it.id) ? ', 고른 주장에 연결됨' : ''}`;
-      html += `<button type="button" class="st ${cls}" data-st="${it.id}" style="left:${x}px;top:${y}px" aria-label="${esc(say)}"><span class="lab" style="max-width:${Math.max(64, room)}px">${esc(it.short)}</span><span class="dot"></span></button>`;
+      const x = L.pos[it.id], y = LINE_Y[LINES.indexOf(it.src)];
+      const same = L.items.filter(o => o !== it && o.src === it.src).map(o => Math.abs(L.pos[o.id] - x));
+      let room = Math.min(170, ...same.map(dd => dd - 10));
+      const wall = L.bx.find(b => b > x); if (wall !== undefined) room = Math.min(room, (wall - x) * 2 - 14);
+      const cls = [`s-${it.src}`, linked.has(it.id) ? 'on' : linked.size ? 'off' : '', S.focus === it.id ? 'cur' : ''].join(' ');
+      html += `<button type="button" class="st ${cls}" data-st="${it.id}" style="left:${x}px;top:${y}px" aria-label="${esc(`${fmtDate(it.date)} ${SRC[it.src]} ${it.short}${linked.has(it.id) ? `, ${c ? cnum(c) : ''} 주장에 연결됨` : ''}`)}"><span class="lab" style="max-width:${Math.max(64, room)}px">${esc(it.short)}</span><span class="dot"></span></button>`;
     });
     mapEl.innerHTML = html;
-
-    $('#mapNote').textContent = c && c.ev.length
-      ? `고른 주장의 증거 ${c.ev.length}개가 환승역 모양으로 표시됩니다. 역을 누르면 아래에서 그 증거를 보여 줍니다.`
-      : '증거를 날짜 순서로 놓았습니다. 노란 선 오른쪽은 아직 오지 않은 시간입니다.';
-
-    // 턴을 바꾼 순간 한 번만: 열차가 움직이고 지나간 구간이 실선으로 이어진다
+    $('#tlNote').innerHTML = c && c.ev.length ? `<b>${cnum(c)}</b> 주장에 연결한 증거 ${c.ev.length}개를 진하게 표시했습니다. 점을 누르면 4. 증거함의 그 줄로 갑니다.` : '증거를 날짜 순서로 놓았습니다. 점을 누르면 4. 증거함의 그 줄로 갑니다.';
     if (animFrom !== null && !reduce) {
-      const dx = animFrom - nowX;
+      const dx = animFrom - nowX, ease = 'cubic-bezier(.16, 1, .3, 1)';
       const tm = mapEl.querySelector('.tm.now'), nl = mapEl.querySelector('.now-line');
-      const ease = 'cubic-bezier(.16, 1, .3, 1)';
       tm && tm.animate([{ transform: `translateX(calc(-50% + ${dx}px))` }, { transform: 'translateX(-50%)' }], { duration: 700, easing: ease });
       nl && nl.animate([{ transform: `translateX(${dx}px)` }, { transform: 'translateX(0)' }], { duration: 700, easing: ease });
-      mapEl.querySelectorAll('.opening').forEach(p => {
-        const len = Math.abs(nowX - animFrom);
-        p.style.strokeDasharray = len; p.animate([{ strokeDashoffset: len }, { strokeDashoffset: 0 }], { duration: 700, easing: ease, fill: 'both' });
-      });
+      mapEl.querySelectorAll('.opening').forEach(p => { const len = Math.abs(nowX - animFrom); p.style.strokeDasharray = len; p.animate([{ strokeDashoffset: len }, { strokeDashoffset: 0 }], { duration: 700, easing: ease, fill: 'both' }); });
     }
-    animFrom = null;
-    lastNowX = nowX;
+    animFrom = null; lastNowX = nowX;
   }
 
-  /* ── 주장 목록 ── */
-  function renderClaims() {
-    const judged = S.claims.filter(c => c.v[S.turn]).length;
-    $('#claimStat').textContent = `${S.turn}턴 판정 ${judged} / ${S.claims.length}`;
-    $('#claims').innerHTML = S.claims.map(c => `
-      <li><button type="button" class="claim" data-pick="${c.id}" aria-current="${c.id === S.sel}" aria-label="${esc(c.text)}. ${esc(trailText(c))}. 증거 ${c.ev.length}개">
-        ${trail(c)}
-        <span class="claim-text">${esc(c.text)}</span>
-        <span class="claim-meta num">${c.v[S.turn] ? VERDICT[c.v[S.turn]] : `${S.turn}턴 판정 전`}, 증거 ${c.ev.length}</span>
-      </button></li>`).join('');
+  /* ── 위쪽 줄, 분류, 사이드바 ── */
+  function renderChrome() {
+    const t = turnOf(S.turn);
+    $('#turnName').textContent = `${S.turn}턴`; $('#turnTime').textContent = t.label; $('#turnDesc').textContent = t.desc;
+    $('#turn').innerHTML = TURNS.map(x => `<option value="${x.n}"${x.n === S.turn ? ' selected' : ''}>${x.n}턴</option>`).join('');
+    $('#saved').textContent = S.saved ? `최근 저장 시각: ${S.saved}` : '아직 저장한 기록이 없습니다';
+    $('#cats').innerHTML = ['<span>분류:</span>', '<span>사건 파일</span>', '<span>연예</span>', `<span>${S.turn}턴</span>`, '<span>수업용 가상 사건</span>'].join('');
+    $('#stat').innerHTML = S.claims.map(c => `<li><span class="k">${cnum(c)}</span><a href="#s-c-${c.id}" data-go="${c.id}" title="${esc(c.text)}">${esc(c.text)}</a>${badge(c.v[S.turn])}</li>`).join('');
+    const now = Date.now(), ago = t0 => { const s = Math.round((now - t0) / 1000); return s < 60 ? `${s}초 전` : s < 3600 ? `${Math.floor(s / 60)}분 전` : s < 86400 ? `${Math.floor(s / 3600)}시간 전` : `${Math.floor(s / 86400)}일 전`; };
+    $('#log').innerHTML = S.log.length ? S.log.map(l => `<li><a href="#s-c-${l.cid}" data-go="${l.cid}">${esc(l.text)}</a><time>${ago(l.t)}</time></li>`).join('') : '<li class="empty">판정하거나 증거를 연결하면 여기에 쌓입니다.</li>';
   }
+  const render = () => { renderChrome(); renderDoc(); renderMap(); };
 
-  /* ── 선택한 주장 ── */
-  function evRow(e, linked) {
-    return `<article class="ev" id="ev-${e.id}" tabindex="-1">
-      <span class="line-tag pill-${e.src}">${SRC[e.src]}</span>
-      <div class="ev-top"><b>${esc(e.short)}</b><span class="num">${fmtDate(e.date)}</span><span>${e.found}턴에 찾음</span></div>
-      <p>${esc(e.text)}${e.cn ? '<span class="cn">출처 필요 표시</span>' : ''}</p>
-      ${e.from ? `<div class="from">${esc(e.from)}</div>` : ''}
-      <div class="ev-foot">
-        ${[['src', '출처 있음'], ['orig', '원문 확인함']].map(([k, l]) => `<button type="button" class="check" data-check="${k}" data-id="${e.id}" aria-pressed="${!!e.checks[k]}"><span class="box"><svg viewBox="0 0 12 12"><path d="M2 6.2l2.6 2.6L10 3.4" fill="none" stroke="var(--on-pri)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>${l}</button>`).join('')}
-        <button type="button" class="btn sm" data-link="${e.id}">${linked ? '연결 끊기' : '이 주장에 연결'}</button>
-      </div>
-    </article>`;
-  }
-  function renderDetail() {
-    const c = claim(), el = $('#detail');
-    if (!c) { el.innerHTML = `<p class="empty">왼쪽에서 주장을 고르세요. 새로 확인할 주장이 있으면 목록 아래에 적어 추가합니다.</p>`; return; }
-    const v = c.v[S.turn] || '';
-    const linked = sortEv(c.ev.map(evById).filter(Boolean));
-    const rest = sortEv(S.evidence.filter(e => !c.ev.includes(e.id) && (S.filter === 'all' || e.src === S.filter)));
-    const restAll = S.evidence.filter(e => !c.ev.includes(e.id));
-    const counts = { all: restAll.length }; restAll.forEach(e => counts[e.src] = (counts[e.src] || 0) + 1);
-    const past = TURNS.filter(t => t.n < S.turn && c.v[t.n]).map(t => `${t.n}턴에는 <b>${VERDICT[c.v[t.n]]}</b>`);
-    el.innerHTML = `
-      <h2 class="detail-q">${esc(c.text)}</h2>
-      <p class="detail-sub">연결한 증거와 날짜를 보고 판단하세요. 판단에는 정답 표시가 없습니다.</p>
-
-      <div class="block" role="group" aria-labelledby="vTitle">
-        <h3 id="vTitle">${S.turn}턴 판정 <span>${turnOf(S.turn).label} 기준</span></h3>
-        <div class="verdicts">
-          ${['true', 'false', 'open'].map(k => `<button type="button" class="vbtn v-${k}" data-v="${k}" aria-pressed="${v === k}">${mark(k)}${VERDICT[k]}</button>`).join('')}
-        </div>
-        ${past.length ? `<p class="history">이전 판정: ${past.join(', ')}. 새로 나온 증거를 보고 다시 판단하세요.</p>` : ''}
-      </div>
-
-      <div class="block">
-        <h3><label for="note">내 근거</label><span>어떤 증거 때문에 그렇게 판단했나요?</span></h3>
-        <textarea class="input" id="note" data-note="${c.id}" placeholder="예: 노래가 메시지보다 먼저 나왔으므로 답장일 수 없다">${esc(c.note)}</textarea>
-      </div>
-
-      <div class="block">
-        <h3>연결한 증거 <span class="num">${linked.length}개</span></h3>
-        <div class="evs">${linked.length ? linked.map(e => evRow(e, true)).join('') : '<p class="empty">아직 연결한 증거가 없습니다. 아래 증거함이나 노선도의 역을 눌러 연결하세요.</p>'}</div>
-      </div>
-
-      <div class="block">
-        <h3>증거함 <span>이 주장에 아직 연결하지 않은 증거</span></h3>
-        <div class="tabs" role="group" aria-label="노선별로 보기">
-          ${[['all', '전체'], ...LINES.map(l => [l, SRC[l]])].map(([k, l]) => `<button type="button" class="tab${k !== 'all' ? ' src-' + k : ''}" data-f="${k}" aria-pressed="${S.filter === k}">${k !== 'all' ? '<i></i>' : ''}${l} <span class="num">${counts[k] || 0}</span></button>`).join('')}
-        </div>
-        <div class="evs">${rest.length ? rest.map(e => evRow(e, false)).join('') : `<p class="empty">${S.filter === 'all' ? '모든 증거를 이 주장에 연결했습니다.' : `${SRC[S.filter]} 노선에 남은 증거가 없습니다.`} 문영위키에서 새로 찾은 내용은 아래에서 직접 추가하세요.</p>`}</div>
-        <details class="addev" id="addEv">
-          <summary><svg viewBox="0 0 14 14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 2.5 9.5 7 5 11.5"/></svg>증거 직접 추가</summary>
-          <form class="addev-form" id="addEvForm" novalidate>
-            <label>노선<select class="input" name="src">${LINES.map(l => `<option value="${l}">${SRC[l]}</option>`).join('')}</select></label>
-            <label>날짜<input class="input" type="date" name="date" min="2020-01-01" max="2026-12-31"></label>
-            <label>짧은 이름<input class="input" name="short" maxlength="20" placeholder="역 이름처럼 짧게"></label>
-            <label class="full">내용<textarea class="input" name="text" placeholder="찾은 문장을 그대로 옮겨 적으세요"></textarea></label>
-            <label class="full">어디서 찾았나요<input class="input" name="from" placeholder="예: 문영위키 이은호 문서 각주 3"></label>
-            <div class="row-end"><button class="btn pri" type="submit">증거 추가</button><p class="err" id="evErr" role="alert"></p></div>
-          </form>
-        </details>
-      </div>`;
-  }
-
-  function renderTurnSelect() {
-    $('#turn').innerHTML = TURNS.map(t => `<option value="${t.n}"${t.n === S.turn ? ' selected' : ''}>${t.n}턴, ${t.label}</option>`).join('');
-  }
-  const render = () => { renderMap(); renderClaims(); renderDetail(); };
-
-  function flashEv(id) {
+  function flashRow(id) {
     const el = document.getElementById('ev-' + id); if (!el) return;
-    el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
-    el.focus({ preventScroll: true });
+    el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }); el.focus({ preventScroll: true });
     el.classList.add('flash'); setTimeout(() => el.classList.remove('flash'), 1400);
   }
+  const goClaim = id => { S.sel = id; save(); render(); const el = document.getElementById('s-c-' + id); el && el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }); };
 
   document.addEventListener('click', e => {
     const t = e.target;
-    const pick = t.closest('[data-pick]');
-    if (pick) { S.sel = pick.dataset.pick; S.focus = null; save(); render(); return; }
+    const go = t.closest('[data-go]'); if (go) { e.preventDefault(); if (S.claims.some(c => c.id === go.dataset.go)) goClaim(go.dataset.go); return; }
+    const fold = t.closest('[data-fold]');
+    if (fold) { const id = fold.dataset.fold; S.closed[id] = !S.closed[id]; save(); render(); return; }
+    if (t.closest('#tocHead')) { const toc = $('#toc'); toc.classList.toggle('closed'); $('#tocHead').setAttribute('aria-expanded', !toc.classList.contains('closed')); return; }
+    const sec = t.closest('[data-claim]');
     const v = t.closest('[data-v]');
-    if (v) {
-      const c = claim(); const k = v.dataset.v;
-      if (c.v[S.turn] === k) { delete c.v[S.turn]; toast('판정을 지웠습니다.'); }
-      else { c.v[S.turn] = k; toast(`${S.turn}턴 판정: ${VERDICT[k]}`); }
-      save(); renderMap(); renderClaims(); renderDetail(); return;
+    if (v && sec) {
+      const c = S.claims.find(x => x.id === sec.dataset.claim), k = v.dataset.v; S.sel = c.id;
+      if (c.v[S.turn] === k) { delete c.v[S.turn]; toast('판정을 지웠습니다.'); logIt(`${cnum(c)} 판정 지움`, c.id); }
+      else { c.v[S.turn] = k; toast(`${cnum(c)} ${S.turn}턴 판정: ${VERDICT[k]}`); logIt(`${cnum(c)} ${VERDICT[k]}`, c.id); }
+      save(); render(); return;
     }
-    const st = t.closest('[data-st]');
-    if (st) {
-      const id = st.dataset.st, c = claim();
-      S.focus = id;
-      if (c && !c.ev.includes(id) && S.filter !== 'all' && evById(id).src !== S.filter) S.filter = 'all';
-      save(); render(); flashEv(id); return;
-    }
+    const pf = t.closest('[data-pickfor]');
+    if (pf) { S.sel = pf.dataset.pickfor; S.pick = S.pick === pf.dataset.pickfor ? null : pf.dataset.pickfor; render(); return; }
     const ln = t.closest('[data-link]');
-    if (ln) {
-      const c = claim(), id = ln.dataset.link, i = c.ev.indexOf(id);
-      if (i < 0) c.ev.push(id); else c.ev.splice(i, 1);
-      S.focus = id; save(); render(); flashEv(id);
-      toast(i < 0 ? '증거를 연결했습니다.' : '연결을 끊었습니다.'); return;
-    }
+    if (ln && sec) { const c = S.claims.find(x => x.id === sec.dataset.claim); c.ev.push(ln.dataset.link); S.sel = c.id; logIt(`${cnum(c)} 증거 연결: ${evById(ln.dataset.link).short}`, c.id); save(); render(); toast('증거를 연결했습니다.'); return; }
+    const ul = t.closest('[data-unlink]');
+    if (ul && sec) { const c = S.claims.find(x => x.id === sec.dataset.claim); c.ev = c.ev.filter(x => x !== ul.dataset.unlink); S.sel = c.id; logIt(`${cnum(c)} 연결 끊음`, c.id); save(); render(); toast('연결을 끊었습니다.'); return; }
+    const st = t.closest('[data-st]');
+    if (st) { S.focus = st.dataset.st; if (S.filter !== 'all' && evById(S.focus).src !== S.filter) S.filter = 'all'; if (S.closed.box) S.closed.box = false; save(); render(); flashRow(S.focus); return; }
     const ck = t.closest('[data-check]');
     if (ck) { const ev = evById(ck.dataset.id); ev.checks[ck.dataset.check] = !ev.checks[ck.dataset.check]; save(); ck.setAttribute('aria-pressed', ev.checks[ck.dataset.check]); return; }
-    const f = t.closest('[data-f]');
-    if (f) { S.filter = f.dataset.f; save(); renderDetail(); return; }
+    const f = t.closest('[data-f]'); if (f) { S.filter = f.dataset.f; save(); render(); return; }
+    if (sec && S.sel !== sec.dataset.claim && !t.closest('textarea')) { S.sel = sec.dataset.claim; renderMap(); document.querySelectorAll('.claim-sec').forEach(s => s.classList.toggle('sel', s.dataset.claim === S.sel)); }
   });
-
+  document.addEventListener('focusin', e => {
+    const sec = e.target.closest && e.target.closest('[data-claim]');
+    if (sec && S.sel !== sec.dataset.claim) { S.sel = sec.dataset.claim; renderMap(); document.querySelectorAll('.claim-sec').forEach(s => s.classList.toggle('sel', s.dataset.claim === S.sel)); }
+  });
   document.addEventListener('input', e => {
-    if (e.target.dataset && e.target.dataset.note) { const c = S.claims.find(x => x.id === e.target.dataset.note); c.note = e.target.value; save(); }
-    if (e.target.id === 'team') { S.team = e.target.value; save(); }
+    if (e.target.dataset && e.target.dataset.note) { S.claims.find(x => x.id === e.target.dataset.note).note = e.target.value; save(); }
+    if (e.target.id === 'team') { S.team = e.target.value; save(); renderDoc(); renderMap(); }
   });
-
   document.addEventListener('submit', e => {
-    if (e.target.id !== 'addEvForm') return;
     e.preventDefault();
-    const f = e.target, err = $('#evErr');
-    const d = Object.fromEntries(new FormData(f));
-    const miss = [];
-    if (!d.date) miss.push('날짜'); if (!d.short.trim()) miss.push('짧은 이름'); if (!d.text.trim()) miss.push('내용');
-    if (miss.length) { const last = miss[miss.length - 1], code = last.charCodeAt(last.length - 1) - 0xAC00; err.textContent = `${miss.join(', ')}${code % 28 ? '을' : '를'} 적어야 노선도에 놓을 수 있습니다.`; return; }
-    if (ms(d.date) > TURNS[S.turn - 1].ms) { err.textContent = `${S.turn}턴 시점(${turnOf(S.turn).label})보다 뒤의 날짜입니다. 날짜를 다시 확인하세요.`; return; }
-    const id = 'e' + Date.now().toString(36);
-    S.evidence.push({ id, src: d.src, date: d.date, found: S.turn, short: d.short.trim(), text: d.text.trim(), from: d.from.trim(), checks: { src: false, orig: false } });
-    const c = claim(); if (c) c.ev.push(id);
-    S.focus = id; save(); render(); flashEv(id);
-    toast('증거를 추가하고 이 주장에 연결했습니다.');
+    if (e.target.id === 'addClaim') {
+      const inp = $('#newClaim'), v = inp.value.trim();
+      if (!v) { inp.focus(); toast('주장을 한 문장으로 적은 뒤 추가하세요.'); return; }
+      const c = { id: 'c' + Date.now().toString(36), text: v, v: {}, ev: [], note: '' };
+      S.claims.push(c); S.sel = c.id; S.pick = c.id; logIt(`${cnum(c)} 주장 추가`, c.id); save(); render();
+      document.getElementById('s-c-' + c.id).scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      toast('주장을 추가했습니다. 증거를 연결하고 판정하세요.'); return;
+    }
+    if (e.target.id === 'addEvForm') {
+      const d = Object.fromEntries(new FormData(e.target)), err = $('#evErr'), miss = [];
+      if (!d.date) miss.push('날짜'); if (!d.short.trim()) miss.push('짧은 이름'); if (!d.text.trim()) miss.push('내용');
+      if (miss.length) { const last = miss[miss.length - 1], code = last.charCodeAt(last.length - 1) - 0xAC00; err.textContent = `${miss.join(', ')}${code % 28 ? '을' : '를'} 적어야 시간선에 놓을 수 있습니다.`; return; }
+      if (ms(d.date) > TURNS[S.turn - 1].ms) { err.textContent = `${S.turn}턴 시점(${turnOf(S.turn).label})보다 뒤의 날짜입니다. 날짜를 다시 확인하세요.`; return; }
+      const id = 'e' + Date.now().toString(36);
+      S.evidence.push({ id, src: d.src, date: d.date, found: S.turn, short: d.short.trim(), text: d.text.trim(), from: d.from.trim(), checks: { src: false, orig: false } });
+      const c = S.claims.find(x => x.id === d.claim);
+      if (c) { c.ev.push(id); S.sel = c.id; logIt(`${cnum(c)} 증거 추가: ${d.short.trim()}`, c.id); }
+      S.focus = id; S.filter = 'all'; save(); render(); flashRow(id);
+      toast(c ? `증거를 추가하고 ${cnum(c)} 주장에 연결했습니다.` : '증거를 추가했습니다.');
+    }
   });
-
-  $('#addClaim').addEventListener('submit', e => {
-    e.preventDefault();
-    const inp = $('#newClaim'), v = inp.value.trim();
-    if (!v) { inp.focus(); toast('주장을 한 문장으로 적은 뒤 추가하세요.'); return; }
-    const c = { id: 'c' + Date.now().toString(36), text: v, v: {}, ev: [], note: '' };
-    S.claims.push(c); S.sel = c.id; inp.value = ''; save(); render();
-    toast('주장을 추가했습니다. 증거를 연결하고 판정하세요.');
-  });
-
   $('#turn').addEventListener('change', e => {
     const n = Number(e.target.value); if (n === S.turn) return;
-    animFrom = n > S.turn ? lastNowX : null;
-    S.turn = n; save(); render();
+    animFrom = n > S.turn ? lastNowX : null; S.turn = n; save(); render();
     toast(`${n}턴으로 맞췄습니다. 새 증거를 찾아 다시 판정하세요.`);
   });
 
-  let resetArmed = false, resetT;
+  let armed = false, armT;
   $('#reset').addEventListener('click', e => {
-    const b = e.currentTarget;
-    if (!resetArmed) { resetArmed = true; b.textContent = '모두 지워집니다. 한 번 더 누르세요'; b.classList.add('warn'); resetT = setTimeout(() => { resetArmed = false; b.textContent = '처음 상태로'; b.classList.remove('warn'); }, 4000); return; }
-    clearTimeout(resetT); resetArmed = false; b.textContent = '처음 상태로'; b.classList.remove('warn');
-    S = clone(SAMPLE); $('#team').value = ''; save(); renderTurnSelect(); render(); toast('처음 상태로 되돌렸습니다.');
+    const b = e.currentTarget, lbl = b.querySelector('span');
+    if (!armed) { armed = true; lbl.textContent = '모두 지워집니다. 한 번 더 누르세요'; b.classList.add('warn'); armT = setTimeout(() => { armed = false; lbl.textContent = '처음 상태로'; b.classList.remove('warn'); }, 4000); return; }
+    clearTimeout(armT); armed = false; lbl.textContent = '처음 상태로'; b.classList.remove('warn');
+    S = clone(SAMPLE); $('#team').value = ''; save(); render(); toast('처음 상태로 되돌렸습니다.');
   });
-
   function recordText() {
-    const lines = [`문영 수사본부 판단 기록`, `사건: 이은호 김서진 열애설`, `모둠: ${S.team || '(이름 없음)'}`, `지금 시점: ${S.turn}턴, ${turnOf(S.turn).label}`, ''];
-    S.claims.forEach((c, i) => {
-      lines.push(`${i + 1}. ${c.text}`);
-      lines.push(`   판정: ${trailText(c)}`);
+    const lines = ['문영 수사본부 수사 기록', '사건: 이은호 김서진 열애설', `모둠: ${S.team || '(이름 없음)'}`, `현재 시점: ${S.turn}턴, ${turnOf(S.turn).label}`, ''];
+    S.claims.forEach(c => {
+      lines.push(`${cnum(c)} ${c.text}`, `   판정: ${trailText(c)}`);
       if (c.note) lines.push(`   근거: ${c.note}`);
       const ev = sortEv(c.ev.map(evById).filter(Boolean));
-      if (ev.length) lines.push(`   증거: ${ev.map(e => `${SRC[e.src]} ${fmtDate(e.date)} ${e.short}`).join(' / ')}`);
+      if (ev.length) lines.push(`   증거: ${ev.map(x => `${SRC[x.src]} ${fmtDate(x.date)} ${x.short}`).join(' / ')}`);
       lines.push('');
     });
     return lines.join('\n');
@@ -669,18 +785,22 @@ select.input { padding-right: 6px }
     try { await navigator.clipboard.writeText(txt); $('#copyOut').hidden = true; toast('기록을 복사했습니다. 제출 칸에 붙여 넣으세요.'); }
     catch (err) { $('#copyText').value = txt; $('#copyOut').hidden = false; $('#copyText').focus(); $('#copyText').select(); }
   });
+  $('#toTop').addEventListener('click', () => scrollTo({ top: 0 }));
+  $('#toEnd').addEventListener('click', () => scrollTo({ top: document.body.scrollHeight }));
+  $('#toToc').addEventListener('click', () => { const el = $('#toc'); el && el.scrollIntoView({ block: 'center' }); });
 
   $('#team').value = S.team || '';
-  renderTurnSelect(); render();
-  new ResizeObserver(() => renderMap()).observe(mapEl);
-  scrollEl.addEventListener('scroll', () => scrollEl.classList.toggle('clipped', scrollEl.scrollLeft > 4), { passive: true });
-  /* 좁은 화면에서는 노선도를 '지금' 쪽에서 시작한다 */
+  render();
+  /* 좁은 화면에서는 시간선을 고른 주장의 첫 증거 쪽부터 보여 준다 */
   requestAnimationFrame(() => {
-    if (scrollEl.scrollWidth <= scrollEl.clientWidth + 2) return;
-    const first = mapEl.querySelector('.st.linked');
-    scrollEl.scrollLeft = first ? Math.max(0, first.offsetLeft - 60) : Math.max(0, lastNowX - scrollEl.clientWidth + 120);
-    scrollEl.classList.toggle('clipped', scrollEl.scrollLeft > 4);
+    const sc = $('#tlScroll'); if (!sc || sc.scrollWidth <= sc.clientWidth + 2) return;
+    const first = sc.querySelector('.st.on');
+    sc.scrollLeft = first ? Math.max(0, first.offsetLeft - 70) : Math.max(0, lastNowX - sc.clientWidth + 120);
+    sc.classList.toggle('clipped', sc.scrollLeft > 4);
   });
+  let lastW = 0;
+  new ResizeObserver(es => { const w = es[0].contentRect.width; if (Math.abs(w - lastW) > 1) { lastW = w; renderMap(); } }).observe($('#doc'));
+  document.addEventListener('scroll', e => { if (e.target.id === 'tlScroll') e.target.classList.toggle('clipped', e.target.scrollLeft > 4); }, true);
 })();
 </script>
 </body>

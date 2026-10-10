@@ -50,6 +50,7 @@ The case changes over time. Information is released turn by turn, so a judgment 
 
 - Name: 문영 수사본부. Sources: 문영위키, 문영일보.
 - The teacher judges the current prototype's look as reading as AI-generated. Its content, terminology, and functions carry over; its visual treatment does not bind future work.
+- Binding visual direction (set by the teacher 2026-10-10): follow Namuwiki's visual style (layout, typography, palette, navigation, document structure), as 문영위키 already does, so students work in one visual language across source and desk. Never use Namuwiki's own name or logo. Desk pages keep their own logo and the "수사:" namespace so students can tell the notebook from the wiki it cites.
 - Students are fact-checkers, not detectives hunting a person. The interface must not frame the celebrities as suspects (inherited from the prototype's "do not use" list: no red string and dark detective board).
 
 ## Evidence on Hand
