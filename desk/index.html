@@ -28,6 +28,7 @@
   --on-now: #18233A;
   --false: #D2352B;       /* '사실이 아니다' */
   --false-text: #B92D24;
+  --on-false: #FFFFFF;
   --true: #18233A;
   --future: #8590A2;
   --focus: #2156C2;
@@ -42,8 +43,8 @@
     --sign: #0B1222; --sign-2: #1A2540; --on-sign: #F2F5FA; --on-sign-soft: #A9B5C8;
     --ground: #0F1522; --panel: #182132; --panel-2: #1D2839; --ink: #E7ECF3; --muted: #9AA6B8;
     --rule: #2C3850; --rule-strong: #47556F; --sel: #243453;
-    --wiki: #2FC79B; --wiki-pill: #1FA982; --news: #6C9BF0; --news-pill: #3F72D6; --sns: #EE6FA6; --sns-pill: #C2477F;
-    --false: #FF6B5E; --false-text: #FF8A7F; --true: #E7ECF3; --future: #6B7890; --focus: #8CB3FF; --pri: #E7ECF3; --on-pri: #0F1522; --pri-hover: #C9D3E2;
+    --wiki: #2FC79B; --wiki-pill: #0E7A5F; --news: #6C9BF0; --news-pill: #3F72D6; --sns: #EE6FA6; --sns-pill: #C2477F;
+    --false: #FF6B5E; --false-text: #FF8A7F; --on-false: #0F1522; --true: #E7ECF3; --future: #6B7890; --focus: #8CB3FF; --pri: #E7ECF3; --on-pri: #0F1522; --pri-hover: #C9D3E2;
     --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 4px 14px rgba(0, 0, 0, .25);
     color-scheme: dark;
   }
@@ -52,8 +53,8 @@
   --sign: #0B1222; --sign-2: #1A2540; --on-sign: #F2F5FA; --on-sign-soft: #A9B5C8;
   --ground: #0F1522; --panel: #182132; --panel-2: #1D2839; --ink: #E7ECF3; --muted: #9AA6B8;
   --rule: #2C3850; --rule-strong: #47556F; --sel: #243453;
-  --wiki: #2FC79B; --wiki-pill: #1FA982; --news: #6C9BF0; --news-pill: #3F72D6; --sns: #EE6FA6; --sns-pill: #C2477F;
-  --false: #FF6B5E; --false-text: #FF8A7F; --true: #E7ECF3; --future: #6B7890; --focus: #8CB3FF; --pri: #E7ECF3; --on-pri: #0F1522; --pri-hover: #C9D3E2;
+  --wiki: #2FC79B; --wiki-pill: #0E7A5F; --news: #6C9BF0; --news-pill: #3F72D6; --sns: #EE6FA6; --sns-pill: #C2477F;
+  --false: #FF6B5E; --false-text: #FF8A7F; --on-false: #0F1522; --true: #E7ECF3; --future: #6B7890; --focus: #8CB3FF; --pri: #E7ECF3; --on-pri: #0F1522; --pri-hover: #C9D3E2;
   --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 4px 14px rgba(0, 0, 0, .25);
   color-scheme: dark;
 }
@@ -176,7 +177,7 @@ textarea.input { height: auto; min-height: 92px; padding: 10px 12px; line-height
 .v-open svg circle:first-child { stroke: var(--on-now); stroke-width: 1.2 }
 .vbtn:hover { border-color: var(--ink) }
 .vbtn.v-true[aria-pressed="true"] { background: var(--pri); border-color: var(--pri); color: var(--on-pri); --vm: var(--on-pri); --vm-on: var(--pri) }
-.vbtn.v-false[aria-pressed="true"] { background: var(--false); border-color: var(--false); color: #fff; --vm: #fff; --vm-on: var(--false) }
+.vbtn.v-false[aria-pressed="true"] { background: var(--false); border-color: var(--false); color: var(--on-false); --vm: var(--on-false); --vm-on: var(--false) }
 .vbtn.v-open[aria-pressed="true"] { background: var(--now); border-color: var(--now); color: var(--on-now); --vm: var(--on-now); --vm-on: var(--now) }
 .history { margin: 10px 0 0; font-size: 13.5px; color: var(--muted) }
 .history b { color: var(--ink) }

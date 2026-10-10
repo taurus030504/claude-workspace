@@ -1,0 +1,657 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-10T13:33:55+00:00",
+  "title": "Design System: 문영 수사본부",
+  "extensions": {
+    "colorMeta": {
+      "signage-navy": {
+        "role": "primary",
+        "displayName": "안내판 남색",
+        "canonical": "#18233A",
+        "cssVar": "--sign",
+        "dark": "#0B1222",
+        "tonalRamp": [
+          "#030A1E",
+          "#19243C",
+          "#35425B",
+          "#54617C",
+          "#74839F",
+          "#96A5C3",
+          "#BACAE8",
+          "#DFEFFF"
+        ],
+        "oklch": "oklch(25.8% 0.046 264.0)"
+      },
+      "signage-navy-raised": {
+        "role": "primary",
+        "displayName": "안내판 남색, 한 단 밝게",
+        "canonical": "#24324F",
+        "cssVar": "--sign-2",
+        "dark": "#1A2540",
+        "tonalRamp": [
+          "#020922",
+          "#172440",
+          "#334260",
+          "#516181",
+          "#7182A4",
+          "#93A5C9",
+          "#B7CAEE",
+          "#DCEFFF"
+        ],
+        "oklch": "oklch(31.9% 0.055 263.9)"
+      },
+      "on-signage": {
+        "role": "neutral",
+        "displayName": "안내판 위 글자",
+        "canonical": "#FFFFFF",
+        "cssVar": "--on-sign",
+        "dark": "#F2F5FA",
+        "tonalRamp": [
+          "#0B0B0B",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#A5A5A5",
+          "#C9C9C9",
+          "#EEEEEE"
+        ],
+        "oklch": "oklch(100.0% 0.000 89.9)"
+      },
+      "on-signage-soft": {
+        "role": "neutral",
+        "displayName": "안내판 위 보조 글자",
+        "canonical": "#C3CCDB",
+        "cssVar": "--on-sign-soft",
+        "dark": "#A9B5C8",
+        "tonalRamp": [
+          "#060B15",
+          "#1F2530",
+          "#3B424F",
+          "#5A626F",
+          "#7B8391",
+          "#9DA6B4",
+          "#C1CAD9",
+          "#E6EFFF"
+        ],
+        "oklch": "oklch(84.3% 0.023 260.7)"
+      },
+      "platform-grey": {
+        "role": "neutral",
+        "displayName": "승강장 회색",
+        "canonical": "#EDF0F4",
+        "cssVar": "--ground",
+        "dark": "#0F1522",
+        "tonalRamp": [
+          "#090B0E",
+          "#232528",
+          "#404245",
+          "#5F6165",
+          "#808286",
+          "#A2A5A9",
+          "#C6C9CD",
+          "#ECEFF3"
+        ],
+        "oklch": "oklch(95.4% 0.006 255.5)"
+      },
+      "panel-white": {
+        "role": "neutral",
+        "displayName": "흰 판",
+        "canonical": "#FFFFFF",
+        "cssVar": "--panel",
+        "dark": "#182132",
+        "tonalRamp": [
+          "#0B0B0B",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#A5A5A5",
+          "#C9C9C9",
+          "#EEEEEE"
+        ],
+        "oklch": "oklch(100.0% 0.000 89.9)"
+      },
+      "panel-hover": {
+        "role": "neutral",
+        "displayName": "판 hover",
+        "canonical": "#F5F7FA",
+        "cssVar": "--panel-2",
+        "dark": "#1D2839",
+        "tonalRamp": [
+          "#0A0B0D",
+          "#242527",
+          "#404244",
+          "#606164",
+          "#818285",
+          "#A3A5A8",
+          "#C7C9CC",
+          "#EDEFF1"
+        ],
+        "oklch": "oklch(97.5% 0.005 258.3)"
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "본문 글자",
+        "canonical": "#18233A",
+        "cssVar": "--ink",
+        "dark": "#E7ECF3",
+        "tonalRamp": [
+          "#030A1E",
+          "#19243C",
+          "#35425B",
+          "#54617C",
+          "#74839F",
+          "#96A5C3",
+          "#BACAE8",
+          "#DFEFFF"
+        ],
+        "oklch": "oklch(25.8% 0.046 264.0)"
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "보조 글자",
+        "canonical": "#556074",
+        "cssVar": "--muted",
+        "dark": "#9AA6B8",
+        "tonalRamp": [
+          "#040B1A",
+          "#1C2536",
+          "#384255",
+          "#576276",
+          "#778398",
+          "#99A6BC",
+          "#BDCAE1",
+          "#E2EFFF"
+        ],
+        "oklch": "oklch(48.7% 0.035 262.4)"
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "가는 선",
+        "canonical": "#D3D9E2",
+        "cssVar": "--rule",
+        "dark": "#2C3850",
+        "tonalRamp": [
+          "#080B11",
+          "#21252C",
+          "#3D424A",
+          "#5C6269",
+          "#7D838B",
+          "#A0A5AE",
+          "#C4CAD2",
+          "#E9EFF8"
+        ],
+        "oklch": "oklch(88.3% 0.014 258.3)"
+      },
+      "rule-strong": {
+        "role": "neutral",
+        "displayName": "굵은 선",
+        "canonical": "#A9B3C2",
+        "cssVar": "--rule-strong",
+        "dark": "#47556F",
+        "tonalRamp": [
+          "#050B15",
+          "#1E2531",
+          "#3A434F",
+          "#59626F",
+          "#7A8391",
+          "#9CA6B5",
+          "#C0CAD9",
+          "#E5EFFF"
+        ],
+        "oklch": "oklch(76.4% 0.024 258.4)"
+      },
+      "selected": {
+        "role": "neutral",
+        "displayName": "고른 줄",
+        "canonical": "#E3E9F3",
+        "cssVar": "--sel",
+        "dark": "#243453",
+        "tonalRamp": [
+          "#080B12",
+          "#21252D",
+          "#3D424A",
+          "#5C616A",
+          "#7D838C",
+          "#A0A5AF",
+          "#C4C9D3",
+          "#E9EFF9"
+        ],
+        "oklch": "oklch(93.2% 0.015 260.7)"
+      },
+      "line-wiki": {
+        "role": "secondary",
+        "displayName": "위키 노선 초록",
+        "canonical": "#009D74",
+        "cssVar": "--wiki",
+        "dark": "#2FC79B",
+        "tonalRamp": [
+          "#001701",
+          "#003516",
+          "#005532",
+          "#007751",
+          "#009A71",
+          "#40BE93",
+          "#6BE4B7",
+          "#9AFFDD"
+        ],
+        "oklch": "oklch(61.7% 0.127 166.4)"
+      },
+      "line-wiki-pill": {
+        "role": "secondary",
+        "displayName": "위키 알약 초록",
+        "canonical": "#00805F",
+        "cssVar": "--wiki-pill",
+        "dark": "#0E7A5F",
+        "tonalRamp": [
+          "#001602",
+          "#003419",
+          "#005335",
+          "#007454",
+          "#2D9774",
+          "#57BB97",
+          "#7DE0BA",
+          "#A3FFDF"
+        ],
+        "oklch": "oklch(53.2% 0.109 167.1)"
+      },
+      "line-news": {
+        "role": "secondary",
+        "displayName": "기사 노선 파랑",
+        "canonical": "#2156C2",
+        "cssVar": "--news",
+        "dark": "#6C9BF0",
+        "tonalRamp": [
+          "#00003C",
+          "#000679",
+          "#00349E",
+          "#2358C4",
+          "#447CEC",
+          "#65A1FF",
+          "#88C6FF",
+          "#C3EFFF"
+        ],
+        "oklch": "oklch(48.6% 0.179 262.3)",
+        "darkPill": "#3F72D6"
+      },
+      "line-sns": {
+        "role": "secondary",
+        "displayName": "SNS 노선 자홍",
+        "canonical": "#CC3A7A",
+        "cssVar": "--sns",
+        "dark": "#EE6FA6",
+        "tonalRamp": [
+          "#2A000B",
+          "#5E0024",
+          "#850041",
+          "#AD1560",
+          "#D54381",
+          "#FE69A4",
+          "#FF8EC8",
+          "#FFCDEE"
+        ],
+        "oklch": "oklch(58.2% 0.189 358.2)"
+      },
+      "line-sns-pill": {
+        "role": "secondary",
+        "displayName": "SNS 알약 자홍",
+        "canonical": "#B8306B",
+        "cssVar": "--sns-pill",
+        "dark": "#C2477F",
+        "tonalRamp": [
+          "#2A000A",
+          "#5C0023",
+          "#820040",
+          "#AA205F",
+          "#D14980",
+          "#FA6EA3",
+          "#FF93C7",
+          "#FFCDED"
+        ],
+        "oklch": "oklch(53.5% 0.178 358.9)"
+      },
+      "now-yellow": {
+        "role": "tertiary",
+        "displayName": "지금 노랑",
+        "canonical": "#FFC93C",
+        "cssVar": "--now",
+        "dark": "#FFC93C",
+        "tonalRamp": [
+          "#1F0000",
+          "#451400",
+          "#663500",
+          "#885600",
+          "#AC7800",
+          "#D09C00",
+          "#F6C130",
+          "#FFE98D"
+        ],
+        "oklch": "oklch(86.1% 0.159 86.4)"
+      },
+      "on-now": {
+        "role": "tertiary",
+        "displayName": "노랑 위 글자",
+        "canonical": "#18233A",
+        "cssVar": "--on-now",
+        "dark": "#18233A",
+        "tonalRamp": [
+          "#030A1E",
+          "#19243C",
+          "#35425B",
+          "#54617C",
+          "#74839F",
+          "#96A5C3",
+          "#BACAE8",
+          "#DFEFFF"
+        ],
+        "oklch": "oklch(25.8% 0.046 264.0)"
+      },
+      "false-red": {
+        "role": "tertiary",
+        "displayName": "판정 빨강",
+        "canonical": "#D2352B",
+        "cssVar": "--false",
+        "dark": "#FF6B5E",
+        "tonalRamp": [
+          "#2D0000",
+          "#660000",
+          "#8E0000",
+          "#B60F0E",
+          "#DF4337",
+          "#FF6A5A",
+          "#FF907D",
+          "#FFD0C1"
+        ],
+        "oklch": "oklch(57.1% 0.195 28.6)"
+      },
+      "false-red-text": {
+        "role": "tertiary",
+        "displayName": "판정 빨강 글자",
+        "canonical": "#B92D24",
+        "cssVar": "--false-text",
+        "dark": "#FF8A7F",
+        "tonalRamp": [
+          "#2D0000",
+          "#610000",
+          "#880000",
+          "#B0231B",
+          "#D84C3F",
+          "#FF7161",
+          "#FF9784",
+          "#FFD0C1"
+        ],
+        "oklch": "oklch(51.9% 0.178 28.7)"
+      },
+      "focus-blue": {
+        "role": "tertiary",
+        "displayName": "초점 파랑",
+        "canonical": "#2156C2",
+        "cssVar": "--focus",
+        "dark": "#8CB3FF",
+        "tonalRamp": [
+          "#00003C",
+          "#000679",
+          "#00349E",
+          "#2358C4",
+          "#447CEC",
+          "#65A1FF",
+          "#88C6FF",
+          "#C3EFFF"
+        ],
+        "oklch": "oklch(48.6% 0.179 262.3)"
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "상단 바의 사건 제목 한 줄. 좁은 화면 21px."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "판 제목(증거 노선도, 판단할 주장)."
+      },
+      "claim-title": {
+        "displayName": "Claim Title",
+        "purpose": "고른 주장의 문장. 학생이 쓴 문장이므로 본문 글꼴 800."
+      },
+      "subhead": {
+        "displayName": "Subhead",
+        "purpose": "블록 제목. 옆 설명은 400, muted, 13.5px."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "기본 글자. 증거 본문 14.5px, 최대 72ch."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "역 이름, 메타, 폼 라벨. 날짜 라벨 12.5px, tabular-nums."
+      },
+      "line-number": {
+        "displayName": "Line Number",
+        "purpose": "노선 알약과 턴 마커 안의 글자."
+      }
+    },
+    "shadows": [
+      {
+        "name": "panel",
+        "value": "0 1px 2px rgba(24, 35, 58, .08), 0 4px 14px rgba(24, 35, 58, .06)",
+        "dark": "0 1px 2px rgba(0, 0, 0, .3), 0 4px 14px rgba(0, 0, 0, .25)",
+        "purpose": "바닥 위의 흰 판과 토스트. 판 안에서는 쓰지 않는다."
+      },
+      {
+        "name": "transfer-ring",
+        "value": "0 0 0 3px <line color>",
+        "purpose": "연결된 역 점의 바깥 노선 색 고리."
+      },
+      {
+        "name": "focus",
+        "value": "outline: 3px solid var(--focus); outline-offset: 2px",
+        "purpose": "키보드 초점. 상단 바 안에서는 now-yellow."
+      }
+    ],
+    "motion": [
+      {
+        "name": "turn-advance",
+        "value": "700ms cubic-bezier(.16, 1, .3, 1)",
+        "purpose": "턴을 넘길 때 지금 마커와 경계선이 미끄러지고 지난 구간이 실선으로 그려진다. 앞으로 넘길 때만."
+      },
+      {
+        "name": "state",
+        "value": "180ms",
+        "purpose": "판정 버튼 색, 역 점 확대(1.15), 펼침 화살표 회전."
+      },
+      {
+        "name": "toast",
+        "value": "200ms opacity + 10px rise, 2200ms 표시",
+        "purpose": "짧은 확인 알림."
+      },
+      {
+        "name": "evidence-flash",
+        "value": "250ms in, 1400ms 유지, now-yellow 24%",
+        "purpose": "역을 눌러 증거 줄로 이동했을 때 잠깐 비침."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "0s",
+        "purpose": "prefers-reduced-motion에서 모든 전환을 끈다."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px",
+        "purpose": "판정 버튼 세로, 증거 줄 한 칸, 노선 기둥 70px"
+      },
+      {
+        "name": "md",
+        "value": "1000px",
+        "purpose": "작업 영역 한 칸으로"
+      },
+      {
+        "name": "lg",
+        "value": "1001px",
+        "purpose": "주장 목록 sticky"
+      },
+      {
+        "name": "coarse-pointer",
+        "value": "(pointer: coarse)",
+        "purpose": "작은 버튼, 탭, 체크 최소 44px"
+      }
+    ],
+    "layoutMeta": {
+      "maxWidth": "1440px",
+      "gutter": "16px",
+      "mapHeight": "268px",
+      "mapMinWidth": "980px",
+      "linesY": [
+        84,
+        146,
+        208
+      ],
+      "pillColumn": "84px",
+      "workColumns": "minmax(300px, 380px) minmax(0, 1fr)"
+    }
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "폼 제출 한 자리에만 쓰는 남색 버튼.",
+      "html": "<button class=\"ds-btn-pri\">증거 추가</button>",
+      "css": ".ds-btn-pri { display:inline-flex; align-items:center; height:40px; padding:0 14px; border-radius:6px; border:1px solid var(--pri, #18233A); background:var(--pri, #18233A); color:var(--on-pri, #FFFFFF); font:600 14px 'Gothic A1', 'Apple SD Gothic Neo', sans-serif; cursor:pointer; } .ds-btn-pri:hover { background:var(--pri-hover, #24324F); border-color:var(--pri-hover, #24324F); } .ds-btn-pri:active { transform:translateY(1px); } .ds-btn-pri:focus-visible { outline:3px solid var(--focus, #2156C2); outline-offset:2px; }"
+    },
+    {
+      "name": "Default Button",
+      "kind": "button",
+      "refersTo": "button",
+      "description": "흰 바탕에 굵은 선 테두리의 기본 버튼.",
+      "html": "<button class=\"ds-btn\">주장 추가</button>",
+      "css": ".ds-btn { display:inline-flex; align-items:center; height:40px; padding:0 14px; border-radius:6px; border:1px solid var(--rule-strong, #A9B3C2); background:var(--panel, #FFFFFF); color:var(--ink, #18233A); font:600 14px 'Gothic A1', 'Apple SD Gothic Neo', sans-serif; cursor:pointer; } .ds-btn:hover { border-color:var(--ink, #18233A); } .ds-btn:active { transform:translateY(1px); } .ds-btn:focus-visible { outline:3px solid var(--focus, #2156C2); outline-offset:2px; }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "흰 판 위의 입력칸.",
+      "html": "<input class=\"ds-input\" placeholder=\"확인할 주장을 한 문장으로\">",
+      "css": ".ds-input { width:280px; height:40px; padding:0 12px; border:1px solid var(--rule-strong, #A9B3C2); border-radius:6px; background:var(--panel, #FFFFFF); color:var(--ink, #18233A); font:400 15px 'Gothic A1', 'Apple SD Gothic Neo', sans-serif; } .ds-input::placeholder { color:var(--muted, #556074); } .ds-input:hover { border-color:var(--muted, #556074); } .ds-input:focus-visible { outline:3px solid var(--focus, #2156C2); outline-offset:2px; }"
+    },
+    {
+      "name": "Signage Top Bar",
+      "kind": "nav",
+      "refersTo": "top-bar",
+      "description": "남색 안내판 바: 브랜드, 사건 제목, 수업용 표시, 지금 시점.",
+      "html": "<header class=\"ds-bar\"><span class=\"ds-bar-brand\"><svg viewBox=\"0 0 26 26\" width=\"26\" height=\"26\" aria-hidden=\"true\"><circle cx=\"13\" cy=\"13\" r=\"10\" fill=\"none\" stroke=\"#FFC93C\" stroke-width=\"4\"/><circle cx=\"13\" cy=\"13\" r=\"4\" fill=\"#FFFFFF\"/></svg>문영 수사본부</span><h1 class=\"ds-bar-title\">이은호 김서진 열애설 <span class=\"ds-bar-fic\">수업용 가상 사건</span></h1><label class=\"ds-bar-now\">지금 시점 <select><option>1턴, 2월 4일 (수) 12:00</option></select></label></header>",
+      "css": ".ds-bar { display:flex; align-items:center; flex-wrap:wrap; gap:10px 20px; min-height:60px; padding:8px 16px; background:var(--sign, #18233A); color:var(--on-sign, #FFFFFF); font-family:'Gothic A1', 'Apple SD Gothic Neo', sans-serif; } .ds-bar-brand { display:flex; align-items:center; gap:10px; font-weight:800; font-size:14px; color:var(--on-sign-soft, #C3CCDB); } .ds-bar-title { margin:0 auto 0 0; font:400 24px/1.2 'Do Hyeon', 'Gothic A1', sans-serif; display:flex; align-items:center; gap:10px; } .ds-bar-fic { font:600 12.5px/1.5 'Gothic A1', sans-serif; color:var(--on-sign-soft, #C3CCDB); border:1px solid currentColor; border-radius:4px; padding:1px 7px; } .ds-bar-now { display:flex; align-items:center; gap:8px; font-size:13px; color:var(--on-sign-soft, #C3CCDB); } .ds-bar-now select { height:36px; padding:0 6px 0 10px; border:1px solid transparent; border-radius:6px; background:var(--now, #FFC93C); color:var(--on-now, #18233A); font:800 13px 'Gothic A1', sans-serif; } .ds-bar-now select:hover { border-color:var(--on-now, #18233A); } .ds-bar-now select:focus-visible { outline:3px solid var(--now, #FFC93C); outline-offset:2px; }"
+    },
+    {
+      "name": "Line Pills",
+      "kind": "chip",
+      "refersTo": "line-pill-wiki",
+      "description": "출처를 나타내는 노선 번호 알약 세 가지.",
+      "html": "<span class=\"ds-pill ds-pill-wiki\">위키</span> <span class=\"ds-pill ds-pill-news\">기사</span> <span class=\"ds-pill ds-pill-sns\">SNS</span>",
+      "css": ".ds-pill { display:inline-grid; place-items:center; min-width:52px; height:28px; padding:0 10px; border-radius:14px; color:#FFFFFF; font:800 13.5px 'Gothic A1', sans-serif; } .ds-pill-wiki { background:var(--wiki-pill, #00805F); } .ds-pill-news { background:var(--news-pill, #2156C2); } .ds-pill-sns { background:var(--sns-pill, #B8306B); }"
+    },
+    {
+      "name": "Source Tabs",
+      "kind": "chip",
+      "refersTo": "tab",
+      "description": "증거함을 노선별로 거르는 알약 탭.",
+      "html": "<div class=\"ds-tabs\"><button class=\"ds-tab\" aria-pressed=\"true\">전체 7</button><button class=\"ds-tab\" aria-pressed=\"false\" style=\"--src:#009D74\"><i></i>위키 4</button><button class=\"ds-tab\" aria-pressed=\"false\" style=\"--src:#2156C2\"><i></i>기사 2</button></div>",
+      "css": ".ds-tabs { display:flex; gap:4px; } .ds-tab { display:inline-flex; align-items:center; gap:7px; height:34px; padding:0 12px; border-radius:17px; border:1px solid var(--rule, #D3D9E2); background:var(--panel, #FFFFFF); color:var(--muted, #556074); font:600 13.5px 'Gothic A1', sans-serif; cursor:pointer; } .ds-tab i { width:10px; height:10px; border-radius:50%; background:var(--src, #18233A); } .ds-tab:hover { border-color:var(--rule-strong, #A9B3C2); color:var(--ink, #18233A); } .ds-tab[aria-pressed=\"true\"] { background:var(--ink, #18233A); border-color:var(--ink, #18233A); color:var(--panel, #FFFFFF); } .ds-tab:focus-visible { outline:3px solid var(--focus, #2156C2); outline-offset:2px; }"
+    },
+    {
+      "name": "Verdict Buttons",
+      "kind": "custom",
+      "refersTo": "verdict-button",
+      "description": "사실이다 / 사실이 아니다 / 아직 모른다, 색과 모양을 함께 쓰는 판정 선택.",
+      "html": "<div class=\"ds-verdicts\"><button class=\"ds-vbtn\" aria-pressed=\"true\" data-v=\"true\"><svg viewBox=\"0 0 20 20\" width=\"20\" height=\"20\" aria-hidden=\"true\"><circle cx=\"10\" cy=\"10\" r=\"9\" fill=\"currentColor\"/><path d=\"M5.6 10.3l3 3 5.8-6.4\" fill=\"none\" stroke=\"#18233A\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>사실이다</button><button class=\"ds-vbtn\" aria-pressed=\"false\" data-v=\"false\"><svg viewBox=\"0 0 20 20\" width=\"20\" height=\"20\" aria-hidden=\"true\"><circle cx=\"10\" cy=\"10\" r=\"9\" fill=\"#D2352B\"/><path d=\"M6 14L14 6\" stroke=\"#fff\" stroke-width=\"2.6\" stroke-linecap=\"round\"/></svg>사실이 아니다</button><button class=\"ds-vbtn\" aria-pressed=\"false\" data-v=\"open\"><svg viewBox=\"0 0 20 20\" width=\"20\" height=\"20\" aria-hidden=\"true\"><circle cx=\"10\" cy=\"10\" r=\"9\" fill=\"#FFC93C\" stroke=\"#18233A\" stroke-width=\"1.2\"/><circle cx=\"6\" cy=\"10\" r=\"1.6\" fill=\"#18233A\"/><circle cx=\"10\" cy=\"10\" r=\"1.6\" fill=\"#18233A\"/><circle cx=\"14\" cy=\"10\" r=\"1.6\" fill=\"#18233A\"/></svg>아직 모른다</button></div>",
+      "css": ".ds-verdicts { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:8px; max-width:560px; } .ds-vbtn { display:flex; align-items:center; justify-content:center; gap:9px; min-height:48px; padding:6px 12px; border-radius:8px; border:1.5px solid var(--rule-strong, #A9B3C2); background:var(--panel, #FFFFFF); color:var(--ink, #18233A); font:800 15px 'Gothic A1', sans-serif; cursor:pointer; transition:background-color .18s, border-color .18s, color .18s; } .ds-vbtn:hover { border-color:var(--ink, #18233A); } .ds-vbtn:focus-visible { outline:3px solid var(--focus, #2156C2); outline-offset:2px; } .ds-vbtn[data-v=\"true\"][aria-pressed=\"true\"] { background:var(--pri, #18233A); border-color:var(--pri, #18233A); color:var(--on-pri, #FFFFFF); } .ds-vbtn[data-v=\"false\"][aria-pressed=\"true\"] { background:var(--false, #D2352B); border-color:var(--false, #D2352B); color:#FFFFFF; } .ds-vbtn[data-v=\"open\"][aria-pressed=\"true\"] { background:var(--now, #FFC93C); border-color:var(--now, #FFC93C); color:var(--on-now, #18233A); }"
+    },
+    {
+      "name": "Metro Stations",
+      "kind": "custom",
+      "refersTo": "line-pill-wiki",
+      "description": "노선 위의 역: 기본, 환승역(연결됨), 흐림, 지금 고른 역.",
+      "html": "<div class=\"ds-metro\"><span class=\"ds-line\"></span><span class=\"ds-line ds-line-future\"></span><span class=\"ds-st\" style=\"left:40px\"><span class=\"ds-lab\">가사 해석</span><span class=\"ds-dot\"></span></span><span class=\"ds-st ds-linked\" style=\"left:130px\"><span class=\"ds-lab\">스토리 캡처</span><span class=\"ds-dot\"></span></span><span class=\"ds-st ds-dim\" style=\"left:220px\"><span class=\"ds-lab\">편집 되돌림</span><span class=\"ds-dot\"></span></span><span class=\"ds-tm\">지금 1턴</span></div>",
+      "css": ".ds-metro { position:relative; width:380px; height:110px; background:var(--panel, #FFFFFF); --src:var(--wiki, #009D74); font-family:'Gothic A1', sans-serif; } .ds-line { position:absolute; left:0; width:270px; top:70px; height:7px; margin-top:-3.5px; border-radius:4px; background:var(--src); } .ds-line-future { left:278px; width:100px; height:0; margin-top:0; border-top:5px dashed var(--src); background:none; opacity:.38; } .ds-st { position:absolute; top:70px; transform:translate(-50%, calc(-100% + 9px)); display:flex; flex-direction:column; align-items:center; gap:6px; } .ds-lab { font-size:13px; font-weight:600; line-height:1.3; color:var(--ink, #18233A); background:var(--panel, #FFFFFF); padding:0 3px; border-radius:3px; white-space:nowrap; } .ds-dot { width:18px; height:18px; border-radius:50%; background:var(--panel, #FFFFFF); border:4px solid var(--src); box-sizing:border-box; transition:transform .18s; } .ds-st:hover .ds-dot { transform:scale(1.15); } .ds-linked .ds-dot { border:5px solid var(--ink, #18233A); box-shadow:0 0 0 3px var(--src); } .ds-linked .ds-lab { font-weight:800; } .ds-dim .ds-lab { color:var(--muted, #556074); font-weight:400; } .ds-dim .ds-dot { border-color:color-mix(in srgb, var(--src) 45%, #FFFFFF); } .ds-tm { position:absolute; left:274px; top:6px; transform:translateX(-50%); height:28px; padding:0 11px; border-radius:14px; display:flex; align-items:center; font-size:13px; font-weight:800; background:var(--now, #FFC93C); color:var(--on-now, #18233A); } .ds-tm::after { content:''; position:absolute; left:50%; top:28px; width:4px; height:70px; margin-left:-2px; background:var(--now, #FFC93C); }"
+    },
+    {
+      "name": "Evidence Row",
+      "kind": "card",
+      "refersTo": "panel",
+      "description": "카드가 아니라 선으로 나눈 증거 줄.",
+      "html": "<article class=\"ds-ev\"><span class=\"ds-ev-tag\">위키</span><div class=\"ds-ev-top\"><b>스토리 캡처</b><span>2026.02.03</span><span>1턴에 찾음</span></div><p>공개된 캡처에는 이은호가 보낸 메시지가 담겨 있었다.</p><div class=\"ds-ev-from\">문영위키 이은호 문서</div></article>",
+      "css": ".ds-ev { display:grid; grid-template-columns:60px minmax(0, 1fr); gap:2px 12px; padding:14px 0; max-width:620px; border-top:1px solid var(--rule, #D3D9E2); border-bottom:1px solid var(--rule, #D3D9E2); background:var(--panel, #FFFFFF); color:var(--ink, #18233A); font-family:'Gothic A1', sans-serif; } .ds-ev-tag { grid-row:1 / span 3; height:26px; border-radius:13px; display:grid; place-items:center; background:var(--wiki-pill, #00805F); color:#FFFFFF; font-weight:800; font-size:13px; } .ds-ev-top { display:flex; gap:2px 10px; align-items:baseline; font-size:13px; color:var(--muted, #556074); font-variant-numeric:tabular-nums; } .ds-ev-top b { font-size:15px; font-weight:800; color:var(--ink, #18233A); } .ds-ev p { margin:2px 0 0; font-size:14.5px; line-height:1.6; max-width:72ch; } .ds-ev-from { font-size:13px; color:var(--muted, #556074); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "서울 지하철 노선도 (The Evidence Metro)",
+    "overview": "이 시스템은 서울 지하철 안내 사인을 빌려 온다. 시간은 왼쪽에서 오른쪽으로 흐르고, 출처 하나가 노선 하나이며, 증거 하나가 역 하나다. 지금 턴은 열차가 서 있는 자리다. 학생은 \"누가 범인인가\"를 쫓는 탐정이 아니라 \"언제, 어디서 나온 말인가\"를 확인하는 승객이자 안내원이다. 그래서 화면은 수사 게시판처럼 어둡고 극적이지 않고, 역 안내판처럼 밝고 정돈되어 있으며 한눈에 읽힌다.\n\n밀도는 중간이다. 상단에는 남색 안내판 바가 있고, 그 아래로 승강장 회색 바닥 위에 흰 판이 놓인다. 판 안의 내용은 카드로 다시 쪼개지 않고 가는 선(rule)으로 나눈 줄로 정리한다. 색은 대부분 무채색에 가깝게 두고, 노선 세 가지 색과 \"지금\" 노랑, \"사실이 아니다\" 빨강만 의미를 가진 색으로 쓴다. 장식 색은 없다.\n\n움직임은 하나뿐이다. 교사가 턴을 넘기면 열차 표시(지금 마커)가 다음 경계로 미끄러지고, 지나온 구간이 실선으로 이어진다. 그 밖의 전환은 짧은 상태 변화에 그친다. 확인된 거부는 하나다. 붉은 실과 어두운 탐정 게시판처럼 인물을 용의자로 보이게 하는 연출은 쓰지 않는다.",
+    "keyCharacteristics": [
+      "남색 안내판 바, 승강장 회색 바닥, 흰 작업 판의 세 층",
+      "출처 = 노선 색(위키 초록, 기사 파랑, SNS 자홍), 노선 번호처럼 생긴 알약 표시",
+      "증거 = 흰 점에 색 테두리를 두른 역, 고른 주장에 연결되면 환승역 고리",
+      "지금 = 노랑, 아직 = 점선",
+      "제목은 Do Hyeon, 나머지는 모두 Gothic A1",
+      "판 안은 카드 대신 줄과 선으로 나눈다"
+    ],
+    "rules": [
+      {
+        "name": "The One Yellow Rule (노랑은 \"지금\"뿐이다)",
+        "body": "노랑은 현재 시점과 \"아직 모른다\"에만 쓴다. 둘 다 \"아직 열려 있는 상태\"라는 같은 뜻이다. 강조나 장식으로 노랑을 쓰면 학생이 지금 위치를 잃는다. 예외는 브랜드 표시의 노란 역 고리 하나다.",
+        "section": "colors"
+      },
+      {
+        "name": "The Line Is the Source Rule (노선 색은 출처다)",
+        "body": "초록, 파랑, 자홍은 각각 위키, 기사, SNS만 뜻한다. 다른 정보에 이 세 색을 빌려 쓰지 않는다. 출처 알약에는 반드시 글자(위키 / 기사 / SNS)를 함께 쓴다.",
+        "section": "colors"
+      },
+      {
+        "name": "The Red Means False Rule (빨강은 \"사실이 아니다\"다)",
+        "body": "빨강은 판정과 오류에만 쓴다. 인물, 사건 제목, 위험 분위기를 꾸미는 데 쓰지 않는다.",
+        "section": "colors"
+      },
+      {
+        "name": "The Signage Voice Rule (제목 글꼴은 안내판에만)",
+        "body": "Do Hyeon은 상단 바 제목과 판 제목에만 쓴다. 본문, 라벨, 버튼, 숫자, 학생이 쓴 문장에는 쓰지 않는다.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tabular Time Rule (날짜와 숫자는 같은 폭으로)",
+        "body": "날짜, 턴, 개수는 `font-variant-numeric: tabular-nums`로 써서 줄이 바뀌어도 자리가 흔들리지 않게 한다.",
+        "section": "typography"
+      },
+      {
+        "name": "The Two Planes Rule (바닥과 판, 두 층뿐이다)",
+        "body": "판 안에 카드를 다시 넣지 않는다. 증거, 주장처럼 반복되는 항목은 선으로 나눈 줄로 쓴다.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Dashed Means Not Yet Rule (점선은 아직이다)",
+        "body": "점선은 아직 열리지 않은 시간과 아직 채워지지 않은 자리에만 쓴다. 장식용 점선 테두리는 없다.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "**Do** 출처를 나타낼 때 노선 색과 노선 알약 글자를 함께 쓴다(위키 초록, 기사 파랑, SNS 자홍).",
+      "**Do** \"지금\"과 \"아직 모른다\"에만 노랑(`now-yellow`)을 쓰고, 노랑 위 글자는 언제나 남색(`on-now`)으로 쓴다.",
+      "**Do** 아직 오지 않은 시간과 비어 있는 자리를 점선으로 그린다.",
+      "**Do** 판정은 색과 모양(체크, 사선, 점 세 개)을 함께 써서 색만으로 구분하지 않게 한다.",
+      "**Do** 흐리게 보여야 하는 글자는 `muted` 색으로 낮추고, 투명도로 낮추지 않는다.",
+      "**Do** 같은 날짜의 역은 날짜 라벨 하나를 나눠 쓰고 괄호선으로 묶는다.",
+      "**Do** 판 안의 반복 항목은 `rule` 선으로 나눈 줄로 쓴다.",
+      "**Do** 터치 화면에서 누를 수 있는 것은 최소 44px 높이를 지킨다."
+    ],
+    "donts": [
+      "**Don't** 붉은 실, 어두운 코르크 게시판, 용의자 사진처럼 인물을 수사 대상으로 보이게 하는 연출을 쓰지 않는다.",
+      "**Don't** 흰 판 안에 그림자 있는 카드를 다시 넣지 않는다.",
+      "**Don't** Do Hyeon을 본문, 라벨, 버튼, 숫자에 쓰지 않는다.",
+      "**Don't** 노선 색 세 가지를 출처가 아닌 정보나 장식에 쓰지 않는다.",
+      "**Don't** 빨강을 \"사실이 아니다\"와 오류가 아닌 곳에 쓰지 않는다.",
+      "**Don't** 정답 여부를 색이나 표시로 암시하지 않는다. 판정 색은 학생이 고른 판정만 나타낸다."
+    ]
+  }
+}
