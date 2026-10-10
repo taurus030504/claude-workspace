@@ -1,0 +1,686 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>문영 수사본부</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gothic+A1:wght@400;600;800&display=swap">
+<style>
+:root {
+  --sign: #18233A;        /* 안내판 남색: 상단 바, 본문 글자, '사실이다' */
+  --sign-2: #24324F;      /* 상단 바 안의 입력칸 */
+  --on-sign: #FFFFFF;
+  --on-sign-soft: #C3CCDB;
+  --ground: #EDF0F4;      /* 승강장 회색 */
+  --panel: #FFFFFF;       /* 흰 판 */
+  --panel-2: #F5F7FA;
+  --ink: #18233A;
+  --muted: #556074;
+  --rule: #D3D9E2;
+  --rule-strong: #A9B3C2;
+  --sel: #E3E9F3;
+  --wiki: #009D74; --wiki-pill: #00805F;
+  --news: #2156C2; --news-pill: #2156C2;
+  --sns: #CC3A7A;  --sns-pill: #B8306B;
+  --now: #FFC93C;         /* 지금 노랑: 현재 위치, '아직 모른다' */
+  --on-now: #18233A;
+  --false: #D2352B;       /* '사실이 아니다' */
+  --false-text: #B92D24;
+  --true: #18233A;
+  --future: #8590A2;
+  --focus: #2156C2;
+  --pri: #18233A; --on-pri: #FFFFFF; --pri-hover: #24324F;
+  --shadow: 0 1px 2px rgba(24, 35, 58, .08), 0 4px 14px rgba(24, 35, 58, .06);
+  --f-head: "Do Hyeon", "Gothic A1", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --f-body: "Gothic A1", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", system-ui, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --sign: #0B1222; --sign-2: #1A2540; --on-sign: #F2F5FA; --on-sign-soft: #A9B5C8;
+    --ground: #0F1522; --panel: #182132; --panel-2: #1D2839; --ink: #E7ECF3; --muted: #9AA6B8;
+    --rule: #2C3850; --rule-strong: #47556F; --sel: #243453;
+    --wiki: #2FC79B; --wiki-pill: #1FA982; --news: #6C9BF0; --news-pill: #3F72D6; --sns: #EE6FA6; --sns-pill: #C2477F;
+    --false: #FF6B5E; --false-text: #FF8A7F; --true: #E7ECF3; --future: #6B7890; --focus: #8CB3FF; --pri: #E7ECF3; --on-pri: #0F1522; --pri-hover: #C9D3E2;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 4px 14px rgba(0, 0, 0, .25);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --sign: #0B1222; --sign-2: #1A2540; --on-sign: #F2F5FA; --on-sign-soft: #A9B5C8;
+  --ground: #0F1522; --panel: #182132; --panel-2: #1D2839; --ink: #E7ECF3; --muted: #9AA6B8;
+  --rule: #2C3850; --rule-strong: #47556F; --sel: #243453;
+  --wiki: #2FC79B; --wiki-pill: #1FA982; --news: #6C9BF0; --news-pill: #3F72D6; --sns: #EE6FA6; --sns-pill: #C2477F;
+  --false: #FF6B5E; --false-text: #FF8A7F; --true: #E7ECF3; --future: #6B7890; --focus: #8CB3FF; --pri: #E7ECF3; --on-pri: #0F1522; --pri-hover: #C9D3E2;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 4px 14px rgba(0, 0, 0, .25);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box }
+[hidden] { display: none !important }
+html { background: var(--ground); scrollbar-color: var(--rule-strong) transparent }
+body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; caret-color: var(--news); padding-bottom: env(safe-area-inset-bottom, 0px) }
+::selection { background: var(--now); color: var(--on-now) }
+button, input, select, textarea { font: inherit; color: inherit }
+button { cursor: pointer }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px }
+.num { font-variant-numeric: tabular-nums }
+h1, h2, h3 { margin: 0; text-wrap: balance }
+h2 { font-family: var(--f-head); font-weight: 400; font-size: 22px; line-height: 1.3; letter-spacing: -.005em }
+h3 { font-size: 15px; font-weight: 800; line-height: 1.4 }
+.wrap { max-width: 1440px; margin: 0 auto; padding-inline: 16px }
+
+/* 상단 바: 안내판 */
+.bar { background: var(--sign); color: var(--on-sign); padding-top: env(safe-area-inset-top, 0px) }
+.bar .wrap { display: flex; align-items: center; gap: 10px 20px; flex-wrap: wrap; min-height: 60px; padding-block: 8px }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 14px; color: var(--on-sign-soft); white-space: nowrap }
+.brand svg { width: 26px; height: 26px; flex-shrink: 0 }
+.bar h1 { font-family: var(--f-head); font-weight: 400; font-size: 24px; line-height: 1.2; margin-right: auto; display: flex; align-items: center; flex-wrap: wrap; gap: 4px 10px }
+.fic { font-family: var(--f-body); font-size: 12.5px; font-weight: 600; color: var(--on-sign-soft); border: 1px solid var(--on-sign-soft); border-radius: 4px; padding: 1px 7px; line-height: 1.5 }
+.bar-tools { display: flex; align-items: center; gap: 8px 14px; flex-wrap: wrap }
+.field-dark { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--on-sign-soft); white-space: nowrap }
+.field-dark input, .field-dark select { background: var(--sign-2); border: 1px solid transparent; border-radius: 6px; color: var(--on-sign); height: 36px; padding: 0 10px }
+.field-dark input { width: 9.5em }
+.field-dark input::placeholder { color: var(--on-sign-soft) }
+.field-dark input:hover, .field-dark select:hover { border-color: var(--on-sign-soft) }
+.now-select select { background: var(--now); color: var(--on-now); font-weight: 800; padding-right: 6px }
+.now-select select:hover { border-color: var(--on-now) }
+.bar :focus-visible { outline-color: var(--now) }
+.bar-link { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px; border-radius: 6px; border: 1px solid var(--on-sign-soft); color: var(--on-sign); text-decoration: none; font-size: 14px; font-weight: 600; white-space: nowrap }
+.bar-link:hover { background: var(--sign-2) }
+.bar-link svg { width: 14px; height: 14px }
+
+/* 노선도 */
+.map-sec { margin-top: 16px; background: var(--panel); border-radius: 10px; box-shadow: var(--shadow); padding: 16px 0 10px }
+.map-head { display: flex; align-items: baseline; gap: 4px 14px; flex-wrap: wrap; padding-inline: 20px }
+.map-head p { margin: 0; color: var(--muted); font-size: 14px }
+.map-frame { position: relative; margin-top: 4px; padding-left: 84px }
+.map-frame .pills { position: absolute; inset: 0 auto 0 0; width: 84px; z-index: 5; pointer-events: none }
+.map-scroll { overflow-x: auto; overscroll-behavior-x: contain }
+.map-scroll.clipped { -webkit-mask-image: linear-gradient(90deg, transparent, #000 18px); mask-image: linear-gradient(90deg, transparent, #000 18px) }
+.map { position: relative; height: 268px; min-width: 980px }
+.map svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible }
+.line-pill { position: absolute; left: 18px; transform: translateY(-50%); min-width: 52px; height: 28px; padding: 0 10px; border-radius: 14px; display: grid; place-items: center; color: #fff; font-weight: 800; font-size: 13.5px; z-index: 2 }
+.pill-wiki { background: var(--wiki-pill) } .pill-news { background: var(--news-pill) } .pill-sns { background: var(--sns-pill) }
+.src-wiki { --src: var(--wiki) } .src-news { --src: var(--news) } .src-sns { --src: var(--sns) }
+
+.st { position: absolute; z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 6px; border: 0; background: none; padding: 0 2px; transform: translate(-50%, calc(-100% + 9px)); color: var(--ink); transition: opacity .2s }
+.st .lab { font-size: 13px; font-weight: 600; line-height: 1.3; text-align: center; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; word-break: keep-all; overflow-wrap: anywhere; background: var(--panel); padding: 0 3px; border-radius: 3px }
+.st .dot { width: 18px; height: 18px; border-radius: 50%; background: var(--panel); border: 4px solid var(--src); flex-shrink: 0; transition: transform .18s, border-color .18s }
+.st:hover .dot { transform: scale(1.15) }
+.st:hover .lab { text-decoration: underline; text-underline-offset: 3px }
+.st.linked .dot { border: 5px solid var(--ink); box-shadow: 0 0 0 3px var(--src) }
+.st.linked .lab { font-weight: 800 }
+.st.dim .lab { color: var(--muted); font-weight: 400 }
+.st.dim .dot { border-color: color-mix(in srgb, var(--src) 45%, var(--panel)) }
+.st.dim:hover .lab { color: var(--ink) }
+.st.cur .lab { background: var(--now); color: var(--on-now) }
+.dl { position: absolute; transform: translateX(-50%); font-size: 12.5px; color: var(--muted); white-space: nowrap; z-index: 2 }
+.dl b { color: var(--ink); font-weight: 800 }
+.dl small { font-size: 12px }
+.day-span { position: absolute; height: 6px; border: 1.5px solid var(--rule-strong); border-top: 0; border-radius: 0 0 3px 3px; z-index: 1 }
+.tm { position: absolute; top: 6px; transform: translateX(-50%); z-index: 4; height: 28px; padding: 0 11px; border-radius: 14px; display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 800; white-space: nowrap; border: 2px solid var(--rule-strong); background: var(--panel); color: var(--muted) }
+.tm small { font-size: 12px; font-weight: 600 }
+.tm.past { border-color: var(--ink); color: var(--ink) }
+.tm.now { background: var(--now); border-color: var(--now); color: var(--on-now) }
+.tm.future { border-style: dashed }
+.future-note { position: absolute; z-index: 2; font-size: 12.5px; color: var(--muted); transform: translateX(-50%); white-space: nowrap }
+
+/* 작업 영역 */
+.work { display: grid; grid-template-columns: minmax(300px, 380px) minmax(0, 1fr); gap: 16px; margin-top: 16px; align-items: start }
+.panel { background: var(--panel); border-radius: 10px; box-shadow: var(--shadow) }
+.panel-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 16px 18px 10px }
+.panel-head p { margin: 0; color: var(--muted); font-size: 13.5px }
+
+/* 주장 목록 */
+.claims { list-style: none; margin: 0; padding: 0 8px }
+.claim { display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 4px 10px; align-items: start; width: 100%; text-align: left; border: 0; background: none; border-radius: 8px; padding: 12px 10px; color: var(--ink) }
+.claim:hover { background: var(--panel-2) }
+.claim[aria-current="true"] { background: var(--sel) }
+.claim-text { font-weight: 600; line-height: 1.5 }
+.claim[aria-current="true"] .claim-text { font-weight: 800 }
+.claim-meta { grid-column: 2; font-size: 13px; color: var(--muted) }
+.trail { display: block; width: 58px; height: 18px; margin-top: 3px }
+.claims li + li { border-top: 1px solid var(--rule) }
+.claims li:has(+ li > [aria-current="true"]), .claims li:has([aria-current="true"]) { border-color: transparent }
+.claims li:has([aria-current="true"]) + li { border-color: transparent }
+.add { display: flex; gap: 8px; padding: 12px 18px 18px; border-top: 1px solid var(--rule); margin-top: 6px }
+.input { width: 100%; min-width: 0; height: 40px; border: 1px solid var(--rule-strong); background: var(--panel); border-radius: 6px; padding: 0 12px }
+.input:hover { border-color: var(--muted) }
+textarea.input { height: auto; min-height: 92px; padding: 10px 12px; line-height: 1.6; resize: vertical }
+.input::placeholder { color: var(--muted) }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 40px; padding: 0 14px; border-radius: 6px; border: 1px solid var(--rule-strong); background: var(--panel); color: var(--ink); font-weight: 600; font-size: 14px; white-space: nowrap }
+.btn:hover { border-color: var(--ink) }
+.btn:active { transform: translateY(1px) }
+.btn.pri { background: var(--pri); border-color: var(--pri); color: var(--on-pri) }
+.btn.pri:hover { background: var(--pri-hover); border-color: var(--pri-hover) }
+.btn.sm { height: 34px; padding: 0 11px; font-size: 13.5px }
+.btn.warn { border-color: var(--false); color: var(--false-text) }
+.btn:disabled { opacity: .5; cursor: default; transform: none }
+
+/* 선택한 주장 */
+.detail { padding: 18px 22px 22px }
+.detail-q { font-family: var(--f-body); font-size: 21px; font-weight: 800; line-height: 1.45; margin: 0 0 4px; text-wrap: pretty }
+.detail-sub { margin: 0; color: var(--muted); font-size: 14px }
+.block { margin-top: 22px }
+.block > h3 { margin-bottom: 8px; display: flex; align-items: baseline; gap: 10px }
+.block > h3 span { font-weight: 400; color: var(--muted); font-size: 13.5px }
+.verdicts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px }
+.vbtn { display: flex; align-items: center; justify-content: center; gap: 9px; min-height: 48px; padding: 6px 12px; border-radius: 8px; border: 1.5px solid var(--rule-strong); background: var(--panel); color: var(--ink); font-weight: 800; font-size: 15px; transition: background-color .18s, border-color .18s, color .18s }
+.vbtn svg { width: 20px; height: 20px; flex-shrink: 0; color: var(--vm) }
+.v-true { --vm: var(--true); --vm-on: var(--panel) }
+.v-false { --vm: var(--false); --vm-on: #fff }
+.v-open { --vm: var(--now); --vm-on: var(--on-now) }
+.v-open svg circle:first-child { stroke: var(--on-now); stroke-width: 1.2 }
+.vbtn:hover { border-color: var(--ink) }
+.vbtn.v-true[aria-pressed="true"] { background: var(--pri); border-color: var(--pri); color: var(--on-pri); --vm: var(--on-pri); --vm-on: var(--pri) }
+.vbtn.v-false[aria-pressed="true"] { background: var(--false); border-color: var(--false); color: #fff; --vm: #fff; --vm-on: var(--false) }
+.vbtn.v-open[aria-pressed="true"] { background: var(--now); border-color: var(--now); color: var(--on-now); --vm: var(--on-now); --vm-on: var(--now) }
+.history { margin: 10px 0 0; font-size: 13.5px; color: var(--muted) }
+.history b { color: var(--ink) }
+
+/* 증거 줄 */
+.evs { display: grid; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule) }
+.evs > .ev + .ev { border-top: 1px solid var(--rule) }
+.evs:has(> .empty) { border: 0 }
+.ev { display: grid; grid-template-columns: 60px minmax(0, 1fr); gap: 2px 12px; padding: 14px 0; background: var(--panel); scroll-margin: 90px; transition: background-color .25s, box-shadow .25s }
+.ev.flash { background: color-mix(in srgb, var(--now) 24%, var(--panel)); box-shadow: 0 0 0 8px color-mix(in srgb, var(--now) 24%, var(--panel)) }
+.ev .line-tag { grid-row: 1 / span 3; align-self: start; height: 26px; border-radius: 13px; display: grid; place-items: center; color: #fff; font-weight: 800; font-size: 13px }
+.ev-top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; font-size: 13px; color: var(--muted) }
+.ev-top b { font-size: 15px; color: var(--ink); font-weight: 800 }
+.ev p { margin: 2px 0 0; font-size: 14.5px; line-height: 1.6; max-width: 72ch }
+.ev .from { color: var(--muted); font-size: 13px; margin-top: 2px }
+.cn { display: inline-block; font-size: 12px; font-weight: 600; color: var(--false-text); border: 1px solid currentColor; border-radius: 4px; padding: 0 5px; margin-left: 4px; vertical-align: 1px; line-height: 1.5 }
+.ev-foot { grid-column: 2; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; margin-top: 8px }
+.ev-foot .btn { margin-left: auto }
+.check { display: inline-flex; align-items: center; gap: 7px; border: 0; background: none; padding: 4px 0; font-size: 13.5px; color: var(--muted); min-height: 32px }
+.check .box { width: 18px; height: 18px; border: 1.5px solid var(--rule-strong); border-radius: 4px; display: grid; place-items: center; background: var(--panel) }
+.check .box svg { width: 12px; height: 12px; opacity: 0 }
+.check[aria-pressed="true"] { color: var(--ink) }
+.check[aria-pressed="true"] .box { background: var(--pri); border-color: var(--pri) }
+.check[aria-pressed="true"] .box svg { opacity: 1 }
+.check:hover .box { border-color: var(--ink) }
+.empty { margin: 0; padding: 14px 16px; border: 1.5px dashed var(--rule-strong); border-radius: 8px; color: var(--muted); font-size: 14px }
+.tabs { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 10px }
+.tab { display: inline-flex; align-items: center; gap: 7px; height: 34px; padding: 0 12px; border-radius: 17px; border: 1px solid var(--rule); background: var(--panel); font-size: 13.5px; font-weight: 600; color: var(--muted) }
+.tab i { width: 10px; height: 10px; border-radius: 50%; background: var(--src, var(--ink)) }
+.tab:hover { border-color: var(--rule-strong); color: var(--ink) }
+.tab[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--panel) }
+
+/* 증거 직접 추가 */
+details.addev { margin-top: 12px; border: 1px solid var(--rule); border-radius: 8px }
+details.addev summary { cursor: pointer; padding: 10px 14px; font-weight: 600; font-size: 14px; list-style: none; display: flex; align-items: center; gap: 8px }
+details.addev summary::-webkit-details-marker { display: none }
+details.addev summary svg { width: 14px; height: 14px; transition: transform .18s }
+details.addev[open] summary svg { transform: rotate(90deg) }
+details.addev summary:hover { background: var(--panel-2) }
+.addev-form { display: grid; grid-template-columns: 140px 170px minmax(0, 1fr); gap: 10px 12px; padding: 4px 14px 14px }
+.addev-form label { display: grid; gap: 4px; font-size: 13px; color: var(--muted); font-weight: 600 }
+.addev-form .full { grid-column: 1 / -1 }
+.addev-form .row-end { grid-column: 1 / -1; display: flex; align-items: center; gap: 12px }
+.err { color: var(--false-text); font-size: 13.5px; margin: 0 }
+select.input { padding-right: 6px }
+
+/* 바닥 */
+.foot { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px; margin: 18px 0 28px; font-size: 13.5px; color: var(--muted) }
+.foot span { margin-right: auto }
+.copy-out { margin-bottom: 28px }
+.copy-out p { margin: 0 0 6px; font-size: 14px }
+.copy-out textarea { min-height: 180px; font-size: 14px }
+
+.toast { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 10px); background: var(--sign); color: var(--on-sign); padding: 10px 16px; border-radius: 8px; font-size: 14px; font-weight: 600; opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; z-index: 20; max-width: calc(100vw - 32px); box-shadow: var(--shadow) }
+.toast.show { opacity: 1; transform: translate(-50%, 0) }
+
+@media (min-width: 1001px) {
+  .work > .panel:first-child { position: sticky; top: 16px; max-height: calc(100vh - 32px); overflow-y: auto }
+}
+@media (max-width: 1000px) {
+  .work { grid-template-columns: minmax(0, 1fr) }
+}
+@media (max-width: 640px) {
+  .map-frame { padding-left: 70px }
+  .map-frame .pills { width: 70px }
+  .line-pill { left: 12px; min-width: 48px; padding: 0 8px }
+  .bar h1 { font-size: 21px; flex-basis: 100% }
+  .bar-tools { width: 100% }
+  .field-dark { flex: 1 1 auto }
+  .field-dark input { width: 100% }
+  .detail { padding: 16px }
+  .verdicts { grid-template-columns: minmax(0, 1fr) }
+  .vbtn { justify-content: flex-start }
+  .ev { grid-template-columns: minmax(0, 1fr) }
+  .ev .line-tag { grid-row: auto; justify-self: start; padding: 0 10px }
+  .ev-foot { grid-column: 1 }
+  .addev-form { grid-template-columns: minmax(0, 1fr) }
+}
+@media (pointer: coarse) {
+  .check { min-height: 44px }
+  .btn.sm, .tab { min-height: 44px }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0s !important; animation-duration: 0s !important }
+}
+</style>
+</head>
+<body>
+<header class="bar">
+  <div class="wrap">
+    <span class="brand">
+      <svg viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="10" fill="none" stroke="#FFC93C" stroke-width="4"/><circle cx="13" cy="13" r="4" fill="#FFFFFF"/></svg>
+      문영 수사본부
+    </span>
+    <h1>이은호 김서진 열애설 <span class="fic">수업용 가상 사건</span></h1>
+    <div class="bar-tools">
+      <label class="field-dark" for="team">모둠 <input id="team" autocomplete="off" placeholder="모둠 이름"></label>
+      <label class="field-dark now-select" for="turn">지금 시점 <select id="turn"></select></label>
+      <a class="bar-link" href="https://claude.ai/artifact/JM9iRLeWXGpZZE3h4RTWDV" target="_blank" rel="noopener">문영위키 열기
+        <svg viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h4v4M13 3 7.5 8.5M12 9.5V13H3V4h3.5"/></svg>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="map-sec" aria-labelledby="mapTitle">
+    <div class="map-head">
+      <h2 id="mapTitle">증거 노선도</h2>
+      <p id="mapNote"></p>
+    </div>
+    <div class="map-frame"><div class="pills" id="pills"></div><div class="map-scroll" id="mapScroll"><div class="map" id="map"></div></div></div>
+  </section>
+
+  <div class="work">
+    <section class="panel" aria-labelledby="claimsTitle">
+      <div class="panel-head"><h2 id="claimsTitle">판단할 주장</h2><p id="claimStat" class="num"></p></div>
+      <ul class="claims" id="claims"></ul>
+      <form class="add" id="addClaim">
+        <label for="newClaim" hidden>새 주장</label>
+        <input class="input" id="newClaim" autocomplete="off" placeholder="확인할 주장을 한 문장으로">
+        <button class="btn" type="submit">주장 추가</button>
+      </form>
+    </section>
+
+    <section class="panel detail" id="detail" aria-label="고른 주장"></section>
+  </div>
+
+  <div class="foot">
+    <span>연습용 예시가 들어 있습니다. 판정과 근거는 이 기기에만 저장됩니다.</span>
+    <button class="btn sm" type="button" id="copy">내 기록 복사</button>
+    <button class="btn sm" type="button" id="reset">처음 상태로</button>
+  </div>
+  <div class="copy-out" id="copyOut" hidden>
+    <p>복사가 막혀 있습니다. 아래 글을 모두 선택해 직접 복사하세요.</p>
+    <label for="copyText" hidden>내 기록</label>
+    <textarea class="input" id="copyText" readonly></textarea>
+  </div>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+  const KEY = 'munyeong-desk-v3';
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const SRC = { wiki: '위키', news: '기사', sns: 'SNS' };
+  const LINES = ['wiki', 'news', 'sns'];
+  const VERDICT = { true: '사실이다', false: '사실이 아니다', open: '아직 모른다' };
+  /* 문영위키의 턴과 같은 시각 */
+  const TURNS = [
+    { n: 1, at: '2026-02-04T12:00', label: '2월 4일 (수) 12:00', short: '2월 4일' },
+    { n: 2, at: '2026-03-06T12:00', label: '3월 6일 (금) 12:00', short: '3월 6일' },
+    { n: 3, at: '2026-03-08T20:00', label: '3월 8일 (일) 20:00', short: '3월 8일' }
+  ];
+  const ms = s => { const [d, t = '00:00'] = s.split('T'); const [y, m, dd] = d.split('-').map(Number); const [h, mi] = t.split(':').map(Number); return Date.UTC(y, m - 1, dd, h, mi); };
+  TURNS.forEach(t => t.ms = ms(t.at));
+
+  /* 1턴 예시: 문영위키 1턴에서 볼 수 있는 내용만 */
+  const SAMPLE = {
+    team: '', turn: 1, sel: 'c1', focus: null, filter: 'all',
+    evidence: [
+      { id: 'e7', src: 'sns', date: '2025-12-08', found: 1, short: '《초점》 데뷔 게시물', text: '데뷔 싱글 《초점》 발매 당일 올린 게시물.', from: '@seojin_official, 김서진 문서 여담에서', checks: { src: true, orig: false } },
+      { id: 'e6', src: 'news', date: '2025-12-21', found: 1, short: '반창회 모교 방문', text: '예고 동창 케미에 \'훈훈\'…이은호·김서진, \'반창회\'서 모교 방문', from: '문영일보, 이은호 문서 각주에서', checks: { src: true, orig: false } },
+      { id: 'e2', src: 'wiki', date: '2026-01-22', found: 1, short: '《천천히 말해》 발매', text: '디지털 싱글 《천천히 말해》 2026.01.22 발매. 타이틀곡 작사 김서진.', from: '문영위키 김서진 문서 2.2', checks: { src: true, orig: true } },
+      { id: 'e3', src: 'wiki', date: '2026-02-03', found: 1, short: '스토리 캡처', text: '공개된 캡처에는 이은호가 "요새 연락도 없고", "놀아줘"라고 보낸 뒤 "나 말고 딴 사람 생겼어?"라고 묻는 메시지가 담겨 있었다.', from: '문영위키 이은호 문서, 김서진과의 열애설', checks: { src: true, orig: false } },
+      { id: 'e1', src: 'wiki', date: '2026-02-04', found: 1, short: '가사 해석 문단', text: '열애설이 알려진 뒤 2주 전 발매된 《천천히 말해》가 다시 주목받았다. 이은호의 메시지에 후렴 "천천히 말해 줘 / 나도 천천히 들을게"가 답처럼 들린다는 해석이 퍼졌다.', from: '문영위키 김서진 문서 6.1', cn: true, checks: { src: false, orig: true } },
+      { id: 'e4', src: 'news', date: '2026-02-04', found: 1, short: '첫 보도', text: '이은호·김서진, SNS 스토리에 \'비밀 연애\' 메시지 캡처 공개…"나 말고 딴 사람 생겼어?"', from: '문영일보, 김서진 문서 각주에서', checks: { src: true, orig: false } },
+      { id: 'e5', src: 'wiki', date: '2026-02-04', found: 1, short: '3분 만에 지워진 편집', text: '10:06 "캡처 내용으로 볼 때 사실상 열애를 인정한 셈이다." 추가. 10:09 되돌림.', from: '문영위키 이은호 문서 역사', checks: { src: false, orig: true } }
+    ],
+    claims: [
+      { id: 'c1', text: '《천천히 말해》는 이은호의 메시지에 답한 노래다', v: { 1: 'open' }, ev: ['e1', 'e2', 'e3'], note: '노래는 1월 22일, 메시지는 2월 3일에 나왔다. 답장이 메시지보다 먼저 나온 셈이라 이상하다.' },
+      { id: 'c2', text: '캡처 내용은 두 사람이 사귄다는 뜻이다', v: { 1: 'open' }, ev: ['e3', 'e5'], note: '누가 썼는지 모르는 편집이 3분 만에 지워졌다.' },
+      { id: 'c3', text: '《천천히 말해》는 2026년 1월 22일에 발매됐다', v: { 1: 'true' }, ev: ['e2'], note: '' },
+      { id: 'c4', text: '캡처 속 메시지를 받은 사람은 김서진이다', v: {}, ev: ['e3', 'e4'], note: '' }
+    ]
+  };
+  const clone = o => JSON.parse(JSON.stringify(o));
+  let S;
+  try { S = JSON.parse(localStorage.getItem(KEY)) || clone(SAMPLE); } catch (e) { S = clone(SAMPLE); }
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+
+  const toastEl = $('#toast'); let tt;
+  const toast = m => { toastEl.textContent = m; toastEl.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => toastEl.classList.remove('show'), 2200); };
+  const claim = () => S.claims.find(c => c.id === S.sel);
+  const evById = id => S.evidence.find(x => x.id === id);
+  const fmtDate = d => { const [y, m, dd] = d.split('-'); return `${y}.${m}.${dd}`; };
+  const sortEv = list => list.slice().sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
+  const turnOf = n => TURNS[n - 1];
+
+  /* 판정 표시: 모양으로도 구분한다 (색만 보고 판단하지 않도록) */
+  function mark(v, size = 20) {
+    const r = size / 2;
+    if (v === 'true') return `<svg viewBox="0 0 20 20" width="${size}" height="${size}" aria-hidden="true"><circle cx="10" cy="10" r="9" fill="currentColor"/><path d="M5.6 10.3l3 3 5.8-6.4" fill="none" stroke="var(--vm-on, #fff)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    if (v === 'false') return `<svg viewBox="0 0 20 20" width="${size}" height="${size}" aria-hidden="true"><circle cx="10" cy="10" r="9" fill="currentColor"/><path d="M6 14L14 6" stroke="var(--vm-on, #fff)" stroke-width="2.6" stroke-linecap="round"/></svg>`;
+    if (v === 'open') return `<svg viewBox="0 0 20 20" width="${size}" height="${size}" aria-hidden="true"><circle cx="10" cy="10" r="9" fill="currentColor"/><circle cx="6" cy="10" r="1.6" fill="var(--vm-on, #18233A)"/><circle cx="10" cy="10" r="1.6" fill="var(--vm-on, #18233A)"/><circle cx="14" cy="10" r="1.6" fill="var(--vm-on, #18233A)"/></svg>`;
+    return `<svg viewBox="0 0 20 20" width="${size}" height="${size}" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="3 3"/></svg>`;
+  }
+  const vColor = v => v === 'true' ? 'var(--true)' : v === 'false' ? 'var(--false)' : v === 'open' ? 'var(--now)' : 'var(--rule-strong)';
+
+  /* 주장마다 턴별 판정을 작은 노선으로 그린다 */
+  function trail(c) {
+    const xs = [8, 29, 50];
+    let s = `<svg class="trail" viewBox="0 0 58 18" aria-hidden="true">`;
+    s += `<path d="M8 9H${xs[S.turn - 1]}" stroke="var(--rule-strong)" stroke-width="3"/>`;
+    if (S.turn < 3) s += `<path d="M${xs[S.turn - 1]} 9H50" stroke="var(--rule-strong)" stroke-width="2.5" stroke-dasharray="3 3"/>`;
+    TURNS.forEach((t, i) => {
+      const v = c.v[t.n];
+      if (t.n > S.turn) s += `<circle cx="${xs[i]}" cy="9" r="5.5" fill="var(--panel)" stroke="var(--muted)" stroke-width="2" stroke-dasharray="2.5 2"/>`;
+      else if (!v) s += `<circle cx="${xs[i]}" cy="9" r="6" fill="var(--panel)" stroke="var(--muted)" stroke-width="2"/>`;
+      else s += `<circle cx="${xs[i]}" cy="9" r="7" fill="${vColor(v)}"${v === 'open' ? ' stroke="var(--on-now)" stroke-width="1.2"' : ''}/>`;
+    });
+    return s + '</svg>';
+  }
+  const trailText = c => TURNS.filter(t => t.n <= S.turn).map(t => `${t.n}턴 ${c.v[t.n] ? VERDICT[c.v[t.n]] : '판정 전'}`).join(', ');
+
+  /* ── 노선도 ── */
+  const mapEl = $('#map'), scrollEl = $('#mapScroll');
+  const G = 26, R = 36, TOP = 0, LINE_Y = [84, 146, 208], AXIS_Y = 236;
+  let lastNowX = null, animFrom = null;
+  function layout(width) {
+    const items = sortEv(S.evidence);
+    const seg = it => TURNS.filter(t => ms(it.date) >= t.ms).length; // 0: 1턴 전, 1: 1턴~2턴 ...
+    const groups = [[], [], [], []];
+    items.forEach(it => groups[seg(it)].push(it));
+    const w = groups.map((g, k) => Math.max(g.length, k === 0 ? 2 : k === 3 ? 0.8 : 1.3));
+    const total = w.reduce((a, b) => a + b, 0), inner = width - G - R;
+    const segW = w.map(x => x / total * inner);
+    const bx = []; let acc = G;
+    segW.forEach((sw, k) => { acc += sw; if (k < 3) bx.push(acc); });
+    const pos = {};
+    groups.forEach((g, k) => {
+      const start = k === 0 ? G : bx[k - 1];
+      g.forEach((it, i) => { pos[it.id] = start + (i + 0.5) * segW[k] / g.length; });
+    });
+    return { items, pos, bx, col: segW[0] / Math.max(1, groups[0].length) };
+  }
+  function renderMap() {
+    const width = Math.max(mapEl.clientWidth, 600);
+    const L = layout(width), c = claim(), linked = new Set(c ? c.ev : []);
+    const nowX = L.bx[S.turn - 1], endX = width - R + 12;
+    let svg = `<svg viewBox="0 0 ${width} 268" aria-hidden="true">`;
+    // 턴 경계
+    L.bx.forEach((x, i) => { svg += `<path d="M${x} 34V${AXIS_Y - 12}" stroke="${i + 1 === S.turn ? 'var(--now)' : 'var(--rule)'}" stroke-width="${i + 1 === S.turn ? 4 : 1.5}" ${i + 1 === S.turn ? 'class="now-line"' : 'stroke-dasharray="4 5"'}/>`; });
+    // 노선: 지금까지는 실선, 그 뒤는 아직 열리지 않은 구간(점선)
+    LINES.forEach((ln, i) => {
+      const y = LINE_Y[i];
+      const solidEnd = animFrom !== null && nowX > animFrom ? animFrom : nowX;
+      svg += `<path d="M0 ${y}H${solidEnd}" stroke="var(--${ln})" stroke-width="7" stroke-linecap="round" data-solid="${ln}"/>`;
+      svg += `<path d="M${nowX + 8} ${y}H${endX}" stroke="var(--${ln})" stroke-width="5" stroke-dasharray="10 8" opacity=".38"/>`;
+      if (animFrom !== null && nowX > animFrom) svg += `<path class="opening" d="M${animFrom} ${y}H${nowX}" stroke="var(--${ln})" stroke-width="7" stroke-linecap="round"/>`;
+    });
+    svg += '</svg>';
+
+    let html = svg;
+    $('#pills').innerHTML = LINES.map((ln, i) => `<span class="line-pill pill-${ln}" style="top:${LINE_Y[i]}px">${SRC[ln]}</span>`).join('');
+    // 턴 표시
+    TURNS.forEach((t, i) => {
+      const cls = t.n < S.turn ? 'past' : t.n === S.turn ? 'now' : 'future';
+      html += `<span class="tm ${cls}" style="left:${L.bx[i]}px">${t.n === S.turn ? '지금 ' : ''}${t.n}턴 <small class="num">${t.short}</small></span>`;
+    });
+    if (S.turn < 3) {
+      const fx = (nowX + endX) / 2;
+      html += `<span class="future-note" style="left:${fx}px;top:${AXIS_Y - 2}px">다음 턴에 열리는 구간</span>`;
+    }
+    // 역과 날짜
+    let prevMonth = '';
+    const days = [];
+    L.items.forEach(it => { const last = days[days.length - 1]; if (last && last.date === it.date) last.xs.push(L.pos[it.id]); else days.push({ date: it.date, xs: [L.pos[it.id]] }); });
+    days.forEach(dg => {
+      const [, m, d] = dg.date.split('-').map(Number), mk = dg.date.slice(0, 7);
+      const x0 = dg.xs[0], x1 = dg.xs[dg.xs.length - 1], mid = (x0 + x1) / 2;
+      if (dg.xs.length > 1) html += `<span class="day-span" style="left:${x0}px;width:${x1 - x0}px;top:${AXIS_Y - 8}px"></span>`;
+      html += `<span class="dl num" style="left:${mid}px;top:${AXIS_Y - 2}px">${mk !== prevMonth ? `<b>${m}월</b> ${d}일` : `${d}일`}${dg.xs.length > 1 ? ` <small>같은 날 ${dg.xs.length}건</small>` : ''}</span>`;
+      prevMonth = mk;
+    });
+    L.items.forEach(it => {
+      const x = L.pos[it.id], li = LINES.indexOf(it.src), y = LINE_Y[li];
+      const sameLine = L.items.filter(o => o !== it && o.src === it.src).map(o => Math.abs(L.pos[o.id] - x));
+      let room = Math.min(170, ...sameLine.map(d => d - 10));
+      const wall = L.bx.find(bx => bx > x);
+      if (wall !== undefined) room = Math.min(room, (wall - x) * 2 - 14);
+      const cls = [`src-${it.src}`, linked.has(it.id) ? 'linked' : (linked.size ? 'dim' : ''), S.focus === it.id ? 'cur' : ''].join(' ');
+      const say = `${fmtDate(it.date)} ${SRC[it.src]} ${it.short}${linked.has(it.id) ? ', 고른 주장에 연결됨' : ''}`;
+      html += `<button type="button" class="st ${cls}" data-st="${it.id}" style="left:${x}px;top:${y}px" aria-label="${esc(say)}"><span class="lab" style="max-width:${Math.max(64, room)}px">${esc(it.short)}</span><span class="dot"></span></button>`;
+    });
+    mapEl.innerHTML = html;
+
+    $('#mapNote').textContent = c && c.ev.length
+      ? `고른 주장의 증거 ${c.ev.length}개가 환승역 모양으로 표시됩니다. 역을 누르면 아래에서 그 증거를 보여 줍니다.`
+      : '증거를 날짜 순서로 놓았습니다. 노란 선 오른쪽은 아직 오지 않은 시간입니다.';
+
+    // 턴을 바꾼 순간 한 번만: 열차가 움직이고 지나간 구간이 실선으로 이어진다
+    if (animFrom !== null && !reduce) {
+      const dx = animFrom - nowX;
+      const tm = mapEl.querySelector('.tm.now'), nl = mapEl.querySelector('.now-line');
+      const ease = 'cubic-bezier(.16, 1, .3, 1)';
+      tm && tm.animate([{ transform: `translateX(calc(-50% + ${dx}px))` }, { transform: 'translateX(-50%)' }], { duration: 700, easing: ease });
+      nl && nl.animate([{ transform: `translateX(${dx}px)` }, { transform: 'translateX(0)' }], { duration: 700, easing: ease });
+      mapEl.querySelectorAll('.opening').forEach(p => {
+        const len = Math.abs(nowX - animFrom);
+        p.style.strokeDasharray = len; p.animate([{ strokeDashoffset: len }, { strokeDashoffset: 0 }], { duration: 700, easing: ease, fill: 'both' });
+      });
+    }
+    animFrom = null;
+    lastNowX = nowX;
+  }
+
+  /* ── 주장 목록 ── */
+  function renderClaims() {
+    const judged = S.claims.filter(c => c.v[S.turn]).length;
+    $('#claimStat').textContent = `${S.turn}턴 판정 ${judged} / ${S.claims.length}`;
+    $('#claims').innerHTML = S.claims.map(c => `
+      <li><button type="button" class="claim" data-pick="${c.id}" aria-current="${c.id === S.sel}" aria-label="${esc(c.text)}. ${esc(trailText(c))}. 증거 ${c.ev.length}개">
+        ${trail(c)}
+        <span class="claim-text">${esc(c.text)}</span>
+        <span class="claim-meta num">${c.v[S.turn] ? VERDICT[c.v[S.turn]] : `${S.turn}턴 판정 전`}, 증거 ${c.ev.length}</span>
+      </button></li>`).join('');
+  }
+
+  /* ── 선택한 주장 ── */
+  function evRow(e, linked) {
+    return `<article class="ev" id="ev-${e.id}" tabindex="-1">
+      <span class="line-tag pill-${e.src}">${SRC[e.src]}</span>
+      <div class="ev-top"><b>${esc(e.short)}</b><span class="num">${fmtDate(e.date)}</span><span>${e.found}턴에 찾음</span></div>
+      <p>${esc(e.text)}${e.cn ? '<span class="cn">출처 필요 표시</span>' : ''}</p>
+      ${e.from ? `<div class="from">${esc(e.from)}</div>` : ''}
+      <div class="ev-foot">
+        ${[['src', '출처 있음'], ['orig', '원문 확인함']].map(([k, l]) => `<button type="button" class="check" data-check="${k}" data-id="${e.id}" aria-pressed="${!!e.checks[k]}"><span class="box"><svg viewBox="0 0 12 12"><path d="M2 6.2l2.6 2.6L10 3.4" fill="none" stroke="var(--on-pri)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>${l}</button>`).join('')}
+        <button type="button" class="btn sm" data-link="${e.id}">${linked ? '연결 끊기' : '이 주장에 연결'}</button>
+      </div>
+    </article>`;
+  }
+  function renderDetail() {
+    const c = claim(), el = $('#detail');
+    if (!c) { el.innerHTML = `<p class="empty">왼쪽에서 주장을 고르세요. 새로 확인할 주장이 있으면 목록 아래에 적어 추가합니다.</p>`; return; }
+    const v = c.v[S.turn] || '';
+    const linked = sortEv(c.ev.map(evById).filter(Boolean));
+    const rest = sortEv(S.evidence.filter(e => !c.ev.includes(e.id) && (S.filter === 'all' || e.src === S.filter)));
+    const restAll = S.evidence.filter(e => !c.ev.includes(e.id));
+    const counts = { all: restAll.length }; restAll.forEach(e => counts[e.src] = (counts[e.src] || 0) + 1);
+    const past = TURNS.filter(t => t.n < S.turn && c.v[t.n]).map(t => `${t.n}턴에는 <b>${VERDICT[c.v[t.n]]}</b>`);
+    el.innerHTML = `
+      <h2 class="detail-q">${esc(c.text)}</h2>
+      <p class="detail-sub">연결한 증거와 날짜를 보고 판단하세요. 판단에는 정답 표시가 없습니다.</p>
+
+      <div class="block" role="group" aria-labelledby="vTitle">
+        <h3 id="vTitle">${S.turn}턴 판정 <span>${turnOf(S.turn).label} 기준</span></h3>
+        <div class="verdicts">
+          ${['true', 'false', 'open'].map(k => `<button type="button" class="vbtn v-${k}" data-v="${k}" aria-pressed="${v === k}">${mark(k)}${VERDICT[k]}</button>`).join('')}
+        </div>
+        ${past.length ? `<p class="history">이전 판정: ${past.join(', ')}. 새로 나온 증거를 보고 다시 판단하세요.</p>` : ''}
+      </div>
+
+      <div class="block">
+        <h3><label for="note">내 근거</label><span>어떤 증거 때문에 그렇게 판단했나요?</span></h3>
+        <textarea class="input" id="note" data-note="${c.id}" placeholder="예: 노래가 메시지보다 먼저 나왔으므로 답장일 수 없다">${esc(c.note)}</textarea>
+      </div>
+
+      <div class="block">
+        <h3>연결한 증거 <span class="num">${linked.length}개</span></h3>
+        <div class="evs">${linked.length ? linked.map(e => evRow(e, true)).join('') : '<p class="empty">아직 연결한 증거가 없습니다. 아래 증거함이나 노선도의 역을 눌러 연결하세요.</p>'}</div>
+      </div>
+
+      <div class="block">
+        <h3>증거함 <span>이 주장에 아직 연결하지 않은 증거</span></h3>
+        <div class="tabs" role="group" aria-label="노선별로 보기">
+          ${[['all', '전체'], ...LINES.map(l => [l, SRC[l]])].map(([k, l]) => `<button type="button" class="tab${k !== 'all' ? ' src-' + k : ''}" data-f="${k}" aria-pressed="${S.filter === k}">${k !== 'all' ? '<i></i>' : ''}${l} <span class="num">${counts[k] || 0}</span></button>`).join('')}
+        </div>
+        <div class="evs">${rest.length ? rest.map(e => evRow(e, false)).join('') : `<p class="empty">${S.filter === 'all' ? '모든 증거를 이 주장에 연결했습니다.' : `${SRC[S.filter]} 노선에 남은 증거가 없습니다.`} 문영위키에서 새로 찾은 내용은 아래에서 직접 추가하세요.</p>`}</div>
+        <details class="addev" id="addEv">
+          <summary><svg viewBox="0 0 14 14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 2.5 9.5 7 5 11.5"/></svg>증거 직접 추가</summary>
+          <form class="addev-form" id="addEvForm" novalidate>
+            <label>노선<select class="input" name="src">${LINES.map(l => `<option value="${l}">${SRC[l]}</option>`).join('')}</select></label>
+            <label>날짜<input class="input" type="date" name="date" min="2020-01-01" max="2026-12-31"></label>
+            <label>짧은 이름<input class="input" name="short" maxlength="20" placeholder="역 이름처럼 짧게"></label>
+            <label class="full">내용<textarea class="input" name="text" placeholder="찾은 문장을 그대로 옮겨 적으세요"></textarea></label>
+            <label class="full">어디서 찾았나요<input class="input" name="from" placeholder="예: 문영위키 이은호 문서 각주 3"></label>
+            <div class="row-end"><button class="btn pri" type="submit">증거 추가</button><p class="err" id="evErr" role="alert"></p></div>
+          </form>
+        </details>
+      </div>`;
+  }
+
+  function renderTurnSelect() {
+    $('#turn').innerHTML = TURNS.map(t => `<option value="${t.n}"${t.n === S.turn ? ' selected' : ''}>${t.n}턴, ${t.label}</option>`).join('');
+  }
+  const render = () => { renderMap(); renderClaims(); renderDetail(); };
+
+  function flashEv(id) {
+    const el = document.getElementById('ev-' + id); if (!el) return;
+    el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+    el.focus({ preventScroll: true });
+    el.classList.add('flash'); setTimeout(() => el.classList.remove('flash'), 1400);
+  }
+
+  document.addEventListener('click', e => {
+    const t = e.target;
+    const pick = t.closest('[data-pick]');
+    if (pick) { S.sel = pick.dataset.pick; S.focus = null; save(); render(); return; }
+    const v = t.closest('[data-v]');
+    if (v) {
+      const c = claim(); const k = v.dataset.v;
+      if (c.v[S.turn] === k) { delete c.v[S.turn]; toast('판정을 지웠습니다.'); }
+      else { c.v[S.turn] = k; toast(`${S.turn}턴 판정: ${VERDICT[k]}`); }
+      save(); renderMap(); renderClaims(); renderDetail(); return;
+    }
+    const st = t.closest('[data-st]');
+    if (st) {
+      const id = st.dataset.st, c = claim();
+      S.focus = id;
+      if (c && !c.ev.includes(id) && S.filter !== 'all' && evById(id).src !== S.filter) S.filter = 'all';
+      save(); render(); flashEv(id); return;
+    }
+    const ln = t.closest('[data-link]');
+    if (ln) {
+      const c = claim(), id = ln.dataset.link, i = c.ev.indexOf(id);
+      if (i < 0) c.ev.push(id); else c.ev.splice(i, 1);
+      S.focus = id; save(); render(); flashEv(id);
+      toast(i < 0 ? '증거를 연결했습니다.' : '연결을 끊었습니다.'); return;
+    }
+    const ck = t.closest('[data-check]');
+    if (ck) { const ev = evById(ck.dataset.id); ev.checks[ck.dataset.check] = !ev.checks[ck.dataset.check]; save(); ck.setAttribute('aria-pressed', ev.checks[ck.dataset.check]); return; }
+    const f = t.closest('[data-f]');
+    if (f) { S.filter = f.dataset.f; save(); renderDetail(); return; }
+  });
+
+  document.addEventListener('input', e => {
+    if (e.target.dataset && e.target.dataset.note) { const c = S.claims.find(x => x.id === e.target.dataset.note); c.note = e.target.value; save(); }
+    if (e.target.id === 'team') { S.team = e.target.value; save(); }
+  });
+
+  document.addEventListener('submit', e => {
+    if (e.target.id !== 'addEvForm') return;
+    e.preventDefault();
+    const f = e.target, err = $('#evErr');
+    const d = Object.fromEntries(new FormData(f));
+    const miss = [];
+    if (!d.date) miss.push('날짜'); if (!d.short.trim()) miss.push('짧은 이름'); if (!d.text.trim()) miss.push('내용');
+    if (miss.length) { const last = miss[miss.length - 1], code = last.charCodeAt(last.length - 1) - 0xAC00; err.textContent = `${miss.join(', ')}${code % 28 ? '을' : '를'} 적어야 노선도에 놓을 수 있습니다.`; return; }
+    if (ms(d.date) > TURNS[S.turn - 1].ms) { err.textContent = `${S.turn}턴 시점(${turnOf(S.turn).label})보다 뒤의 날짜입니다. 날짜를 다시 확인하세요.`; return; }
+    const id = 'e' + Date.now().toString(36);
+    S.evidence.push({ id, src: d.src, date: d.date, found: S.turn, short: d.short.trim(), text: d.text.trim(), from: d.from.trim(), checks: { src: false, orig: false } });
+    const c = claim(); if (c) c.ev.push(id);
+    S.focus = id; save(); render(); flashEv(id);
+    toast('증거를 추가하고 이 주장에 연결했습니다.');
+  });
+
+  $('#addClaim').addEventListener('submit', e => {
+    e.preventDefault();
+    const inp = $('#newClaim'), v = inp.value.trim();
+    if (!v) { inp.focus(); toast('주장을 한 문장으로 적은 뒤 추가하세요.'); return; }
+    const c = { id: 'c' + Date.now().toString(36), text: v, v: {}, ev: [], note: '' };
+    S.claims.push(c); S.sel = c.id; inp.value = ''; save(); render();
+    toast('주장을 추가했습니다. 증거를 연결하고 판정하세요.');
+  });
+
+  $('#turn').addEventListener('change', e => {
+    const n = Number(e.target.value); if (n === S.turn) return;
+    animFrom = n > S.turn ? lastNowX : null;
+    S.turn = n; save(); render();
+    toast(`${n}턴으로 맞췄습니다. 새 증거를 찾아 다시 판정하세요.`);
+  });
+
+  let resetArmed = false, resetT;
+  $('#reset').addEventListener('click', e => {
+    const b = e.currentTarget;
+    if (!resetArmed) { resetArmed = true; b.textContent = '모두 지워집니다. 한 번 더 누르세요'; b.classList.add('warn'); resetT = setTimeout(() => { resetArmed = false; b.textContent = '처음 상태로'; b.classList.remove('warn'); }, 4000); return; }
+    clearTimeout(resetT); resetArmed = false; b.textContent = '처음 상태로'; b.classList.remove('warn');
+    S = clone(SAMPLE); $('#team').value = ''; save(); renderTurnSelect(); render(); toast('처음 상태로 되돌렸습니다.');
+  });
+
+  function recordText() {
+    const lines = [`문영 수사본부 판단 기록`, `사건: 이은호 김서진 열애설`, `모둠: ${S.team || '(이름 없음)'}`, `지금 시점: ${S.turn}턴, ${turnOf(S.turn).label}`, ''];
+    S.claims.forEach((c, i) => {
+      lines.push(`${i + 1}. ${c.text}`);
+      lines.push(`   판정: ${trailText(c)}`);
+      if (c.note) lines.push(`   근거: ${c.note}`);
+      const ev = sortEv(c.ev.map(evById).filter(Boolean));
+      if (ev.length) lines.push(`   증거: ${ev.map(e => `${SRC[e.src]} ${fmtDate(e.date)} ${e.short}`).join(' / ')}`);
+      lines.push('');
+    });
+    return lines.join('\n');
+  }
+  $('#copy').addEventListener('click', async () => {
+    const txt = recordText();
+    try { await navigator.clipboard.writeText(txt); $('#copyOut').hidden = true; toast('기록을 복사했습니다. 제출 칸에 붙여 넣으세요.'); }
+    catch (err) { $('#copyText').value = txt; $('#copyOut').hidden = false; $('#copyText').focus(); $('#copyText').select(); }
+  });
+
+  $('#team').value = S.team || '';
+  renderTurnSelect(); render();
+  new ResizeObserver(() => renderMap()).observe(mapEl);
+  scrollEl.addEventListener('scroll', () => scrollEl.classList.toggle('clipped', scrollEl.scrollLeft > 4), { passive: true });
+  /* 좁은 화면에서는 노선도를 '지금' 쪽에서 시작한다 */
+  requestAnimationFrame(() => {
+    if (scrollEl.scrollWidth <= scrollEl.clientWidth + 2) return;
+    const first = mapEl.querySelector('.st.linked');
+    scrollEl.scrollLeft = first ? Math.max(0, first.offsetLeft - 60) : Math.max(0, lastNowX - scrollEl.clientWidth + 120);
+    scrollEl.classList.toggle('clipped', scrollEl.scrollLeft > 4);
+  });
+})();
+</script>
+</body>
+</html>
