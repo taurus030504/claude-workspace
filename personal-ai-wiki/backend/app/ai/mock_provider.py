@@ -31,7 +31,9 @@ class MockProvider:
         if not self.available:
             raise LLMUnavailableError("mock provider unavailable", details={"reason": "unreachable"})
         self.calls.append(list(messages))
-        question = next((m.content for m in reversed(messages) if m.role == "user"), "")
+        last_user = next((m.content for m in reversed(messages) if m.role == "user"), "")
+        # The context builder puts sources first and the question after "질문: ".
+        question = last_user.rsplit("질문: ", 1)[-1]
         source_ids = sorted({int(n) for m in messages for n in _SOURCE_RE.findall(m.content)})
         cite = "".join(f"[{n}]" for n in source_ids[:2])
         answer = f"[모의 응답] 질문: {question.strip()[:60]}" + (f" 참고 자료 {cite}" if cite else " 참고 자료 없음")
