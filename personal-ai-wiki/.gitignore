@@ -1,0 +1,18 @@
+# Python
+backend/.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+backend/.env
+
+# .NET
+bin/
+obj/
+*.user
+.vs/
+TestResults/
+
+# Local data (the real data lives in %LOCALAPPDATA%\PersonalAIWiki)
+*.db
+*.db-wal
+*.db-shm

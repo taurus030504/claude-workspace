@@ -1,0 +1,161 @@
+<UserControl x:Class="PersonalAIWiki.Desktop.Views.WikiView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PersonalAIWiki.Core.ViewModels;assembly=PersonalAIWiki.Core"
+             xmlns:models="clr-namespace:PersonalAIWiki.Core.Models;assembly=PersonalAIWiki.Core"
+             xmlns:controls="clr-namespace:PersonalAIWiki.Desktop.Controls">
+    <UserControl.InputBindings>
+        <KeyBinding Key="S" Modifiers="Ctrl" Command="{Binding SaveCommand}" />
+    </UserControl.InputBindings>
+
+    <Grid Margin="16,12,16,12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Toolbar -->
+        <DockPanel Grid.Row="0" Margin="0,0,0,10">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                <Button Content="새 문서" Command="{Binding NewPageCommand}" Margin="0,0,6,0" Padding="10,4" />
+                <Button Content="파일 가져오기" Command="{Binding ImportCommand}" Margin="0,0,6,0" Padding="10,4"
+                        ToolTip="Markdown(.md) 또는 텍스트(.txt) 파일을 새 문서로 가져옵니다" />
+                <Button Content="저장 (Ctrl+S)" Command="{Binding SaveCommand}" Margin="0,0,6,0" Padding="10,4"
+                        Visibility="{Binding CanEdit, Converter={StaticResource BoolToVisibility}}" />
+                <Button Content="변경 기록" Command="{Binding ToggleHistoryCommand}" Margin="0,0,6,0" Padding="10,4"
+                        Visibility="{Binding CurrentPage, Converter={StaticResource NullToCollapsed}}" />
+                <Button Content="휴지통으로" Command="{Binding TrashCommand}" Margin="0,0,6,0" Padding="10,4"
+                        Visibility="{Binding CanEdit, Converter={StaticResource BoolToVisibility}}" />
+                <Button Content="복원" Command="{Binding RestoreCommand}" Margin="0,0,6,0" Padding="10,4"
+                        Visibility="{Binding IsTrashed, Converter={StaticResource BoolToVisibility}}" />
+                <Button Content="영구 삭제" Command="{Binding PurgeCommand}" Margin="0,0,6,0" Padding="10,4" Foreground="{StaticResource Paw.Danger}"
+                        Visibility="{Binding IsTrashed, Converter={StaticResource BoolToVisibility}}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <CheckBox Content="휴지통 보기" IsChecked="{Binding ShowTrash}" Margin="0,0,16,0" VerticalAlignment="Center" />
+                <RadioButton Content="편집" GroupName="EditorMode" Margin="0,0,8,0"
+                             IsChecked="{Binding Mode, Converter={StaticResource EnumEquals}, ConverterParameter=Edit}" />
+                <RadioButton Content="분할" GroupName="EditorMode" Margin="0,0,8,0"
+                             IsChecked="{Binding Mode, Converter={StaticResource EnumEquals}, ConverterParameter=Split}" />
+                <RadioButton Content="미리보기" GroupName="EditorMode"
+                             IsChecked="{Binding Mode, Converter={StaticResource EnumEquals}, ConverterParameter=Preview}" />
+            </StackPanel>
+        </DockPanel>
+
+        <!-- Trash list -->
+        <Border Grid.Row="1" Style="{StaticResource Paw.Card}" Padding="10" Margin="0,0,0,10"
+                Visibility="{Binding ShowTrash, Converter={StaticResource BoolToVisibility}}">
+            <StackPanel>
+                <TextBlock Text="휴지통 — 문서를 열어 복원하거나 영구 삭제할 수 있습니다" Style="{StaticResource Paw.Muted}" Margin="0,0,0,6" />
+                <TextBlock Text="휴지통이 비어 있습니다." Style="{StaticResource Paw.Muted}"
+                           Visibility="{Binding TrashPages.Count, Converter={StaticResource NotEmptyToCollapsed}}" />
+                <ListBox ItemsSource="{Binding TrashPages}" MaxHeight="160" Background="Transparent" BorderThickness="0"
+                         SelectionChanged="TrashList_SelectionChanged">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="{x:Type models:PageSummary}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Title}" />
+                                <TextBlock Text="{Binding DeletedAt, Converter={StaticResource LocalTime}, StringFormat='  (삭제: {0})'}"
+                                           Foreground="{StaticResource Paw.TextMuted}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+        </Border>
+
+        <!-- Metadata -->
+        <StackPanel Grid.Row="2" Visibility="{Binding HasDocument, Converter={StaticResource BoolToVisibility}}" Margin="0,0,0,8">
+            <TextBox Text="{Binding EditTitle, UpdateSourceTrigger=PropertyChanged}" FontSize="22" FontWeight="SemiBold"
+                     IsReadOnly="{Binding IsTrashed}" Padding="8,4" ToolTip="문서 제목" />
+            <Grid Margin="0,8,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="3*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="폴더" VerticalAlignment="Center" Margin="0,0,8,0" Foreground="{StaticResource Paw.TextMuted}" />
+                <TextBox Grid.Column="1" Text="{Binding EditFolder, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsTrashed}"
+                         ToolTip="예: 게임/설계 (슬래시로 하위 폴더)" />
+                <TextBlock Grid.Column="2" Text="태그" VerticalAlignment="Center" Margin="16,0,8,0" Foreground="{StaticResource Paw.TextMuted}" />
+                <TextBox Grid.Column="3" Text="{Binding EditTags, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsTrashed}"
+                         ToolTip="쉼표로 구분: 게임, 물리" />
+            </Grid>
+            <DockPanel Margin="0,6,0,0">
+                <TextBlock Text="{Binding DocumentStatus}" Style="{StaticResource Paw.Muted}" FontSize="12" />
+                <TextBlock Text="  •  저장되지 않은 변경 사항" FontSize="12" Foreground="{StaticResource Paw.Warning}"
+                           Visibility="{Binding IsDirty, Converter={StaticResource BoolToVisibility}}" />
+            </DockPanel>
+            <TextBlock Text="{Binding ErrorMessage}" Style="{StaticResource Paw.Error}"
+                       Visibility="{Binding ErrorMessage, Converter={StaticResource EmptyToCollapsed}}" />
+        </StackPanel>
+
+        <!-- Empty state -->
+        <StackPanel Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="460"
+                    Visibility="{Binding HasDocument, Converter={StaticResource InverseBoolToVisibility}}">
+            <TextBlock Text="문서를 선택하거나 새로 만드세요" Style="{StaticResource Paw.H2}" HorizontalAlignment="Center" />
+            <TextBlock Style="{StaticResource Paw.Muted}" TextAlignment="Center"
+                       Text="왼쪽 문서 목록에서 문서를 고르거나, 새 문서를 만들거나, .md/.txt 파일을 가져올 수 있습니다. 문서 안에서 [[문서 제목]] 으로 다른 문서를 연결하세요." />
+        </StackPanel>
+
+        <!-- Editor | Preview | History -->
+        <Grid Grid.Row="3" x:Name="EditorGrid" Visibility="{Binding HasDocument, Converter={StaticResource BoolToVisibility}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="EditorColumn" Width="*" />
+                <ColumnDefinition x:Name="SplitColumn" Width="6" />
+                <ColumnDefinition x:Name="PreviewColumn" Width="*" />
+                <ColumnDefinition x:Name="HistoryColumn" Width="0" />
+            </Grid.ColumnDefinitions>
+
+            <TextBox x:Name="Editor" Grid.Column="0" Text="{Binding EditContent, UpdateSourceTrigger=PropertyChanged}"
+                     AcceptsReturn="True" AcceptsTab="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"
+                     FontFamily="{StaticResource Paw.MonoFont}" FontSize="14" Padding="10" VerticalContentAlignment="Top"
+                     IsReadOnly="{Binding IsTrashed}" />
+            <GridSplitter x:Name="EditorSplitter" Grid.Column="1" Width="6" HorizontalAlignment="Stretch" Background="Transparent" />
+            <Border x:Name="PreviewHost" Grid.Column="2" Style="{StaticResource Paw.Card}" Padding="14,8">
+                <controls:MarkdownViewer Markdown="{Binding EditContent}" WikiLinkCommand="{Binding OpenLinkCommand}" />
+            </Border>
+
+            <!-- Revision history -->
+            <Border Grid.Column="3" Style="{StaticResource Paw.Card}" Padding="10" Margin="8,0,0,0"
+                    Visibility="{Binding IsHistoryOpen, Converter={StaticResource BoolToVisibility}}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="변경 기록" Style="{StaticResource Paw.H2}" />
+                    <ListBox x:Name="RevisionList" Grid.Row="1" ItemsSource="{Binding Revisions}" Background="Transparent" BorderThickness="0">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate DataType="{x:Type models:RevisionSummary}">
+                                <StackPanel Margin="0,2">
+                                    <TextBlock>
+                                        <Run Text="{Binding RevisionNumber, StringFormat='리비전 {0}', Mode=OneWay}" FontWeight="SemiBold" />
+                                        <Run Text="{Binding CreatedAt, Converter={StaticResource LocalTime}, Mode=OneWay}" Foreground="{StaticResource Paw.TextMuted}" />
+                                    </TextBlock>
+                                    <TextBlock Text="{Binding ChangeNote}" FontSize="12" Style="{StaticResource Paw.Muted}"
+                                               Visibility="{Binding ChangeNote, Converter={StaticResource EmptyToCollapsed}}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,6">
+                        <Button Content="내용 보기" Margin="0,0,6,0" Padding="8,3"
+                                Command="{Binding ViewRevisionCommand}" CommandParameter="{Binding SelectedItem, ElementName=RevisionList}" />
+                        <Button Content="이 리비전으로 복원" Padding="8,3"
+                                Command="{Binding RestoreRevisionCommand}" CommandParameter="{Binding SelectedItem, ElementName=RevisionList}" />
+                    </StackPanel>
+                    <Border Grid.Row="3" BorderBrush="{StaticResource Paw.Border}" BorderThickness="0,1,0,0" Padding="0,6,0,0"
+                            Visibility="{Binding RevisionPreview, Converter={StaticResource NullToCollapsed}}">
+                        <controls:MarkdownViewer Markdown="{Binding RevisionPreview.Content}" />
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

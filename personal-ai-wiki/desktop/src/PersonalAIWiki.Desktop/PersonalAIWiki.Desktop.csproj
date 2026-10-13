@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>PersonalAIWiki.Desktop</RootNamespace>
+    <AssemblyName>PersonalAIWiki</AssemblyName>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <!-- ThemeMode (built-in Fluent theme) is flagged experimental in some SDKs. -->
+    <NoWarn>$(NoWarn);WPF0001</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Markdig" Version="0.41.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PersonalAIWiki.Core\PersonalAIWiki.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- UI-independent code: API client, models, backend launcher, view models.
+       Targets plain net10.0 so it can be unit-tested on any OS. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>PersonalAIWiki.Core</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="PersonalAIWiki.Core.Tests" />
+  </ItemGroup>
+</Project>

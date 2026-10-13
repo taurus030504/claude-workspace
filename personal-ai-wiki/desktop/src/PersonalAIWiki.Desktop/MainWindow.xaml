@@ -1,0 +1,230 @@
+<Window x:Class="PersonalAIWiki.Desktop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:PersonalAIWiki.Core.ViewModels;assembly=PersonalAIWiki.Core"
+        xmlns:views="clr-namespace:PersonalAIWiki.Desktop.Views"
+        xmlns:controls="clr-namespace:PersonalAIWiki.Desktop.Controls"
+        Title="Personal AI Wiki &amp; Memory"
+        Width="1440" Height="880" MinWidth="980" MinHeight="600"
+        WindowStartupLocation="CenterScreen"
+        FontFamily="{StaticResource Paw.UiFont}"
+        Background="{StaticResource Paw.Surface}">
+
+    <Window.InputBindings>
+        <KeyBinding Key="N" Modifiers="Ctrl" Command="{Binding NewPageCommand}" />
+    </Window.InputBindings>
+
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type vm:DashboardViewModel}"><views:DashboardView /></DataTemplate>
+        <DataTemplate DataType="{x:Type vm:WikiViewModel}"><views:WikiView /></DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ChatViewModel}"><views:ChatView /></DataTemplate>
+        <DataTemplate DataType="{x:Type vm:SearchViewModel}"><views:SearchView /></DataTemplate>
+        <DataTemplate DataType="{x:Type vm:SettingsViewModel}"><views:SettingsView /></DataTemplate>
+        <DataTemplate DataType="{x:Type vm:PlaceholderViewModel}"><views:PlaceholderView /></DataTemplate>
+
+        <HierarchicalDataTemplate DataType="{x:Type vm:FolderNode}" ItemsSource="{Binding Children}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Style="{StaticResource Paw.Icon}" Text="&#xE8B7;" Foreground="{StaticResource Paw.Warning}" Margin="0,0,6,0" />
+                <TextBlock Text="{Binding Name}" />
+                <TextBlock Text="{Binding PageCount, StringFormat=' ({0})'}" Foreground="{StaticResource Paw.TextMuted}" />
+            </StackPanel>
+        </HierarchicalDataTemplate>
+        <DataTemplate DataType="{x:Type vm:PageNode}">
+            <StackPanel Orientation="Horizontal" ToolTip="{Binding Summary.Excerpt}">
+                <TextBlock Style="{StaticResource Paw.Icon}" Text="&#xE8A5;" Foreground="{StaticResource Paw.TextMuted}" Margin="0,0,6,0" />
+                <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" />
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="56" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="28" />
+        </Grid.RowDefinitions>
+
+        <!-- Top bar: title, global search, actions -->
+        <Border Grid.Row="0" Background="{StaticResource Paw.SurfaceAlt}" BorderBrush="{StaticResource Paw.Border}" BorderThickness="0,0,0,1">
+            <Grid Margin="16,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="230" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Style="{StaticResource Paw.Icon}" Text="&#xE7BE;" FontSize="20" Foreground="{StaticResource Paw.Accent}" Margin="0,0,10,0" />
+                    <TextBlock Text="AI Wiki &amp; Memory" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" />
+                </StackPanel>
+                <Grid Grid.Column="1" MaxWidth="640" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="12,0">
+                    <TextBox x:Name="GlobalSearchBox" Text="{Binding GlobalQuery, UpdateSourceTrigger=PropertyChanged}"
+                             IsEnabled="{Binding IsConnected}" Padding="34,6,8,6" VerticalContentAlignment="Center">
+                        <TextBox.InputBindings>
+                            <KeyBinding Key="Enter" Command="{Binding GlobalSearchCommand}" />
+                        </TextBox.InputBindings>
+                    </TextBox>
+                    <TextBlock Style="{StaticResource Paw.Icon}" Text="&#xE721;" Margin="12,0,0,0" HorizontalAlignment="Left"
+                               Foreground="{StaticResource Paw.TextMuted}" IsHitTestVisible="False" />
+                    <TextBlock Text="위키 전체 검색 (Ctrl+F) — 예: 창 고정 방식" Margin="36,0,0,0" VerticalAlignment="Center"
+                               Foreground="{StaticResource Paw.TextMuted}" IsHitTestVisible="False"
+                               Visibility="{Binding Text, ElementName=GlobalSearchBox, Converter={StaticResource NotEmptyToCollapsed}}" />
+                </Grid>
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Command="{Binding NewPageCommand}" IsEnabled="{Binding IsConnected}" Padding="12,5" Margin="0,0,8,0" ToolTip="새 문서 (Ctrl+N)">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Style="{StaticResource Paw.Icon}" Text="&#xE710;" Margin="0,0,6,0" />
+                            <TextBlock Text="새 문서" />
+                        </StackPanel>
+                    </Button>
+                    <ToggleButton x:Name="RightPanelToggle" IsChecked="True" Padding="10,5" ToolTip="오른쪽 패널 (AI 어시스턴트) 표시/숨기기"
+                                  Checked="RightPanelToggle_Changed" Unchecked="RightPanelToggle_Changed">
+                        <TextBlock Style="{StaticResource Paw.Icon}" Text="&#xE8A0;" />
+                    </ToggleButton>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Body: left navigation | center content | right assistant -->
+        <Grid Grid.Row="1" x:Name="BodyGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250" MinWidth="190" MaxWidth="420" />
+                <ColumnDefinition Width="4" />
+                <ColumnDefinition Width="*" MinWidth="420" />
+                <ColumnDefinition x:Name="RightSplitterColumn" Width="4" />
+                <ColumnDefinition x:Name="RightColumn" Width="370" MinWidth="0" MaxWidth="640" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Left -->
+            <Border Grid.Column="0" Style="{StaticResource Paw.Panel}">
+                <DockPanel Margin="8,8,8,8">
+                    <ListBox DockPanel.Dock="Top" ItemsSource="{Binding NavItems}" SelectedItem="{Binding SelectedNav}"
+                             Background="Transparent" BorderThickness="0" IsEnabled="{Binding IsConnected}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate DataType="{x:Type vm:NavItem}">
+                                <Grid Margin="2,3">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="26" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Style="{StaticResource Paw.Icon}" Text="{Binding Glyph}" />
+                                    <TextBlock Grid.Column="1" Text="{Binding Label}" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Column="2" Text="{Binding PhaseLabel}" FontSize="10" VerticalAlignment="Center"
+                                               Foreground="{StaticResource Paw.TextMuted}" ToolTip="이후 단계에서 구현 예정" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <TextBlock DockPanel.Dock="Top" Text="문서" Style="{StaticResource Paw.SectionLabel}" />
+                    <TextBox DockPanel.Dock="Top" Text="{Binding Wiki.FilterText, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,6"
+                             IsEnabled="{Binding IsConnected}" ToolTip="제목·폴더·태그로 목록 필터" />
+                    <TreeView x:Name="DocTree" ItemsSource="{Binding Wiki.Tree}" Background="Transparent" BorderThickness="0"
+                              SelectedItemChanged="DocTree_SelectedItemChanged">
+                        <TreeView.ItemContainerStyle>
+                            <Style TargetType="TreeViewItem" BasedOn="{StaticResource {x:Type TreeViewItem}}">
+                                <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay, FallbackValue=False}" />
+                            </Style>
+                        </TreeView.ItemContainerStyle>
+                    </TreeView>
+                </DockPanel>
+            </Border>
+
+            <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Stretch" Background="{StaticResource Paw.Border}" />
+
+            <!-- Center -->
+            <Grid Grid.Column="2">
+                <ContentControl Content="{Binding CurrentView}" Margin="0" />
+
+                <!-- Connection overlay -->
+                <Border Background="{StaticResource Paw.Surface}"
+                        Visibility="{Binding IsConnected, Converter={StaticResource InverseBoolToVisibility}}">
+                    <StackPanel MaxWidth="560" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock Text="백엔드 연결" Style="{StaticResource Paw.H1}" />
+                        <ProgressBar IsIndeterminate="True" Height="4" Margin="0,0,0,12"
+                                     Visibility="{Binding IsConnecting, Converter={StaticResource BoolToVisibility}}" />
+                        <TextBlock Text="{Binding ConnectionMessage}" TextWrapping="Wrap" Margin="0,0,0,12" />
+                        <TextBlock Style="{StaticResource Paw.Muted}" Margin="0,0,0,16"
+                                   Text="{Binding DataDir, StringFormat='데이터 폴더: {0}'}" />
+                        <Button Content="다시 연결" Command="{Binding InitializeCommand}" HorizontalAlignment="Left" Padding="16,6"
+                                IsEnabled="{Binding IsConnecting, Converter={StaticResource InverseBool}}" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <GridSplitter x:Name="RightSplitter" Grid.Column="3" Width="4" HorizontalAlignment="Stretch" Background="{StaticResource Paw.Border}" />
+
+            <!-- Right: related documents + AI assistant -->
+            <Border x:Name="RightPanel" Grid.Column="4" Style="{StaticResource Paw.Panel}" IsEnabled="{Binding IsConnected}">
+                <DockPanel Margin="10">
+                    <StackPanel DockPanel.Dock="Top"
+                                Visibility="{Binding IsWikiActive, Converter={StaticResource BoolToVisibility}}">
+                        <TextBlock Text="관련 문서" Style="{StaticResource Paw.SectionLabel}"
+                                   Visibility="{Binding Wiki.RelatedPages.Count, Converter={StaticResource EmptyToCollapsed}}" />
+                        <ItemsControl ItemsSource="{Binding Wiki.RelatedPages}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Style="{StaticResource Paw.LinkButton}" Padding="4,3"
+                                            Command="{Binding DataContext.Wiki.OpenRelatedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                            CommandParameter="{Binding}">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Title}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                                            <TextBlock controls:Highlight.Hit="{Binding}" FontSize="12" Foreground="{StaticResource Paw.TextMuted}"
+                                                       TextWrapping="Wrap" MaxHeight="36" TextTrimming="CharacterEllipsis" />
+                                        </StackPanel>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                    <views:AssistantPanel DataContext="{Binding Assistant}" />
+                </DockPanel>
+            </Border>
+        </Grid>
+
+        <!-- Status bar -->
+        <Border Grid.Row="2" Background="{StaticResource Paw.SurfaceAlt}" BorderBrush="{StaticResource Paw.Border}" BorderThickness="0,1,0,0">
+            <StackPanel Orientation="Horizontal" Margin="12,0" VerticalAlignment="Center">
+                <Ellipse Width="8" Height="8" Margin="0,0,6,0">
+                    <Ellipse.Style>
+                        <Style TargetType="Ellipse">
+                            <Setter Property="Fill" Value="{StaticResource Paw.Danger}" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsConnected}" Value="True">
+                                    <Setter Property="Fill" Value="{StaticResource Paw.Success}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Ellipse.Style>
+                </Ellipse>
+                <TextBlock FontSize="12">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Text" Value="백엔드 연결 안 됨" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsConnected}" Value="True">
+                                    <Setter Property="Text" Value="백엔드 연결됨 (127.0.0.1)" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <TextBlock Text="  •  " FontSize="12" Foreground="{StaticResource Paw.TextMuted}" />
+                <Ellipse Width="8" Height="8" Margin="0,0,6,0">
+                    <Ellipse.Style>
+                        <Style TargetType="Ellipse">
+                            <Setter Property="Fill" Value="{StaticResource Paw.Warning}" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding LlmReady}" Value="True">
+                                    <Setter Property="Fill" Value="{StaticResource Paw.Success}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Ellipse.Style>
+                </Ellipse>
+                <TextBlock Text="{Binding LlmStatusText}" FontSize="12" />
+                <TextBlock Text="  •  외부 네트워크 차단 (로컬 전용)" FontSize="12" Foreground="{StaticResource Paw.TextMuted}" />
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

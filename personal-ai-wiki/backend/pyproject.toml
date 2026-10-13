@@ -1,0 +1,17 @@
+[project]
+name = "personal-ai-wiki-backend"
+version = "0.1.0"
+description = "Local FastAPI backend for Personal AI Wiki & Memory"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "ollama: real Ollama integration test (needs a running Ollama; run with PAW_TEST_OLLAMA=1)",
+]
+addopts = "-q"
+filterwarnings = [
+    # third-party: starlette TestClient nags about httpx2; irrelevant to app code
+    "ignore::DeprecationWarning:fastapi.testclient",
+    "ignore:Using `httpx` with `starlette.testclient`",
+]

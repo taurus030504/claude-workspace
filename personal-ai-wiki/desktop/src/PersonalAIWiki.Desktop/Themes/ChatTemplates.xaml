@@ -1,0 +1,56 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:vm="clr-namespace:PersonalAIWiki.Core.ViewModels;assembly=PersonalAIWiki.Core"
+                    xmlns:models="clr-namespace:PersonalAIWiki.Core.Models;assembly=PersonalAIWiki.Core">
+
+    <!-- One chat message. Used by both ChatView and AssistantPanel; commands are found on the
+         enclosing UserControl's ChatViewModel. -->
+    <DataTemplate x:Key="ChatMessageTemplate" DataType="{x:Type vm:ChatMessageItem}">
+        <Border x:Name="Bubble" CornerRadius="8" Padding="12,8" Margin="0,4" Background="{StaticResource Paw.AiBubble}"
+                BorderBrush="{StaticResource Paw.Border}" BorderThickness="1">
+            <StackPanel>
+                <DockPanel Margin="0,0,0,4">
+                    <TextBlock Text="{Binding RoleLabel}" FontWeight="SemiBold" FontSize="12" />
+                    <TextBlock Text="{Binding Model}" FontSize="11" Margin="8,0,0,0" Foreground="{StaticResource Paw.TextMuted}" />
+                    <TextBlock Text="생성 중…" FontSize="11" Margin="8,0,0,0" Foreground="{StaticResource Paw.Accent}"
+                               Visibility="{Binding IsStreaming, Converter={StaticResource BoolToVisibility}}" />
+                    <TextBlock Text="{Binding CreatedAt, Converter={StaticResource LocalTime}, ConverterParameter='HH:mm'}"
+                               FontSize="11" HorizontalAlignment="Right" Foreground="{StaticResource Paw.TextMuted}" />
+                </DockPanel>
+                <!-- Read-only TextBox so answers can be selected and copied. -->
+                <TextBox Text="{Binding Content, Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap" BorderThickness="0"
+                         Background="Transparent" Padding="0" FontSize="14" />
+                <TextBlock Text="{Binding ErrorText}" Style="{StaticResource Paw.Error}" FontSize="12"
+                           Visibility="{Binding ErrorText, Converter={StaticResource EmptyToCollapsed}}" />
+                <StackPanel Visibility="{Binding HasSources, Converter={StaticResource BoolToVisibility}}" Margin="0,6,0,0">
+                    <TextBlock Text="참고한 위키 자료 (굵게 = 답변에서 인용)" FontSize="11" Foreground="{StaticResource Paw.TextMuted}" />
+                    <ItemsControl ItemsSource="{Binding Sources}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="{x:Type models:SourceRef}">
+                                <Button Style="{StaticResource Paw.LinkButton}" Padding="0,2" ToolTip="{Binding Quote}"
+                                        Command="{Binding DataContext.OpenSourceCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        CommandParameter="{Binding}">
+                                    <TextBlock x:Name="Label" Text="{Binding Label}" FontSize="12" TextTrimming="CharacterEllipsis" />
+                                </Button>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding Cited}" Value="True">
+                                        <Setter TargetName="Label" Property="FontWeight" Value="Bold" />
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding IsUser}" Value="True">
+                <Setter TargetName="Bubble" Property="Background" Value="{StaticResource Paw.UserBubble}" />
+                <Setter TargetName="Bubble" Property="Margin" Value="32,4,0,4" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Status}" Value="error">
+                <Setter TargetName="Bubble" Property="BorderBrush" Value="{StaticResource Paw.Danger}" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+</ResourceDictionary>
